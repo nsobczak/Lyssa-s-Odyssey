@@ -16,6 +16,6 @@ Lyssa's odyssey
 ## Characters
 
 - character = lyssa = fighter with a shield or laser saber
-- final boss = vegetarian dragon hashelia throwing (rotten ?) salad
+- final boss = vegetarian dragon hashel throwing (rotten ?) salad
 - Fylgja = name of the spirit in its head
 - killer rabbits ?
