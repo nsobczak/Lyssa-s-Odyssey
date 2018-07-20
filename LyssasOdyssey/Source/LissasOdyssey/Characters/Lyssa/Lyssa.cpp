@@ -10,12 +10,14 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	RootComponent = GetCapsuleComponent();
+
 	// === CameraComponent === 
-	//FPSCamera = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FirstPersonCamera"));
-	//FPSCamera->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepRelativeTransform);
-	//FPSCamera->RelativeLocation = FVector(0, 0, 50.0f + BaseEyeHeight);// Position the camera a bit above the eyes
-	//FPSCamera->RelativeRotation.Pitch = 0;
-	//FPSCamera->bUsePawnControlRotation = true; // Allow the pawn to control rotation.
+	MainCamera = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this, TEXT("MainCamera"));
+	MainCamera->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	MainCamera->RelativeLocation = FVector(50, 0, 100.0f);// Position the camera a bit above the eyes
+	MainCamera->RelativeRotation.Pitch = 0; //TODO: make it look to the ground
+	MainCamera->bUsePawnControlRotation = true; // Allow the pawn to control rotation.
 
 }
 

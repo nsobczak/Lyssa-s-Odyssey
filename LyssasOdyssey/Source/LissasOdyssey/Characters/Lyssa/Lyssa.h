@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine.h" 
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Actor.h"
 #include "Camera/CameraComponent.h"
-//#include "Runtime/Core/Public/Math/Vector.h"
-//#include "ConstructorHelpers.h"
+#include "Runtime/Core/Public/Math/Vector.h"
+#include "ConstructorHelpers.h"
 #include "../CharacterBase.h"
 #include "Lyssa.generated.h"
 
@@ -35,7 +36,7 @@ public:
 	// === Components ===
 	// camera
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-		UCameraComponent* Camera;
+		UCameraComponent* MainCamera;
 
 	//// === Input ===
 	///**handles moving forward/backward*/
