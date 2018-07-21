@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "../CharacterBase.h"
-#include "../Fylgja/Fylgja.h"
+//#include "../Fylgja/Fylgja.h"
 
 #include "Engine.h" 
 #include "GameFramework/Character.h"
@@ -40,10 +40,6 @@ public:
 	// camera
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		UCameraComponent* MainCamera;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character")
-		AFylgja* Fylgya;
-	
 
 	// === Input ===
 	/**handles moving forward/backward*/

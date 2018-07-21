@@ -27,13 +27,6 @@ void AFylgja::Tick(float DeltaTime)
 	FollowMousePosition();
 }
 
-// Called to bind functionality to input
-void AFylgja::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
-
 
 void AFylgja::FollowMousePosition()
 {

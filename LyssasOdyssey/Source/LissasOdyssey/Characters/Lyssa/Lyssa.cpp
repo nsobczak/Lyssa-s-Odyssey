@@ -19,27 +19,6 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	MainCamera->RelativeLocation = FVector(-400, 0, 1500.0f);// Position the camera
 	MainCamera->RelativeRotation.Pitch = 290.0f; //TODO: make it look to the ground
 	MainCamera->bUsePawnControlRotation = false; // Allow the pawn to control rotation.
-
-	// === Fylgya === 
-	TArray<AActor*> childActors;
-	this->GetAllChildActors(childActors);
-	UE_LOG(LogTemp, Warning, TEXT("childActors.Num() = %i"), childActors.Num());
-
-	for (size_t i = 0; i < childActors.Num(); i++)
-	{
-		FString objectName = childActors[i]->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("child: %s"), *objectName);
-		if (childActors[i]->IsA(AFylgja::StaticClass())) {
-			Fylgya = (AFylgja*)Children[i];
-			UE_LOG(LogTemp, Warning, TEXT("Fylgya = (AFylgja*)Children[i]"));
-		}
-
-	}
-	if (Fylgya)
-	{
-		FString objectName = Fylgya->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("%s was assigned"), *objectName);
-	}
 }
 
 // Called when the game starts or when spawned
@@ -78,6 +57,17 @@ void ALyssa::MoveUp(float Value)
 		const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
+
+		// Set Character's rotation
+		if (Value > 0)
+		{
+			this->GetMesh()->SetRelativeRotation(FRotator(0, 0, 0));
+		}
+		else
+		{
+			this->GetMesh()->SetRelativeRotation(FRotator(0, 180.0f, 0));
+		}
+
 	}
 }
 
@@ -90,6 +80,16 @@ void ALyssa::MoveRight(float Value)
 		const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
+
+		// Set Character's rotation
+		if (Value > 0)
+		{
+			this->GetMesh()->SetRelativeRotation(FRotator(0, 90.0f, 0));
+		}
+		else
+		{
+			this->GetMesh()->SetRelativeRotation(FRotator(0, 270.0f, 0));
+		}
 	}
 }
 

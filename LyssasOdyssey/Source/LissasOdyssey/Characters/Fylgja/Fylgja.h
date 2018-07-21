@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../CharacterBase.h"
+#include "GameFramework/Actor.h"
 #include "Engine.h" 
-#include "GameFramework/Character.h"
-#include "GameFramework/CharacterMovementComponent.h"
+//#include "GameFramework/Character.h"
+//#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Actor.h"
 #include "Runtime/Engine/Classes/GameFramework/Controller.h"  
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h" //mousePosition, ProjectWorldLocationToScreen
@@ -15,7 +15,7 @@
 #include "Fylgja.generated.h"
 
 UCLASS()
-class LISSASODYSSEY_API AFylgja : public ACharacterBase
+class LISSASODYSSEY_API AFylgja : public AActor
 {
 	GENERATED_BODY()
 
@@ -30,9 +30,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void FollowMousePosition();
 	
