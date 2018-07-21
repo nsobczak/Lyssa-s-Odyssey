@@ -11,14 +11,14 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	PrimaryActorTick.bCanEverTick = true;
 
 	RootComponent = GetCapsuleComponent();
+	
 
 	// === CameraComponent === 
 	MainCamera = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this, TEXT("MainCamera"));
 	MainCamera->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	MainCamera->RelativeLocation = FVector(50, 0, 100.0f);// Position the camera a bit above the eyes
-	MainCamera->RelativeRotation.Pitch = 0; //TODO: make it look to the ground
-	MainCamera->bUsePawnControlRotation = true; // Allow the pawn to control rotation.
-
+	MainCamera->RelativeLocation = FVector(-400, 0, 1500.0f);// Position the camera
+	MainCamera->RelativeRotation.Pitch = 290.0f; //TODO: make it look to the ground
+	MainCamera->bUsePawnControlRotation = false; // Allow the pawn to control rotation.
 }
 
 // Called when the game starts or when spawned
