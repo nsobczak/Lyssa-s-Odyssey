@@ -14,7 +14,7 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	// === CameraComponent === 
 	MainCamera = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this, TEXT("MainCamera"));
 	MainCamera->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	MainCamera->RelativeLocation = FVector(-400, 0, 1500.0f);// Position the camera
+	MainCamera->RelativeLocation = FVector(-400, 0, 1000.0f);// Position the camera
 	MainCamera->RelativeRotation.Pitch = 290.0f; //TODO: make it look to the ground
 	MainCamera->bUsePawnControlRotation = false; // Allow the pawn to control rotation.
 }
