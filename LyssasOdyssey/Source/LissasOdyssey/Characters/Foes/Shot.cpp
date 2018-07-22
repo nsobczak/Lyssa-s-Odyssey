@@ -10,13 +10,15 @@ AShot::AShot()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AShot::InitializeShot(int32 nature, float ttl, float speed)
+void AShot::InitializeShot(int32 nature, float ttl, float speed, float offset)
 {
 	ShotTTL = ttl;
 	ShotSpeed = speed;
 
 	targetDirection = (Lyssa->GetActorLocation() - this->GetActorLocation()).GetSafeNormal();
 	targetDirection -= FVector(0, 0, targetDirection.Z);
+
+	SetActorLocation(GetActorLocation() + targetDirection * offset);
 }
 
 // Called when the game starts or when spawned
@@ -35,8 +37,8 @@ void AShot::BeginPlay()
 void AShot::Move(float deltaTime) {
 	FVector newLocation = this->GetActorLocation() + targetDirection * deltaTime * ShotSpeed;
 	SetActorLocation(newLocation);
-
 }
+
 // Called every frame
 void AShot::Tick(float DeltaTime)
 {
@@ -45,9 +47,9 @@ void AShot::Tick(float DeltaTime)
 	Move(DeltaTime);
 
 	ShotTimer += DeltaTime;
-	if (ShotTimer > ShotTTL)
+	if (ShotTimer > ShotTTL && !ShouldBeDestroy)
 	{
-		Destroy();
+		ShouldBeDestroy = true;
 	}
 }
 

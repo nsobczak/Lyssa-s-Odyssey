@@ -4,8 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "../Characters/Lyssa/Lyssa.h"
+#include "Characters/Lyssa/Lyssa.h"
+#include "Characters/Foes/Rabbit.h"
+#include "Characters/Foes/Shot.h"
 #include "../WorldAssets/FinishArea.h"
+//#include <EngineGlobals.h>
+//#include <Runtime/Engine/Classes/Engine/Engine.h>
 
 #include "LevelGameController.generated.h"
 
@@ -22,15 +26,27 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	float DamageRate = 100.0f;
+	float DamageRateTimer = 0.0f;
+	void HandleProjectileDamage();
+
+	void CheckForDeath();
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
+		AFinishArea* FinishArea;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
 		ALyssa* Lyssa;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
-		AFinishArea* FinishArea;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
+		TArray<ARabbit*> Rabbits;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
+		float CollisionDistThreshold = 300.0f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
 		bool IsLevelCompleted = false;
@@ -41,7 +57,7 @@ public:
 	//TODO: add infos here
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
 		float TimeLimit = 99.0f;
-	
+
 	float Timer = 0.0f;
 
 };

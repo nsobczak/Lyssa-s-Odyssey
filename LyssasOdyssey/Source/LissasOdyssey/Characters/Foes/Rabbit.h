@@ -26,14 +26,24 @@ protected:
 
 	void HandleShots(float DeltaTime);
 
+	void CheckForDeath();
+
 	UWorld* World;
 
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
+		float Life = 40.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Foe")
+		bool ShouldBeDestroyed = false;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rabbit")
 		TSubclassOf<class AShot> BPShot;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Rabbit")
+		TArray<AShot*> Shots;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rabbit")
 		float shotForwardOffset = 300.0f;
@@ -45,7 +55,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rabbit")
 		float ShotTTL = 8.0f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rabbit")
-		float ShotSpeed = 10000.0f;
+		float ShotSpeed = 3000.0f;
 
 	float ShotCountdown = 0.0f;
 
