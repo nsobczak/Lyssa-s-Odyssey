@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "./Shot.h"
+#include "Shot.h"
 #include "../Lyssa/Lyssa.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Rabbit.generated.h"
@@ -33,15 +33,19 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rabbit")
-		TEnumAsByte<UShotNature> ShotNature = UShotNature::Shot01;
+		TSubclassOf<class AShot> BPShot;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rabbit")
-		TEnumAsByte<UShotDirection> ShotDirection = UShotDirection::ToPlayer;
+		float shotForwardOffset = 300.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rabbit")
+		int32 ShotNature = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rabbit")
 		float ShotInterval = 2.5f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rabbit")
 		float ShotTTL = 8.0f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rabbit")
-		float ShotSpeed = 100.0f;
+		float ShotSpeed = 10000.0f;
 
 	float ShotCountdown = 0.0f;
 

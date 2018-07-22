@@ -30,11 +30,14 @@ void ARabbit::LookAtPlayer()
 
 void ARabbit::HandleShots(float DeltaTime)
 {
+	if (BPShot == nullptr) { return; }
+
 	if (ShotCountdown < 0.0f)
 	{
-		AShot* shot = World->SpawnActor<AShot>(AShot::StaticClass());
-		shot->InitializeShot(ShotNature, ShotDirection, ShotTTL, ShotSpeed);
-		//TODO: rotate towards player 
+		//TODO: use shotForwardOffset
+		AShot* shot = (AShot*)GetWorld()->SpawnActor(BPShot);
+		shot->SetActorLocationAndRotation(GetActorLocation(), GetActorRotation());
+		shot->InitializeShot(ShotNature, ShotTTL, ShotSpeed);
 
 		ShotCountdown = ShotInterval;
 	}
@@ -51,4 +54,3 @@ void ARabbit::Tick(float DeltaTime)
 	ShotCountdown -= DeltaTime;
 	HandleShots(DeltaTime);
 }
-
