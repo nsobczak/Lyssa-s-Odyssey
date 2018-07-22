@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "../CharacterBase.h"
-//#include "../Fylgja/Fylgja.h"
+#include "../Fylgja/Fylgja.h"
 
 #include "Engine.h" 
 #include "GameFramework/Character.h"
@@ -27,7 +27,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -38,6 +38,9 @@ public:
 	// camera
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		UCameraComponent* MainCamera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja")
+		AFylgja* Fylgja;
 
 	// === Input ===
 	/**handles moving forward/backward*/

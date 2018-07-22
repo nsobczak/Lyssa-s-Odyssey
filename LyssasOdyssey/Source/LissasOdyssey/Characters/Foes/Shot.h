@@ -47,6 +47,7 @@ public:
 	//UShotDirection direction;
 
 	float ShotDamage = 10.0f;
+	bool CanKillFoe = false;
 
 	void Move(float deltaTime);
 

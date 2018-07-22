@@ -30,8 +30,41 @@ void ALevelGameController::BeginPlay()
 	}
 }
 
-void ALevelGameController::HandleProjectileDamage() {
+void ALevelGameController::HandleFylgjaReflect()
+{
+	for (size_t i = 0; i < Rabbits.Num(); i++)
+	{
+		ARabbit* rabbit = Rabbits[i];
+		float sqrDist = FVector::DistSquared(rabbit->GetActorLocation(), Lyssa->GetActorLocation());
 
+		if (sqrDist < 200.0f * CollisionDistThreshold * CollisionDistThreshold)
+		{
+			//UE_LOG(LogTemp, Log, TEXT("if1"));
+			for (size_t j = 0; j < rabbit->Shots.Num(); j++)
+			{
+				AShot* shot = rabbit->Shots[j];
+
+				FRotator rotF = Lyssa->Fylgja->GetActorRotation();
+				FVector fylgjaDir = rotF.Vector().GetSafeNormal();
+
+				//shot->GetActorLocation() + 300.0f*fylgjaDir
+				float sqrDistSF = FVector::DistSquared(shot->GetActorLocation() , Lyssa->Fylgja->GetActorLocation());
+				//UE_LOG(LogTemp, Log, TEXT("dist shot actor = %f"), sqrDistSF);
+
+				if (sqrDistSF < 1.5f *CollisionDistThreshold * CollisionDistThreshold)
+				{
+					shot->targetDirection = fylgjaDir;
+					shot->CanKillFoe = true;
+					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Changed target direction"));
+				}
+			}
+		}
+	}
+
+}
+
+void ALevelGameController::HandleProjectileDamage()
+{
 	for (size_t i = 0; i < Rabbits.Num(); i++)
 	{
 		ARabbit* rabbit = Rabbits[i];
@@ -49,36 +82,37 @@ void ALevelGameController::HandleProjectileDamage() {
 		{
 			AShot* shot = rabbit->Shots[j];
 
-			float sqrDist = FVector::DistSquared(shot->GetActorLocation(), Lyssa->GetActorLocation());
-			if (!shot->ShouldBeDestroy && sqrDist < CollisionDistThreshold * CollisionDistThreshold)
+			float sqrDistSL = FVector::DistSquared(shot->GetActorLocation(), Lyssa->GetActorLocation());
+			if (!shot->ShouldBeDestroy && sqrDistSL < CollisionDistThreshold * CollisionDistThreshold)
 			{
-				Lyssa->Life -= 1.0f;
+				Lyssa->Life -= 10.0f;
 
 				FString TheFloatStr = FString::SanitizeFloat(Lyssa->Life);
 				TheFloatStr = TEXT("Projectile hurts Lyssa | life = ") + TheFloatStr;
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, *TheFloatStr);
-				
+
 				shot->ShouldBeDestroy = true;
 			}
 
-			sqrDist = FVector::DistSquared(shot->GetActorLocation(), rabbit->GetActorLocation());
-			if (!shot->ShouldBeDestroy && sqrDist < CollisionDistThreshold * CollisionDistThreshold)
+			float sqrDistSR = FVector::DistSquared(shot->GetActorLocation(), rabbit->GetActorLocation());
+			if (shot->CanKillFoe && !shot->ShouldBeDestroy
+				&& sqrDistSR < 2.0f * CollisionDistThreshold * CollisionDistThreshold)
 			{
-				rabbit->Life -= 3.0f;
+				rabbit->Life -= 10.0f;
 
 				FString TheFloatStr = FString::SanitizeFloat(rabbit->Life);
 				TheFloatStr = TEXT("Projectile hurts rabbit | life = ") + TheFloatStr;
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, *TheFloatStr);
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, *TheFloatStr);
 
 				shot->ShouldBeDestroy = true;
 			}
 		}
-
 	}
+
 }
 
-void ALevelGameController::CheckForLevelCompleted() {
-
+void ALevelGameController::CheckForLevelCompleted()
+{
 	float DistanceToEnd = FVector::DistSquared(FinishArea->GetActorLocation(), Lyssa->GetActorLocation());
 	if (!IsLevelCompleted && DistanceToEnd < FinishArea->FARadius * FinishArea->FARadius)
 	{
@@ -89,7 +123,8 @@ void ALevelGameController::CheckForLevelCompleted() {
 	}
 }
 
-void ALevelGameController::CheckForDeath() {
+void ALevelGameController::CheckForDeath()
+{
 	if (Lyssa->Life < 0.0f)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Lyssa died | game over"));
@@ -123,6 +158,8 @@ void ALevelGameController::Tick(float DeltaTime)
 		HandleProjectileDamage();
 		DamageRateTimer = DamageRate;
 	}
+
+	HandleFylgjaReflect();
 
 	CheckForDeath();
 

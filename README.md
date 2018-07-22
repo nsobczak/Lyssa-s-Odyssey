@@ -1,8 +1,15 @@
 # Readme
 
-futur theme, 2D gameplay
+Top down view, 2D gameplay
 
 Lyssa's odyssey
+
+Still in development
+Only gameplay at the moment (no art/sound/story/menus)
+
+Find your way to the exit. Defend yourself by reflecting foe's projectiles. Projectiles are reused, this is where the game matches the theme ;)
+
+Move character with arrows or wasd keys. Move spirit with mouse.
 
 ## gameplay
 
@@ -15,7 +22,7 @@ Lyssa's odyssey
 
 ## Characters
 
-- character = lyssa = fighter with a shield or laser saber
-- final boss = vegetarian dragon hashel throwing (rotten ?) salad
+- character = lyssa = fighter with its spirits, is she insane ?
 - Fylgja = name of the spirit in its head
-- killer rabbits ?
+- killer rabbits
+- final boss = v dragon h throwing (rotten ?) salad

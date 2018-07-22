@@ -39,21 +39,21 @@ void ARabbit::HandleShots(float DeltaTime)
 		shot->InitializeShot(ShotNature, ShotTTL, ShotSpeed, shotForwardOffset);
 		Shots.Add(shot);
 
-		TArray<int32> indexes;
-		indexes.Reset(0);
-		for (size_t i = 0; i < Shots.Num(); i++)
-		{
-			shot = Shots[i];
-			if (shot->ShouldBeDestroy)
-				indexes.Add(i);
-		}
-		for (size_t i = 0; i < indexes.Num(); i++)
-		{
-			Shots[indexes[i]]->Destroy();
-			Shots.RemoveAt(indexes[i]);
-		}
-
 		ShotCountdown = ShotInterval;
+	}
+
+	TArray<int32> indexes;
+	indexes.Reset(0);
+	for (size_t i = 0; i < Shots.Num(); i++)
+	{
+		AShot* shotTmp = Shots[i];
+		if (shotTmp->ShouldBeDestroy)
+			indexes.Add(i);
+	}
+	for (size_t i = 0; i < indexes.Num(); i++)
+	{
+		Shots[indexes[i]]->Destroy();
+		Shots.RemoveAt(indexes[i]);
 	}
 }
 

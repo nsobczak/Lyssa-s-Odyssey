@@ -17,6 +17,8 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	MainCamera->RelativeLocation = FVector(-400, 0, 1000.0f);// Position the camera
 	MainCamera->RelativeRotation.Pitch = 290.0f;
 	MainCamera->bUsePawnControlRotation = false; // Allow the pawn to control rotation.
+
+
 }
 
 // Called when the game starts or when spawned
@@ -24,6 +26,14 @@ void ALyssa::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// === Fylgja === 
+	TArray<AActor*> Comps;
+	GetAllChildActors(Comps);
+	for (size_t i = 0; i < Comps.Num(); i++)
+	{
+		if (Comps[i]->IsA(AFylgja::StaticClass()))
+			Fylgja = (AFylgja*)Comps[i];
+	}
 }
 
 // Called every frame

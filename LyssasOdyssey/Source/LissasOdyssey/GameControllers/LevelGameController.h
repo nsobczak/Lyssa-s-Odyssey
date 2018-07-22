@@ -11,6 +11,8 @@
 //#include <EngineGlobals.h>
 //#include <Runtime/Engine/Classes/Engine/Engine.h>
 
+#include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
+
 #include "LevelGameController.generated.h"
 
 UCLASS()
@@ -26,8 +28,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	float DamageRate = 100.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
+		float DamageRate = 100.0f;
 	float DamageRateTimer = 0.0f;
+
+	void HandleFylgjaReflect();
 	void HandleProjectileDamage();
 
 	void CheckForDeath();

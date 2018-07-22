@@ -54,6 +54,19 @@ void AMainGameMode::BeginPlay()
 
 	//widget
 	//ChangeMenuWidget(StartingWidgetClass);
+
+
+	//TMP
+	FString Final0 = "r.ScreenPercentage 50";
+	GetWorld()->Exec(GetWorld(), *Final0);
+	FString Final1 = "sg.PostProcessQuality 1";
+	GetWorld()->Exec(GetWorld(), *Final1);
+	FString Final2 = "r.PostProcessAAQuality 1";
+	GetWorld()->Exec(GetWorld(), *Final2);
+	FString Final3 = "sg.ShadowQuality 1";
+	GetWorld()->Exec(GetWorld(), *Final3);
+	FString Final4 = "t.MaxFPS 30";
+	GetWorld()->Exec(GetWorld(), *Final4);
 }
 
 
