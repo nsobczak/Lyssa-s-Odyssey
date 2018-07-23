@@ -76,6 +76,12 @@ void ALyssa::MoveUp(float Value)
 			this->GetMesh()->SetRelativeRotation(FRotator(0, 180.0f, 0));
 		}
 
+		FVector loc = GetActorLocation();
+		if (loc.Z > 110.0f || loc.Z < 90.0f)
+		{
+			SetActorLocation(FVector(loc.X, loc.Y, 100.0f));
+		}
+
 	}
 }
 
@@ -97,6 +103,12 @@ void ALyssa::MoveRight(float Value)
 		else
 		{
 			this->GetMesh()->SetRelativeRotation(FRotator(0, 270.0f, 0));
+		}
+
+		FVector loc = GetActorLocation();
+		if (loc.Z > 110.0f || loc.Z < 90.0f)
+		{
+			SetActorLocation(FVector(loc.X, loc.Y, 100.0f));
 		}
 	}
 }

@@ -22,6 +22,8 @@ void AMainGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bAutoManageActiveCameraTarget = false;
+
 	//label
 	TArray<FString> tmpMainSettingsLabel;
 	tmpMainSettingsLabel.Append(MainSettingsLabel, ARRAY_COUNT(MainSettingsLabel));
