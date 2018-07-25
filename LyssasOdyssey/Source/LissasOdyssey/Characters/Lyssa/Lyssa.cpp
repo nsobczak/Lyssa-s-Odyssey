@@ -18,7 +18,7 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	MainCamera->RelativeRotation.Pitch = 290.0f;
 	MainCamera->bUsePawnControlRotation = false; // Allow the pawn to control rotation.
 
-
+	initialPosZValue = GetActorLocation().Z;
 }
 
 // Called when the game starts or when spawned
@@ -77,11 +77,7 @@ void ALyssa::MoveUp(float Value)
 		}
 
 		FVector loc = GetActorLocation();
-		if (loc.Z > 110.0f || loc.Z < 90.0f)
-		{
-			SetActorLocation(FVector(loc.X, loc.Y, 100.0f));
-		}
-
+		SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
 	}
 }
 
@@ -106,10 +102,7 @@ void ALyssa::MoveRight(float Value)
 		}
 
 		FVector loc = GetActorLocation();
-		if (loc.Z > 110.0f || loc.Z < 90.0f)
-		{
-			SetActorLocation(FVector(loc.X, loc.Y, 100.0f));
-		}
+		SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
 	}
 }
 
