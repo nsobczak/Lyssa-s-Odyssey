@@ -20,9 +20,22 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - cam follow main character
 - 2 controls: 1 for movement + 1 for shield
 
+## story
+
+- wicked dragon transform everybody into ball character and mad one
+- lyssa was protected by fylgja, she was turned into a ball but not totally insane.
+- lyssa will try to defeat the dragon
+- rescue people ? as annex quest
+
 ## Characters
 
 - character = lyssa = fighter with its spirits, is she insane ?
 - Fylgja = name of the spirit in its head
 - killer rabbits
 - final boss = v dragon h throwing (rotten ?) salad
+
+## levels
+- different levels
+- different themes
+- flat levels, ball levels, mixed
+- tuto level
