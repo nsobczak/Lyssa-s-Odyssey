@@ -14,7 +14,7 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 ## gameplay
 
 - reflect foe's projectile
-- life (+points)
+- life (+points), this can be called an insanity level increasing and not decreasing unless you find specific object to comfort yourself
 - timer
 - go to the end of the level
 - cam follow main character
@@ -24,17 +24,17 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 ## story
 
 - wicked dragon transform everybody into ball character and mad one
-- lyssa was protected by fylgja, she was turned into a ball but not totally insane.
+- lyssa was protected by fylgja, she was turned into a ball but didn't become totally insane.
 - lyssa will try to defeat the dragon
-- rescue people ? as annex quest
-- lyssa has to find objects 
+- rescue people ? as annex quest => maybe can access true ending if she managed to rescue everyone
+- lyssa has to find objects in order to be able to access last part of the game
 
 ## Characters
 
 - character = lyssa = fighter with its spirits, is she insane ?
 - Fylgja = name of the spirit in its head
-- killer rabbits
-- final boss = v dragon h throwing (rotten ?) salad
+- killer rabbits (some of them move following a pattern)
+- final boss = veg dragon h throwing (rotten ?) salad
 
 ## levels
 - different levels
@@ -42,3 +42,7 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - flat levels, ball levels, mixed
 - tuto level
 - tuto for start, then choice between level, one path for the end
+
+## menu idea
+- main menu and lyssa next to butons (on right ?)
+
