@@ -19,6 +19,7 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - go to the end of the level
 - cam follow main character
 - 2 controls: 1 for movement + 1 for shield
+- fylgja's size decreases when half/quarter of life left ?
 
 ## story
 
@@ -26,6 +27,7 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - lyssa was protected by fylgja, she was turned into a ball but not totally insane.
 - lyssa will try to defeat the dragon
 - rescue people ? as annex quest
+- lyssa has to find objects 
 
 ## Characters
 
@@ -39,3 +41,4 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - different themes
 - flat levels, ball levels, mixed
 - tuto level
+- tuto for start, then choice between level, one path for the end
