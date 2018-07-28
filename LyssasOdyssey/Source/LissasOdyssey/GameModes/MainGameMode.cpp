@@ -55,7 +55,7 @@ void AMainGameMode::BeginPlay()
 	TAResCommands.Append(ResCommands, ARRAY_COUNT(ResCommands));
 
 	//widget
-	//ChangeMenuWidget(StartingWidgetClass);
+	ChangeMenuWidget(StartingWidgetClass);
 
 
 	//TMP
@@ -72,25 +72,25 @@ void AMainGameMode::BeginPlay()
 }
 
 
-//void AMainGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
-//{
-//	if (CurrentWidget != nullptr)
-//	{
-//		//UE_LOG(LogTemp, Warning, TEXT("current widget not null"));
-//
-//		CurrentWidget->RemoveFromViewport();
-//		CurrentWidget = nullptr;
-//	}
-//
-//	if (NewWidgetClass != nullptr)
-//	{
-//		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
-//		if (CurrentWidget != nullptr)
-//		{
-//			CurrentWidget->AddToViewport();
-//		}
-//	}
-//}
+void AMainGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
+{
+	if (CurrentWidget != nullptr)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("current widget not null"));
+
+		CurrentWidget->RemoveFromViewport();
+		CurrentWidget = nullptr;
+	}
+
+	if (NewWidgetClass != nullptr)
+	{
+		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
+		if (CurrentWidget != nullptr)
+		{
+			CurrentWidget->AddToViewport();
+		}
+	}
+}
 
 void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase) {
 	TArray <FString> commandList;

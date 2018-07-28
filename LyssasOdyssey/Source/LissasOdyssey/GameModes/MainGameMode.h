@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "Engine.h"
-//#include "Blueprint/UserWidget.h"
+#include "Blueprint/UserWidget.h"
 #include "Runtime/Core/Public/Math/UnrealMathUtility.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "../Characters/Lyssa/Lyssa.h"
@@ -25,9 +25,23 @@ class LISSASODYSSEY_API AMainGameMode : public AGameModeBase
 public:
 	AMainGameMode(const FObjectInitializer& ObjectInitializer);
 
-	///** Remove the current menu widget and create a new one from the specified class, if provided. */
-	//UFUNCTION(BlueprintCallable, Category = "Game_Settings")
-	//	void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass);
+protected:
+	/** Called when the game starts. */
+	virtual void BeginPlay() override;
+
+	/** The widget class we will use as our menu when the game starts. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+		TSubclassOf<UUserWidget> StartingWidgetClass;
+
+	/** The widget instance that we are using as our menu. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+		UUserWidget* CurrentWidget;
+
+	
+public:
+	/** Remove the current menu widget and create a new one from the specified class, if provided. */
+	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
+		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass);
 
 	/** Decrease if increase is false */
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
@@ -73,18 +87,4 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game_Settings")
 		int32 ResIndex = 3;
 
-
-protected:
-	/** Called when the game starts. */
-	virtual void BeginPlay() override;
-
-	///** The widget class we will use as our menu when the game starts. */
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
-	//	TSubclassOf<UUserWidget> StartingWidgetClass;
-
-	///** The widget instance that we are using as our menu. */
-	//UPROPERTY()
-	//	UUserWidget* CurrentWidget;
-
-	
 };
