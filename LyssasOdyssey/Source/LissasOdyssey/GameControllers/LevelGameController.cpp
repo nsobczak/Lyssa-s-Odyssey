@@ -48,7 +48,7 @@ void ALevelGameController::HandleFylgjaReflect()
 				FVector fylgjaDir = rotF.Vector().GetSafeNormal();
 
 				//shot->GetActorLocation() + 300.0f*fylgjaDir
-				float sqrDistSF = FVector::DistSquared(shot->GetActorLocation() , Lyssa->Fylgja->GetActorLocation());
+				float sqrDistSF = FVector::DistSquared(shot->GetActorLocation(), Lyssa->Fylgja->GetActorLocation());
 				//UE_LOG(LogTemp, Log, TEXT("dist shot actor = %f"), sqrDistSF);
 
 				if (sqrDistSF < 1.5f *CollisionDistThreshold * CollisionDistThreshold)
@@ -120,6 +120,9 @@ void ALevelGameController::CheckForLevelCompleted()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Lyssa is in finish area!"));
 
 		IsLevelCompleted = true;
+		AMainGameMode* gameMode = (AMainGameMode*)GetWorld()->GetAuthGameMode();
+		if (gameMode)
+			gameMode->ShowEndingWidget();
 	}
 }
 

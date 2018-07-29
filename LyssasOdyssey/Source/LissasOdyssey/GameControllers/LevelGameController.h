@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameModes/MainGameMode.h"
+
 #include "Characters/Lyssa/Lyssa.h"
 #include "Characters/Foes/Rabbit.h"
 #include "Characters/Foes/Shot.h"

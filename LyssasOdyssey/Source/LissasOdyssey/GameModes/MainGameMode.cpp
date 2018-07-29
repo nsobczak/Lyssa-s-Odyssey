@@ -20,27 +20,7 @@ AMainGameMode::AMainGameMode(const class FObjectInitializer& ObjectInitializer)
 	//HUDClass = AFPSHUD::StaticClass();
 }
 
-void AMainGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
-{
-	if (CurrentWidget != nullptr)
-	{
-		//UE_LOG(LogTemp, Warning, TEXT("current widget not null"));
-
-		CurrentWidget->RemoveFromViewport();
-		CurrentWidget = nullptr;
-	}
-
-	if (NewWidgetClass != nullptr)
-	{
-		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
-		if (CurrentWidget != nullptr)
-		{
-			CurrentWidget->AddToViewport();
-		}
-	}
-}
-
-void AMainGameMode::InitializeMenu()
+void AMainGameMode::InitializeSettingsMenu()
 {
 	//label
 	TArray<FString> tmpMainSettingsLabel;
@@ -72,9 +52,6 @@ void AMainGameMode::InitializeMenu()
 	TAFPSCommands.Append(GraphicalCommands, ARRAY_COUNT(FPSCommands));
 	TAResCommands.Append(ResCommands, ARRAY_COUNT(ResCommands));
 
-	//widget
-	ChangeMenuWidget(StartingWidgetClass);
-
 	//TMP
 	FString Final0 = "r.ScreenPercentage 50";
 	GetWorld()->Exec(GetWorld(), *Final0);
@@ -92,17 +69,69 @@ void AMainGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bAutoManageActiveCameraTarget = false;
+	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	PlayerController->bAutoManageActiveCameraTarget = false;
 
 	if (isMenu)
 	{
-		InitializeMenu();
+		InitializeSettingsMenu();
+		ChangeMenuWidget(StartingWidgetClass, true);
 	}
 }
 //==============================================================================================
 #pragma endregion
 
-void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase) {
+#pragma region Widgets
+void AMainGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor)
+{
+	if (CurrentWidget != nullptr)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("current widget not null"));
+
+		CurrentWidget->RemoveFromViewport();
+		CurrentWidget = nullptr;
+	}
+
+	if (NewWidgetClass != nullptr)
+	{
+		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
+		if (CurrentWidget != nullptr)
+		{
+			CurrentWidget->AddToViewport();
+		}
+
+		//UE_LOG(LogTemp, Warning, TEXT("before if - showCursor = %s"), showCursor ? TEXT("true") : TEXT("false"));
+		if (showCursor)
+		{
+			PlayerController->bShowMouseCursor = true;
+			PlayerController->bEnableClickEvents = true;
+			PlayerController->bEnableMouseOverEvents = true;
+		}
+	}
+}
+
+void AMainGameMode::ShowStartingWidget()
+{
+	ChangeMenuWidget(StartingWidgetClass, true);
+}
+
+void AMainGameMode::ShowEndingWidget()
+{
+	ChangeMenuWidget(EndingWidgetClass, true);
+}
+
+void AMainGameMode::ShowPauseWidget()
+{
+	ChangeMenuWidget(PauseWidgetClass, true);
+}
+
+
+#pragma endregion
+
+
+
+void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase)
+{
 	TArray <FString> commandList;
 	int32 commandIndex = 0;
 
