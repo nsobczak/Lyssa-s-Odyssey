@@ -26,6 +26,7 @@ public:
 	AMainGameMode(const FObjectInitializer& ObjectInitializer);
 
 protected:
+	void InitializeMenu();
 	/** Called when the game starts. */
 	virtual void BeginPlay() override;
 
@@ -39,6 +40,8 @@ protected:
 
 	
 public:
+	UPROPERTY(EditAnywhere, Category = "Menu_Settings") bool isMenu = false;
+
 	/** Remove the current menu widget and create a new one from the specified class, if provided. */
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
 		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass);

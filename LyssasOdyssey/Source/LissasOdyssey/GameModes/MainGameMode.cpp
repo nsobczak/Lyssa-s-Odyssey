@@ -1,6 +1,8 @@
 #include "MainGameMode.h"
 
 
+#pragma region Initialization
+//==============================================================================================
 AMainGameMode::AMainGameMode(const class FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
@@ -18,12 +20,28 @@ AMainGameMode::AMainGameMode(const class FObjectInitializer& ObjectInitializer)
 	//HUDClass = AFPSHUD::StaticClass();
 }
 
-void AMainGameMode::BeginPlay()
+void AMainGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
 {
-	Super::BeginPlay();
+	if (CurrentWidget != nullptr)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("current widget not null"));
 
-	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bAutoManageActiveCameraTarget = false;
+		CurrentWidget->RemoveFromViewport();
+		CurrentWidget = nullptr;
+	}
 
+	if (NewWidgetClass != nullptr)
+	{
+		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
+		if (CurrentWidget != nullptr)
+		{
+			CurrentWidget->AddToViewport();
+		}
+	}
+}
+
+void AMainGameMode::InitializeMenu()
+{
 	//label
 	TArray<FString> tmpMainSettingsLabel;
 	tmpMainSettingsLabel.Append(MainSettingsLabel, ARRAY_COUNT(MainSettingsLabel));
@@ -57,7 +75,6 @@ void AMainGameMode::BeginPlay()
 	//widget
 	ChangeMenuWidget(StartingWidgetClass);
 
-
 	//TMP
 	FString Final0 = "r.ScreenPercentage 50";
 	GetWorld()->Exec(GetWorld(), *Final0);
@@ -71,26 +88,19 @@ void AMainGameMode::BeginPlay()
 	GetWorld()->Exec(GetWorld(), *Final4);
 }
 
-
-void AMainGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
+void AMainGameMode::BeginPlay()
 {
-	if (CurrentWidget != nullptr)
-	{
-		//UE_LOG(LogTemp, Warning, TEXT("current widget not null"));
+	Super::BeginPlay();
 
-		CurrentWidget->RemoveFromViewport();
-		CurrentWidget = nullptr;
-	}
+	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bAutoManageActiveCameraTarget = false;
 
-	if (NewWidgetClass != nullptr)
+	if (isMenu)
 	{
-		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
-		if (CurrentWidget != nullptr)
-		{
-			CurrentWidget->AddToViewport();
-		}
+		InitializeMenu();
 	}
 }
+//==============================================================================================
+#pragma endregion
 
 void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase) {
 	TArray <FString> commandList;
