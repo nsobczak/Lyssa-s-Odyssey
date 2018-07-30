@@ -43,6 +43,17 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - tuto level
 - tuto for start, then choice between level, one path for the end
 
+Levels can be strange if they come from  Lyssa's mind. 
+
+### tuto
+
+Fylgja speaks to Lyssa to explain all that (= Lyssa speaks to herself)
+1- explain howTo move Lyssa
+2- show an ennemy
+3- tell to get hit by projectile and explain that life decrease
+4- introduce Fylgja, che comes out from her head, show how to move her and tell to use her to protect lyssa's from projectile
+5- explain that projectiles are reflected and that lyssa can use that to kill foes
+
 ## menu idea
 - main menu and lyssa next to butons (on right ?)
 
