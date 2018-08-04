@@ -57,6 +57,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
 		bool IsLevelCompleted = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
+		bool IsGameOver = false;
 
 	UFUNCTION(BlueprintCallable, Category = "GameController")
 		void CheckForLevelCompleted();

@@ -41,6 +41,9 @@ void ALyssa::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//keep same z value
+	FVector loc = GetActorLocation();
+	SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
 }
 
 #pragma region Input
@@ -75,9 +78,6 @@ void ALyssa::MoveUp(float Value)
 		{
 			this->GetMesh()->SetRelativeRotation(FRotator(0, 180.0f, 0));
 		}
-
-		FVector loc = GetActorLocation();
-		SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
 	}
 }
 
@@ -100,9 +100,6 @@ void ALyssa::MoveRight(float Value)
 		{
 			this->GetMesh()->SetRelativeRotation(FRotator(0, 270.0f, 0));
 		}
-
-		FVector loc = GetActorLocation();
-		SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
 	}
 }
 

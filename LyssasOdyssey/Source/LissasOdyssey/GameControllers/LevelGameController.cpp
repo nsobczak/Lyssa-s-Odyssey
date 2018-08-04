@@ -21,6 +21,7 @@ void ALevelGameController::BeginPlay()
 	Lyssa = (ALyssa*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetPawn();
 
 	IsLevelCompleted = false;
+	IsGameOver = false;
 
 	Rabbits.Empty(Rabbits.Num());
 	for (TActorIterator<ARabbit> ActorItr(GetWorld()); ActorItr; ++ActorItr)
@@ -130,7 +131,11 @@ void ALevelGameController::CheckForDeath()
 {
 	if (Lyssa->Life < 0.0f)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Lyssa died | game over"));
+		if (!IsGameOver)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Lyssa died | game over"));
+			IsGameOver = true;
+		}
 		return;
 	}
 

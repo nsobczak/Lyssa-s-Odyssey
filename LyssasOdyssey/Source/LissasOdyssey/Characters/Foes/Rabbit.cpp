@@ -23,7 +23,10 @@ void ARabbit::BeginPlay()
 
 void ARabbit::LookAtPlayer()
 {
-	FRotator Rot = FRotationMatrix::MakeFromX(Lyssa->GetActorLocation() - GetActorLocation()).Rotator();
+	FVector direction = Lyssa->GetActorLocation() - GetActorLocation();
+	direction = FVector(direction.X, direction.Y, 0);
+
+	FRotator Rot = FRotationMatrix::MakeFromX(direction).Rotator();
 	SetActorRotation(Rot);
 }
 
