@@ -54,6 +54,8 @@ Fylgja speaks to Lyssa to explain all that (= Lyssa speaks to herself)
 4- introduce Fylgja, che comes out from her head, show how to move her and tell to use her to protect lyssa's from projectile
 5- explain that projectiles are reflected and that lyssa can use that to kill foes
 
+Do a tuto cheat sheet accessible from pause menu and main menu.
+
 ## menu idea
 - main menu and lyssa next to butons (on right ?)
 
