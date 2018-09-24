@@ -5,8 +5,7 @@
 
 #pragma region Initialization
 //==============================================================================================
-AMainGameMode::AMainGameMode(const class FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+AMainGameMode::AMainGameMode()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -131,7 +130,6 @@ void AMainGameMode::ShowPauseWidget()
 #pragma endregion
 
 
-
 void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase)
 {
 	TArray <FString> commandList;
@@ -197,4 +195,7 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 		GetWorld()->Exec(GetWorld(), *(commandList[commandIndex]));
 }
 
-
+void AMainGameMode::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}

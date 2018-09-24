@@ -19,7 +19,7 @@ class LISSASODYSSEY_API AMainGameMode : public AGameModeBase
 
 
 public:
-	AMainGameMode(const FObjectInitializer& ObjectInitializer);
+	AMainGameMode();
 
 protected:
 	void InitializeSettingsMenu();
@@ -47,6 +47,8 @@ protected:
 
 
 public:
+	virtual void Tick(float DeltaTime) override;
+
 	UPROPERTY(EditAnywhere, Category = "Menu_Settings") bool isMenu = false;
 
 	/** Remove the current menu widget and create a new one from the specified class, if provided. */

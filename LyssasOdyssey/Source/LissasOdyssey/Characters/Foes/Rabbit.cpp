@@ -17,7 +17,7 @@ void ARabbit::BeginPlay()
 	Super::BeginPlay();
 
 	World = GetWorld();
-	Lyssa = (ALyssa*)UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetPawn();
+	Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
 	ShotCountdown = ShotInterval;
 }
 
