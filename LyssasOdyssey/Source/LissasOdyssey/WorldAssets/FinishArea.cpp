@@ -1,4 +1,5 @@
 #include "FinishArea.h"
+#include "Runtime/Engine/Public/DrawDebugHelpers.h"
 
 
 // Sets default values

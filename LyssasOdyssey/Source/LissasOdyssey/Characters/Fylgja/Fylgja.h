@@ -3,13 +3,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Engine.h" 
-//#include "GameFramework/Character.h"
-//#include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/Actor.h"
-#include "Runtime/Engine/Classes/GameFramework/Controller.h"  
-#include "Runtime/Engine/Classes/GameFramework/PlayerController.h" //mousePosition, ProjectWorldLocationToScreen
-//#include "Runtime/Core/Public/Math/Vector.h"
-//#include "ConstructorHelpers.h"
 #include "Fylgja.generated.h"
 
 UCLASS()

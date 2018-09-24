@@ -1,16 +1,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../CharacterBase.h"
-#include "../Fylgja/Fylgja.h"
-
-#include "Engine.h" 
 #include "GameFramework/Character.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/Actor.h"
-#include "Camera/CameraComponent.h"
-#include "Runtime/Core/Public/Math/Vector.h"
-#include "ConstructorHelpers.h"
+
+#include "Characters/Fylgja/Fylgja.h"
+#include "Characters/CharacterBase.h"
 
 #include "Lyssa.generated.h"
 

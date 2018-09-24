@@ -4,9 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Shot.h"
-#include "../Lyssa/Lyssa.h"
-#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+
+#include "Characters/CharacterActors/Shot.h"
+#include "Characters/Lyssa/Lyssa.h"
+
 #include "Rabbit.generated.h"
 
 UCLASS()

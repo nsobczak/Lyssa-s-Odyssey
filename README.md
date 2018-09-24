@@ -59,3 +59,8 @@ Do a tuto cheat sheet accessible from pause menu and main menu.
 ## menu idea
 - main menu and lyssa next to butons (on right ?)
 
+##TODO
+
+- use overlapping actors
+- spawn foes in spawning boxes
+- make foes inherit 1 base class

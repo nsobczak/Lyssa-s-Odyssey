@@ -1,5 +1,6 @@
 #include "Fylgja.h"
-
+#include "Runtime/Engine/Classes/GameFramework/Controller.h"  
+#include "Runtime/Engine/Classes/GameFramework/PlayerController.h" 
 
 // Sets default values
 AFylgja::AFylgja(const class FObjectInitializer& ObjectInitializer)

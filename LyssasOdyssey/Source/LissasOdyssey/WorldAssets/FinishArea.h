@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Runtime/Engine/Public/DrawDebugHelpers.h"
 #include "FinishArea.generated.h"
 
 UCLASS()

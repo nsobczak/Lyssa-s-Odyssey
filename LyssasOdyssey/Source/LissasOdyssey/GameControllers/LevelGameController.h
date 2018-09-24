@@ -4,16 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "GameModes/MainGameMode.h"
 
 #include "Characters/Lyssa/Lyssa.h"
 #include "Characters/Foes/Rabbit.h"
-#include "Characters/Foes/Shot.h"
-#include "../WorldAssets/FinishArea.h"
-//#include <EngineGlobals.h>
-//#include <Runtime/Engine/Classes/Engine/Engine.h>
-
-#include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
+#include "WorldAssets/FinishArea.h"
 
 #include "LevelGameController.generated.h"
 

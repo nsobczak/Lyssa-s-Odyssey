@@ -1,7 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "LevelGameController.h"
-
+#include "GameModes/MainGameMode.h"
+#include "Characters/CharacterActors/Shot.h"
+//#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h" //to be able to access the character
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ALevelGameController::ALevelGameController()

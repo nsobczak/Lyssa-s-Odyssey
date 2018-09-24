@@ -1,5 +1,10 @@
 #include "Lyssa.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Actor.h"
+#include "Camera/CameraComponent.h"
+#include "Runtime/Core/Public/Math/Vector.h"
+#include "ConstructorHelpers.h"
 
 // Sets default values
 ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)

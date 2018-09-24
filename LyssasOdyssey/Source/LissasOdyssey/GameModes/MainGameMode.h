@@ -2,11 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "Engine.h"
 #include "Blueprint/UserWidget.h"
-#include "Runtime/Core/Public/Math/UnrealMathUtility.h"
-#include "Runtime/Engine/Classes/Engine/World.h"
-#include "../Characters/Lyssa/Lyssa.h"
 #include "MainGameMode.generated.h"
 
 
