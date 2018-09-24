@@ -12,6 +12,16 @@
 
 #include "LevelGameMode.generated.h"
 
+//enum to store the current state of gameplay
+UENUM(BlueprintType)
+enum class ELevelPlayState : uint8
+{
+	EPlaying,
+	EGameOver,
+	ELevelCompleted,
+	EUnknown
+};
+
 UCLASS()
 class LISSASODYSSEY_API ALevelGameMode : public AMainGameMode
 {
@@ -27,12 +37,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
 		float DamageRate = 100.0f;
-	float DamageRateTimer = 0.0f;
 
-	void HandleFylgjaReflect();
-	void HandleProjectileDamage();
-
-	void CheckForDeath();
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
+		float DamageRateTimer = 0.0f;
 
 public:
 	virtual void Tick(float DeltaTime) override;
@@ -49,18 +56,30 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
 		float CollisionDistThreshold = 300.0f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
-		bool IsLevelCompleted = false;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
-		bool IsGameOver = false;
-
 	UFUNCTION(BlueprintCallable, Category = "GameController")
 		void CheckForLevelCompleted();
+
+	UFUNCTION(BlueprintPure, Category = "GameController")
+		ELevelPlayState GetCurrentState()const;
+
+	void SetCurrentState(ELevelPlayState newState);
 
 	//TODO: add infos here
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
 		float TimeLimit = 99.0f;
 
 	float Timer = 0.0f;
+
+private:
+	void HandleFylgjaReflect();
+	void HandleProjectileDamage();
+	void CheckForDeath();
+
+	/**Keeps track of the current playing state*/
+	UPROPERTY(VisibleAnywhere, Category = "GameController")
+		ELevelPlayState Currentstate;
+
+	/**handle any function call that rely upon changing the playing state of the game*/
+	void HandleNewState(ELevelPlayState newState);
 
 };

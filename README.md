@@ -62,5 +62,6 @@ Do a tuto cheat sheet accessible from pause menu and main menu.
 ##TODO
 
 - use overlapping actors
+- use state machine
 - spawn foes in spawning boxes
 - make foes inherit 1 base class

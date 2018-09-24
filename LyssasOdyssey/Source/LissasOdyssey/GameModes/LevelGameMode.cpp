@@ -23,32 +23,16 @@ ALevelGameMode::ALevelGameMode()
 	//HUDClass = AFPSHUD::StaticClass();
 }
 
+
 // Called when the game starts or when spawned
 void ALevelGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// find all finishArea in scene
-	TArray<AActor*> foundFinnishAreas;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFinishArea::StaticClass(), foundFinnishAreas);
-	if (foundFinnishAreas.Num() <= 0)
-	{
-		UE_LOG(LogTemp, Error, TEXT("No FinishArea was added to LevelController"));
-	}
-	FinishArea = Cast<AFinishArea>(foundFinnishAreas[0]);
-
-	Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
-
-	IsLevelCompleted = false;
-	IsGameOver = false;
-
-	Rabbits.Empty(Rabbits.Num());
-	for (TActorIterator<ARabbit> ActorItr(GetWorld()); ActorItr; ++ActorItr)
-	{
-		ARabbit *rabbit = *ActorItr;
-		Rabbits.Add(rabbit);
-	}
+	SetCurrentState(ELevelPlayState::EPlaying);
 }
+
+//_____________________________________________________________________________________________
 
 void ALevelGameMode::HandleFylgjaReflect()
 {
@@ -131,18 +115,14 @@ void ALevelGameMode::HandleProjectileDamage()
 
 }
 
+//_____________________________________________________________________________________________
+
 void ALevelGameMode::CheckForLevelCompleted()
 {
 	float DistanceToEnd = FVector::DistSquared(FinishArea->GetActorLocation(), Lyssa->GetActorLocation());
-	if (!IsLevelCompleted && DistanceToEnd < FinishArea->FARadius * FinishArea->FARadius)
+	if (DistanceToEnd < FinishArea->FARadius * FinishArea->FARadius)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Lyssa is in finish area!"));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Lyssa is in finish area!"));
-
-		IsLevelCompleted = true;
-		AMainGameMode* gameMode = (AMainGameMode*)GetWorld()->GetAuthGameMode();
-		if (gameMode)
-			gameMode->ShowEndingWidget();
+		SetCurrentState(ELevelPlayState::ELevelCompleted);
 	}
 }
 
@@ -150,29 +130,30 @@ void ALevelGameMode::CheckForDeath()
 {
 	if (Lyssa->Life < 0.0f)
 	{
-		if (!IsGameOver)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Lyssa died | game over"));
-			IsGameOver = true;
-		}
-		return;
+		SetCurrentState(ELevelPlayState::EGameOver);
 	}
+	else
+	{
+		//handles foes death
 
-	TArray<int32> indexes;
-	indexes.Reset(0);
-	for (size_t i = 0; i < Rabbits.Num(); i++)
-	{
-		ARabbit* rabbit = Rabbits[i];
-		if (rabbit->ShouldBeDestroyed)
-			indexes.Add(i);
-	}
-	for (size_t i = 0; i < indexes.Num(); i++)
-	{
-		Rabbits[indexes[i]]->Destroy();
-		Rabbits.RemoveAt(indexes[i]);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Rabbit killed"));
+		TArray<int32> indexes;
+		indexes.Reset(0);
+		for (size_t i = 0; i < Rabbits.Num(); i++)
+		{
+			ARabbit* rabbit = Rabbits[i];
+			if (rabbit->ShouldBeDestroyed)
+				indexes.Add(i);
+		}
+		for (size_t i = 0; i < indexes.Num(); i++)
+		{
+			Rabbits[indexes[i]]->Destroy();
+			Rabbits.RemoveAt(indexes[i]);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Rabbit killed"));
+		}
 	}
 }
+
+//_____________________________________________________________________________________________
 
 // Called every frame
 void ALevelGameMode::Tick(float DeltaTime)
@@ -186,10 +167,101 @@ void ALevelGameMode::Tick(float DeltaTime)
 		DamageRateTimer = DamageRate;
 	}
 
-	HandleFylgjaReflect();
+	if (Currentstate == ELevelPlayState::EPlaying)
+	{
+		HandleFylgjaReflect();
 
-	CheckForDeath();
-
-	CheckForLevelCompleted();
+		CheckForLevelCompleted();
+		CheckForDeath();
+	}
 }
+
+
+#pragma region PlayStates
+
+ELevelPlayState ALevelGameMode::GetCurrentState() const
+{
+	return Currentstate;
+}
+
+void ALevelGameMode::SetCurrentState(ELevelPlayState newState)
+{
+	Currentstate = newState;
+	HandleNewState(Currentstate);
+}
+
+void ALevelGameMode::HandleNewState(ELevelPlayState newState)
+{
+	switch (newState)
+	{
+	case ELevelPlayState::EPlaying:
+	{
+		// find all finishArea in scene
+		TArray<AActor*> foundFinnishAreas;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFinishArea::StaticClass(), foundFinnishAreas);
+		if (foundFinnishAreas.Num() <= 0)
+		{
+			UE_LOG(LogTemp, Error, TEXT("No FinishArea was added to LevelController"));
+		}
+		FinishArea = Cast<AFinishArea>(foundFinnishAreas[0]);
+
+		//Lyssa
+		Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
+
+		//foes
+		Rabbits.Empty(Rabbits.Num());
+		for (TActorIterator<ARabbit> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+		{
+			ARabbit *rabbit = *ActorItr;
+			Rabbits.Add(rabbit);
+		}
+
+		break;
+	}
+
+	case ELevelPlayState::EGameOver:
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Lyssa died | game over"));
+
+		//block player input
+		APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
+		if (playerController)
+		{
+			playerController->SetCinematicMode(true, false, false, true, true);
+		}
+
+		break;
+	}
+
+	case ELevelPlayState::ELevelCompleted:
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Lyssa is in finish area!"));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Lyssa is in finish area!"));
+
+		AMainGameMode* gameMode = Cast<AMainGameMode>(GetWorld()->GetAuthGameMode());
+		if (gameMode)
+		{
+			//block player input
+			APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
+			if (playerController)
+			{
+				playerController->SetCinematicMode(true, false, false, true, true);
+			}
+			gameMode->ShowEndingWidget();
+		}
+
+		break;
+	}
+
+	case ELevelPlayState::EUnknown:
+		//do nothing
+		break;
+
+	default:
+		//do nothing
+		break;
+	}
+}
+
+#pragma endregion
 
