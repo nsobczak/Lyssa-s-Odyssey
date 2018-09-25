@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Characters/Lyssa/Lyssa.h"
 
 #include "Shot.generated.h"
 
@@ -43,7 +42,6 @@ public:
 	bool ShouldBeDestroy = false;
 
 	FVector targetDirection;
-	//UShotDirection direction;
 
 	float ShotDamage = 10.0f;
 	bool CanKillFoe = false;
@@ -52,6 +50,6 @@ public:
 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Debug")
-		ALyssa* Lyssa;
+		AActor* LyssaActor;
 	FVector spawningLocation;
 };

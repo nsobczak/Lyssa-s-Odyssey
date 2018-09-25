@@ -59,7 +59,7 @@ Do a tuto cheat sheet accessible from pause menu and main menu.
 ## menu idea
 - main menu and lyssa next to butons (on right ?)
 
-##TODO
+## TODO
 
 - use overlapping actors
 - use state machine

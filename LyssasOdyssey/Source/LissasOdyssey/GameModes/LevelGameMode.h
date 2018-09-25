@@ -7,7 +7,7 @@
 
 #include "GameModes/MainGameMode.h"
 #include "Characters/Lyssa/Lyssa.h"
-#include "Characters/Foes/Rabbit.h"
+#include "Characters/Foes/Foe.h"
 #include "WorldAssets/FinishArea.h"
 
 #include "LevelGameMode.generated.h"
@@ -51,7 +51,7 @@ public:
 		ALyssa* Lyssa;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
-		TArray<ARabbit*> Rabbits;
+		TArray<AFoe*> Foes;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
 		float CollisionDistThreshold = 300.0f;

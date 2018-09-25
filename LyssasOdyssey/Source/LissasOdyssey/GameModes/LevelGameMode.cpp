@@ -36,17 +36,17 @@ void ALevelGameMode::BeginPlay()
 
 void ALevelGameMode::HandleFylgjaReflect()
 {
-	for (size_t i = 0; i < Rabbits.Num(); i++)
+	for (size_t i = 0; i < Foes.Num(); i++)
 	{
-		ARabbit* rabbit = Rabbits[i];
-		float sqrDist = FVector::DistSquared(rabbit->GetActorLocation(), Lyssa->GetActorLocation());
+		AFoe* foe = Foes[i];
+		float sqrDist = FVector::DistSquared(foe->GetActorLocation(), Lyssa->GetActorLocation());
 
 		if (sqrDist < 200.0f * CollisionDistThreshold * CollisionDistThreshold)
 		{
 			//UE_LOG(LogTemp, Log, TEXT("if1"));
-			for (size_t j = 0; j < rabbit->Shots.Num(); j++)
+			for (size_t j = 0; j < foe->Shots.Num(); j++)
 			{
-				AShot* shot = rabbit->Shots[j];
+				AShot* shot = foe->Shots[j];
 
 				FRotator rotF = Lyssa->Fylgja->GetActorRotation();
 				FVector fylgjaDir = rotF.Vector().GetSafeNormal();
@@ -69,10 +69,10 @@ void ALevelGameMode::HandleFylgjaReflect()
 
 void ALevelGameMode::HandleProjectileDamage()
 {
-	for (size_t i = 0; i < Rabbits.Num(); i++)
+	for (size_t i = 0; i < Foes.Num(); i++)
 	{
-		ARabbit* rabbit = Rabbits[i];
-		float sqrDist = FVector::DistSquared(rabbit->GetActorLocation(), Lyssa->GetActorLocation());
+		AFoe* foe = Foes[i];
+		float sqrDist = FVector::DistSquared(foe->GetActorLocation(), Lyssa->GetActorLocation());
 		if (sqrDist < CollisionDistThreshold * CollisionDistThreshold)
 		{
 			FString TheFloatStr = FString::SanitizeFloat(Lyssa->Life);
@@ -82,9 +82,9 @@ void ALevelGameMode::HandleProjectileDamage()
 			Lyssa->Life -= 1.0f;
 		}
 
-		for (size_t j = 0; j < rabbit->Shots.Num(); j++)
+		for (size_t j = 0; j < foe->Shots.Num(); j++)
 		{
-			AShot* shot = rabbit->Shots[j];
+			AShot* shot = foe->Shots[j];
 
 			float sqrDistSL = FVector::DistSquared(shot->GetActorLocation(), Lyssa->GetActorLocation());
 			if (!shot->ShouldBeDestroy && sqrDistSL < CollisionDistThreshold * CollisionDistThreshold)
@@ -98,14 +98,14 @@ void ALevelGameMode::HandleProjectileDamage()
 				shot->ShouldBeDestroy = true;
 			}
 
-			float sqrDistSR = FVector::DistSquared(shot->GetActorLocation(), rabbit->GetActorLocation());
+			float sqrDistSR = FVector::DistSquared(shot->GetActorLocation(), foe->GetActorLocation());
 			if (shot->CanKillFoe && !shot->ShouldBeDestroy
 				&& sqrDistSR < 2.0f * CollisionDistThreshold * CollisionDistThreshold)
 			{
-				rabbit->Life -= 10.0f;
+				foe->UpdateLife(-10.0f);
 
-				FString TheFloatStr = FString::SanitizeFloat(rabbit->Life);
-				TheFloatStr = TEXT("Projectile hurts rabbit | life = ") + TheFloatStr;
+				FString TheFloatStr = FString::SanitizeFloat(foe->GetCurrentLife());
+				TheFloatStr = TEXT("Projectile hurts foe | life = ") + TheFloatStr;
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, *TheFloatStr);
 
 				shot->ShouldBeDestroy = true;
@@ -138,17 +138,17 @@ void ALevelGameMode::CheckForDeath()
 
 		TArray<int32> indexes;
 		indexes.Reset(0);
-		for (size_t i = 0; i < Rabbits.Num(); i++)
+		for (size_t i = 0; i < Foes.Num(); i++)
 		{
-			ARabbit* rabbit = Rabbits[i];
-			if (rabbit->ShouldBeDestroyed)
+			AFoe* foe = Foes[i];
+			if (foe->ShouldBeDestroyed)
 				indexes.Add(i);
 		}
 		for (size_t i = 0; i < indexes.Num(); i++)
 		{
-			Rabbits[indexes[i]]->Destroy();
-			Rabbits.RemoveAt(indexes[i]);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Rabbit killed"));
+			Foes[indexes[i]]->Destroy();
+			Foes.RemoveAt(indexes[i]);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Foe killed"));
 		}
 	}
 }
@@ -209,11 +209,11 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 		Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
 
 		//foes
-		Rabbits.Empty(Rabbits.Num());
-		for (TActorIterator<ARabbit> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+		Foes.Empty(Foes.Num());
+		for (TActorIterator<AFoe> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 		{
-			ARabbit *rabbit = *ActorItr;
-			Rabbits.Add(rabbit);
+			AFoe *foe = *ActorItr;
+			Foes.Add(foe);
 		}
 
 		break;
