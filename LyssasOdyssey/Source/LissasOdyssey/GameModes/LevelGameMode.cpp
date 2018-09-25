@@ -75,11 +75,11 @@ void ALevelGameMode::HandleProjectileDamage()
 		float sqrDist = FVector::DistSquared(foe->GetActorLocation(), Lyssa->GetActorLocation());
 		if (sqrDist < CollisionDistThreshold * CollisionDistThreshold)
 		{
-			FString TheFloatStr = FString::SanitizeFloat(Lyssa->Life);
+			FString TheFloatStr = FString::SanitizeFloat(Lyssa->GetCurrentLife());
 			TheFloatStr = TEXT("Rabit hurts Lyssa | life = ") + TheFloatStr;
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, *TheFloatStr);
 
-			Lyssa->Life -= 1.0f;
+			Lyssa->UpdateLife(-1.0f);
 		}
 
 		for (size_t j = 0; j < foe->Shots.Num(); j++)
@@ -89,9 +89,9 @@ void ALevelGameMode::HandleProjectileDamage()
 			float sqrDistSL = FVector::DistSquared(shot->GetActorLocation(), Lyssa->GetActorLocation());
 			if (!shot->ShouldBeDestroy && sqrDistSL < CollisionDistThreshold * CollisionDistThreshold)
 			{
-				Lyssa->Life -= 10.0f;
+				Lyssa->UpdateLife(-10.0f);
 
-				FString TheFloatStr = FString::SanitizeFloat(Lyssa->Life);
+				FString TheFloatStr = FString::SanitizeFloat(Lyssa->GetCurrentLife());
 				TheFloatStr = TEXT("Projectile hurts Lyssa | life = ") + TheFloatStr;
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, *TheFloatStr);
 
@@ -128,7 +128,7 @@ void ALevelGameMode::CheckForLevelCompleted()
 
 void ALevelGameMode::CheckForDeath()
 {
-	if (Lyssa->Life < 0.0f)
+	if (Lyssa->GetCurrentLife() < 0.0f)
 	{
 		SetCurrentState(ELevelPlayState::EGameOver);
 	}

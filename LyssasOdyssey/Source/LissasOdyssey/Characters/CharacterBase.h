@@ -24,7 +24,17 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	UFUNCTION(BlueprintPure, Category = "Character")
+		float GetCurrentLife();
+
+	/**	function to update the foe's life
+	* @param powerChange This is the amount to change the power by, can be positive or negative
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Character")
+		void UpdateLife(float lifeChange);
+
+private:
+	UPROPERTY(VisibleAnywhere, Category = "Character")
 		int32 Life = 100;
 	
 	

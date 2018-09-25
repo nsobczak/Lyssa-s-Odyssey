@@ -17,6 +17,18 @@ void ACharacterBase::BeginPlay()
 	
 }
 
+float ACharacterBase::GetCurrentLife()
+{
+	return Life;
+}
+
+void ACharacterBase::UpdateLife(float lifeChange)
+{
+	Life += lifeChange;
+}
+
+//________________________________________________________________________
+
 // Called every frame
 void ACharacterBase::Tick(float DeltaTime)
 {
