@@ -15,6 +15,13 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 
 	RootComponent = GetCapsuleComponent();
 
+	//create the static mesh component
+	LyssaMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LyssaMesh"));
+	LyssaMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform);
+
+	////create Fylgja
+	//Fylgja = CreateDefaultSubobject<AFylgja>(TEXT("Fylgja"));
+	//Fylgja->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
 	// === CameraComponent === 
 	MainCamera = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this, TEXT("MainCamera"));
@@ -49,6 +56,11 @@ void ALyssa::Tick(float DeltaTime)
 	//keep same z value
 	FVector loc = GetActorLocation();
 	SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
+}
+
+AFylgja* ALyssa::GetFylgja() const
+{
+	return Fylgja;
 }
 
 #pragma region Input

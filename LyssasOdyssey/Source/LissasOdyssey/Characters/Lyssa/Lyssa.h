@@ -17,6 +17,9 @@ public:
 	// Sets default values for this character's properties
 	ALyssa(const FObjectInitializer& ObjectInitializer);
 
+	UFUNCTION(BlueprintPure, Category = "Fylgja")
+		AFylgja* GetFylgja() const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -35,9 +38,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		UCameraComponent* MainCamera;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja")
-		AFylgja* Fylgja;
-
 	// === Input ===
 	/**handles moving forward/backward*/
 	UFUNCTION()
@@ -46,4 +46,11 @@ public:
 	UFUNCTION()
 		void MoveRight(float Val);
 
+private:
+	/** Static mesh to represent the Lyssa in the level*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyssa", meta = (AllowPrivateAccess = "true"))
+		class UStaticMeshComponent* LyssaMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
+		class AFylgja* Fylgja;
 };

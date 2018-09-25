@@ -24,7 +24,6 @@ public:
 
 	void InitializeShot(int32 nature, float ttl, float speed, float offset);
 
-protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -52,4 +51,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Debug")
 		AActor* LyssaActor;
 	FVector spawningLocation;
+
+private:
+	/** Static mesh to represent the Shot in the level*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot", meta = (AllowPrivateAccess = "true"))
+		class UStaticMeshComponent* ShotMesh;
 };

@@ -48,11 +48,11 @@ void ALevelGameMode::HandleFylgjaReflect()
 			{
 				AShot* shot = foe->Shots[j];
 
-				FRotator rotF = Lyssa->Fylgja->GetActorRotation();
+				FRotator rotF = Lyssa->GetFylgja()->GetActorRotation();
 				FVector fylgjaDir = rotF.Vector().GetSafeNormal();
 
 				//shot->GetActorLocation() + 300.0f*fylgjaDir
-				float sqrDistSF = FVector::DistSquared(shot->GetActorLocation(), Lyssa->Fylgja->GetActorLocation());
+				float sqrDistSF = FVector::DistSquared(shot->GetActorLocation(), Lyssa->GetFylgja()->GetActorLocation());
 				//UE_LOG(LogTemp, Log, TEXT("dist shot actor = %f"), sqrDistSF);
 
 				if (sqrDistSF < 1.5f *CollisionDistThreshold * CollisionDistThreshold)
