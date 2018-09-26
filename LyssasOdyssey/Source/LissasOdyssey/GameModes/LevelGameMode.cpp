@@ -146,7 +146,7 @@ void ALevelGameMode::CheckForDeath()
 		}
 		for (size_t i = 0; i < indexes.Num(); i++)
 		{
-			Foes[indexes[i]]->Destroy();
+			Foes[indexes[i]]->CustomDestroy();
 			Foes.RemoveAt(indexes[i]);
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Foe killed"));
 		}

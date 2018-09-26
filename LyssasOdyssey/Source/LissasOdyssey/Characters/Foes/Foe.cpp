@@ -36,6 +36,11 @@ void AFoe::UpdateLife(float lifeChange)
 	Life += lifeChange;
 }
 
+bool AFoe::CustomDestroy()
+{
+	return Super::Destroy();
+}
+
 //________________________________________________________________________
 
 void AFoe::LookAtPlayer()
@@ -77,7 +82,8 @@ void AFoe::HandleShots(float DeltaTime)
 	}
 }
 
-void AFoe::CheckForDeath() {
+void AFoe::CheckForDeath()
+{
 	if (Life < 0.0f && !ShouldBeDestroyed)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Projectile hurts foe"));

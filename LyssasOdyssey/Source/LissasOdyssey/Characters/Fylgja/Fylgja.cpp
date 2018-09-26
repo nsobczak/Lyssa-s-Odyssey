@@ -9,6 +9,9 @@ AFylgja::AFylgja(const class FObjectInitializer& ObjectInitializer)
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	//create the static mesh component
+	FylgjaMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FylgjaMesh"));
+	RootComponent = (USceneComponent*)FylgjaMesh;
 }
 
 // Called when the game starts or when spawned

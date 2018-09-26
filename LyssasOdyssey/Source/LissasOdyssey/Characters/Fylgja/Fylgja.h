@@ -24,5 +24,9 @@ public:
 
 	void FollowMousePosition();
 	
+private:
+	/** Static mesh to represent the Fylgja in the level*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
+		class UStaticMeshComponent* FylgjaMesh;
 	
 };

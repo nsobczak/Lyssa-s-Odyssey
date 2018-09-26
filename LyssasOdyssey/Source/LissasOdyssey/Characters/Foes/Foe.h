@@ -33,6 +33,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Foe")
 		void UpdateLife(float lifeChange);
 
+	UFUNCTION(BlueprintCallable, Category = "Foe")
+		bool CustomDestroy();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Foe")
 		bool ShouldBeDestroyed = false;
 
