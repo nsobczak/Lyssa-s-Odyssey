@@ -6,7 +6,7 @@
 AFylgja::AFylgja(const class FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	//create the static mesh component
@@ -18,16 +18,10 @@ AFylgja::AFylgja(const class FObjectInitializer& ObjectInitializer)
 void AFylgja::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
-// Called every frame
-void AFylgja::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-	FollowMousePosition();
-}
+//_____________________________________________________________________________________________
 
 
 void AFylgja::FollowMousePosition()
@@ -58,4 +52,13 @@ void AFylgja::FollowMousePosition()
 	FRotator rot(0, angle, 0);
 
 	this->SetActorRotation(rot);
+}
+
+
+// Called every frame
+void AFylgja::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	FollowMousePosition();
 }

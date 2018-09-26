@@ -53,4 +53,5 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
 		class AFylgja* Fylgja;
+
 };

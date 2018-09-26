@@ -18,15 +18,15 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	void FollowMousePosition();
-	
+
 private:
 	/** Static mesh to represent the Fylgja in the level*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* FylgjaMesh;
-	
+
 };

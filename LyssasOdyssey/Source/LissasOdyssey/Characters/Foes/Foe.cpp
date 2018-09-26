@@ -66,28 +66,14 @@ void AFoe::HandleShots(float DeltaTime)
 
 		ShotCountdown = ShotInterval;
 	}
-
-	TArray<int32> indexes;
-	indexes.Reset(0);
-	for (size_t i = 0; i < Shots.Num(); i++)
-	{
-		AShot* shotTmp = Shots[i];
-		if (shotTmp->ShouldBeDestroy)
-			indexes.Add(i);
-	}
-	for (size_t i = 0; i < indexes.Num(); i++)
-	{
-		Shots[indexes[i]]->Destroy();
-		Shots.RemoveAt(indexes[i]);
-	}
 }
 
 void AFoe::CheckForDeath()
 {
-	if (Life < 0.0f && !ShouldBeDestroyed)
+	if (Life < 0.0f)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Projectile hurts foe"));
-		ShouldBeDestroyed = true;
+		CustomDestroy();
 	}
 }
 

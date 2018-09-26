@@ -22,7 +22,8 @@ public:
 	// Sets default values for this actor's properties
 	AShot();
 
-	void InitializeShot(int32 nature, float ttl, float speed, float offset);
+	UFUNCTION(BlueprintCallable, Category = "Shot")
+		void InitializeShot(int32 nature, float ttl, float speed, float offset);
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -35,17 +36,21 @@ public:
 		TSubclassOf<class AShot> BPShot;
 	int32 ShotNature = 0;
 
-	float ShotSpeed = 10000.0f;
-	float ShotTTL = 2.0f;
-	float ShotTimer = 0.0f;
-	bool ShouldBeDestroy = false;
+	UFUNCTION(BlueprintCallable, Category = "Shot")
+		bool CustomDestroy();
 
-	FVector targetDirection;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shot")
+		float ShotSpeed = 10000.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shot")
+		float ShotTTL = 2.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot")
+		float ShotTimer = 0.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot")
+		FVector TargetDirection;
 
 	float ShotDamage = 10.0f;
 	bool CanKillFoe = false;
-
-	void Move(float deltaTime);
 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Debug")
@@ -56,4 +61,15 @@ private:
 	/** Static mesh to represent the Shot in the level*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot", meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* ShotMesh;
+
+	UFUNCTION()
+		void Move(float deltaTime);
+
+	UFUNCTION()
+		bool HandleOverlapWithFoe(AActor * currentActor);
+	UFUNCTION()
+		bool HandleOverlapWithLyssa(AActor * currentActor);
+	UFUNCTION()
+		bool HandleOverlapWithFylgja(AActor* currentActor);
+	void HandleOverlap();
 };

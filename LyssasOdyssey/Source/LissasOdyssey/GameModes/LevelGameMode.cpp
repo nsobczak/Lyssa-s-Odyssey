@@ -32,88 +32,6 @@ void ALevelGameMode::BeginPlay()
 	SetCurrentState(ELevelPlayState::EPlaying);
 }
 
-//_____________________________________________________________________________________________
-
-void ALevelGameMode::HandleFylgjaReflect()
-{
-	for (size_t i = 0; i < Foes.Num(); i++)
-	{
-		AFoe* foe = Foes[i];
-		float sqrDist = FVector::DistSquared(foe->GetActorLocation(), Lyssa->GetActorLocation());
-
-		if (sqrDist < 200.0f * CollisionDistThreshold * CollisionDistThreshold)
-		{
-			//UE_LOG(LogTemp, Log, TEXT("if1"));
-			for (size_t j = 0; j < foe->Shots.Num(); j++)
-			{
-				AShot* shot = foe->Shots[j];
-
-				FRotator rotF = Lyssa->GetFylgja()->GetActorRotation();
-				FVector fylgjaDir = rotF.Vector().GetSafeNormal();
-
-				//shot->GetActorLocation() + 300.0f*fylgjaDir
-				float sqrDistSF = FVector::DistSquared(shot->GetActorLocation(), Lyssa->GetFylgja()->GetActorLocation());
-				//UE_LOG(LogTemp, Log, TEXT("dist shot actor = %f"), sqrDistSF);
-
-				if (sqrDistSF < 1.5f *CollisionDistThreshold * CollisionDistThreshold)
-				{
-					shot->targetDirection = fylgjaDir;
-					shot->CanKillFoe = true;
-					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Changed target direction"));
-				}
-			}
-		}
-	}
-
-}
-
-void ALevelGameMode::HandleProjectileDamage()
-{
-	for (size_t i = 0; i < Foes.Num(); i++)
-	{
-		AFoe* foe = Foes[i];
-		float sqrDist = FVector::DistSquared(foe->GetActorLocation(), Lyssa->GetActorLocation());
-		if (sqrDist < CollisionDistThreshold * CollisionDistThreshold)
-		{
-			FString TheFloatStr = FString::SanitizeFloat(Lyssa->GetCurrentLife());
-			TheFloatStr = TEXT("Rabit hurts Lyssa | life = ") + TheFloatStr;
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, *TheFloatStr);
-
-			Lyssa->UpdateLife(-1.0f);
-		}
-
-		for (size_t j = 0; j < foe->Shots.Num(); j++)
-		{
-			AShot* shot = foe->Shots[j];
-
-			float sqrDistSL = FVector::DistSquared(shot->GetActorLocation(), Lyssa->GetActorLocation());
-			if (!shot->ShouldBeDestroy && sqrDistSL < CollisionDistThreshold * CollisionDistThreshold)
-			{
-				Lyssa->UpdateLife(-10.0f);
-
-				FString TheFloatStr = FString::SanitizeFloat(Lyssa->GetCurrentLife());
-				TheFloatStr = TEXT("Projectile hurts Lyssa | life = ") + TheFloatStr;
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, *TheFloatStr);
-
-				shot->ShouldBeDestroy = true;
-			}
-
-			float sqrDistSR = FVector::DistSquared(shot->GetActorLocation(), foe->GetActorLocation());
-			if (shot->CanKillFoe && !shot->ShouldBeDestroy
-				&& sqrDistSR < 2.0f * CollisionDistThreshold * CollisionDistThreshold)
-			{
-				foe->UpdateLife(-10.0f);
-
-				FString TheFloatStr = FString::SanitizeFloat(foe->GetCurrentLife());
-				TheFloatStr = TEXT("Projectile hurts foe | life = ") + TheFloatStr;
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, *TheFloatStr);
-
-				shot->ShouldBeDestroy = true;
-			}
-		}
-	}
-
-}
 
 //_____________________________________________________________________________________________
 
@@ -132,25 +50,6 @@ void ALevelGameMode::CheckForDeath()
 	{
 		SetCurrentState(ELevelPlayState::EGameOver);
 	}
-	else
-	{
-		//handles foes death
-
-		TArray<int32> indexes;
-		indexes.Reset(0);
-		for (size_t i = 0; i < Foes.Num(); i++)
-		{
-			AFoe* foe = Foes[i];
-			if (foe->ShouldBeDestroyed)
-				indexes.Add(i);
-		}
-		for (size_t i = 0; i < indexes.Num(); i++)
-		{
-			Foes[indexes[i]]->CustomDestroy();
-			Foes.RemoveAt(indexes[i]);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Foe killed"));
-		}
-	}
 }
 
 //_____________________________________________________________________________________________
@@ -163,14 +62,12 @@ void ALevelGameMode::Tick(float DeltaTime)
 	DamageRateTimer -= DeltaTime;
 	if (DamageRateTimer < DamageRate)
 	{
-		HandleProjectileDamage();
+		//HandleProjectileDamage();
 		DamageRateTimer = DamageRate;
 	}
 
 	if (Currentstate == ELevelPlayState::EPlaying)
 	{
-		HandleFylgjaReflect();
-
 		CheckForLevelCompleted();
 		CheckForDeath();
 	}
@@ -207,14 +104,6 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 
 		//Lyssa
 		Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
-
-		//foes
-		Foes.Empty(Foes.Num());
-		for (TActorIterator<AFoe> ActorItr(GetWorld()); ActorItr; ++ActorItr)
-		{
-			AFoe *foe = *ActorItr;
-			Foes.Add(foe);
-		}
 
 		break;
 	}

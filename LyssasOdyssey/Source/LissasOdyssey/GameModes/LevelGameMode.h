@@ -71,8 +71,6 @@ public:
 	float Timer = 0.0f;
 
 private:
-	void HandleFylgjaReflect();
-	void HandleProjectileDamage();
 	void CheckForDeath();
 
 	/**Keeps track of the current playing state*/

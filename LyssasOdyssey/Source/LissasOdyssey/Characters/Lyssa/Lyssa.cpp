@@ -2,9 +2,11 @@
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Actor.h"
+
 #include "Camera/CameraComponent.h"
 #include "Runtime/Core/Public/Math/Vector.h"
 #include "ConstructorHelpers.h"
+#include "Characters/CharacterActors/Shot.h"
 
 // Sets default values
 ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
@@ -47,6 +49,7 @@ void ALyssa::BeginPlay()
 			Fylgja = (AFylgja*)Comps[i];
 	}
 }
+
 
 // Called every frame
 void ALyssa::Tick(float DeltaTime)

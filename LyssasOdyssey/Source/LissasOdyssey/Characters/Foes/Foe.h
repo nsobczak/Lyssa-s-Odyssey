@@ -36,9 +36,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Foe")
 		bool CustomDestroy();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Foe")
-		bool ShouldBeDestroyed = false;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
 		TSubclassOf<class AShot> BPShot;
 
@@ -46,7 +43,7 @@ public:
 		TArray<AShot*> Shots;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
-		float shotForwardOffset = 300.0f;
+		float shotForwardOffset = 500.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
 		int32 ShotNature = 0;
