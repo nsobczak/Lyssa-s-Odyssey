@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "Blueprint/UserWidget.h"
 #include "MainGameMode.generated.h"
 
 
@@ -39,7 +38,7 @@ protected:
 		TSubclassOf<UUserWidget> PauseWidgetClass;
 
 	/** The widget instance that we are using as our menu. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
 		UUserWidget* CurrentWidget;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")

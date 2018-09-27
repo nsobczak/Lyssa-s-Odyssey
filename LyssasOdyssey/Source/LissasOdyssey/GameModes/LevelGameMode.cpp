@@ -5,6 +5,7 @@
 #include "Characters/CharacterActors/Shot.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h" //to be able to access the character
 #include "Kismet/KismetMathLibrary.h"
+#include "Blueprint/UserWidget.h"
 
 // Sets default values
 ALevelGameMode::ALevelGameMode()
@@ -30,6 +31,16 @@ void ALevelGameMode::BeginPlay()
 	Super::BeginPlay();
 
 	SetCurrentState(ELevelPlayState::EPlaying);
+
+	//hud
+	if (nullptr != HUDClass)
+	{
+		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), HUDWidgetClass);
+		if (nullptr != CurrentWidget)
+		{
+			CurrentWidget->AddToViewport();
+		}
+	}
 }
 
 

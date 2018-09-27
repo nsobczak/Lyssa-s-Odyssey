@@ -20,13 +20,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Fylgja")
 		AFylgja* GetFylgja() const;
 
-protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	float initialPosZValue;
-
-public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -45,6 +41,9 @@ public:
 	/**handles strafing*/
 	UFUNCTION()
 		void MoveRight(float Val);
+
+protected:
+	float initialPosZValue;
 
 private:
 	/** Static mesh to represent the Lyssa in the level*/

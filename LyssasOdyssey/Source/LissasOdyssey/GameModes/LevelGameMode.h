@@ -10,6 +10,9 @@
 #include "Characters/Foes/Foe.h"
 #include "WorldAssets/FinishArea.h"
 
+//#include "GameFramework/HUD.h"
+//#include "Blueprint/UserWidget.h"
+
 #include "LevelGameMode.generated.h"
 
 //enum to store the current state of gameplay
@@ -31,17 +34,9 @@ public:
 	// Sets default values for this actor's properties
 	ALevelGameMode();
 
-protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
-		float DamageRate = 100.0f;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
-		float DamageRateTimer = 0.0f;
-
-public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
@@ -69,6 +64,17 @@ public:
 		float TimeLimit = 99.0f;
 
 	float Timer = 0.0f;
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
+		float DamageRate = 100.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
+		float DamageRateTimer = 0.0f;
+
+	/**widget to use for our HUD screen*/
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HUD", Meta = (BlueprintProtected = "true"))
+		TSubclassOf<class UUserWidget> HUDWidgetClass;
 
 private:
 	void CheckForDeath();
