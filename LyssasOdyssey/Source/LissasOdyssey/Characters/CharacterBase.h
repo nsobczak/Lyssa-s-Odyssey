@@ -33,9 +33,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Character")
 		void UpdateLife(float lifeChange);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+		float MaxLife = 100;
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Character")
-		int32 Life = 100;
+		float Life = 100;
 	
 	
 };

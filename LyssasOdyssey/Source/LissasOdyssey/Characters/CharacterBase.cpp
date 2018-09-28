@@ -5,7 +5,7 @@
 ACharacterBase::ACharacterBase(const class FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
@@ -14,7 +14,7 @@ ACharacterBase::ACharacterBase(const class FObjectInitializer& ObjectInitializer
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 float ACharacterBase::GetCurrentLife()
@@ -25,6 +25,10 @@ float ACharacterBase::GetCurrentLife()
 void ACharacterBase::UpdateLife(float lifeChange)
 {
 	Life += lifeChange;
+	if (Life > MaxLife)
+	{
+		Life = MaxLife;
+	}
 }
 
 //________________________________________________________________________
