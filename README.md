@@ -21,6 +21,8 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - 2 controls: 1 for movement + 1 for shield
 - fylgja's size decreases when half/quarter of life left ?
 
+- rpg element to improve stat or unlock skills?
+
 ## story
 
 - wicked dragon transform everybody into ball character and mad one
@@ -43,7 +45,7 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - tuto level
 - tuto for start, then choice between level, one path for the end
 
-Levels can be strange if they come from  Lyssa's mind. 
+Levels can be strange if they come from  Lyssa's mind.
 
 ### tuto
 
