@@ -30,7 +30,7 @@ void AShot::BeginPlay()
 	float ShotTimer = 0.0f;
 }
 
-void AShot::InitializeShot(int32 nature, float ttl, float speed, float offset)
+void AShot::InitializeShot(int32 nature, float ttl, float speed)
 {
 	ShotTTL = ttl;
 	ShotSpeed = speed;
@@ -45,7 +45,7 @@ void AShot::InitializeShot(int32 nature, float ttl, float speed, float offset)
 		TargetDirection = FVector::ZeroVector;
 	}
 
-	SetActorLocation(GetActorLocation() + TargetDirection * offset);
+	SetActorLocation(GetActorLocation() + TargetDirection);//SetActorLocation(GetActorLocation() + TargetDirection * offset);
 }
 
 bool AShot::CustomDestroy()
@@ -70,7 +70,7 @@ bool AShot::HandleOverlapWithFoe(AActor* currentActor)
 		FString objectName = currentFoe->GetName();
 		UE_LOG(LogTemp, Warning, TEXT("shot hurts %s"), *objectName);
 
-		currentFoe->UpdateLife(-40.0f);
+		currentFoe->UpdateLife(-ShotDamage);
 
 		FString TheFloatStr = FString::SanitizeFloat(currentFoe->GetCurrentLife());
 		TheFloatStr = TEXT("Projectile hurts Foe | life = ") + TheFloatStr;
@@ -93,7 +93,7 @@ bool AShot::HandleOverlapWithLyssa(AActor* currentActor)
 		FString objectName = currentLyssa->GetName();
 		UE_LOG(LogTemp, Warning, TEXT("shot hurts %s"), *objectName);
 
-		currentLyssa->UpdateLife(-10.0f);
+		currentLyssa->UpdateLife(-ShotDamage);
 
 		FString TheFloatStr = FString::SanitizeFloat(currentLyssa->GetCurrentLife());
 		TheFloatStr = TEXT("Projectile hurts Lyssa | life = ") + TheFloatStr;

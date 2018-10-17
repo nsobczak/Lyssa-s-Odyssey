@@ -28,16 +28,6 @@ void AFoe::BeginPlay()
 	ShotCountdown = ShotInterval;
 }
 
-//float AFoe::GetCurrentLife()
-//{
-//	return Life;
-//}
-//
-//void AFoe::UpdateLife(float lifeChange)
-//{
-//	Life += lifeChange;
-//}
-
 bool AFoe::CustomDestroy()
 {
 	return Super::Destroy();
@@ -64,8 +54,8 @@ void AFoe::HandleShots(float DeltaTime)
 		FVector shotLocation = FVector(foeLocation.X, foeLocation.Y, Lyssa->GetActorLocation().Z);
 		AShot* shot = (AShot*)GetWorld()->SpawnActor(BPShot);
 		
-		shot->SetActorLocationAndRotation(GetActorLocation(), GetActorRotation());
-		shot->InitializeShot(ShotNature, ShotTTL, ShotSpeed, shotForwardOffset);
+		shot->SetActorLocationAndRotation(GetActorLocation() + shotOffset, GetActorRotation()); //TODO: + shotVerticalOffset
+		shot->InitializeShot(ShotNature, ShotTTL, ShotSpeed);
 		Shots.Add(shot);
 
 		ShotCountdown = ShotInterval;

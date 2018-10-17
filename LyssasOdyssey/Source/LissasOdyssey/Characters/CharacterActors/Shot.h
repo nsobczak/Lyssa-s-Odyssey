@@ -23,7 +23,7 @@ public:
 	AShot();
 
 	UFUNCTION(BlueprintCallable, Category = "Shot")
-		void InitializeShot(int32 nature, float ttl, float speed, float offset);
+		void InitializeShot(int32 nature, float ttl, float speed);
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -38,18 +38,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Shot")
 		bool CustomDestroy();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shot")
-		float ShotSpeed = 10000.0f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shot")
-		float ShotTTL = 2.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Shot")
+		float ShotSpeed = 10000.0f; //default value that should be overriden at shot creation
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Shot")
+		float ShotTTL = 2.0f; //default value that should be overriden at shot creation
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot")
 		float ShotTimer = 0.0f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot")
 		FVector TargetDirection;
 
-	float ShotDamage = 10.0f;
-	bool CanKillFoe = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shot")
+		float ShotDamage = 40.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot")
+		bool CanKillFoe = false;
 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Debug")

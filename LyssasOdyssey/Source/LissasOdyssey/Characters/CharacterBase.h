@@ -32,11 +32,11 @@ public:
 		void UpdateLife(float lifeChange);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-		float MaxLife = 100;
+		float MaxLife = 100.0f;
 
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Character")
-		float Life = 100;
+		float Life;
 
 
 };

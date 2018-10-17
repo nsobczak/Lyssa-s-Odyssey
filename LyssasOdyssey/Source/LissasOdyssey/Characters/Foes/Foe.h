@@ -24,15 +24,6 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	//UFUNCTION(BlueprintPure, Category = "Foe")
-	//	float GetCurrentLife();
-
-	/**	function to update the foe's life
-	* @param powerChange This is the amount to change the power by, can be positive or negative
-	*/
-	//UFUNCTION(BlueprintCallable, Category = "Foe")
-	//	void UpdateLife(float lifeChange);
-
 	UFUNCTION(BlueprintCallable, Category = "Foe")
 		bool CustomDestroy();
 
@@ -43,7 +34,7 @@ public:
 		TArray<AShot*> Shots;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
-		float shotForwardOffset = 500.0f;
+		FVector shotOffset = FVector(0, 500.0f, 100.0f);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
 		int32 ShotNature = 0;
@@ -75,12 +66,6 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Foe")
 		void DeathEffect();
 
-private:
-	///** Static mesh to represent the foe in the level*/
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Foe", meta = (AllowPrivateAccess = "true"))
-	//	class USkeletalMeshComponent* FoeMesh;
-
-	//UPROPERTY(VisibleAnywhere, Category = "Foe")
-	//	float Life = 40.0f;
+//private:
 
 };
