@@ -31,14 +31,14 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	MainCamera->RelativeLocation = FVector(-400, 0, 1000.0f);// Position the camera
 	MainCamera->RelativeRotation.Pitch = 290.0f;
 	MainCamera->bUsePawnControlRotation = false; // Allow the pawn to control rotation.
-
-	initialPosZValue = GetActorLocation().Z;
 }
 
 // Called when the game starts or when spawned
 void ALyssa::BeginPlay()
 {
 	Super::BeginPlay();
+
+	initialPosZValue = GetActorLocation().Z;
 
 	// === Fylgja === 
 	TArray<AActor*> Comps;
@@ -58,7 +58,11 @@ void ALyssa::Tick(float DeltaTime)
 
 	//keep same z value
 	FVector loc = GetActorLocation();
-	SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
+	if (loc.Z != initialPosZValue)
+	{
+		UE_LOG(LogTemp, Log, TEXT("keep same z value for lyssa position"));
+		SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
+	}
 }
 
 AFylgja* ALyssa::GetFylgja() const

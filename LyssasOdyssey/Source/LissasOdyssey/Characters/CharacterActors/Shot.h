@@ -54,7 +54,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Debug")
 		AActor* LyssaActor;
-	FVector spawningLocation;
+	FVector SpawningLocation;
 
 private:
 	/** Static mesh to represent the Shot in the level*/

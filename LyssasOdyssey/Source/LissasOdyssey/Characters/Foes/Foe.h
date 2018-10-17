@@ -11,7 +11,7 @@
 #include "Foe.generated.h"
 
 UCLASS()
-class LISSASODYSSEY_API AFoe : public AActor
+class LISSASODYSSEY_API AFoe : public ACharacterBase
 {
 	GENERATED_BODY()
 
@@ -24,14 +24,14 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintPure, Category = "Foe")
-		float GetCurrentLife();
+	//UFUNCTION(BlueprintPure, Category = "Foe")
+	//	float GetCurrentLife();
 
 	/**	function to update the foe's life
 	* @param powerChange This is the amount to change the power by, can be positive or negative
 	*/
-	UFUNCTION(BlueprintCallable, Category = "Foe")
-		void UpdateLife(float lifeChange);
+	//UFUNCTION(BlueprintCallable, Category = "Foe")
+	//	void UpdateLife(float lifeChange);
 
 	UFUNCTION(BlueprintCallable, Category = "Foe")
 		bool CustomDestroy();
@@ -76,11 +76,11 @@ protected:
 		void DeathEffect();
 
 private:
-	/** Static mesh to represent the foe in the level*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Foe", meta = (AllowPrivateAccess = "true"))
-		class UStaticMeshComponent* FoeMesh;
+	///** Static mesh to represent the foe in the level*/
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Foe", meta = (AllowPrivateAccess = "true"))
+	//	class USkeletalMeshComponent* FoeMesh;
 
-	UPROPERTY(VisibleAnywhere, Category = "Foe")
-		float Life = 40.0f;
+	//UPROPERTY(VisibleAnywhere, Category = "Foe")
+	//	float Life = 40.0f;
 
 };

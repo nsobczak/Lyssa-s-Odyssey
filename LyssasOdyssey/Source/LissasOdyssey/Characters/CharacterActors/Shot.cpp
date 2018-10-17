@@ -25,7 +25,7 @@ void AShot::BeginPlay()
 
 	LyssaActor = Cast<AActor>(UGameplayStatics::GetPlayerPawn(this, 0));
 
-	spawningLocation = this->GetActorLocation();
+	SpawningLocation = this->GetActorLocation();
 
 	float ShotTimer = 0.0f;
 }
@@ -61,58 +61,6 @@ void AShot::Move(float deltaTime)
 	FVector newLocation = this->GetActorLocation() + TargetDirection * deltaTime * ShotSpeed;
 	SetActorLocation(newLocation);
 }
-
-//void AFylgja::HandleFylgjaReflect()
-//{
-//	//get overlaping actors and store them in an array
-//	TArray<AActor*> collectedActors;
-//	FylgjaMesh->GetOverlappingActors(collectedActors);
-//
-//	for (size_t i = 0; i < collectedActors.Num(); ++i)
-//	{
-//		AFoe* currentFoe = Cast<AFoe>(collectedActors[i]);
-//		if (currentFoe)
-//		{
-//			FString objectName = currentFoe->GetName();
-//			UE_LOG(LogTemp, Warning, TEXT("shot hurts %s"), *objectName);
-//
-//			currentFoe->UpdateLife(-40.0f);
-//
-//			FString TheFloatStr = FString::SanitizeFloat(currentFoe->GetCurrentLife());
-//			TheFloatStr = TEXT("Projectile hurts Foe | life = ") + TheFloatStr;
-//			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, *TheFloatStr);
-//
-//			CustomDestroy();
-//		}
-//	}
-//
-//
-//	for (size_t i = 0; i < Foes.Num(); i++)
-//	{
-//		AFoe* foe = Foes[i];
-//		float sqrDist = FVector::DistSquared(foe->GetActorLocation(), Lyssa->GetActorLocation());
-//
-//		if (sqrDist < 200.0f * CollisionDistThreshold * CollisionDistThreshold)
-//		{
-//			//UE_LOG(LogTemp, Log, TEXT("if1"));
-//			for (size_t j = 0; j < foe->Shots.Num(); j++)
-//			{
-//				AShot* shot = foe->Shots[j];
-//
-//				FRotator rotF = Lyssa->GetFylgja()->GetActorRotation();
-//				FVector fylgjaDir = rotF.Vector().GetSafeNormal();
-//
-//				float sqrDistSF = FVector::DistSquared(shot->GetActorLocation(), Lyssa->GetFylgja()->GetActorLocation());
-//				if (sqrDistSF < 1.5f *CollisionDistThreshold * CollisionDistThreshold)
-//				{
-//					shot->targetDirection = fylgjaDir;
-//					shot->CanKillFoe = true;
-//					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Changed target direction"));
-//				}
-//			}
-//		}
-//	}
-//}
 
 bool AShot::HandleOverlapWithFoe(AActor* currentActor)
 {

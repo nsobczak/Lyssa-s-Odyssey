@@ -10,9 +10,11 @@ AFoe::AFoe(const class FObjectInitializer& ObjectInitializer)
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//create the static mesh component
-	FoeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FoeMesh"));
-	RootComponent = (USceneComponent*)FoeMesh;
+	//RootComponent = (USceneComponent*)GetMesh();
+	
+	////create the static mesh component
+	//FoeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FoeMesh"));
+	//RootComponent = (USceneComponent*)FoeMesh;
 }
 
 // Called when the game starts or when spawned
@@ -26,15 +28,15 @@ void AFoe::BeginPlay()
 	ShotCountdown = ShotInterval;
 }
 
-float AFoe::GetCurrentLife()
-{
-	return Life;
-}
-
-void AFoe::UpdateLife(float lifeChange)
-{
-	Life += lifeChange;
-}
+//float AFoe::GetCurrentLife()
+//{
+//	return Life;
+//}
+//
+//void AFoe::UpdateLife(float lifeChange)
+//{
+//	Life += lifeChange;
+//}
 
 bool AFoe::CustomDestroy()
 {
@@ -58,8 +60,10 @@ void AFoe::HandleShots(float DeltaTime)
 
 	if (ShotCountdown < 0.0f)
 	{
-		//TODO: use shotForwardOffset
+		FVector foeLocation = GetActorLocation();
+		FVector shotLocation = FVector(foeLocation.X, foeLocation.Y, Lyssa->GetActorLocation().Z);
 		AShot* shot = (AShot*)GetWorld()->SpawnActor(BPShot);
+		
 		shot->SetActorLocationAndRotation(GetActorLocation(), GetActorRotation());
 		shot->InitializeShot(ShotNature, ShotTTL, ShotSpeed, shotForwardOffset);
 		Shots.Add(shot);
