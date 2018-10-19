@@ -7,6 +7,13 @@
 - Owl (angry, shouting, scared/taking damage)
 - Dragon (angry, shouting, scared/taking damage)
 
+### state machine
+
+- idle
+- attack
+- take damage
+- dying
+- walk
 
 ## Projectiles
 
