@@ -11,7 +11,7 @@ AFoe::AFoe(const class FObjectInitializer& ObjectInitializer)
 	PrimaryActorTick.bCanEverTick = true;
 
 	//RootComponent = (USceneComponent*)GetMesh();
-	
+
 	////create the static mesh component
 	//FoeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FoeMesh"));
 	//RootComponent = (USceneComponent*)FoeMesh;
@@ -26,6 +26,8 @@ void AFoe::BeginPlay()
 	World = GetWorld();
 	Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
 	ShotCountdown = ShotInterval;
+
+	SetCurrentState(ECharacterActionState::EIdle);
 }
 
 bool AFoe::CustomDestroy()
@@ -44,42 +46,87 @@ void AFoe::LookAtPlayer()
 	SetActorRotation(Rot);
 }
 
-void AFoe::HandleShots(float DeltaTime)
+void AFoe::HandleShots()
 {
 	if (BPShot == nullptr) { return; }
 
-	if (ShotCountdown < 0.0f)
-	{
-		FVector foeLocation = GetActorLocation();
-		FVector shotLocation = FVector(foeLocation.X, foeLocation.Y, Lyssa->GetActorLocation().Z);
-		AShot* shot = (AShot*)GetWorld()->SpawnActor(BPShot);
-		
-		shot->SetActorLocationAndRotation(GetActorLocation() + shotOffset, GetActorRotation()); //TODO: + shotVerticalOffset
-		shot->InitializeShot(ShotNature, ShotTTL, ShotSpeed);
-		Shots.Add(shot);
+	FVector foeLocation = GetActorLocation();
+	FVector shotLocation = FVector(foeLocation.X, foeLocation.Y, Lyssa->GetActorLocation().Z);
+	AShot* shot = (AShot*)GetWorld()->SpawnActor(BPShot);
 
-		ShotCountdown = ShotInterval;
-	}
+	shot->SetActorLocationAndRotation(GetActorLocation() + shotOffset, GetActorRotation()); //TODO: + shotVerticalOffset
+	shot->InitializeShot(ShotNature, ShotTTL, ShotSpeed);
+	Shots.Add(shot);
+
+	ShotCountdown = ShotInterval;
 }
 
 void AFoe::CheckForDeath()
 {
 	if (Life < 0.0f)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Projectile hurts foe"));
-		CustomDestroy();
+		SetCurrentState(ECharacterActionState::EDying);
 	}
 }
+
+//________________________________________________________________________
 
 // Called every frame
 void AFoe::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (Life < 0.0f)
+		SetCurrentState(ECharacterActionState::EDying);
+
 	LookAtPlayer();
 
 	ShotCountdown -= DeltaTime;
-	HandleShots(DeltaTime);
-
-	CheckForDeath();
+	if (ShotCountdown < 0.0f)
+		SetCurrentState(ECharacterActionState::EAttack);
 }
+
+
+
+#pragma region ActionStates
+
+ECharacterActionState AFoe::GetCurrentState() const
+{
+	return Currentstate;
+}
+
+void AFoe::SetCurrentState(ECharacterActionState newState)
+{
+	Currentstate = newState;
+	HandleNewState(Currentstate);
+}
+
+void AFoe::HandleNewState(ECharacterActionState newState)
+{
+	switch (newState)
+	{
+	case ECharacterActionState::EIdle:
+		break;
+
+	case ECharacterActionState::EAttack:
+		HandleShots();
+		Currentstate = ECharacterActionState::EIdle;
+		break;
+
+	case ECharacterActionState::ETakeDamage:
+
+		break;
+
+	case ECharacterActionState::EDying:
+		//TODO: add delay somehow for player to be able to see dying animation
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Projectile hurts foe"));
+		CustomDestroy();
+		break;
+
+	default:
+		break;
+	}
+
+}
+
+#pragma endregion

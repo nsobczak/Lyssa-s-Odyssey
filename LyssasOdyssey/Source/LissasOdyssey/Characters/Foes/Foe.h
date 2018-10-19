@@ -10,6 +10,17 @@
 
 #include "Foe.generated.h"
 
+//enum to store the current state of character
+UENUM(BlueprintType)
+enum class ECharacterActionState : uint8
+{
+	EIdle,
+	EAttack,
+	ETakeDamage,
+	EDying
+	//,EWalk
+};
+
 UCLASS()
 class LISSASODYSSEY_API AFoe : public ACharacterBase
 {
@@ -24,28 +35,36 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintPure, Category = "Foe")
+		ECharacterActionState GetCurrentState()const;
+
+	void SetCurrentState(ECharacterActionState newState);
+
 	UFUNCTION(BlueprintCallable, Category = "Foe")
 		bool CustomDestroy();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
+#pragma region Shots
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")
 		TSubclassOf<class AShot> BPShot;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Foe")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "FoeShot")
 		TArray<AShot*> Shots;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")
 		FVector shotOffset = FVector(0, 500.0f, 100.0f);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")
 		int32 ShotNature = 0;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")
 		float ShotInterval = 2.5f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")
 		float ShotTTL = 8.0f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")
 		float ShotSpeed = 3000.0f;
 
-	float ShotCountdown = 0.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "FoeShot")
+		float ShotCountdown = 0.0f;
+#pragma endregion
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Debug")
 		ALyssa* Lyssa;
@@ -53,7 +72,7 @@ public:
 protected:
 	void LookAtPlayer();
 
-	void HandleShots(float DeltaTime);
+	void HandleShots();
 
 	void CheckForDeath();
 
@@ -66,6 +85,10 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Foe")
 		void DeathEffect();
 
-//private:
+private:
+	UPROPERTY(VisibleAnywhere, Category = "Foe")
+		ECharacterActionState Currentstate;
+
+	void HandleNewState(ECharacterActionState newState);
 
 };

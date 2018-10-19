@@ -56,7 +56,7 @@ void ALyssa::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//keep same z value
+	//keep same z value - used only when colliding
 	FVector loc = GetActorLocation();
 	if (loc.Z != initialPosZValue)
 	{

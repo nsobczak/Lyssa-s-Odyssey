@@ -67,10 +67,11 @@ bool AShot::HandleOverlapWithFoe(AActor* currentActor)
 	AFoe* currentFoe = Cast<AFoe>(currentActor);
 	if (currentFoe && CanKillFoe)
 	{
-		FString objectName = currentFoe->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("shot hurts %s"), *objectName);
+		//FString objectName = currentFoe->GetName();
+		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
 
 		currentFoe->UpdateLife(-ShotDamage);
+		currentFoe->SetCurrentState(ECharacterActionState::ETakeDamage);
 
 		FString TheFloatStr = FString::SanitizeFloat(currentFoe->GetCurrentLife());
 		TheFloatStr = TEXT("Projectile hurts Foe | life = ") + TheFloatStr;
@@ -90,8 +91,8 @@ bool AShot::HandleOverlapWithLyssa(AActor* currentActor)
 	ALyssa* currentLyssa = Cast<ALyssa>(currentActor);
 	if (currentLyssa)
 	{
-		FString objectName = currentLyssa->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("shot hurts %s"), *objectName);
+		//FString objectName = currentLyssa->GetName();
+		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
 
 		currentLyssa->UpdateLife(-ShotDamage);
 
@@ -113,8 +114,8 @@ bool AShot::HandleOverlapWithFylgja(AActor* currentActor)
 	AFylgja* currentFylgja = Cast<AFylgja>(currentActor);
 	if (currentFylgja)
 	{
-		FString objectName = currentFylgja->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("shot hurts %s"), *objectName);
+		//FString objectName = currentFylgja->GetName();
+		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
 
 		//reverse direction 
 		//TODO: change direction according to rotation
