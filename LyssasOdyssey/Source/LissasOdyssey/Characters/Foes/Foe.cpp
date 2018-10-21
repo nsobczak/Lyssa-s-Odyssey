@@ -54,7 +54,7 @@ void AFoe::HandleShots()
 	FVector shotLocation = FVector(foeLocation.X, foeLocation.Y, Lyssa->GetActorLocation().Z);
 	AShot* shot = (AShot*)GetWorld()->SpawnActor(BPShot);
 
-	shot->SetActorLocationAndRotation(GetActorLocation() + shotOffset, GetActorRotation()); //TODO: + shotVerticalOffset
+	shot->SetActorLocationAndRotation(GetActorLocation() + shotOffset, GetActorRotation());
 	shot->InitializeShot(ShotNature, ShotTTL, ShotSpeed);
 	Shots.Add(shot);
 
@@ -79,11 +79,25 @@ void AFoe::Tick(float DeltaTime)
 	if (Life < 0.0f)
 		SetCurrentState(ECharacterActionState::EDying);
 
-	LookAtPlayer();
+	else if (Currentstate == ECharacterActionState::EOverlapProjectile) //intermediate state needed because state is changed by overlaping shot
+	{
+		//UE_LOG(LogTemp, Log, TEXT("ETakeDamage"));
+		SetCurrentState(ECharacterActionState::ETakeDamage);
+	}
 
-	ShotCountdown -= DeltaTime;
-	if (ShotCountdown < 0.0f)
-		SetCurrentState(ECharacterActionState::EAttack);
+	else if (Currentstate == ECharacterActionState::ETakeDamage)
+		SetCurrentState(ECharacterActionState::EIdle);
+
+	else
+	{
+		LookAtPlayer();
+
+		ShotCountdown -= DeltaTime;
+		if (ShotCountdown < 0.0f)
+			SetCurrentState(ECharacterActionState::EAttack);
+		else
+			SetCurrentState(ECharacterActionState::EIdle);
+	}
 }
 
 
@@ -110,17 +124,18 @@ void AFoe::HandleNewState(ECharacterActionState newState)
 
 	case ECharacterActionState::EAttack:
 		HandleShots();
-		Currentstate = ECharacterActionState::EIdle;
+		break;
+
+	case ECharacterActionState::EOverlapProjectile:
 		break;
 
 	case ECharacterActionState::ETakeDamage:
-
 		break;
 
 	case ECharacterActionState::EDying:
 		//TODO: add delay somehow for player to be able to see dying animation
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Projectile hurts foe"));
-		CustomDestroy();
+		//CustomDestroy();
 		break;
 
 	default:

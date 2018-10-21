@@ -71,7 +71,7 @@ bool AShot::HandleOverlapWithFoe(AActor* currentActor)
 		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
 
 		currentFoe->UpdateLife(-ShotDamage);
-		currentFoe->SetCurrentState(ECharacterActionState::ETakeDamage);
+		currentFoe->SetCurrentState(ECharacterActionState::EOverlapProjectile);
 
 		FString TheFloatStr = FString::SanitizeFloat(currentFoe->GetCurrentLife());
 		TheFloatStr = TEXT("Projectile hurts Foe | life = ") + TheFloatStr;

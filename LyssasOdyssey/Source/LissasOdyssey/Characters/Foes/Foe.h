@@ -16,6 +16,7 @@ enum class ECharacterActionState : uint8
 {
 	EIdle,
 	EAttack,
+	EOverlapProjectile,
 	ETakeDamage,
 	EDying
 	//,EWalk
