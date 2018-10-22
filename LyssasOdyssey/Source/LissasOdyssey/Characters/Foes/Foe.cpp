@@ -64,7 +64,7 @@ void AFoe::HandleShots()
 
 	shot->SetActorLocationAndRotation(GetActorLocation() 
 		+ GetActorForwardVector() * ShotOffset.X + GetActorUpVector() * ShotOffset.Z, GetActorRotation());
-	shot->InitializeShot(ShotNature, ShotTTL, ShotSpeed);
+	shot->InitializeShot(ShotTTL, ShotSpeed);
 	Shots.Add(shot);
 
 	ShotCountdown = ShotInterval;

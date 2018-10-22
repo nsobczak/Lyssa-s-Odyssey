@@ -55,8 +55,6 @@ public:
 		FVector ShotOffset = FVector(500.0f, 1.0f, 1.0f);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")
-		int32 ShotNature = 0;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")
 		float ShotInterval = 2.5f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")
 		float ShotTTL = 8.0f;

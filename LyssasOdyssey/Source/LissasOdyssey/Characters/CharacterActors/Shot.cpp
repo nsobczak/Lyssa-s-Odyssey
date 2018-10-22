@@ -30,7 +30,7 @@ void AShot::BeginPlay()
 	float ShotTimer = 0.0f;
 }
 
-void AShot::InitializeShot(int32 nature, float ttl, float speed)
+void AShot::InitializeShot(float ttl, float speed)
 {
 	ShotTTL = ttl;
 	ShotSpeed = speed;
