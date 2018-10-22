@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Foe.h"
+#include "GameModes/LevelGameMode.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -27,6 +28,13 @@ void AFoe::BeginPlay()
 	Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
 	ShotCountdown = ShotInterval;
 
+	//offset
+	if (ShotOffset.Z == 1.0f)
+	{
+		ALevelGameMode* const currentGameMode = GetWorld()->GetAuthGameMode<ALevelGameMode>();
+		ShotOffset = FVector(ShotOffset.X, ShotOffset.Y, currentGameMode->VerticalLevel);
+	}
+
 	SetCurrentState(ECharacterActionState::EIdle);
 }
 
@@ -51,10 +59,11 @@ void AFoe::HandleShots()
 	if (BPShot == nullptr) { return; }
 
 	FVector foeLocation = GetActorLocation();
-	FVector shotLocation = FVector(foeLocation.X, foeLocation.Y, Lyssa->GetActorLocation().Z);
+	FVector shotLocation = FVector(foeLocation.X, foeLocation.Y, ShotOffset.Z);// Lyssa->GetActorLocation().Z
 	AShot* shot = (AShot*)GetWorld()->SpawnActor(BPShot);
 
-	shot->SetActorLocationAndRotation(GetActorLocation() + shotOffset, GetActorRotation());
+	shot->SetActorLocationAndRotation(GetActorLocation() 
+		+ GetActorForwardVector() * ShotOffset.X + GetActorUpVector() * ShotOffset.Z, GetActorRotation());
 	shot->InitializeShot(ShotNature, ShotTTL, ShotSpeed);
 	Shots.Add(shot);
 
@@ -133,7 +142,6 @@ void AFoe::HandleNewState(ECharacterActionState newState)
 		break;
 
 	case ECharacterActionState::EDying:
-		//TODO: add delay somehow for player to be able to see dying animation
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Projectile hurts foe"));
 		//CustomDestroy();
 		break;

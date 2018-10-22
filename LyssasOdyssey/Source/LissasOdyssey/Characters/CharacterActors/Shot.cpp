@@ -120,7 +120,7 @@ bool AShot::HandleOverlapWithFylgja(AActor* currentActor)
 		//reverse direction 
 		//TODO: change direction according to rotation
 		FRotator rotF = currentFylgja->GetActorRotation();
-		FVector fylgjaDir = rotF.Vector().GetSafeNormal();
+		FVector fylgjaDir = currentFylgja->GetActorForwardVector().GetSafeNormal();// rotF.Vector().GetSafeNormal();
 		TargetDirection = fylgjaDir;
 		CanKillFoe = true;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Changed target direction"));

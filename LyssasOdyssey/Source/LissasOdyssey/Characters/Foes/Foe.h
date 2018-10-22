@@ -19,7 +19,7 @@ enum class ECharacterActionState : uint8
 	EOverlapProjectile,
 	ETakeDamage,
 	EDying
-	//,EWalk
+	//,EWalk//not needed if we use morph with idle state?
 };
 
 UCLASS()
@@ -52,7 +52,7 @@ public:
 		TArray<AShot*> Shots;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")
-		FVector shotOffset = FVector(0, 500.0f, 100.0f);
+		FVector ShotOffset = FVector(500.0f, 1.0f, 1.0f);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")
 		int32 ShotNature = 0;
