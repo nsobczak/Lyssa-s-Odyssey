@@ -117,11 +117,29 @@ bool AShot::HandleOverlapWithFylgja(AActor* currentActor)
 		//FString objectName = currentFylgja->GetName();
 		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
 
-		//reverse direction 
-		//TODO: change direction according to rotation
-		FRotator rotF = currentFylgja->GetActorRotation();
-		FVector fylgjaDir = currentFylgja->GetActorForwardVector().GetSafeNormal();// rotF.Vector().GetSafeNormal();
-		TargetDirection = fylgjaDir;
+
+		FVector shotLocation = GetActorLocation();
+		float radius = FVector::Distance(shotLocation, LyssaActor->GetActorLocation());
+		FVector fylgjaMiddlePoint = radius * LyssaActor->GetActorForwardVector();
+		FVector aimingPoint = (fylgjaMiddlePoint + 2*shotLocation) / 3;
+		TargetDirection = (aimingPoint - LyssaActor->GetActorLocation()).GetSafeNormal();
+		TargetDirection = FVector(TargetDirection.X, TargetDirection.Y, 0);
+
+
+		//if (true)
+		//{
+		//	//change direction according to where shot hits fylgja (orientation)
+		//	TargetDirection = (GetActorLocation() - LyssaActor->GetActorLocation()).GetSafeNormal();
+		//	TargetDirection = FVector(TargetDirection.X, TargetDirection.Y, 0);
+		//}
+		//else
+		//{
+		//	//reverse direction following fylgja direction
+		//	FRotator rotF = currentFylgja->GetActorRotation();
+		//	FVector fylgjaDir = currentFylgja->GetActorForwardVector().GetSafeNormal();// rotF.Vector().GetSafeNormal();
+		//	TargetDirection = fylgjaDir;
+		//}
+
 		CanKillFoe = true;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Changed target direction"));
 
