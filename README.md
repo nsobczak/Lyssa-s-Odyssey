@@ -20,8 +20,17 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - cam follow main character
 - 2 controls: 1 for movement + 1 for shield
 - fylgja's size decreases when half/quarter of life left ?
+- extra life when level complete
 
 - rpg element to improve stat or unlock skills?
+
+### score
+- time
+- life count
+- pomies earned
+- foe killed
+
+=> magic formula
 
 ## 2.Story
 
@@ -76,7 +85,7 @@ Level or menu?
 ### 4.5.snow/ice
 
 - sweeping ground
-- wall of dangerous water
+- wall of dangerous water and snowmen
 - blue, cold
 
 ### 4.6.volcano

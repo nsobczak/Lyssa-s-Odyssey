@@ -6,34 +6,43 @@
 
 ### canyon tuto
 - gray foxes
+
 - cactus
 - canyon
 
 ### countryside
 - Rabbit (angry, shouting, scared/taking damage)
 - sheeps
-- orange foxes
 
-- Owl (angry, shouting, scared/taking damage)
+- boss - Owl (angry, shouting, scared/taking damage)
+
+- fences
 
 ### jungle
+- orange foxes
 - wolf
-- warthog
 
-- Crocodile
+- boss - Crocodile
+
+- trees
 
 ### snow ice
 - white foxes
 - whale
 
-- White bear
+- boss - White bear
 
+- water
 - snowmen
 
 ### last level - volcano
 
+- warthog
 
 - boss - Dragon (angry, shouting, scared/taking damage)
+
+- volcano: when moving it seems like we are climbing
+- lava rocks
 
 ### state machine
 
@@ -48,5 +57,5 @@
 ## Assets
 
 - life
-- power up
 - pickup for score (pomy/pomies)
+- power up?
