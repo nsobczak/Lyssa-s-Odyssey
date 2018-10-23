@@ -125,21 +125,6 @@ bool AShot::HandleOverlapWithFylgja(AActor* currentActor)
 		TargetDirection = (aimingPoint - LyssaActor->GetActorLocation()).GetSafeNormal();
 		TargetDirection = FVector(TargetDirection.X, TargetDirection.Y, 0);
 
-
-		//if (true)
-		//{
-		//	//change direction according to where shot hits fylgja (orientation)
-		//	TargetDirection = (GetActorLocation() - LyssaActor->GetActorLocation()).GetSafeNormal();
-		//	TargetDirection = FVector(TargetDirection.X, TargetDirection.Y, 0);
-		//}
-		//else
-		//{
-		//	//reverse direction following fylgja direction
-		//	FRotator rotF = currentFylgja->GetActorRotation();
-		//	FVector fylgjaDir = currentFylgja->GetActorForwardVector().GetSafeNormal();// rotF.Vector().GetSafeNormal();
-		//	TargetDirection = fylgjaDir;
-		//}
-
 		CanKillFoe = true;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Changed target direction"));
 
