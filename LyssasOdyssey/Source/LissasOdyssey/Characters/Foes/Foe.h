@@ -79,7 +79,7 @@ protected:
 
 	//BlueprintImplementableEvent = we don't need to define function in code at all, just call it and let the blueprint define it
 	UFUNCTION(BlueprintImplementableEvent, Category = "Foe")
-		void LifeChangeEffect();
+		void DamageEffect();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Foe")
 		void DeathEffect();

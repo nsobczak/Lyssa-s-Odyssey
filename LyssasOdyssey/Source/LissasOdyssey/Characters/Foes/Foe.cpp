@@ -59,7 +59,7 @@ void AFoe::HandleShots()
 	if (BPShot == nullptr) { return; }
 
 	FVector foeLocation = GetActorLocation();
-	FVector shotLocation = FVector(foeLocation.X, foeLocation.Y, ShotOffset.Z);// Lyssa->GetActorLocation().Z
+	FVector shotLocation = FVector(foeLocation.X, foeLocation.Y, ShotOffset.Z);
 	AShot* shot = (AShot*)GetWorld()->SpawnActor(BPShot);
 
 	shot->SetActorLocationAndRotation(GetActorLocation() 
@@ -139,6 +139,7 @@ void AFoe::HandleNewState(ECharacterActionState newState)
 		break;
 
 	case ECharacterActionState::ETakeDamage:
+		DamageEffect();
 		break;
 
 	case ECharacterActionState::EDying:

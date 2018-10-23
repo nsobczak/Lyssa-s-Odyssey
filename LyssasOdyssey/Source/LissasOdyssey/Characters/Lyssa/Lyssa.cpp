@@ -60,7 +60,7 @@ void ALyssa::Tick(float DeltaTime)
 	FVector loc = GetActorLocation();
 	if (loc.Z != initialPosZValue)
 	{
-		UE_LOG(LogTemp, Log, TEXT("keep same z value for lyssa position"));
+		//UE_LOG(LogTemp, Log, TEXT("keep same z value for lyssa position"));
 		SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
 	}
 }
