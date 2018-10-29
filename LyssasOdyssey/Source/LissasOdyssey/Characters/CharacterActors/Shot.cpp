@@ -117,16 +117,38 @@ bool AShot::HandleOverlapWithFylgja(AActor* currentActor)
 		//FString objectName = currentFylgja->GetName();
 		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
 
+		///*	Normalize both vectors
+		//	calculate DOT product.Dot product is cosinus of those vectors.
+		//	Calculate arcus cos of that value.*/
+		//FVector oldNormalizedTargetDirection = TargetDirection;
+		//float cosValue = FVector::DotProduct(currentFylgja->GetActorForwardVector(), oldNormalizedTargetDirection);
+		//float angleAbsValue = acos(cosValue);
+		//FRotator rotator = FRotator(0, 0, 2 * angleAbsValue);
+		//TargetDirection = rotator.RotateVector(oldNormalizedTargetDirection);
 
-		FVector shotLocation = GetActorLocation();
-		float radius = FVector::Distance(shotLocation, LyssaActor->GetActorLocation());
-		FVector fylgjaMiddlePoint = radius * LyssaActor->GetActorForwardVector();
-		FVector aimingPoint = (fylgjaMiddlePoint + 2*shotLocation) / 3;
-		TargetDirection = (aimingPoint - LyssaActor->GetActorLocation()).GetSafeNormal();
-		TargetDirection = FVector(TargetDirection.X, TargetDirection.Y, 0);
+		FVector normal = currentFylgja->GetActorForwardVector();
+		FQuat betweenAngle = FQuat::FindBetween(TargetDirection.GetSafeNormal(), normal);
+		FRotator rotator(betweenAngle);
+		float angleToRotate = FMath::Abs(rotator.Yaw);
+		UE_LOG(LogTemp, Warning, TEXT("rotator.Yaw= %f"), rotator.Yaw);
+
+		float incidenceAng = 180.0f - angleToRotate; // 90.0f - complementaryAng;
+		float newAngleToRotate = angleToRotate - FMath::Abs(incidenceAng) / 8.0f;
+		float sign = rotator.Yaw > 0 ? 1.0f : -1.0f;
+		rotator = FRotator(0, sign*newAngleToRotate, 0);
+
+		TargetDirection = rotator.RotateVector(TargetDirection);
+
+		/*float Ang1 = FMath::Atan2(TargetDirection.X, TargetDirection.Y);
+		float Ang2 = FMath::Atan2(normal.X, normal.Y);
+		float Ang = FMath::RadiansToDegrees(Ang1 - Ang2);
+		if (Ang > 180.0f) Ang -= 360.0f;
+		else if (Ang < -180.0f) Ang += 360.0f;*/
 
 		CanKillFoe = true;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Changed target direction"));
+		//UE_LOG(LogTemp, Log, TEXT("angleToRotate = %f \n incidence angle= %f \n newAngleToRotate= %f"),
+		//	angleToRotate, incidenceAng, newAngleToRotate);
 
 		return true;
 	}
@@ -147,9 +169,9 @@ void AShot::HandleOverlap()
 		AActor* currentActor = collectedActors[i];
 		if (!HandleOverlapWithFoe(currentActor))
 		{
-			if (!HandleOverlapWithLyssa(currentActor))
+			if (!HandleOverlapWithFylgja(currentActor))
 			{
-				HandleOverlapWithFylgja(currentActor);
+				HandleOverlapWithLyssa(currentActor);
 			}
 		}
 	}
