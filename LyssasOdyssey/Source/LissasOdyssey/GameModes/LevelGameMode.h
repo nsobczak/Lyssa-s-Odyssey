@@ -42,6 +42,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		float VerticalLevel = 50.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
+		FString LevelTitle = "LevelTitle";
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
 		AFinishArea* FinishArea;
 
