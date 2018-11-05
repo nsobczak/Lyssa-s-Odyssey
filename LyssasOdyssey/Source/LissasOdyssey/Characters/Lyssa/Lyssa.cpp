@@ -9,6 +9,7 @@
 #include "Characters/CharacterActors/Shot.h"
 
 #include "Pickups/Pickup.h"
+#include "Pickups/PickupLife.h"
 
 // Sets default values
 ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
@@ -155,12 +156,14 @@ void ALyssa::CollectPickups()
 		{
 			//call the pickup's wasCollected function
 			castedPickup->WasCollected();
-			////check to see if the pickup is also a battery
-			//ABatteryPickup* const castedBattery = Cast<ABatteryPickup>(castedPickup);
-			//if (castedBattery)
-			//{
-			//	collectedPower += castedBattery->GetPower();
-			//}
+
+			//check to see if the pickup is life
+			APickupLife* const castedLife = Cast<APickupLife>(castedPickup);
+			if (castedLife)
+			{
+				UpdateLife(+castedLife->GetLifeAmount());
+			}
+
 			//deactivate the pickup
 			castedPickup->SetActive(false);
 		}
