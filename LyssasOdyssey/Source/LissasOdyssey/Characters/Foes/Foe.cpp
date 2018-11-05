@@ -40,6 +40,7 @@ void AFoe::BeginPlay()
 
 bool AFoe::CustomDestroy()
 {
+	//TODO: use a timer to make dead body disappear after a while (use ShotCountdown to do so)
 	return Super::Destroy();
 }
 

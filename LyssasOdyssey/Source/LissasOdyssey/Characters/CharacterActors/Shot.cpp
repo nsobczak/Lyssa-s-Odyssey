@@ -130,7 +130,7 @@ bool AShot::HandleOverlapWithFylgja(AActor* currentActor)
 		FQuat betweenAngle = FQuat::FindBetween(TargetDirection.GetSafeNormal(), normal);
 		FRotator rotator(betweenAngle);
 		float angleToRotate = FMath::Abs(rotator.Yaw);
-		UE_LOG(LogTemp, Warning, TEXT("rotator.Yaw= %f"), rotator.Yaw);
+		//UE_LOG(Log, Warning, TEXT("rotator.Yaw= %f"), rotator.Yaw);
 
 		float incidenceAng = 180.0f - angleToRotate; // 90.0f - complementaryAng;
 		float newAngleToRotate = angleToRotate - FMath::Abs(incidenceAng) / 8.0f;

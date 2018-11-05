@@ -8,6 +8,8 @@
 #include "ConstructorHelpers.h"
 #include "Characters/CharacterActors/Shot.h"
 
+#include "Pickups/Pickup.h"
+
 // Sets default values
 ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -63,6 +65,8 @@ void ALyssa::Tick(float DeltaTime)
 		//UE_LOG(LogTemp, Log, TEXT("keep same z value for lyssa position"));
 		SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
 	}
+
+	CollectPickups();
 }
 
 AFylgja* ALyssa::GetFylgja() const
@@ -131,3 +135,37 @@ void ALyssa::MoveRight(float Value)
 //____________________________________________________________________________________
 #pragma endregion
 
+
+#pragma region Pickup
+//____________________________________________________________________________________
+
+void ALyssa::CollectPickups()
+{
+	//get overlaping actors and store them in an array
+	TArray<AActor*> collectedActors;
+	LyssaMesh->GetOverlappingActors(collectedActors);
+
+	//for each actor we collected
+	for (int32 iCollected = 0; iCollected < collectedActors.Num(); ++iCollected)
+	{
+		//cast the actor to apickup
+		APickup* const castedPickup = Cast<APickup>(collectedActors[iCollected]);
+		//if cast succesful and pickup is valid and active
+		if (castedPickup && !castedPickup->IsPendingKill() && castedPickup->IsActive())
+		{
+			//call the pickup's wasCollected function
+			castedPickup->WasCollected();
+			////check to see if the pickup is also a battery
+			//ABatteryPickup* const castedBattery = Cast<ABatteryPickup>(castedPickup);
+			//if (castedBattery)
+			//{
+			//	collectedPower += castedBattery->GetPower();
+			//}
+			//deactivate the pickup
+			castedPickup->SetActive(false);
+		}
+	}
+}
+
+//____________________________________________________________________________________
+#pragma endregion

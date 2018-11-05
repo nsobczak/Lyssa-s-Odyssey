@@ -45,6 +45,10 @@ public:
 protected:
 	float initialPosZValue;
 
+	UFUNCTION(BlueprintCallable, Category = "Pickups")
+		void CollectPickups();
+
+
 private:
 	/** Static mesh to represent the Lyssa in the level*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyssa", meta = (AllowPrivateAccess = "true"))
