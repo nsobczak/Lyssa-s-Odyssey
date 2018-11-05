@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Pickup.h"
-
+#include "Utils/RotateOverTime.h"
 
 // Sets default values
 APickup::APickup()
@@ -15,6 +15,9 @@ APickup::APickup()
 	//create the static mesh component
 	PickupMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickupMesh"));
 	RootComponent = (USceneComponent*)PickupMesh;
+
+	URotateOverTime* rotationComponent = CreateDefaultSubobject<URotateOverTime>(TEXT("RotationOverTime"));
+	AddOwnedComponent(rotationComponent);
 }
 
 // Called when the game starts or when spawned
