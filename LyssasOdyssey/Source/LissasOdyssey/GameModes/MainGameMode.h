@@ -33,6 +33,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
 		TSubclassOf<UUserWidget> EndingWidgetClass;
 
+	/** The widget class we will use as our menu when player dies. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+		TSubclassOf<UUserWidget> GameOverWidgetClass;
+
 	/** The widget class we will use as our menu when the game is paused. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
 		TSubclassOf<UUserWidget> PauseWidgetClass;
@@ -59,6 +63,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
 		void ShowEndingWidget();
+
+	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
+		void ShowGameOverWidget();
 
 	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
 		void ShowPauseWidget();

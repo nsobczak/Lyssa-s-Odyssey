@@ -122,6 +122,11 @@ void AMainGameMode::ShowEndingWidget()
 	ChangeMenuWidget(EndingWidgetClass, true);
 }
 
+void AMainGameMode::ShowGameOverWidget()
+{
+	ChangeMenuWidget(GameOverWidgetClass, true);
+}
+
 void AMainGameMode::ShowPauseWidget()
 {
 	ChangeMenuWidget(PauseWidgetClass, true);

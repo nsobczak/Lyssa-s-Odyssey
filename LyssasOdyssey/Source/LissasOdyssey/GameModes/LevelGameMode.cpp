@@ -123,11 +123,16 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Lyssa died | game over"));
 
-		//block player input
-		APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
-		if (playerController)
+		AMainGameMode* gameMode = Cast<AMainGameMode>(GetWorld()->GetAuthGameMode());
+		if (gameMode)
 		{
-			playerController->SetCinematicMode(true, false, false, true, true);
+			//block player input
+			APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
+			if (playerController)
+			{
+				playerController->SetCinematicMode(true, false, false, true, true);
+			}
+			gameMode->ShowGameOverWidget();
 		}
 
 		break;
