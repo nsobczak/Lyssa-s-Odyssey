@@ -66,16 +66,20 @@ public:
 	void SetCurrentState(ELevelPlayState newState);
 
 	//TODO: add infos here
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameTimer")
 		float TimeLimit = 99.0f;
 
-	float Timer = 0.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameTimer")
+		float LevelTimer = 0.0f;
+
+	UFUNCTION(BlueprintPure, Category = "GameTimer")
+		FText GetTimerForHud();
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
 		float DamageRate = 100.0f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameTimer")
 		float DamageRateTimer = 0.0f;
 
 	/**widget to use for our HUD screen*/

@@ -41,10 +41,29 @@ void ALevelGameMode::BeginPlay()
 			CurrentWidget->AddToViewport();
 		}
 	}
+
+	LevelTimer = 0;
 }
 
 
 //_____________________________________________________________________________________________
+
+FText ALevelGameMode::GetTimerForHud()
+{
+	//timer is in second
+	int seconds = (int)LevelTimer;
+	int minutes = seconds / 60;
+	int hours = minutes / 60;
+
+	seconds %= 60;
+	minutes %= 60;
+
+	FString fSeconds = FString::FromInt(seconds) + FString("\"");
+	FString fMinutes = FString::FromInt(minutes) + FString("\'");
+	FString fHours = FString::FromInt(hours) + FString(":");
+
+	return FText::FromString(fHours + fMinutes + fSeconds);
+}
 
 void ALevelGameMode::CheckForLevelCompleted()
 {
@@ -69,6 +88,8 @@ void ALevelGameMode::CheckForDeath()
 void ALevelGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	LevelTimer += DeltaTime;
 
 	DamageRateTimer -= DeltaTime;
 	if (DamageRateTimer < DamageRate)
