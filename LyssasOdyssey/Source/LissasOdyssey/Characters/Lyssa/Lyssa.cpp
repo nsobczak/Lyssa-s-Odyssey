@@ -10,6 +10,7 @@
 
 #include "Pickups/Pickup.h"
 #include "Pickups/PickupLife.h"
+#include "Pickups/PickupScore.h"
 
 // Sets default values
 ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
@@ -34,6 +35,8 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	MainCamera->RelativeLocation = FVector(-400, 0, 1000.0f);// Position the camera
 	MainCamera->RelativeRotation.Pitch = 290.0f;
 	MainCamera->bUsePawnControlRotation = false; // Allow the pawn to control rotation.
+
+	ScorePickupAmount = 0; //TODO: check how many score pickup we already have picked up in current level
 }
 
 // Called when the game starts or when spawned
@@ -140,6 +143,21 @@ void ALyssa::MoveRight(float Value)
 #pragma region Pickup
 //____________________________________________________________________________________
 
+
+int ALyssa::GetCurrentScorePickupAmount()
+{
+	return ScorePickupAmount;
+}
+
+void ALyssa::UpdateScorePickupAmount(int amountChange)
+{
+	ScorePickupAmount += amountChange;
+	if (ScorePickupAmount < 0)
+	{
+		ScorePickupAmount = 0;
+	}
+}
+
 void ALyssa::CollectPickups()
 {
 	//get overlaping actors and store them in an array
@@ -159,10 +177,12 @@ void ALyssa::CollectPickups()
 
 			//check to see if the pickup is life
 			APickupLife* const castedLife = Cast<APickupLife>(castedPickup);
+			APickupScore* const castedScore = Cast<APickupScore>(castedPickup);
+
 			if (castedLife)
-			{
 				UpdateLife(+castedLife->GetLifeAmount());
-			}
+			else if (castedScore)
+				UpdateScorePickupAmount(+castedScore->GetScoreAmount());
 
 			//deactivate the pickup
 			castedPickup->SetActive(false);

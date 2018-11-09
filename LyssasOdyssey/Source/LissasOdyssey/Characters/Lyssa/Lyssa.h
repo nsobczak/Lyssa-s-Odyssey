@@ -26,8 +26,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// === Components ===
 	// camera
@@ -35,12 +33,22 @@ public:
 		UCameraComponent* MainCamera;
 
 	// === Input ===
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 	/**handles moving forward/backward*/
 	UFUNCTION()
 		void MoveUp(float Val);
 	/**handles strafing*/
 	UFUNCTION()
 		void MoveRight(float Val);
+
+	// === ScorePickupAmount ===
+	UFUNCTION(BlueprintPure, Category = "Pickups")
+		int GetCurrentScorePickupAmount();
+
+	UFUNCTION(BlueprintCallable, Category = "Pickups")
+		void UpdateScorePickupAmount(int amountChange);
 
 protected:
 	float initialPosZValue;
@@ -56,5 +64,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
 		class AFylgja* Fylgja;
+
+	UPROPERTY(VisibleAnywhere, Category = "Pickups")
+		int ScorePickupAmount;
 
 };

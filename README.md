@@ -25,12 +25,24 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - rpg element to improve stat or unlock skills?
 
 ### score
+ 
+#### Pickups
+
+- Red: 1
+- Green: 2
+- Blue: 5
+- Yellow: 10
+- Purple: 25 
+
+#### Other
+
+=> magic formula involving: 
+
+- Pickups
 - time
 - life count
-- pomies earned
 - foe killed
 
-=> magic formula
 
 ## 2.Story
 
