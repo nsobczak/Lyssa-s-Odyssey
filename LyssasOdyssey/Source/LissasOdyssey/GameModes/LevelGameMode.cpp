@@ -62,7 +62,8 @@ FText ALevelGameMode::GetTimerForHud()
 	FString fMinutes = FString::FromInt(minutes) + FString("\'");
 	FString fHours = FString::FromInt(hours) + FString(":");
 
-	return FText::FromString(fHours + fMinutes + fSeconds);
+	FString textToShow = hours > 0 ? fHours + fMinutes + fSeconds : fMinutes + fSeconds;
+	return FText::FromString(textToShow);
 }
 
 void ALevelGameMode::CheckForLevelCompleted()
