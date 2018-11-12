@@ -25,18 +25,18 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - rpg element to improve stat or unlock skills?
 
 ### score
- 
+
 #### Pickups
 
 - Red: 1
 - Green: 2
 - Blue: 5
 - Yellow: 10
-- Purple: 25 
+(- Purple: 25 )
 
 #### Other
 
-=> magic formula involving: 
+=> magic formula involving:
 
 - Pickups
 - time
@@ -56,16 +56,21 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 
 - character = lyssa = fighter with its spirits, is she insane ?
 - Fylgja = name of the spirit in its head
-- killer rabbits (some of them move following a pattern)
-- final boss = veg dragon h throwing (rotten ?) salad
+
+For each level:
+- killer animal (some of them move following a pattern)
+- final boss = stronger/bigger animal
+
+- spawn foes in spawning boxes (create nest for some foes)
 
 ## 4.Levels
 - different levels/themes (canyon tuto, countryside, jungle,  snow/ice, volcano)
-- flat levels, ball levels, mixed
+- flat levels
 - tuto for start, then choice between level, must complete them all to unlock last level
-- a skill for each venue
+- each level has a venue specific difficulty
+- a skill for each venue?
 
-Levels can be strange if they come from  Lyssa's mind.
+Levels can be strange if they come from Lyssa's mind.
 
 ### 4.1.canyon tuto
 
@@ -112,9 +117,3 @@ Level or menu?
 - main menu and lyssa next to buttons (on right ?)
 - new game/continue
 - level selection (only for debug, player must enter a code in menu to see it)
-
-## TODO
-
-- spawn foes in spawning boxes (create nest for some foes)
-- foe template
-- box static mesh (environment asset template)
