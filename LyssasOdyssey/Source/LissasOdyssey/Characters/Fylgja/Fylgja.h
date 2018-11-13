@@ -27,4 +27,8 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* FylgjaMesh;
 
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
+	//	USkeletalMesh* FylgjaTop;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
+	//	USkeletalMesh* FylgjaBottom;
 };

@@ -45,6 +45,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		FString LevelTitle = "LevelTitle";
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameSettings")
+		bool ShowMouseCursorInLevel = true;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
 		AFinishArea* FinishArea;
 

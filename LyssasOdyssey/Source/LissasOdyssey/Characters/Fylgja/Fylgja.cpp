@@ -12,12 +12,18 @@ AFylgja::AFylgja(const class FObjectInitializer& ObjectInitializer)
 	//create the static mesh component
 	FylgjaMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FylgjaMesh"));
 	RootComponent = (USceneComponent*)FylgjaMesh;
+
+	////create the skeletal mesh components
+	//FylgjaTop = CreateDefaultSubobject<USkeletalMesh>(TEXT("FylgjaTop"));
+	//FylgjaBottom = CreateDefaultSubobject<USkeletalMesh>(TEXT("FylgjaBottom"));
 }
 
 // Called when the game starts or when spawned
 void AFylgja::BeginPlay()
 {
 	Super::BeginPlay();
+
+	FylgjaMesh->SetVisibility(false, false);
 
 }
 

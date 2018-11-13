@@ -43,6 +43,13 @@ void ALevelGameMode::BeginPlay()
 	}
 
 	LevelTimer = 0;
+
+	if (ShowMouseCursorInLevel)
+	{
+		PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+		PlayerController->bShowMouseCursor = true;
+	}
+
 }
 
 
