@@ -72,6 +72,8 @@ For each level:
 
 Levels can be strange if they come from Lyssa's mind.
 
+add a progression bar for levels
+
 ### 4.1.canyon tuto
 
 Fylgja speaks to Lyssa to explain all that (= Lyssa speaks to herself)

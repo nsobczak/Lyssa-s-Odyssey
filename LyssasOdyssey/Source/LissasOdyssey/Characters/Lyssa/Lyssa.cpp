@@ -62,13 +62,13 @@ void ALyssa::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//keep same z value - used only when colliding
-	FVector loc = GetActorLocation();
-	if (loc.Z != initialPosZValue)
-	{
-		//UE_LOG(LogTemp, Log, TEXT("keep same z value for lyssa position"));
-		SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
-	}
+	////keep same z value - used only when colliding
+	//FVector loc = GetActorLocation();
+	//if (loc.Z != initialPosZValue)
+	//{
+	//	//UE_LOG(LogTemp, Log, TEXT("keep same z value for lyssa position"));
+	//	SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
+	//}
 
 	CollectPickups();
 }
@@ -95,8 +95,10 @@ void ALyssa::MoveUp(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
-		// find out which way is forward
-		FRotator Rotation = Controller->GetControlRotation();
+		// find out which way is up
+		const FRotator Rotation = Controller->GetControlRotation();
+		//const FRotator YawRotation(0, Rotation.Yaw, 0);
+		// get direction vector 
 		const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
@@ -119,6 +121,8 @@ void ALyssa::MoveRight(float Value)
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
+		//const FRotator YawRotation(0, Rotation.Yaw, 0);
+		// get right vector 
 		const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
