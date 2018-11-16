@@ -78,9 +78,9 @@ add a progression bar for levels
 
 Fylgja speaks to Lyssa to explain all that (= Lyssa speaks to herself)
 1- explain howTo move Lyssa
-2- show an ennemy
+2- show an ennemy (make player avoid foes)
 3- tell to get hit by projectile and explain that life decrease
-4- introduce Fylgja, che comes out from her head, show how to move her and tell to use her to protect lyssa's from projectile
+4- introduce Fylgja, she comes out from her head, show how to move her and tell to use her to protect lyssa's from projectile
 5- explain that projectiles are reflected and that lyssa can use that to kill foes
 
 Do a tuto cheat sheet accessible from pause menu and main menu.
