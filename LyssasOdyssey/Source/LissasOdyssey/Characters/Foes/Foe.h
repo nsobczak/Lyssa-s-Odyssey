@@ -45,7 +45,10 @@ public:
 		bool CustomDestroy();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
-		float DestroyCountdown = 5.0f;
+		float DestroyCountdown = 5.0f;	
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
+		float PlayerDetectionDistance = 20000000.0f;
 
 #pragma region Shots
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")

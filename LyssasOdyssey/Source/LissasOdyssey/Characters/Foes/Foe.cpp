@@ -63,7 +63,7 @@ void AFoe::HandleShots()
 	FVector shotLocation = FVector(foeLocation.X, foeLocation.Y, ShotOffset.Z);
 	AShot* shot = (AShot*)GetWorld()->SpawnActor(BPShot);
 
-	shot->SetActorLocationAndRotation(GetActorLocation() 
+	shot->SetActorLocationAndRotation(GetActorLocation()
 		+ GetActorForwardVector() * ShotOffset.X + GetActorUpVector() * ShotOffset.Z, GetActorRotation());
 	shot->InitializeShot(ShotTTL, ShotSpeed);
 	Shots.Add(shot);
@@ -98,7 +98,7 @@ void AFoe::Tick(float DeltaTime)
 	else if (Currentstate == ECharacterActionState::ETakeDamage)
 		SetCurrentState(ECharacterActionState::EIdle);
 
-	else
+	else if (FVector::DistSquared(GetActorLocation(), Lyssa->GetActorLocation()) < PlayerDetectionDistance)
 	{
 		LookAtPlayer();
 
@@ -108,6 +108,9 @@ void AFoe::Tick(float DeltaTime)
 		else
 			SetCurrentState(ECharacterActionState::EIdle);
 	}
+
+	else
+		SetCurrentState(ECharacterActionState::EIdle);
 }
 
 
