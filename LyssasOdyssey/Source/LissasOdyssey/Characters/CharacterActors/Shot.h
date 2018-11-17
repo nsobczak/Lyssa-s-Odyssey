@@ -73,5 +73,8 @@ private:
 		bool HandleOverlapWithLyssa(AActor * currentActor);
 	UFUNCTION()
 		bool HandleOverlapWithFylgja(AActor* currentActor);
-	void HandleOverlap();
+	UFUNCTION()
+		bool HandleOverlapWithWall(AActor* currentActor);
+	UFUNCTION()
+		void HandleOverlap();
 };

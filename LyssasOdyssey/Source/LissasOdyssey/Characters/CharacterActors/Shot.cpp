@@ -5,6 +5,7 @@
 #include "Characters/Lyssa/Lyssa.h"
 #include "Characters/Fylgja/Fylgja.h"
 #include "Characters/Foes/Foe.h"
+#include "WorldAssets/Wall.h"
 
 
 // Sets default values
@@ -158,6 +159,22 @@ bool AShot::HandleOverlapWithFylgja(AActor* currentActor)
 	}
 }
 
+bool AShot::HandleOverlapWithWall(AActor* currentActor)
+{
+	AWall* currentWall = Cast<AWall>(currentActor);
+	if (currentWall && currentWall->BlockShots)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("wall overlap in if"));
+		//UE_LOG(LogTemp, Warning, TEXT("wall block shot"));
+		CustomDestroy();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void AShot::HandleOverlap()
 {
 	//get overlaping actors and store them in an array
@@ -171,7 +188,10 @@ void AShot::HandleOverlap()
 		{
 			if (!HandleOverlapWithFylgja(currentActor))
 			{
-				HandleOverlapWithLyssa(currentActor);
+				if (!HandleOverlapWithLyssa(currentActor))
+				{
+					HandleOverlapWithWall(currentActor);
+				}
 			}
 		}
 	}
