@@ -25,9 +25,12 @@ protected:
 	void SwapLevel();
 
 private:
-	/** Static mesh to represent the Lyssa in the level*/
+	/** Static mesh to represent the Mesh in the level*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* PortalMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
+		class UStaticMeshComponent* PortalInterior;
 
 	UFUNCTION()
 		void HandleOverlap();

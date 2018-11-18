@@ -12,6 +12,9 @@ ALevelPortal::ALevelPortal()
 	//create the static mesh component
 	PortalMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PortalMesh"));
 	RootComponent = (USceneComponent*)PortalMesh;
+
+	PortalInterior = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PortalInterior"));
+	PortalInterior->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 // Called when the game starts or when spawned
@@ -33,7 +36,7 @@ void ALevelPortal::HandleOverlap()
 {
 	//get overlaping actors and store them in an array
 	TArray<AActor*> collectedActors;
-	PortalMesh->GetOverlappingActors(collectedActors);
+	PortalInterior->GetOverlappingActors(collectedActors);
 
 	for (size_t i = 0; i < collectedActors.Num(); ++i)
 	{
