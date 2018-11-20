@@ -11,17 +11,20 @@ AFoe::AFoe(const class FObjectInitializer& ObjectInitializer)
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//RootComponent = (USceneComponent*)GetMesh();
-
-	////create the static mesh component
-	//FoeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FoeMesh"));
-	//RootComponent = (USceneComponent*)FoeMesh;
+	//create the static mesh component
+	FoeColliderMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FoeColliderMesh"));
+	RootComponent = (USceneComponent*)FoeColliderMesh;
+	
+	//FoeSKMesh = CreateDefaultSubobject<USkeletalMesh>(TEXT("FoeSKMesh"));
+	//RootComponent = (USceneComponent*)FoeSKMesh;
 }
 
 // Called when the game starts or when spawned
 void AFoe::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Life = MaxLife;
 
 	//set references
 	World = GetWorld();
@@ -36,6 +39,8 @@ void AFoe::BeginPlay()
 	}
 
 	SetCurrentState(ECharacterActionState::EIdle);
+
+	FoeColliderMesh->SetVisibility(false);
 }
 
 bool AFoe::CustomDestroy()
@@ -44,10 +49,26 @@ bool AFoe::CustomDestroy()
 	return Super::Destroy();
 }
 
+float AFoe::GetCurrentLife()
+{
+	return Life;
+}
+
+void AFoe::UpdateLife(float lifeChange)
+{
+	Life += lifeChange;
+	if (Life > MaxLife)
+	{
+		Life = MaxLife;
+	}
+}
+
 //________________________________________________________________________
 
 void AFoe::LookAtPlayer()
 {
+	//UE_LOG(LogTemp, Log, TEXT("LookAtPlayer"));
+
 	FVector direction = Lyssa->GetActorLocation() - GetActorLocation();
 	direction = FVector(direction.X, direction.Y, 0);
 

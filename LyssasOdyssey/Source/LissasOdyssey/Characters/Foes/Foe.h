@@ -23,7 +23,7 @@ enum class ECharacterActionState : uint8
 };
 
 UCLASS()
-class LISSASODYSSEY_API AFoe : public ACharacterBase
+class LISSASODYSSEY_API AFoe : public AActor
 {
 	GENERATED_BODY()
 
@@ -36,6 +36,27 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+#pragma region Shots
+public:
+	UFUNCTION(BlueprintPure, Category = "Life")
+		float GetCurrentLife();
+
+	/**	function to update the foe's life
+	* @param powerChange This is the amount to change the power by, can be positive or negative
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Life")
+		void UpdateLife(float lifeChange);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Life")
+		float MaxLife = 100.0f;
+
+protected:
+	UPROPERTY(VisibleAnywhere, Category = "Life")
+		float Life;
+
+#pragma endregion
+
+public:
 	UFUNCTION(BlueprintPure, Category = "Foe")
 		ECharacterActionState GetCurrentState()const;
 
@@ -91,9 +112,17 @@ protected:
 		void DeathEffect();
 
 private:
+	/** Static mesh to represent the foe collider*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Foe", meta = (AllowPrivateAccess = "true"))
+		class UStaticMeshComponent* FoeColliderMesh;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe", meta = (AllowPrivateAccess = "true"))
+		//USkeletalMesh* FoeSKMesh;
+
 	UPROPERTY(VisibleAnywhere, Category = "Foe")
 		ECharacterActionState Currentstate;
 
 	void HandleNewState(ECharacterActionState newState);
+
 
 };
