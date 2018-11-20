@@ -96,6 +96,12 @@ public:
 		ALyssa* Lyssa;
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
+		bool InvisibleRootMesh = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
+		bool ShouldLookAtPlayer = true;
+
 	void LookAtPlayer();
 
 	void HandleShots();

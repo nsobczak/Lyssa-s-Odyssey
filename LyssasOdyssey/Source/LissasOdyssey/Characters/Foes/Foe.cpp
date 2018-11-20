@@ -14,7 +14,7 @@ AFoe::AFoe(const class FObjectInitializer& ObjectInitializer)
 	//create the static mesh component
 	FoeColliderMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FoeColliderMesh"));
 	RootComponent = (USceneComponent*)FoeColliderMesh;
-	
+
 	//FoeSKMesh = CreateDefaultSubobject<USkeletalMesh>(TEXT("FoeSKMesh"));
 	//RootComponent = (USceneComponent*)FoeSKMesh;
 }
@@ -40,7 +40,7 @@ void AFoe::BeginPlay()
 
 	SetCurrentState(ECharacterActionState::EIdle);
 
-	FoeColliderMesh->SetVisibility(false);
+	FoeColliderMesh->SetVisibility(!InvisibleRootMesh);
 }
 
 bool AFoe::CustomDestroy()
@@ -121,7 +121,8 @@ void AFoe::Tick(float DeltaTime)
 
 	else if (FVector::DistSquared(GetActorLocation(), Lyssa->GetActorLocation()) < PlayerDetectionDistance)
 	{
-		LookAtPlayer();
+		if (ShouldLookAtPlayer)
+			LookAtPlayer();
 
 		ShotCountdown -= DeltaTime;
 		if (ShotCountdown < 0.0f)

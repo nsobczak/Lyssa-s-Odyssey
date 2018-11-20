@@ -38,7 +38,7 @@ void AHindranceRock::HandleOverlap()
 	{
 		AActor* currentActor = collectedActors[i];
 		AShot* currentShot = Cast<AShot>(currentActor);
-		if (currentShot)
+		if (currentShot && currentShot->CanKillFoe)
 		{
 			isDestroyed = true;
 			HindranceMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);

@@ -66,7 +66,7 @@ void AShot::Move(float deltaTime)
 bool AShot::HandleOverlapWithFoe(AActor* currentActor)
 {
 	AFoe* currentFoe = Cast<AFoe>(currentActor);
-	if (currentFoe && CanKillFoe)
+	if (currentFoe && CanKillFoe && currentFoe->GetCurrentState() != ECharacterActionState::EDying)
 	{
 		//FString objectName = currentFoe->GetName();
 		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
