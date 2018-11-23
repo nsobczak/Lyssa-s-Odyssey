@@ -3,6 +3,7 @@
 #include "Foe.h"
 #include "GameModes/LevelGameMode.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AFoe::AFoe(const class FObjectInitializer& ObjectInitializer)
@@ -86,7 +87,7 @@ void AFoe::HandleShots()
 
 	shot->SetActorLocationAndRotation(GetActorLocation()
 		+ GetActorForwardVector() * ShotOffset.X + GetActorUpVector() * ShotOffset.Z, GetActorRotation());
-	shot->InitializeShot(ShotTTL, ShotSpeed);
+	shot->InitializeShot(this->GetActorLocation(), ShotTTL, ShotSpeed);
 	Shots.Add(shot);
 
 	ShotCountdown = ShotInterval;
@@ -106,6 +107,8 @@ void AFoe::CheckForDeath()
 void AFoe::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	//DrawDebugLine(GetWorld(), this->GetActorLocation(), this->GetActorLocation() + this->GetActorForwardVector() * 1000.0f, FColor::Red);
 
 	if (Life < 0.0f)
 		SetCurrentState(ECharacterActionState::EDying);

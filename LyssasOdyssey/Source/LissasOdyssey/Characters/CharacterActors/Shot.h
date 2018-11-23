@@ -23,7 +23,7 @@ public:
 	AShot();
 
 	UFUNCTION(BlueprintCallable, Category = "Shot")
-		void InitializeShot(float ttl, float speed);
+		void InitializeShot(FVector ownerLocation, float ttl, float speed);
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
