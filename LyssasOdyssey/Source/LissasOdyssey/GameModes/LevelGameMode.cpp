@@ -36,14 +36,16 @@ void ALevelGameMode::BeginPlay()
 	if (nullptr != HUDClass)
 	{
 		ShowHUD();
-		/*CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), HUDWidget);
-		if (nullptr != CurrentWidget)
-		{
-			CurrentWidget->AddToViewport();
-		}*/
 	}
 
 	LevelTimer = 0;
+	bPauseable = true;
+
+	APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
+	if (playerController)
+	{
+		playerController->SetInputMode(FInputModeGameAndUI());
+	}
 
 	if (ShowMouseCursorInLevel)
 	{
@@ -152,7 +154,6 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 			ShowHUD();
 			UGameplayStatics::SetGamePaused(GetWorld(), false);
 		}
-			
 
 		break;
 	}
@@ -177,6 +178,7 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 			APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
 			if (playerController)
 			{
+				playerController->SetInputMode(FInputModeUIOnly());
 				playerController->SetCinematicMode(true, false, false, true, true);
 			}
 			gameMode->ShowGameOverWidget();
@@ -197,6 +199,7 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 			APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
 			if (playerController)
 			{
+				playerController->SetInputMode(FInputModeUIOnly());
 				playerController->SetCinematicMode(true, false, false, true, true);
 			}
 			gameMode->ShowEndingWidget();
