@@ -36,12 +36,22 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	/**handles moving forward/backward*/
+	/**handles moving up*/
 	UFUNCTION()
-		void MoveUp(float Val);
-	/**handles strafing*/
+		void MoveUp(float value);
+	/**handles moving down*/
 	UFUNCTION()
-		void MoveRight(float Val);
+		void MoveDown(float value);
+	/**handles left*/
+	UFUNCTION()
+		void MoveLeft(float value);
+	/**handles right*/
+	UFUNCTION()
+		void MoveRight(float value);
+
+	/**call pause menu*/
+	UFUNCTION()
+		void PauseGame();
 
 	// === ScorePickupAmount ===
 	UFUNCTION(BlueprintPure, Category = "Pickups")
@@ -55,7 +65,6 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Pickups")
 		void CollectPickups();
-
 
 private:
 	/** Static mesh to represent the Lyssa in the level*/

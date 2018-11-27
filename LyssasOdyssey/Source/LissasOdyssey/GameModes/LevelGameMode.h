@@ -20,6 +20,7 @@ UENUM(BlueprintType)
 enum class ELevelPlayState : uint8
 {
 	EPlaying,
+	EPause,
 	EGameOver,
 	ELevelCompleted,
 	EUnknown
@@ -66,7 +67,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "GameController")
 		ELevelPlayState GetCurrentState()const;
 
-	void SetCurrentState(ELevelPlayState newState);
+	UFUNCTION(BlueprintCallable, Category = "GameController")
+		void SetCurrentState(ELevelPlayState newState);
 
 	//TODO: add infos here
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameTimer")
@@ -84,10 +86,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameTimer")
 		float DamageRateTimer = 0.0f;
-
-	/**widget to use for our HUD screen*/
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HUD", Meta = (BlueprintProtected = "true"))
-		TSubclassOf<class UUserWidget> HUDWidgetClass;
 
 private:
 	void CheckForDeath();

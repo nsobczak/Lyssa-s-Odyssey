@@ -3,6 +3,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Actor.h"
 
+#include "GameModes/LevelGameMode.h"
+
 #include "Camera/CameraComponent.h"
 #include "Runtime/Core/Public/Math/Vector.h"
 #include "ConstructorHelpers.h"
@@ -11,6 +13,7 @@
 #include "Pickups/Pickup.h"
 #include "Pickups/PickupLife.h"
 #include "Pickups/PickupScore.h"
+
 
 // Sets default values
 ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
@@ -86,14 +89,19 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	// set up gameplay key bindings
-	PlayerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
-	PlayerInputComponent->BindAxis("MoveRight", this, &ALyssa::MoveRight);
+	//// set up gameplay key bindings
+	//PlayerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
+	//PlayerInputComponent->BindAxis("MoveRight", this, &ALyssa::MoveRight);
+	PlayerInputComponent->BindAxisKey(EKeys::W, this, &ALyssa::MoveUp);
+	PlayerInputComponent->BindAxisKey(EKeys::S, this, &ALyssa::MoveDown);
+	PlayerInputComponent->BindAxisKey(EKeys::A, this, &ALyssa::MoveLeft);
+	PlayerInputComponent->BindAxisKey(EKeys::D, this, &ALyssa::MoveRight);
+	PlayerInputComponent->BindKey(EKeys::Tab, EInputEvent::IE_Pressed, this, &ALyssa::PauseGame);
 }
 
-void ALyssa::MoveUp(float Value)
+void ALyssa::MoveUp(float value)
 {
-	if ((Controller != NULL) && (Value != 0.0f))
+	if (Controller != NULL && value != 0)
 	{
 		// find out which way is up
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -101,23 +109,33 @@ void ALyssa::MoveUp(float Value)
 		// get direction vector 
 		const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
 		// add movement in that direction
-		AddMovementInput(Direction, Value);
+		AddMovementInput(Direction, value);
 
 		// Set Character's rotation
-		if (Value > 0)
-		{
-			this->GetMesh()->SetRelativeRotation(FRotator(0, 0, 0));
-		}
-		else
-		{
-			this->GetMesh()->SetRelativeRotation(FRotator(0, 180.0f, 0));
-		}
+		this->GetMesh()->SetRelativeRotation(FRotator(0, 0, 0));
 	}
 }
 
-void ALyssa::MoveRight(float Value)
+void ALyssa::MoveDown(float value)
 {
-	if ((Controller != NULL) && (Value != 0.0f))
+	if (Controller != NULL && value != 0)
+	{
+		// find out which way is up
+		const FRotator Rotation = Controller->GetControlRotation();
+		//const FRotator YawRotation(0, Rotation.Yaw, 0);
+		// get direction vector 
+		const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
+		// add movement in that direction
+		AddMovementInput(Direction, -value);
+
+		// Set Character's rotation
+		this->GetMesh()->SetRelativeRotation(FRotator(0, 180.0f, 0));
+	}
+}
+
+void ALyssa::MoveRight(float value)
+{
+	if (Controller != NULL && value != 0)
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -125,17 +143,38 @@ void ALyssa::MoveRight(float Value)
 		// get right vector 
 		const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
 		// add movement in that direction
-		AddMovementInput(Direction, Value);
+		AddMovementInput(Direction, value);
 
 		// Set Character's rotation
-		if (Value > 0)
-		{
-			this->GetMesh()->SetRelativeRotation(FRotator(0, 90.0f, 0));
-		}
-		else
-		{
-			this->GetMesh()->SetRelativeRotation(FRotator(0, 270.0f, 0));
-		}
+		this->GetMesh()->SetRelativeRotation(FRotator(0, 90.0f, 0));
+	}
+}
+
+void ALyssa::MoveLeft(float value)
+{
+	if (Controller != NULL && value != 0)
+	{
+		// find out which way is right
+		const FRotator Rotation = Controller->GetControlRotation();
+		//const FRotator YawRotation(0, Rotation.Yaw, 0);
+		// get right vector 
+		const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
+		// add movement in that direction
+		AddMovementInput(Direction, -value);
+
+		// Set Character's rotation
+		this->GetMesh()->SetRelativeRotation(FRotator(0, 270.0f, 0));
+	}
+}
+
+void ALyssa::PauseGame()
+{
+	// === GameMode ===
+	ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+	if (CurrentGameMode)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("Pause called"));
+		CurrentGameMode->SetCurrentState(ELevelPlayState::EPause);
 	}
 }
 

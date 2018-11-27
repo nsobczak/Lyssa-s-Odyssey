@@ -35,11 +35,12 @@ void ALevelGameMode::BeginPlay()
 	//hud
 	if (nullptr != HUDClass)
 	{
-		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), HUDWidgetClass);
+		ShowHUD();
+		/*CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), HUDWidget);
 		if (nullptr != CurrentWidget)
 		{
 			CurrentWidget->AddToViewport();
-		}
+		}*/
 	}
 
 	LevelTimer = 0;
@@ -144,6 +145,23 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 
 		//Lyssa
 		Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
+
+		//resume pause
+		if (UGameplayStatics::IsGamePaused(GetWorld()))
+		{
+			ShowHUD();
+			UGameplayStatics::SetGamePaused(GetWorld(), false);
+		}
+			
+
+		break;
+	}
+
+	case ELevelPlayState::EPause:
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("Game paused"));
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		ShowPauseWidget();
 
 		break;
 	}

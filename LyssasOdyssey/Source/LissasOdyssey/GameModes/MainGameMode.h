@@ -48,6 +48,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
 		APlayerController* PlayerController;
 
+	/**widget to use for our HUD screen*/
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HUD", Meta = (BlueprintProtected = "true"))
+		TSubclassOf<class UUserWidget> HUDWidget;
+
 
 public:
 	virtual void Tick(float DeltaTime) override;
@@ -69,6 +73,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
 		void ShowPauseWidget();
+
+	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
+		void ShowHUD();
 
 	/** Decrease if increase is false */
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")

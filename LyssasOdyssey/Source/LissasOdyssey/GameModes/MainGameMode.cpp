@@ -132,6 +132,11 @@ void AMainGameMode::ShowPauseWidget()
 	ChangeMenuWidget(PauseWidgetClass, true);
 }
 
+void AMainGameMode::ShowHUD()
+{
+	ChangeMenuWidget(HUDWidget, false);
+}
+
 
 #pragma endregion
 
