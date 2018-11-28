@@ -81,45 +81,77 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
 		void ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase);
 
+	/** Assign a new key to an input */
+	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
+		void AssignNewKey(FKey newKey, int moveToChangeIndex);
+
+	///** Assign a new key to an input */
+	//UFUNCTION(BlueprintCallable, Category = "Game_Settings")
+	//	FKey ListenToPlayerInput();
+
 #pragma region game settings
+
+#pragma region graphic settings
 	////labels
 	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game_Settings") FText MainSettingsLabel[4];
 	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game_Settings") FText FPSSettingsLabel[4];
-	UPROPERTY(EditAnywhere, Category = "Game_Settings") FString MainSettingsLabel[4] = { "Low", "Medium","High","Ultra" };
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString MainSettingsLabel[4] = { "Low", "Medium","High","Ultra" };
 	UPROPERTY(BlueprintReadOnly) TArray<FText> TAMainSettingsLabel;
-	UPROPERTY(EditAnywhere, Category = "Game_Settings") FString FPSSettingsLabel[4] = { "15Hz", "30Hz","60Hz","144Hz" };
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString FPSSettingsLabel[4] = { "15Hz", "30Hz","60Hz","144Hz" };
 	UPROPERTY(BlueprintReadOnly) TArray<FText> TAFPSSettingsLabel;
-	UPROPERTY(EditAnywhere, Category = "Game_Settings") FString ResolutionLabel[4] = { "800x600","1280x720", "1600x900", "1920x1080" };
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString ResolutionLabel[4] = { "800x600","1280x720", "1600x900", "1920x1080" };
 	UPROPERTY(BlueprintReadOnly) TArray<FText> TAResolutionLabel;
 
 	//commands
-	UPROPERTY(EditAnywhere, Category = "Game_Settings") FString GraphicalCommands[4] = { "r.ScreenPercentage 25", "r.ScreenPercentage 50","r.ScreenPercentage 75","r.ScreenPercentage 100" };
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString GraphicalCommands[4] = { "r.ScreenPercentage 25", "r.ScreenPercentage 50","r.ScreenPercentage 75","r.ScreenPercentage 100" };
 	TArray<FString> TAGraphicalCommands;
-	UPROPERTY(EditAnywhere, Category = "Game_Settings") FString PPCommands[4] = { "sg.PostProcessQuality 0","sg.PostProcessQuality 1", "sg.PostProcessQuality 2", "sg.PostProcessQuality 3" };
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString PPCommands[4] = { "sg.PostProcessQuality 0","sg.PostProcessQuality 1", "sg.PostProcessQuality 2", "sg.PostProcessQuality 3" };
 	TArray<FString> TAPPCommands;
-	UPROPERTY(EditAnywhere, Category = "Game_Settings") FString AACommands[4] = { "r.PostProcessAAQuality 0","r.PostProcessAAQuality 1", "r.PostProcessAAQuality 2", "r.PostProcessAAQuality 3" };
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString AACommands[4] = { "r.PostProcessAAQuality 0","r.PostProcessAAQuality 1", "r.PostProcessAAQuality 2", "r.PostProcessAAQuality 3" };
 	TArray<FString> TAAACommands;
-	UPROPERTY(EditAnywhere, Category = "Game_Settings") FString ShadowCommands[4] = { "sg.ShadowQuality 0","sg.ShadowQuality 1", "sg.ShadowQuality 2", "sg.ShadowQuality 3" };
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString ShadowCommands[4] = { "sg.ShadowQuality 0","sg.ShadowQuality 1", "sg.ShadowQuality 2", "sg.ShadowQuality 3" };
 	TArray<FString> TAShadowCommands;
-	UPROPERTY(EditAnywhere, Category = "Game_Settings") FString FPSCommands[4] = { "t.MaxFPS 15","t.MaxFPS 30", "t.MaxFPS 60", "t.MaxFPS 144" };
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString FPSCommands[4] = { "t.MaxFPS 15","t.MaxFPS 30", "t.MaxFPS 60", "t.MaxFPS 144" };
 	TArray<FString> TAFPSCommands;
-	UPROPERTY(EditAnywhere, Category = "Game_Settings") FString ResCommands[4] = { "r.SetRes 800x600w","r.SetRes 1280x720w", "r.SetRes 1600x900w", "r.SetRes 1920x1080w" };
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString ResCommands[4] = { "r.SetRes 800x600w","r.SetRes 1280x720w", "r.SetRes 1600x900w", "r.SetRes 1920x1080w" };
 	TArray<FString> TAResCommands;
 	//1280x720w ou f
 
 	//indexes
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game_Settings")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		int32 GraphicalIndex = 2;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game_Settings")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		int32 PPIndex = 2;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game_Settings")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		int32 AAIndex = 2;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game_Settings")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		int32 ShadowIndex = 2;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game_Settings")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		int32 FPSIndex = 2;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game_Settings")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		int32 ResIndex = 3;
+#pragma endregion
+
+#pragma region audio settings
+	//main volume
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio_Settings")
+		float MasterVolume = 1.0f;
+#pragma endregion
+
+#pragma region keybind settings
+
+	//list of moves' label
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
+		TArray<FString> KeyLabels = { "Move Up", "Move Down", "Move Left", "Move Right", "Start/Pause" };
+		//FString KeyLabels[5] = { "Move Up", "Move Down", "Move Left", "Move Right", "Start/Pause" };
+
+	//list of keys
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
+		TArray<FKey> KeyList = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::Tab };
+		//FKey KeyList[5] = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::Tab };
+
+#pragma endregion
+
 #pragma endregion
 
 

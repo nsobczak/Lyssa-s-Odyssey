@@ -206,6 +206,16 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 		GetWorld()->Exec(GetWorld(), *(commandList[commandIndex]));
 }
 
+void AMainGameMode::AssignNewKey(FKey newKey, int moveToChangeIndex)
+{
+	this->KeyList[moveToChangeIndex] = newKey;
+}
+
+//FKey AMainGameMode::ListenToPlayerInput();
+//{
+//	return EKeys::W;
+//}
+
 void AMainGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
