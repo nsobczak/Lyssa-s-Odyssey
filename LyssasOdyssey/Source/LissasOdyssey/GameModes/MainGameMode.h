@@ -71,7 +71,7 @@ public:
 		void LoadGameSettings();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
-		FString SaveSlotName = FString(TEXT("PlayerSlot"));
+		FString SaveSlotName = FString(TEXT("PlayerSaveSlot"));
 
 	UPROPERTY(EditAnywhere, Category = "Menu_Settings") bool isMenu = false;
 

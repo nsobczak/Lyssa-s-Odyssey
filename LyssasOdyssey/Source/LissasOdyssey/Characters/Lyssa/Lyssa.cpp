@@ -108,10 +108,6 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		PlayerInputComponent->BindAxisKey(keys[1], this, &ALyssa::MoveDown);
 		PlayerInputComponent->BindAxisKey(keys[2], this, &ALyssa::MoveLeft);
 		PlayerInputComponent->BindAxisKey(keys[3], this, &ALyssa::MoveRight);
-		//PlayerInputComponent->BindKey(keys[0], EInputEvent::IE_Pressed, this, &ALyssa::MoveUp);
-		//PlayerInputComponent->BindKey(keys[1], EInputEvent::IE_Pressed, this, &ALyssa::MoveDown);
-		//PlayerInputComponent->BindKey(keys[2], EInputEvent::IE_Pressed, this, &ALyssa::MoveLeft);
-		//PlayerInputComponent->BindKey(keys[3], EInputEvent::IE_Pressed, this, &ALyssa::MoveRight);
 		PlayerInputComponent->BindKey(keys[4], EInputEvent::IE_Pressed, this, &ALyssa::PauseGame);
 	}
 }

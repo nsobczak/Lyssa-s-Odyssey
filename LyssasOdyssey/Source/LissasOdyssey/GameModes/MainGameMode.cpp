@@ -346,6 +346,8 @@ void AMainGameMode::ListenToNewKeyForMove(int moveToChangeIndex)
 				keyPressed = allKeys[i];
 				FString keyPressedString = keyPressed.ToString();
 				UE_LOG(LogTemp, Warning, TEXT("key %s was pressed"), *keyPressedString);
+				if (keyPressed.IsGamepadKey())
+					UE_LOG(LogTemp, Log, TEXT("key %s is gamepadKey"), *keyPressedString);
 
 				AssignNewKey(keyPressed, moveToChangeIndex);
 				IsListeningToKey = false;
