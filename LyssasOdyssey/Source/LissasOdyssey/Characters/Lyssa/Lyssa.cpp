@@ -89,14 +89,21 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	//// set up gameplay key bindings
-	//PlayerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
-	//PlayerInputComponent->BindAxis("MoveRight", this, &ALyssa::MoveRight);
-	PlayerInputComponent->BindAxisKey(EKeys::W, this, &ALyssa::MoveUp);
-	PlayerInputComponent->BindAxisKey(EKeys::S, this, &ALyssa::MoveDown);
-	PlayerInputComponent->BindAxisKey(EKeys::A, this, &ALyssa::MoveLeft);
-	PlayerInputComponent->BindAxisKey(EKeys::D, this, &ALyssa::MoveRight);
-	PlayerInputComponent->BindKey(EKeys::Tab, EInputEvent::IE_Pressed, this, &ALyssa::PauseGame);
+	// === GameMode ===
+	ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+	if (CurrentGameMode)
+	{
+		TArray<FKey> keys = CurrentGameMode->KeyList;
+
+		//// set up gameplay key bindings
+		//PlayerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
+		//PlayerInputComponent->BindAxis("MoveRight", this, &ALyssa::MoveRight);
+		PlayerInputComponent->BindAxisKey(keys[0], this, &ALyssa::MoveUp);
+		PlayerInputComponent->BindAxisKey(keys[1], this, &ALyssa::MoveDown);
+		PlayerInputComponent->BindAxisKey(keys[2], this, &ALyssa::MoveLeft);
+		PlayerInputComponent->BindAxisKey(keys[3], this, &ALyssa::MoveRight);
+		PlayerInputComponent->BindKey(keys[4], EInputEvent::IE_Pressed, this, &ALyssa::PauseGame);
+	}
 }
 
 void ALyssa::MoveUp(float value)

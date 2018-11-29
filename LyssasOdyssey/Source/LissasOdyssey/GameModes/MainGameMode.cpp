@@ -3,6 +3,7 @@
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Characters/Lyssa/Lyssa.h"
 #include "Blueprint/UserWidget.h"
+#include "SaveSlots/MainSaveGame.h"
 
 #pragma region Initialization
 //==============================================================================================
@@ -21,6 +22,103 @@ AMainGameMode::AMainGameMode()
 
 	//HUDClass = AFPSHUD::StaticClass();
 }
+
+#pragma region GameSave
+
+void AMainGameMode::SaveCurrentMainSaveGameValues(UMainSaveGame* SaveInstance)
+{
+	// Values
+	SaveInstance->GraphicalIndex = this->GraphicalIndex;
+	SaveInstance->PPIndex = this->PPIndex;
+	SaveInstance->AAIndex = this->AAIndex;
+	SaveInstance->ShadowIndex = this->ShadowIndex;
+	SaveInstance->FPSIndex = this->FPSIndex;
+	SaveInstance->ResolutionIndex = this->ResIndex;
+
+	SaveInstance->MasterVolumeSliderValue = this->MasterVolume;
+
+	SaveInstance->PlayerKeys = this->KeyList;
+
+	// Save computer local date
+	SaveInstance->PlayerSaveSlotDate = FDateTime::Now();
+
+	// Save to slot
+	UGameplayStatics::SaveGameToSlot(SaveInstance, SaveSlotName, 0);
+
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString(TEXT("Game saved!")), true);
+}
+
+void AMainGameMode::SaveGameSettings()
+{
+	// Create save game object, make sure it exists, then save player variables
+	class UMainSaveGame* SaveInstance = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(UMainSaveGame::StaticClass()));
+
+	if (SaveInstance->IsValidLowLevel())
+	{
+		SaveCurrentMainSaveGameValues(SaveInstance);
+	}
+	else
+	{
+		// If the save game object is not found, create a new one
+		class UMainSaveGame* SaveInstanceAlternate = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(
+			UMainSaveGame::StaticClass()));
+
+		if (!SaveInstanceAlternate)
+			return;
+		else
+			SaveCurrentMainSaveGameValues(SaveInstanceAlternate);
+	}
+	// Windows .Sav File Paths:
+		// If in editor:			\Unreal Projects\{UE4_PROJECT_NAME}\Saved\SaveGames\PlayerSaveSlot.sav
+		// If in packaged game:		C:\Users\{YOUR_USERNAME}\AppData\Local\{UE4_PROJECT_NAME}\Saved\SaveGames\PlayerSaveSlot.sav
+}
+
+void AMainGameMode::LoadSettings(UMainSaveGame * &LoadInstance)
+{
+	LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
+
+	this->GraphicalIndex = LoadInstance->GraphicalIndex;
+	this->PPIndex = LoadInstance->PPIndex;
+	this->AAIndex = LoadInstance->AAIndex;
+	this->ShadowIndex = LoadInstance->ShadowIndex;
+	this->FPSIndex = LoadInstance->FPSIndex;
+	this->ResIndex = LoadInstance->ResolutionIndex;
+
+	this->MasterVolume = LoadInstance->MasterVolumeSliderValue;
+
+	this->KeyList = LoadInstance->PlayerKeys;
+
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Purple, FString(TEXT("Game loaded from save!")), true);
+}
+
+void AMainGameMode::LoadGameSettings()
+{
+	// Only load game stats if the load .sav file exists
+	if (UGameplayStatics::DoesSaveGameExist(SaveSlotName, 0))
+	{
+		class UMainSaveGame* LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(UMainSaveGame::StaticClass()));
+
+		if (LoadInstance->IsValidLowLevel())
+		{
+			LoadSettings(LoadInstance);
+		}
+		else
+		{
+			// If save game object not found, create a new one
+			class UMainSaveGame* LoadInstanceAlternate = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(
+				UMainSaveGame::StaticClass()));
+
+			if (!LoadInstanceAlternate)
+				return;
+			else
+				LoadSettings(LoadInstanceAlternate);
+		}
+	}
+	else
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString(TEXT("No save game found.")), true);
+}
+#pragma endregion
+
 
 void AMainGameMode::InitializeSettingsMenu()
 {
@@ -67,12 +165,16 @@ void AMainGameMode::InitializeSettingsMenu()
 	GetWorld()->Exec(GetWorld(), *Final4);
 }
 
+
 void AMainGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	PlayerController->bAutoManageActiveCameraTarget = false;
+
+	//TODO: load saved settings here
+	LoadGameSettings();
 
 	if (isMenu)
 	{
@@ -208,13 +310,39 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 
 void AMainGameMode::AssignNewKey(FKey newKey, int moveToChangeIndex)
 {
-	this->KeyList[moveToChangeIndex] = newKey;
+	//TODO: check if key is not already used, if it used do not assign it
+	//this->KeyList[moveToChangeIndex] = newKey;
+	this->KeyList.RemoveAt(moveToChangeIndex);
+	this->KeyList.Insert(newKey, moveToChangeIndex);
 }
 
-//FKey AMainGameMode::ListenToPlayerInput();
-//{
-//	return EKeys::W;
-//}
+void AMainGameMode::ListenToNewKeyForMove(int moveToChangeIndex)
+{
+	IsListeningToKey = true;
+
+	//TODO: a while loop to wait for key ? + add timer 10" like to automaticaly exit if no key was pressed before
+	if (PlayerController->IsInputKeyDown(EKeys::AnyKey))//if any key pressed
+	{
+		//retrieve any key pressed
+		FKey keyPressed;
+		TArray<FKey> allKeys;
+		EKeys::GetAllKeys(allKeys);
+		for (size_t i = 0; i < allKeys.Num(); ++i)
+		{
+			if (allKeys[i] != EKeys::AnyKey && PlayerController->IsInputKeyDown(allKeys[i]))
+			{
+				keyPressed = allKeys[i];
+				FString keyPressedString = keyPressed.ToString();
+				UE_LOG(LogTemp, Warning, TEXT("key %s was pressed"), *keyPressedString);
+
+				AssignNewKey(keyPressed, moveToChangeIndex);
+				IsListeningToKey = false;
+			}
+		}
+
+		//TODO: block ui input when IsListeningToKey is true to prevent user from changing menu
+	}
+}
 
 void AMainGameMode::Tick(float DeltaTime)
 {

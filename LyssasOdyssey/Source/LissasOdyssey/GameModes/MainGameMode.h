@@ -21,9 +21,15 @@ public:
 	AMainGameMode();
 
 protected:
-	void InitializeSettingsMenu();
 	/** Called when the game starts. */
 	virtual void BeginPlay() override;
+
+	void InitializeSettingsMenu();
+
+	UFUNCTION()
+		void SaveCurrentMainSaveGameValues(class UMainSaveGame* SaveInstance);
+	UFUNCTION()
+		void LoadSettings(class UMainSaveGame * &LoadInstance);
 
 	/** The widget class we will use as our menu when the game starts. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
@@ -52,9 +58,20 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HUD", Meta = (BlueprintProtected = "true"))
 		TSubclassOf<class UUserWidget> HUDWidget;
 
+	/** Assign a new key to an input if not already used */
+	UFUNCTION()
+		void AssignNewKey(FKey newKey, int moveToChangeIndex);
 
 public:
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
+		void SaveGameSettings();
+	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
+		void LoadGameSettings();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+		FString SaveSlotName = FString(TEXT("PlayerSlot"));
 
 	UPROPERTY(EditAnywhere, Category = "Menu_Settings") bool isMenu = false;
 
@@ -78,16 +95,15 @@ public:
 		void ShowHUD();
 
 	/** Decrease if increase is false */
-	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
+	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
 		void ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase);
 
 	/** Assign a new key to an input */
-	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
-		void AssignNewKey(FKey newKey, int moveToChangeIndex);
+	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
+		void ListenToNewKeyForMove(int moveToChangeIndex);
 
-	///** Assign a new key to an input */
-	//UFUNCTION(BlueprintCallable, Category = "Game_Settings")
-	//	FKey ListenToPlayerInput();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
+		bool IsListeningToKey = false;
 
 #pragma region game settings
 
@@ -143,12 +159,12 @@ public:
 	//list of moves' label
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		TArray<FString> KeyLabels = { "Move Up", "Move Down", "Move Left", "Move Right", "Start/Pause" };
-		//FString KeyLabels[5] = { "Move Up", "Move Down", "Move Left", "Move Right", "Start/Pause" };
+	//FString KeyLabels[5] = { "Move Up", "Move Down", "Move Left", "Move Right", "Start/Pause" };
 
 	//list of keys
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		TArray<FKey> KeyList = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::Tab };
-		//FKey KeyList[5] = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::Tab };
+	//FKey KeyList[5] = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::Tab };
 
 #pragma endregion
 
