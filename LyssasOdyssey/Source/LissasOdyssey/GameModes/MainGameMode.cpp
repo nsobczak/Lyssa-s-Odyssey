@@ -88,6 +88,18 @@ void AMainGameMode::LoadSettings(UMainSaveGame * &LoadInstance)
 
 	this->KeyList = LoadInstance->PlayerKeys;
 
+	ALyssa* player = (ALyssa*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	if (nullptr != player)
+	{
+		UE_LOG(LogTemp, Log, TEXT("player is %s | player->InputComponent = %s"), *(player->GetName()), *(player->InputComponent->GetFName().ToString()));
+		player->SetupPlayerInputComponent(player->InputComponent);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("no player pawn detected in level"));
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("Game loaded from save!"));
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Purple, FString(TEXT("Game loaded from save!")), true);
 }
 

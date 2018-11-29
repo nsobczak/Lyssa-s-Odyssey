@@ -93,7 +93,13 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
 	if (CurrentGameMode)
 	{
+		//UE_LOG(LogTemp, Warning, TEXT("called SetupPlayerInputComponent"));
+
+		//TODO: debind all
+
 		TArray<FKey> keys = CurrentGameMode->KeyList;
+		UE_LOG(LogTemp, Log, TEXT("keys: %s %s %s %s %s"), *(keys[0].ToString()), *(keys[1].ToString()),
+			*(keys[2].ToString()), *(keys[3].ToString()), *(keys[4].ToString()));
 
 		//// set up gameplay key bindings
 		//PlayerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
@@ -102,6 +108,10 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		PlayerInputComponent->BindAxisKey(keys[1], this, &ALyssa::MoveDown);
 		PlayerInputComponent->BindAxisKey(keys[2], this, &ALyssa::MoveLeft);
 		PlayerInputComponent->BindAxisKey(keys[3], this, &ALyssa::MoveRight);
+		//PlayerInputComponent->BindKey(keys[0], EInputEvent::IE_Pressed, this, &ALyssa::MoveUp);
+		//PlayerInputComponent->BindKey(keys[1], EInputEvent::IE_Pressed, this, &ALyssa::MoveDown);
+		//PlayerInputComponent->BindKey(keys[2], EInputEvent::IE_Pressed, this, &ALyssa::MoveLeft);
+		//PlayerInputComponent->BindKey(keys[3], EInputEvent::IE_Pressed, this, &ALyssa::MoveRight);
 		PlayerInputComponent->BindKey(keys[4], EInputEvent::IE_Pressed, this, &ALyssa::PauseGame);
 	}
 }
