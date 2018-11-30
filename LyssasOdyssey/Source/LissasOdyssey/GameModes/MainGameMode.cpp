@@ -322,17 +322,26 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 
 void AMainGameMode::AssignNewKey(FKey newKey, int moveToChangeIndex)
 {
-	//TODO: check if key is not already used, if it used do not assign it
-	//this->KeyList[moveToChangeIndex] = newKey;
-	this->KeyList.RemoveAt(moveToChangeIndex);
-	this->KeyList.Insert(newKey, moveToChangeIndex);
+	//Check if key is not already used, swap with old one if it is
+	if (this->KeyList.Contains(newKey))
+	{
+		this->KeyList.Swap(moveToChangeIndex, this->KeyList.IndexOfByKey(newKey));
+	}
+	else
+	{
+		this->KeyList.RemoveAt(moveToChangeIndex);
+		this->KeyList.Insert(newKey, moveToChangeIndex);
+	}
 }
 
-void AMainGameMode::ListenToNewKeyForMove(int moveToChangeIndex)
+void AMainGameMode::ListenToNewKeyForMove(int moveToChangeIndex, int iteration)
 {
-	IsListeningToKey = true;
+	if (iteration >= 50) { IsListeningToKey = false;  return; }
 
-	//TODO: a while loop to wait for key ? + add timer 10" like to automaticaly exit if no key was pressed before
+	FKey boundKey = this->KeyList[moveToChangeIndex];
+	IsListeningToKey = true;
+	ListeningToKeyIndex = moveToChangeIndex;
+
 	if (PlayerController->IsInputKeyDown(EKeys::AnyKey))//if any key pressed
 	{
 		//retrieve any key pressed
@@ -350,12 +359,20 @@ void AMainGameMode::ListenToNewKeyForMove(int moveToChangeIndex)
 					UE_LOG(LogTemp, Log, TEXT("key %s is gamepadKey"), *keyPressedString);
 
 				AssignNewKey(keyPressed, moveToChangeIndex);
+				boundKey = keyPressed;
 				IsListeningToKey = false;
+
+				return;
 			}
 		}
 
 		//TODO: block ui input when IsListeningToKey is true to prevent user from changing menu
 	}
+
+	FTimerHandle TimerHandle; // Handle to manage the timer
+	FTimerDelegate TimerDel; //Bind function with parameters
+	TimerDel.BindUFunction(this, FName("ListenToNewKeyForMove"), moveToChangeIndex, iteration + 1);
+	GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, 0.1f, false);
 }
 
 void AMainGameMode::Tick(float DeltaTime)

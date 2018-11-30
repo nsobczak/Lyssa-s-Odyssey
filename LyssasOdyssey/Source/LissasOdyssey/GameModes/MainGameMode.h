@@ -75,6 +75,7 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Menu_Settings") bool isMenu = false;
 
+#pragma region graphic settings
 	/** Remove the current menu widget and create a new one from the specified class, if provided. */
 	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
 		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor = false);
@@ -94,20 +95,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
 		void ShowHUD();
 
-	/** Decrease if increase is false */
-	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
-		void ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase);
-
-	/** Assign a new key to an input */
-	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
-		void ListenToNewKeyForMove(int moveToChangeIndex);
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
-		bool IsListeningToKey = false;
+#pragma endregion
 
 #pragma region game settings
 
 #pragma region graphic settings
+	/** Decrease if increase is false */
+	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
+		void ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase);
+
 	////labels
 	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game_Settings") FText MainSettingsLabel[4];
 	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game_Settings") FText FPSSettingsLabel[4];
@@ -155,16 +151,22 @@ public:
 #pragma endregion
 
 #pragma region keybind settings
+	/** Assign a new key to an input */
+	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
+		void ListenToNewKeyForMove(int moveToChangeIndex, int iteration);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
+		bool IsListeningToKey = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
+		int ListeningToKeyIndex;
 
 	//list of moves' label
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		TArray<FString> KeyLabels = { "Move Up", "Move Down", "Move Left", "Move Right", "Start/Pause" };
-	//FString KeyLabels[5] = { "Move Up", "Move Down", "Move Left", "Move Right", "Start/Pause" };
 
 	//list of keys
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		TArray<FKey> KeyList = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::Tab };
-	//FKey KeyList[5] = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::Tab };
 
 #pragma endregion
 
