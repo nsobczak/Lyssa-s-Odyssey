@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "SaveSlots/MainSaveGame.h"
+
 #include "MainGameMode.generated.h"
 
 
@@ -75,7 +77,7 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Menu_Settings") bool isMenu = false;
 
-#pragma region graphic settings
+#pragma region widget functions
 	/** Remove the current menu widget and create a new one from the specified class, if provided. */
 	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
 		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor = false);
@@ -98,6 +100,15 @@ public:
 #pragma endregion
 
 #pragma region game settings
+
+#pragma region general settings
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "General_Settings")
+		ELanguages CurrentLanguage;
+
+	/** Decrease if increase is false */
+	UFUNCTION(BlueprintCallable, Category = "General_Settings")
+		void ChangeCurrentLanguage(bool increase);
+#pragma endregion
 
 #pragma region graphic settings
 	/** Decrease if increase is false */

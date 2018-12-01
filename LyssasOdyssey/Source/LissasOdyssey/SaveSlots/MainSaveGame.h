@@ -6,6 +6,9 @@
 #include "GameFramework/SaveGame.h"
 #include "MainSaveGame.generated.h"
 
+
+UENUM(BlueprintType)
+enum class ELanguages : uint8 {en, fr, count};
 /**
  *
  */
@@ -28,6 +31,9 @@ public:
 		FDateTime PlayerSaveSlotDate;
 
 #pragma region Settings
+	UPROPERTY(EditAnywhere, Category = "settings")
+		ELanguages CurrentLanguage;
+
 	UPROPERTY(EditAnywhere, Category = "settings")
 		int32 GraphicalIndex;
 	UPROPERTY(EditAnywhere, Category = "settings")

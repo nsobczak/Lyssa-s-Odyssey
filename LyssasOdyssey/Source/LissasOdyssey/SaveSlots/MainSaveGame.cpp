@@ -5,6 +5,9 @@
 
 UMainSaveGame::UMainSaveGame()
 {
+	//general
+	CurrentLanguage = ELanguages::en;
+
 	//graphic
 	GraphicalIndex = 2;
 	PPIndex = 2;

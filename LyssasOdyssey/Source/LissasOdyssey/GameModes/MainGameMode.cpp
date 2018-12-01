@@ -3,7 +3,6 @@
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Characters/Lyssa/Lyssa.h"
 #include "Blueprint/UserWidget.h"
-#include "SaveSlots/MainSaveGame.h"
 
 #pragma region Initialization
 //==============================================================================================
@@ -28,6 +27,8 @@ AMainGameMode::AMainGameMode()
 void AMainGameMode::SaveCurrentMainSaveGameValues(UMainSaveGame* SaveInstance)
 {
 	// Values
+	SaveInstance->CurrentLanguage = this->CurrentLanguage;
+
 	SaveInstance->GraphicalIndex = this->GraphicalIndex;
 	SaveInstance->PPIndex = this->PPIndex;
 	SaveInstance->AAIndex = this->AAIndex;
@@ -76,6 +77,8 @@ void AMainGameMode::SaveGameSettings()
 void AMainGameMode::LoadSettings(UMainSaveGame * &LoadInstance)
 {
 	LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
+
+	this->CurrentLanguage = LoadInstance->CurrentLanguage;
 
 	this->GraphicalIndex = LoadInstance->GraphicalIndex;
 	this->PPIndex = LoadInstance->PPIndex;
@@ -254,6 +257,21 @@ void AMainGameMode::ShowHUD()
 
 #pragma endregion
 
+
+void AMainGameMode::ChangeCurrentLanguage(bool increase)
+{
+	uint8 maxIndexCurrentLanguage = (uint8)ELanguages::count;
+	uint8 uint8CurrentLanguage = (uint8)this->CurrentLanguage;
+
+	if (increase && uint8CurrentLanguage == maxIndexCurrentLanguage - 1)
+		uint8CurrentLanguage = 0;
+	else if (!increase && uint8CurrentLanguage == 0)
+		uint8CurrentLanguage = maxIndexCurrentLanguage - 1;
+	else
+		increase ? ++uint8CurrentLanguage : --uint8CurrentLanguage;
+
+	this->CurrentLanguage = (ELanguages)uint8CurrentLanguage;
+}
 
 void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase)
 {
