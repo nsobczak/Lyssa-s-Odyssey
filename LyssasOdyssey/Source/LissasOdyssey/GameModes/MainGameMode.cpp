@@ -203,6 +203,8 @@ void AMainGameMode::BeginPlay()
 #pragma region Widgets
 void AMainGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor)
 {
+	OldWidget = CurrentWidget;
+
 	if (CurrentWidget != nullptr)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("current widget not null"));

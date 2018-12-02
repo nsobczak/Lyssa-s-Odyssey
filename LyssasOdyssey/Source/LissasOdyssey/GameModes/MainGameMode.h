@@ -53,6 +53,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
 		UUserWidget* CurrentWidget;
 
+	/** The widget instance that we used. (useful for return buttons) */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
+		UUserWidget* OldWidget;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
 		APlayerController* PlayerController;
 
