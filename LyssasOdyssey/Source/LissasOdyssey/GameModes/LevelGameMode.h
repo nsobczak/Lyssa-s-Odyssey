@@ -80,6 +80,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "GameTimer")
 		FText GetTimerForHud();
 
+	/*UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
+		void ShowDialogueWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor, , FString TextToDisplay);*/
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
 		float DamageRate = 100.0f;

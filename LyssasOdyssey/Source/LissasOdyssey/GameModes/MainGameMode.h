@@ -82,6 +82,18 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Menu_Settings") bool isMenu = false;
 
 #pragma region widget functions
+	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
+		void ShowCursor(bool showCursor);
+	
+	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
+		void ShowWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor);
+
+	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
+		void HideWidget(UUserWidget* widgetToHide, bool showCursor);
+
+	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
+		void HideCurrentWidget(bool showCursor);
+
 	/** Remove the current menu widget and create a new one from the specified class, if provided. */
 	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
 		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor = false);
@@ -98,7 +110,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
 		void ShowPauseWidget();
 
-	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
+	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void ShowHUD();
 
 #pragma endregion
@@ -118,16 +130,6 @@ public:
 	/** Decrease if increase is false */
 	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
 		void ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase);
-
-	////labels
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game_Settings") FText MainSettingsLabel[4];
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game_Settings") FText FPSSettingsLabel[4];
-	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString MainSettingsLabel[4] = { "Low", "Medium","High","Ultra" };
-	UPROPERTY(BlueprintReadOnly) TArray<FText> TAMainSettingsLabel;
-	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString FPSSettingsLabel[4] = { "15Hz", "30Hz","60Hz","144Hz" };
-	UPROPERTY(BlueprintReadOnly) TArray<FText> TAFPSSettingsLabel;
-	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString ResolutionLabel[4] = { "800x600","1280x720", "1600x900", "1920x1080" };
-	UPROPERTY(BlueprintReadOnly) TArray<FText> TAResolutionLabel;
 
 	//commands
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString GraphicalCommands[4] = { "r.ScreenPercentage 25", "r.ScreenPercentage 50","r.ScreenPercentage 75","r.ScreenPercentage 100" };
@@ -175,11 +177,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
 		int ListeningToKeyIndex;
 
-	//list of moves' label
+	/**list of moves' label*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		TArray<FString> KeyLabels = { "Move Up", "Move Down", "Move Left", "Move Right", "Start/Pause" };
 
-	//list of keys
+	/**list of keys*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		TArray<FKey> KeyList = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::Tab };
 

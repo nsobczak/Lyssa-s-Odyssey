@@ -137,28 +137,6 @@ void AMainGameMode::LoadGameSettings()
 
 void AMainGameMode::InitializeSettingsMenu()
 {
-	//label
-	TArray<FString> tmpMainSettingsLabel;
-	tmpMainSettingsLabel.Append(MainSettingsLabel, ARRAY_COUNT(MainSettingsLabel));
-	for (size_t i = 0; i < tmpMainSettingsLabel.Num(); i++)
-	{
-		TAMainSettingsLabel.Add(FText::FromString(tmpMainSettingsLabel[i]));
-	}
-
-	TArray<FString> tmpFPSSettingsLabel;
-	tmpFPSSettingsLabel.Append(FPSSettingsLabel, ARRAY_COUNT(FPSSettingsLabel));
-	for (size_t i = 0; i < tmpFPSSettingsLabel.Num(); i++)
-	{
-		TAFPSSettingsLabel.Add(FText::FromString(tmpFPSSettingsLabel[i]));
-	}
-
-	TArray<FString> tmpResolutionLabel;
-	tmpResolutionLabel.Append(ResolutionLabel, ARRAY_COUNT(ResolutionLabel));
-	for (size_t i = 0; i < tmpResolutionLabel.Num(); i++)
-	{
-		TAResolutionLabel.Add(FText::FromString(tmpResolutionLabel[i]));
-	}
-
 	//command
 	TAGraphicalCommands.Append(GraphicalCommands, ARRAY_COUNT(GraphicalCommands));
 	TAPPCommands.Append(GraphicalCommands, ARRAY_COUNT(PPCommands));
@@ -201,14 +179,57 @@ void AMainGameMode::BeginPlay()
 #pragma endregion
 
 #pragma region Widgets
+void AMainGameMode::ShowCursor(bool showCursor)
+{
+	//UE_LOG(LogTemp, Warning, TEXT("before if - showCursor = %s"), showCursor ? TEXT("true") : TEXT("false"));
+	PlayerController->bShowMouseCursor = showCursor;
+	PlayerController->bEnableClickEvents = showCursor;
+	PlayerController->bEnableMouseOverEvents = showCursor;
+}
+
+void AMainGameMode::ShowWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor)
+{
+	if (NewWidgetClass != nullptr)
+	{
+		OldWidget = CurrentWidget;
+
+		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
+		if (CurrentWidget != nullptr)
+		{
+			CurrentWidget->AddToViewport();
+		}
+
+		ShowCursor(showCursor);
+	}
+}
+
+void AMainGameMode::HideWidget(UUserWidget* widgetToHide, bool showCursor)
+{
+	if (widgetToHide != nullptr)
+	{
+		widgetToHide->RemoveFromViewport();
+	}
+
+	ShowCursor(showCursor);
+}
+
+void AMainGameMode::HideCurrentWidget(bool showCursor)
+{
+	if (CurrentWidget != nullptr)
+	{
+		CurrentWidget->RemoveFromViewport();
+		CurrentWidget = nullptr;
+	}
+
+	ShowCursor(showCursor);
+}
+
 void AMainGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor)
 {
 	OldWidget = CurrentWidget;
 
 	if (CurrentWidget != nullptr)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("current widget not null"));
-
 		CurrentWidget->RemoveFromViewport();
 		CurrentWidget = nullptr;
 	}
@@ -221,13 +242,7 @@ void AMainGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bo
 			CurrentWidget->AddToViewport();
 		}
 
-		//UE_LOG(LogTemp, Warning, TEXT("before if - showCursor = %s"), showCursor ? TEXT("true") : TEXT("false"));
-		if (showCursor)
-		{
-			PlayerController->bShowMouseCursor = true;
-			PlayerController->bEnableClickEvents = true;
-			PlayerController->bEnableMouseOverEvents = true;
-		}
+		ShowCursor(showCursor);
 	}
 }
 
