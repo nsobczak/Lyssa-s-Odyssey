@@ -20,7 +20,7 @@ UMainSaveGame::UMainSaveGame()
 	MasterVolumeSliderValue = 1;
 
 	//key
-	PlayerKeys = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::E, EKeys::Tab };
+	//PlayerKeys = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::E, EKeys::R, EKeys::Tab };
 
 	//UE_LOG(LogTemp, Log, TEXT("constructed UMainSaveGame"));
 }

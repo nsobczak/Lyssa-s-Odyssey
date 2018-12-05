@@ -139,7 +139,7 @@ public:
 
 	/**list of keys*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
-		TArray<FKey> KeyList = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::E, EKeys::Tab };
+		TArray<FKey> KeyList = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::E, EKeys::R, EKeys::Tab };
 
 #pragma endregion
 

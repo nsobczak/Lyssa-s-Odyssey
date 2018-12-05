@@ -52,6 +52,9 @@ public:
 	/**accept button*/
 	UFUNCTION()
 		void ActionAccept();
+	/**return button*/
+	UFUNCTION()
+		void ActionReturn();
 
 	/**call pause menu*/
 	UFUNCTION()

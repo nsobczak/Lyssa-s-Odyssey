@@ -109,7 +109,8 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		PlayerInputComponent->BindAxisKey(keys[2], this, &ALyssa::MoveLeft);
 		PlayerInputComponent->BindAxisKey(keys[3], this, &ALyssa::MoveRight);
 		PlayerInputComponent->BindKey(keys[4], EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
-		PlayerInputComponent->BindKey(keys[5], EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
+		PlayerInputComponent->BindKey(keys[5], EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
+		PlayerInputComponent->BindKey(keys[6], EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
 	}
 }
 
@@ -184,6 +185,11 @@ void ALyssa::MoveLeft(float value)
 void ALyssa::ActionAccept()
 {
 	UE_LOG(LogTemp, Log, TEXT("ActionAccept"));
+}
+
+void ALyssa::ActionReturn()
+{
+	UE_LOG(LogTemp, Log, TEXT("ActionReturn"));
 }
 
 void ALyssa::PauseGame()
