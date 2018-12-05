@@ -25,6 +25,19 @@ void ACustomTriggerDialogue::BeginPlay()
 		ActorThatTriggers = (AActor*)UGameplayStatics::GetPlayerPawn(this, 0);
 	}
 
+	DialogueToDisplay.Empty();
+	if (nullptr != DialogueDataTable && DialogueRows.Num() > 0)
+	{
+		for (size_t i = 0; i < DialogueRows.Num(); ++i)
+		{
+			FStructDialogue* dialogueItem = DialogueDataTable->FindRow<FStructDialogue>(DialogueRows[i], "dialogueItem", true);
+			if (dialogueItem)
+			{
+				DialogueToDisplay.Add(*dialogueItem);
+			}
+		}
+	}
+
 	CurrentDialogueIndex = 0;
 }
 

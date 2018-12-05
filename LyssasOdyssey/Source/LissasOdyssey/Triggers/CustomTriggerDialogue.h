@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Triggers/CustomTriggerBase.h"
+#include "Engine/DataTable.h"
 #include "Utils/Structures/StructDialogue.h"
 #include "CustomTriggerDialogue.generated.h"
 
@@ -26,8 +27,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerDialogue")
 		bool DisplayCursorWithDialogue = true;
 
-	/**list of dialogue to display*/
+	/**dataTable containing dialogues*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerDialogue")
+		UDataTable* DialogueDataTable;
+
+	/**list of dialogue rows from dataTable*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerDialogue")
+		TArray< FName> DialogueRows;
+
+	/**list of dialogues to display*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "TriggerDialogue")
 		TArray<FStructDialogue> DialogueToDisplay;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "TriggerDialogue")
