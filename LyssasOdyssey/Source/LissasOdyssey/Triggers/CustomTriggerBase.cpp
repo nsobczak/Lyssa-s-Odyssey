@@ -28,7 +28,9 @@ void ACustomTriggerBase::BeginPlay()
 void ACustomTriggerBase::OnTriggerDetected_Implementation()
 {
 	//triggered
-	UE_LOG(LogTemp, Log, TEXT("%s triggered %s"), *(ActorThatTriggers->GetName()), *(TriggerElement->GetName()));
+	IsTriggered = true;
+	hasBeenTriggered = true;
+	//UE_LOG(LogTemp, Log, TEXT("%s triggered %s"), *(ActorThatTriggers->GetName()), *(TriggerElement->GetName()));
 }
 
 // Called every frame
@@ -37,7 +39,7 @@ void ACustomTriggerBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	if (nullptr != ActorThatTriggers && nullptr != TriggerElement
-		&& TriggerElement->IsOverlappingActor(ActorThatTriggers))
+		&& TriggerElement->IsOverlappingActor(ActorThatTriggers) && !IsTriggered)
 	{
 		//event
 		OnTriggerDetected();

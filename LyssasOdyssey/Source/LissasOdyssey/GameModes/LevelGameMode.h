@@ -10,8 +10,7 @@
 #include "Characters/Foes/Foe.h"
 #include "WorldAssets/FinishArea.h"
 
-//#include "GameFramework/HUD.h"
-//#include "Blueprint/UserWidget.h"
+#include "Utils/Structures/StructDialogue.h"
 
 #include "LevelGameMode.generated.h"
 
@@ -80,8 +79,18 @@ public:
 	UFUNCTION(BlueprintPure, Category = "GameTimer")
 		FText GetTimerForHud();
 
-	/*UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
-		void ShowDialogueWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor, , FString TextToDisplay);*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue")
+		UUserWidget* DialogueWidget;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Dialogue")
+		FStructDialogue CurrentDialogueToDisplay;
+
+	UFUNCTION(BlueprintCallable, Category = "Dialogue")
+		void ShowDialogueWidget(FStructDialogue dialogue, bool showCursor);
+	UFUNCTION(BlueprintCallable, Category = "Dialogue")
+		void HideDialogueWidget(FStructDialogue dialogue, bool showCursor);
+	UFUNCTION(BlueprintCallable, Category = "Dialogue")
+		void UpdateDialogue(FStructDialogue dialogue);
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")

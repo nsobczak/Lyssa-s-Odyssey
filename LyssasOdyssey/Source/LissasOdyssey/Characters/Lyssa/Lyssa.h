@@ -49,6 +49,10 @@ public:
 	UFUNCTION()
 		void MoveRight(float value);
 
+	/**accept button*/
+	UFUNCTION()
+		void ActionAccept();
+
 	/**call pause menu*/
 	UFUNCTION()
 		void PauseGame();

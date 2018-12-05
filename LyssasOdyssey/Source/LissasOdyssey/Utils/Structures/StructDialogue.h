@@ -4,28 +4,30 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
-#include "StructTextTrad.generated.h"
+#include "Utils/Structures/StructTextureData.h"
+#include "Utils/Structures/StructTextTrad.h"
+#include "StructDialogue.generated.h"
 
 /**
  *
  */
 
 USTRUCT(BlueprintType)
-struct FStructTextTrad : public FTableRowBase
+struct FStructDialogue : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 
 public:
 
-	FStructTextTrad();
+	FStructDialogue();
 
 	// The 'Name' column is created by default
 
 	/** english*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FString en;
+		FStructTextureData ProfilePicture;
 
 	/** french*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FString fr;
+		FStructTextTrad DialogueText;
 };

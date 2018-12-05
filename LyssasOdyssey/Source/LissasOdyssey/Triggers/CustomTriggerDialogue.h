@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Triggers/CustomTriggerBase.h"
+#include "Utils/Structures/StructDialogue.h"
 #include "CustomTriggerDialogue.generated.h"
 
 /**
@@ -21,9 +22,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	/**should Cursor be displayed With Dialogue*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerDialogue")
+		bool DisplayCursorWithDialogue = true;
+
 	/**list of dialogue to display*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerDialogue")
-		TArray<FString> DialogueToDisplay;
+		TArray<FStructDialogue> DialogueToDisplay;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "TriggerDialogue")
+		int CurrentDialogueIndex = 0;
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,4 +41,5 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "TriggerDialogue")
 		bool IsPlayerActorThatTriggers = true;
+
 };

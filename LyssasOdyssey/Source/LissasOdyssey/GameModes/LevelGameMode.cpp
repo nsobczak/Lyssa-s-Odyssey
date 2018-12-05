@@ -94,6 +94,34 @@ void ALevelGameMode::CheckForDeath()
 	}
 }
 
+void ALevelGameMode::ShowDialogueWidget(FStructDialogue dialogue, bool showCursor = true)
+{
+	if (nullptr != DialogueWidget)
+	{
+		CurrentDialogueToDisplay = dialogue;
+		//change visibility of DialogueWidget
+		DialogueWidget->SetVisibility(ESlateVisibility::Visible);
+		ShowCursor(showCursor);
+	}
+
+}
+
+void ALevelGameMode::HideDialogueWidget(FStructDialogue dialogue, bool showCursor = true)
+{
+	if (nullptr != DialogueWidget)
+	{
+		//change visibility of DialogueWidget
+		DialogueWidget->SetVisibility(ESlateVisibility::Hidden);
+		ShowCursor(showCursor);
+	}
+}
+
+void ALevelGameMode::UpdateDialogue(FStructDialogue dialogue)
+{
+	CurrentDialogueToDisplay = dialogue;
+}
+
+
 //_____________________________________________________________________________________________
 
 // Called every frame

@@ -18,6 +18,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Trigger_settings")
+		bool hasBeenTriggered = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Trigger_settings")
+		bool CanBeTriggeredSeveralTimes = false;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -29,7 +35,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Trigger_settings")
 		class ATriggerBase* TriggerElement;
 
-
 	UPROPERTY(EditAnywhere, Category = "Trigger_settings")
 		AActor* ActorThatTriggers;
+
+	UPROPERTY(EditAnywhere, Category = "Trigger_settings")
+		bool IsTriggered = false;
 };

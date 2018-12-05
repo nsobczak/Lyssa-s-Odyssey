@@ -10,7 +10,6 @@
 /**
  * 
  */
-//class LISSASODYSSEY_API StructTextureData
 
 USTRUCT(BlueprintType)
 struct FStructTextureData : public FTableRowBase
@@ -25,5 +24,5 @@ public:
 
 	/** Picture to use*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TSoftObjectPtr<UTexture> Texture;
+		UTexture* Texture;
 };

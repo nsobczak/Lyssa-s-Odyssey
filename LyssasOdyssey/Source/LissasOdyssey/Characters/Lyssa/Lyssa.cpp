@@ -20,9 +20,9 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
 
 	RootComponent = GetCapsuleComponent();
+	PrimaryActorTick.bTickEvenWhenPaused = true;
 
 	//create the static mesh component
 	LyssaMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LyssaMesh"));
@@ -98,8 +98,8 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		//TODO: debind all
 
 		TArray<FKey> keys = CurrentGameMode->KeyList;
-		UE_LOG(LogTemp, Log, TEXT("keys: %s %s %s %s %s"), *(keys[0].ToString()), *(keys[1].ToString()),
-			*(keys[2].ToString()), *(keys[3].ToString()), *(keys[4].ToString()));
+		UE_LOG(LogTemp, Log, TEXT("keys: %s %s %s %s %s %s"), *(keys[0].ToString()), *(keys[1].ToString()),
+			*(keys[2].ToString()), *(keys[3].ToString()), *(keys[4].ToString()), *(keys[5].ToString()));
 
 		//// set up gameplay key bindings
 		//PlayerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
@@ -108,7 +108,8 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		PlayerInputComponent->BindAxisKey(keys[1], this, &ALyssa::MoveDown);
 		PlayerInputComponent->BindAxisKey(keys[2], this, &ALyssa::MoveLeft);
 		PlayerInputComponent->BindAxisKey(keys[3], this, &ALyssa::MoveRight);
-		PlayerInputComponent->BindKey(keys[4], EInputEvent::IE_Pressed, this, &ALyssa::PauseGame);
+		PlayerInputComponent->BindKey(keys[4], EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
+		PlayerInputComponent->BindKey(keys[5], EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
 	}
 }
 
@@ -178,6 +179,11 @@ void ALyssa::MoveLeft(float value)
 		// Set Character's rotation
 		this->GetMesh()->SetRelativeRotation(FRotator(0, 270.0f, 0));
 	}
+}
+
+void ALyssa::ActionAccept()
+{
+	UE_LOG(LogTemp, Log, TEXT("ActionAccept"));
 }
 
 void ALyssa::PauseGame()

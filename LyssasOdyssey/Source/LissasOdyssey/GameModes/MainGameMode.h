@@ -57,9 +57,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
 		UUserWidget* OldWidget;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
-		APlayerController* PlayerController;
-
 	/**widget to use for our HUD screen*/
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HUD", Meta = (BlueprintProtected = "true"))
 		TSubclassOf<class UUserWidget> HUDWidget;
@@ -70,6 +67,9 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
+		APlayerController* PlayerController;
 
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
 		void SaveGameSettings();
@@ -84,7 +84,7 @@ public:
 #pragma region widget functions
 	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void ShowCursor(bool showCursor);
-	
+
 	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void ShowWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor);
 
@@ -177,13 +177,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
 		int ListeningToKeyIndex;
 
-	/**list of moves' label*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
-		TArray<FString> KeyLabels = { "Move Up", "Move Down", "Move Left", "Move Right", "Start/Pause" };
-
 	/**list of keys*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
-		TArray<FKey> KeyList = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::Tab };
+		TArray<FKey> KeyList = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::E, EKeys::Tab };
 
 #pragma endregion
 
