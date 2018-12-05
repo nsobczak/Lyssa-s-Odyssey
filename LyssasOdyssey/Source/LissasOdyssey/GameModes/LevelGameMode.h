@@ -88,7 +88,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void ShowDialogueWidget(FStructDialogue dialogue, bool showCursor);
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
-		void HideDialogueWidget(FStructDialogue dialogue, bool showCursor);
+		void HideDialogueWidget(bool showCursor = true);
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void UpdateDialogue(FStructDialogue dialogue);
 

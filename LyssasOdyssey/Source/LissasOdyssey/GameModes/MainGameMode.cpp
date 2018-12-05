@@ -169,7 +169,7 @@ void AMainGameMode::BeginPlay()
 	//TODO: load saved settings here
 	LoadGameSettings();
 
-	if (isMenu)
+	if (IsMenu)
 	{
 		InitializeSettingsMenu();
 		ChangeMenuWidget(StartingWidgetClass, true);

@@ -102,17 +102,21 @@ void ALevelGameMode::ShowDialogueWidget(FStructDialogue dialogue, bool showCurso
 		//change visibility of DialogueWidget
 		DialogueWidget->SetVisibility(ESlateVisibility::Visible);
 		ShowCursor(showCursor);
+
+		IsPauseAllowed = false;
 	}
 
 }
 
-void ALevelGameMode::HideDialogueWidget(FStructDialogue dialogue, bool showCursor = true)
+void ALevelGameMode::HideDialogueWidget(bool showCursor)
 {
 	if (nullptr != DialogueWidget)
 	{
 		//change visibility of DialogueWidget
 		DialogueWidget->SetVisibility(ESlateVisibility::Hidden);
 		ShowCursor(showCursor);
+
+		IsPauseAllowed = true;
 	}
 }
 

@@ -63,7 +63,7 @@ void ACustomTriggerDialogue::Tick(float DeltaTime)
 			else
 			{
 				//set widget visibility to hidden
-				CurrentGameMode->DialogueWidget->SetVisibility(ESlateVisibility::Hidden);
+				CurrentGameMode->HideDialogueWidget();
 				UGameplayStatics::SetGamePaused(GetWorld(), false);
 			}
 		}

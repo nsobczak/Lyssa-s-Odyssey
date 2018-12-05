@@ -190,7 +190,7 @@ void ALyssa::PauseGame()
 {
 	// === GameMode ===
 	ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
-	if (CurrentGameMode)
+	if (CurrentGameMode && CurrentGameMode->IsPauseAllowed)//IsPauseAllowed
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Pause called"));
 		CurrentGameMode->SetCurrentState(ELevelPlayState::EPause);

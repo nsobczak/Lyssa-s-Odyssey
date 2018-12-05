@@ -22,55 +22,12 @@ class LISSASODYSSEY_API AMainGameMode : public AGameModeBase
 public:
 	AMainGameMode();
 
-protected:
-	/** Called when the game starts. */
-	virtual void BeginPlay() override;
-
-	void InitializeSettingsMenu();
-
-	UFUNCTION()
-		void SaveCurrentMainSaveGameValues(class UMainSaveGame* SaveInstance);
-	UFUNCTION()
-		void LoadSettings(class UMainSaveGame * &LoadInstance);
-
-	/** The widget class we will use as our menu when the game starts. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
-		TSubclassOf<UUserWidget> StartingWidgetClass;
-
-	/** The widget class we will use as our menu when the game end. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
-		TSubclassOf<UUserWidget> EndingWidgetClass;
-
-	/** The widget class we will use as our menu when player dies. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
-		TSubclassOf<UUserWidget> GameOverWidgetClass;
-
-	/** The widget class we will use as our menu when the game is paused. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
-		TSubclassOf<UUserWidget> PauseWidgetClass;
-
-	/** The widget instance that we are using as our menu. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
-		UUserWidget* CurrentWidget;
-
-	/** The widget instance that we used. (useful for return buttons) */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
-		UUserWidget* OldWidget;
-
-	/**widget to use for our HUD screen*/
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HUD", Meta = (BlueprintProtected = "true"))
-		TSubclassOf<class UUserWidget> HUDWidget;
-
-	/** Assign a new key to an input if not already used */
-	UFUNCTION()
-		void AssignNewKey(FKey newKey, int moveToChangeIndex);
-
-public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
 		APlayerController* PlayerController;
 
+#pragma region save region
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
 		void SaveGameSettings();
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
@@ -78,8 +35,11 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
 		FString SaveSlotName = FString(TEXT("PlayerSaveSlot"));
+#pragma endregion
 
-	UPROPERTY(EditAnywhere, Category = "Menu_Settings") bool isMenu = false;
+	UPROPERTY(EditAnywhere, Category = "Menu_Settings") bool IsPauseAllowed = true;
+
+	UPROPERTY(EditAnywhere, Category = "Menu_Settings") bool IsMenu = false;
 
 #pragma region widget functions
 	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
@@ -185,5 +145,47 @@ public:
 
 #pragma endregion
 
+protected:
+	/** Called when the game starts. */
+	virtual void BeginPlay() override;
+
+	void InitializeSettingsMenu();
+
+	UFUNCTION()
+		void SaveCurrentMainSaveGameValues(class UMainSaveGame* SaveInstance);
+	UFUNCTION()
+		void LoadSettings(class UMainSaveGame * &LoadInstance);
+
+	/** The widget class we will use as our menu when the game starts. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+		TSubclassOf<UUserWidget> StartingWidgetClass;
+
+	/** The widget class we will use as our menu when the game end. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+		TSubclassOf<UUserWidget> EndingWidgetClass;
+
+	/** The widget class we will use as our menu when player dies. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+		TSubclassOf<UUserWidget> GameOverWidgetClass;
+
+	/** The widget class we will use as our menu when the game is paused. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+		TSubclassOf<UUserWidget> PauseWidgetClass;
+
+	/** The widget instance that we are using as our menu. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
+		UUserWidget* CurrentWidget;
+
+	/** The widget instance that we used. (useful for return buttons) */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
+		UUserWidget* OldWidget;
+
+	/**widget to use for our HUD screen*/
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HUD", Meta = (BlueprintProtected = "true"))
+		TSubclassOf<class UUserWidget> HUDWidget;
+
+	/** Assign a new key to an input if not already used */
+	UFUNCTION()
+		void AssignNewKey(FKey newKey, int moveToChangeIndex);
 
 };
