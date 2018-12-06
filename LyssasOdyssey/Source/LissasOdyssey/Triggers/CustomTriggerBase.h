@@ -19,10 +19,10 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Trigger_settings")
-		bool hasBeenTriggered = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Trigger_settings")
 		bool CanBeTriggeredSeveralTimes = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Trigger_settings")
+		bool hasBeenTriggered = false;
 
 protected:
 	// Called when the game starts or when spawned
@@ -31,13 +31,18 @@ protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "Trigger_event")
 		void OnTriggerDetected();
 	virtual void OnTriggerDetected_Implementation();
+	FName OnTriggerDetectedName = FName("OnTriggerDetected");
 
-	UPROPERTY(EditAnywhere, Category = "Trigger_settings")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Trigger_settings")
+		float DelayBfrShowingDialogue = 0.05f;
+
+	UPROPERTY(VisibleAnywhere, Category = "Trigger_settings")
 		class ATriggerBase* TriggerElement;
 
-	UPROPERTY(EditAnywhere, Category = "Trigger_settings")
+	UPROPERTY(VisibleAnywhere, Category = "Trigger_settings")
 		AActor* ActorThatTriggers;
 
-	UPROPERTY(EditAnywhere, Category = "Trigger_settings")
+	UPROPERTY(VisibleAnywhere, Category = "Trigger_settings")
 		bool IsTriggered = false;
+
 };

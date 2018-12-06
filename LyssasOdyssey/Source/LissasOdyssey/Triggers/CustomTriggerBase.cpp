@@ -2,6 +2,8 @@
 
 #include "CustomTriggerBase.h"
 #include "Engine/TriggerBase.h"
+#include "Engine/Public/TimerManager.h"
+
 
 // Sets default values
 ACustomTriggerBase::ACustomTriggerBase()
@@ -29,7 +31,6 @@ void ACustomTriggerBase::OnTriggerDetected_Implementation()
 {
 	//triggered
 	IsTriggered = true;
-	hasBeenTriggered = true;
 	//UE_LOG(LogTemp, Log, TEXT("%s triggered %s"), *(ActorThatTriggers->GetName()), *(TriggerElement->GetName()));
 }
 
@@ -39,10 +40,16 @@ void ACustomTriggerBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	if (nullptr != ActorThatTriggers && nullptr != TriggerElement
-		&& TriggerElement->IsOverlappingActor(ActorThatTriggers) && !IsTriggered)
+		&& TriggerElement->IsOverlappingActor(ActorThatTriggers) && !IsTriggered
+		&& (!hasBeenTriggered || CanBeTriggeredSeveralTimes && hasBeenTriggered))
 	{
-		//event
-		OnTriggerDetected();
+		//delay event
+		FTimerHandle TimerHandle; // Handle to manage the timer
+		FTimerDelegate TimerDel; //Bind function with parameters
+		TimerDel.BindUFunction(this, OnTriggerDetectedName);
+		GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, DelayBfrShowingDialogue, false);
+
+		hasBeenTriggered = true;
 	}
 }
 

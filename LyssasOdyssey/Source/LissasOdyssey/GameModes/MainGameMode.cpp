@@ -404,6 +404,7 @@ void AMainGameMode::ListenToNewKeyForMove(int moveToChangeIndex, int iteration)
 		//TODO: block ui input when IsListeningToKey is true to prevent user from changing menu
 	}
 
+	//delay
 	FTimerHandle TimerHandle; // Handle to manage the timer
 	FTimerDelegate TimerDel; //Bind function with parameters
 	TimerDel.BindUFunction(this, FName("ListenToNewKeyForMove"), moveToChangeIndex, iteration + 1);
