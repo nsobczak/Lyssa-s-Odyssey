@@ -7,3 +7,5 @@
 
 - level design
 - gameplay creation + balance
+
+- sound design
