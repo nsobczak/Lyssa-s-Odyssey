@@ -6,6 +6,7 @@
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h" //to be able to access the character
 #include "Kismet/KismetMathLibrary.h"
 #include "Blueprint/UserWidget.h"
+#include "Pickups/PickupScore.h"
 //#include "Engine/DataTable.h"
 
 // Sets default values
@@ -54,6 +55,17 @@ void ALevelGameMode::BeginPlay()
 		PlayerController->bShowMouseCursor = true;
 	}
 
+
+	// === LevelTotalScore === 
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APickupScore::StaticClass(), FoundActors);
+	LevelTotalScore = 0;
+	for (size_t i = 0; i < FoundActors.Num(); i++)
+	{
+		APickupScore* currentPickupScore = (APickupScore*)FoundActors[i];
+		if (currentPickupScore)
+			LevelTotalScore += currentPickupScore->GetScoreAmount();
+	}
 }
 
 
@@ -75,15 +87,6 @@ FText ALevelGameMode::GetTimerForHud()
 
 	FString textToShow = hours > 0 ? fHours + fMinutes + fSeconds : fMinutes + fSeconds;
 	return FText::FromString(textToShow);
-}
-
-void ALevelGameMode::CheckForLevelCompleted()
-{
-	float DistanceToEnd = FVector::DistSquared(FinishArea->GetActorLocation(), Lyssa->GetActorLocation());
-	if (DistanceToEnd < FinishArea->FARadius * FinishArea->FARadius)
-	{
-		SetCurrentState(ELevelPlayState::ELevelCompleted);
-	}
 }
 
 void ALevelGameMode::CheckForDeath()
@@ -144,7 +147,6 @@ void ALevelGameMode::Tick(float DeltaTime)
 
 	if (Currentstate == ELevelPlayState::EPlaying)
 	{
-		CheckForLevelCompleted();
 		CheckForDeath();
 	}
 }
@@ -169,15 +171,6 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 	{
 	case ELevelPlayState::EPlaying:
 	{
-		// find all finishArea in scene
-		TArray<AActor*> foundFinnishAreas;
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFinishArea::StaticClass(), foundFinnishAreas);
-		if (foundFinnishAreas.Num() <= 0)
-		{
-			UE_LOG(LogTemp, Error, TEXT("No FinishArea was added to LevelController"));
-		}
-		FinishArea = Cast<AFinishArea>(foundFinnishAreas[0]);
-
 		//Lyssa
 		Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
 

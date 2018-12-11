@@ -60,9 +60,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
 		float CollisionDistThreshold = 300.0f;
 
-	UFUNCTION(BlueprintCallable, Category = "GameController")
-		void CheckForLevelCompleted();
-
 	UFUNCTION(BlueprintPure, Category = "GameController")
 		ELevelPlayState GetCurrentState()const;
 
@@ -79,6 +76,10 @@ public:
 	UFUNCTION(BlueprintPure, Category = "GameTimer")
 		FText GetTimerForHud();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Level")
+		int LevelTotalScore;
+
+#pragma region MyRegion
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue")
 		UUserWidget* DialogueWidget;
 
@@ -91,6 +92,7 @@ public:
 		void HideDialogueWidget(bool showCursor = true);
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void UpdateDialogue(FStructDialogue dialogue);
+#pragma endregion
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")

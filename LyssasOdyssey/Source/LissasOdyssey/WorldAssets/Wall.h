@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Utils/ActorWithMeshBase.h"
 #include "Wall.generated.h"
 
 UCLASS()
-class LISSASODYSSEY_API AWall : public AActor
+class LISSASODYSSEY_API AWall : public AActorWithMeshBase
 {
 	GENERATED_BODY()
 	
@@ -27,9 +27,4 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-private:
-	/** Static mesh to represent the wall in the level*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Wall", meta = (AllowPrivateAccess = "true"))
-		class UStaticMeshComponent* WallMesh;
 };

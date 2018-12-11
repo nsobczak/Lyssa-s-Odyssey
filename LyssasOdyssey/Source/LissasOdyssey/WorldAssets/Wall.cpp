@@ -9,10 +9,6 @@ AWall::AWall()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//create the static mesh component
-	WallMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallMesh"));
-	RootComponent = (USceneComponent*)WallMesh;
-
 	//WallMesh ->CanCharacterStepUpOn = false;
 	//CanCharacterStepUpOn = ECB_No;
 }
@@ -22,7 +18,7 @@ void AWall::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	WallMesh->SetVisibility(!InvisibleWall);
+	BaseMesh->SetVisibility(!InvisibleWall);
 }
 
 // Called every frame

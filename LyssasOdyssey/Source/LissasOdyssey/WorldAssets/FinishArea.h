@@ -1,11 +1,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Utils/ActorWithMeshBase.h"
 #include "FinishArea.generated.h"
 
 UCLASS()
-class LISSASODYSSEY_API AFinishArea : public AActor
+class LISSASODYSSEY_API AFinishArea : public AActorWithMeshBase
 {
 	GENERATED_BODY()
 	
@@ -17,11 +17,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	bool IsLevelFinished;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FinishArea")
-		float FARadius = 1000.0f;
-	
 };

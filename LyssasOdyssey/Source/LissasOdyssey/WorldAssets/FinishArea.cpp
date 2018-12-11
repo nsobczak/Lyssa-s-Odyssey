@@ -1,4 +1,6 @@
 #include "FinishArea.h"
+#include "GameModes/LevelGameMode.h"
+#include "Characters/Lyssa/Lyssa.h"
 #include "Runtime/Engine/Public/DrawDebugHelpers.h"
 
 
@@ -15,6 +17,7 @@ void AFinishArea::BeginPlay()
 {
 	Super::BeginPlay();
 
+	IsLevelFinished = false;
 }
 
 // Called every frame
@@ -22,6 +25,22 @@ void AFinishArea::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	DrawDebugSphere(GetWorld(), GetActorLocation(), FARadius, 32, FColor(255, 0, 0));
+	if (!IsLevelFinished)
+	{
+		//get overlaping actors and store them in an array
+		TArray<AActor*> overlappingActors;
+		BaseMesh->GetOverlappingActors(overlappingActors);
+		for (size_t i = 0; i < overlappingActors.Num(); ++i)
+		{
+			ALyssa* currentLyssa = Cast<ALyssa>(overlappingActors[i]);
+			ALevelGameMode* currentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+			if (currentLyssa && currentGameMode)
+			{
+				currentGameMode->SetCurrentState(ELevelPlayState::ELevelCompleted);
+				IsLevelFinished = true;
+			}
+		}
+	}
+
 }
 
