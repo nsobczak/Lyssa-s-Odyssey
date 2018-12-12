@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Utils/ActorWithMeshBase.h"
 #include "Pickup.generated.h"
 
 UCLASS()
-class LISSASODYSSEY_API APickup : public AActor
+class LISSASODYSSEY_API APickup : public AActorWithMeshBase
 {
 	GENERATED_BODY()
 
@@ -18,8 +18,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	/** return the mesh for the pickup*/
-	FORCEINLINE class UStaticMeshComponent* GetMesh() const { return PickupMesh; }
+	///** return the mesh for the pickup*/
+	//FORCEINLINE class UStaticMeshComponent* GetMesh() const { return PickupMesh; }
 
 	UFUNCTION(BlueprintPure, Category = "Pickup")
 		bool IsActive();
@@ -39,11 +39,5 @@ protected:
 	/** true when pickup is used, and false when it is deactivated*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Pickup")
 		bool bIsActive;
-
-private:
-	/** Static mesh to represent the pickup in the level*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = "true"))
-		class UStaticMeshComponent* PickupMesh;
-
 
 };

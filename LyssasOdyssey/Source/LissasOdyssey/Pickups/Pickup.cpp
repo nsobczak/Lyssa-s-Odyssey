@@ -12,10 +12,6 @@ APickup::APickup()
 	//All pickup start active
 	bIsActive = true;
 
-	//create the static mesh component
-	PickupMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickupMesh"));
-	RootComponent = (USceneComponent*)PickupMesh;
-
 	URotateOverTime* rotationComponent = CreateDefaultSubobject<URotateOverTime>(TEXT("RotationOverTime"));
 	AddOwnedComponent(rotationComponent);
 }
