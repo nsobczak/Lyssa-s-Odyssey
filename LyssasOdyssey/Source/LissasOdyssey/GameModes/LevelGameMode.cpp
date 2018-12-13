@@ -126,6 +126,7 @@ void ALevelGameMode::HideDialogueWidget(bool showCursor)
 void ALevelGameMode::UpdateDialogue(FStructDialogue dialogue)
 {
 	CurrentDialogueToDisplay = dialogue;
+	//UE_LOG(LogTemp, Log, TEXT("updated dialogue"));
 }
 
 
