@@ -52,6 +52,8 @@ void ACustomTriggerDialogue::OnTriggerDetected_Implementation()
 	ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
 	if (DialogueToDisplay.Num() > 0 && CurrentGameMode)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("dialogueTrigger num = %i"), DialogueToDisplay.Num());
+
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
 		CurrentGameMode->ShowDialogueWidget(DialogueToDisplay[CurrentDialogueIndex], DisplayCursorWithDialogue);
 	}
@@ -75,6 +77,7 @@ void ACustomTriggerDialogue::Tick(float DeltaTime)
 			}
 			else
 			{
+				CurrentDialogueIndex = 0;
 				//set widget visibility to hidden
 				CurrentGameMode->HideDialogueWidget();
 				UGameplayStatics::SetGamePaused(GetWorld(), false);

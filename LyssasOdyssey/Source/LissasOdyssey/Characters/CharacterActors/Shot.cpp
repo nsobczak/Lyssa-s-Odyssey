@@ -90,7 +90,7 @@ bool AShot::HandleOverlapWithFoe(AActor* currentActor)
 bool AShot::HandleOverlapWithLyssa(AActor* currentActor)
 {
 	ALyssa* currentLyssa = Cast<ALyssa>(currentActor);
-	if (currentLyssa)
+	if (currentLyssa && !CanKillFoe)
 	{
 		//FString objectName = currentLyssa->GetName();
 		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
@@ -164,7 +164,6 @@ bool AShot::HandleOverlapWithWall(AActor* currentActor)
 	AWall* currentWall = Cast<AWall>(currentActor);
 	if (currentWall && currentWall->BlockShots)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("wall overlap in if"));
 		//UE_LOG(LogTemp, Warning, TEXT("wall block shot"));
 		CustomDestroy();
 		return true;

@@ -41,7 +41,7 @@ void ACustomTriggerBase::Tick(float DeltaTime)
 
 	if (nullptr != ActorThatTriggers && nullptr != TriggerElement
 		&& TriggerElement->IsOverlappingActor(ActorThatTriggers) && !IsTriggered
-		&& (!hasBeenTriggered || CanBeTriggeredSeveralTimes && hasBeenTriggered))
+		&& (!hasBeenTriggered || CanBeTriggeredSeveralTimes))
 	{
 		//delay event
 		FTimerHandle TimerHandle; // Handle to manage the timer
