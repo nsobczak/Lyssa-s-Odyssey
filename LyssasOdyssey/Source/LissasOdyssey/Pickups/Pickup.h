@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Utils/ActorWithMeshBase.h"
+#include "GameFramework/Actor.h"
 #include "Pickup.generated.h"
 
 UCLASS()
-class LISSASODYSSEY_API APickup : public AActorWithMeshBase
+class LISSASODYSSEY_API APickup : public AActor
 {
 	GENERATED_BODY()
 
@@ -40,4 +40,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Pickup")
 		bool bIsActive;
 
+	/** Static mesh to represent the pickup in the level*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
+		class UStaticMeshComponent* PickupMesh;
 };

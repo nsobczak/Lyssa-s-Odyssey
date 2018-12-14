@@ -28,7 +28,7 @@ void AShot::BeginPlay()
 
 	SpawningLocation = this->GetActorLocation();
 
-	float ShotTimer = 0.0f;
+	//float ShotTimer = 0.0f;
 }
 
 void AShot::InitializeShot(FVector ownerLocation, float ttl, float speed)
@@ -90,7 +90,7 @@ bool AShot::HandleOverlapWithFoe(AActor* currentActor)
 bool AShot::HandleOverlapWithLyssa(AActor* currentActor)
 {
 	ALyssa* currentLyssa = Cast<ALyssa>(currentActor);
-	if (currentLyssa && !CanKillFoe)
+	if (currentLyssa && CanKillPlayer)
 	{
 		//FString objectName = currentLyssa->GetName();
 		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);

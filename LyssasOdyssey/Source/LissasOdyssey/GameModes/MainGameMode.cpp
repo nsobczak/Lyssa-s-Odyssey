@@ -89,7 +89,8 @@ void AMainGameMode::LoadSettings(UMainSaveGame * &LoadInstance)
 
 	this->MasterVolume = LoadInstance->MasterVolumeSliderValue;
 
-	this->KeyList = LoadInstance->PlayerKeys;
+	if (this->KeyList.Num() == LoadInstance->PlayerKeys.Num())
+		this->KeyList = LoadInstance->PlayerKeys;
 
 	ALyssa* player = (ALyssa*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	if (nullptr != player)
@@ -371,7 +372,7 @@ void AMainGameMode::AssignNewKey(FKey newKey, int moveToChangeIndex)
 
 void AMainGameMode::ListenToNewKeyForMove(int moveToChangeIndex, int iteration)
 {
-	if (iteration >= 50) { IsListeningToKey = false;  return; }
+	if (moveToChangeIndex >= this->KeyList.Num() || iteration >= 50) { IsListeningToKey = false;  return; }
 
 	FKey boundKey = this->KeyList[moveToChangeIndex];
 	IsListeningToKey = true;

@@ -51,7 +51,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shot")
 		float ShotDamage = 40.0f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shot")
+		bool CanKillPlayer = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shot")
 		bool CanKillFoe = false;
 
 
