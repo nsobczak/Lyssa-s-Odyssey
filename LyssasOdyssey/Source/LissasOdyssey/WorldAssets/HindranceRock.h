@@ -19,6 +19,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Hindrance")
+		bool BlockShots = true;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

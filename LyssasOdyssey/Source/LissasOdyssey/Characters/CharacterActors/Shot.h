@@ -79,5 +79,7 @@ private:
 	UFUNCTION()
 		bool HandleOverlapWithWall(AActor* currentActor);
 	UFUNCTION()
+		bool HandleOverlapWithHindrance(AActor* currentActor);
+	UFUNCTION()
 		void HandleOverlap();
 };

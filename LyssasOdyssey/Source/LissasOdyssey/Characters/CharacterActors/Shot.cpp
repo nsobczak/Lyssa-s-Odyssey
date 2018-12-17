@@ -6,6 +6,7 @@
 #include "Characters/Fylgja/Fylgja.h"
 #include "Characters/Foes/Foe.h"
 #include "WorldAssets/Wall.h"
+#include "WorldAssets/HindranceRock.h"
 
 
 // Sets default values
@@ -174,6 +175,21 @@ bool AShot::HandleOverlapWithWall(AActor* currentActor)
 	}
 }
 
+bool AShot::HandleOverlapWithHindrance(AActor* currentActor)
+{
+	AHindranceRock* currentHindrance = Cast<AHindranceRock>(currentActor);
+	if (currentHindrance && currentHindrance->BlockShots && !CanKillFoe)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("hindrance block shot"));
+		CustomDestroy();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void AShot::HandleOverlap()
 {
 	//get overlaping actors and store them in an array
@@ -189,7 +205,10 @@ void AShot::HandleOverlap()
 			{
 				if (!HandleOverlapWithLyssa(currentActor))
 				{
-					HandleOverlapWithWall(currentActor);
+					if (!HandleOverlapWithWall(currentActor))
+					{
+						HandleOverlapWithHindrance(currentActor);
+					}
 				}
 			}
 		}
