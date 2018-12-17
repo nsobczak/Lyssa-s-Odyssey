@@ -23,12 +23,24 @@ void AFylgja::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FylgjaMesh->SetVisibility(false, false);
-
+	FylgjaMesh->SetVisibility(false, false); //fylgja collider
 }
 
 //_____________________________________________________________________________________________
 
+
+void AFylgja::ShowFylfja()
+{
+	IsVisible = true;
+	FylgjaMesh->SetVisibility(true, true);
+	FylgjaMesh->SetVisibility(false, false); //fylgja collider
+}
+
+void AFylgja::HideFylfja()
+{
+	IsVisible = false;
+	FylgjaMesh->SetVisibility(false, true);
+}
 
 void AFylgja::FollowMousePosition()
 {

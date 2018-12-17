@@ -50,6 +50,11 @@ public:
 		class ALyssa* Lyssa;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
+		class AFylgja* Fylgja;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
+		bool ShouldFylgjaStartVisible = true;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
 		TArray<class AFoe*> Foes;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")

@@ -4,6 +4,7 @@
 #include "GameModes/MainGameMode.h"
 #include "WorldAssets/FinishArea.h"
 #include "Characters/Lyssa/Lyssa.h"
+#include "Characters/Fylgja/Fylgja.h"
 #include "Characters/Foes/Foe.h"
 #include "Characters/CharacterActors/Shot.h"
 #include "Pickups/PickupScore.h"
@@ -48,6 +49,7 @@ void ALevelGameMode::BeginPlay()
 	LevelTimer = 0;
 	bPauseable = true;
 
+	// === playerController ===
 	APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
 	if (playerController)
 	{
@@ -60,6 +62,25 @@ void ALevelGameMode::BeginPlay()
 		PlayerController->bShowMouseCursor = true;
 	}
 
+	// === Lyssa + fylgja ===
+	Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
+	if (Lyssa)
+	{
+		TArray<AActor*> children;
+		Lyssa->GetAllChildActors(children, true);
+		for (size_t i = 0; i < children.Num(); ++i)
+		{
+			AFylgja* tmpFylgja = Cast<AFylgja>(children[i]);
+			if (tmpFylgja)
+			{
+				Fylgja = tmpFylgja;
+				if (ShouldFylgjaStartVisible)
+					Fylgja->ShowFylfja();
+				else
+					Fylgja->HideFylfja();
+			}
+		}
+	}
 
 	// === LevelTotalScore === 
 	TArray<AActor*> FoundActors;
@@ -177,9 +198,6 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 	{
 	case ELevelPlayState::EPlaying:
 	{
-		//Lyssa
-		Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
-
 		//resume pause
 		if (UGameplayStatics::IsGamePaused(GetWorld()))
 		{

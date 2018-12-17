@@ -20,7 +20,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void FollowMousePosition();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fylgja")
+		bool IsVisible = true;
+
+	UFUNCTION(BlueprintCallable, Category = "Fylgja")
+		void ShowFylfja();
+	UFUNCTION(BlueprintCallable, Category = "Fylgja")
+		void HideFylfja();
+
+protected:
+	UFUNCTION()
+		void FollowMousePosition();
 
 private:
 	/** Static mesh to represent the Fylgja in the level*/

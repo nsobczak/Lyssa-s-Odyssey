@@ -114,7 +114,7 @@ bool AShot::HandleOverlapWithLyssa(AActor* currentActor)
 bool AShot::HandleOverlapWithFylgja(AActor* currentActor)
 {
 	AFylgja* currentFylgja = Cast<AFylgja>(currentActor);
-	if (currentFylgja)
+	if (currentFylgja && currentFylgja->IsVisible)
 	{
 		//FString objectName = currentFylgja->GetName();
 		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
