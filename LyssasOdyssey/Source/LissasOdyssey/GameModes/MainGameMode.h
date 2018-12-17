@@ -78,7 +78,7 @@ public:
 #pragma region game settings
 
 #pragma region general settings
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "General_Settings")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "General_Settings")
 		ELanguages CurrentLanguage;
 
 	/** Decrease if increase is false */

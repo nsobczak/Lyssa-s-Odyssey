@@ -2,11 +2,16 @@
 
 #include "LevelGameMode.h"
 #include "GameModes/MainGameMode.h"
+#include "WorldAssets/FinishArea.h"
+#include "Characters/Lyssa/Lyssa.h"
+#include "Characters/Foes/Foe.h"
 #include "Characters/CharacterActors/Shot.h"
-#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h" //to be able to access the character
+#include "Pickups/PickupScore.h"
+
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h" //to be able to access the character and pause game
 #include "Kismet/KismetMathLibrary.h"
 #include "Blueprint/UserWidget.h"
-#include "Pickups/PickupScore.h"
+
 //#include "Engine/DataTable.h"
 
 // Sets default values

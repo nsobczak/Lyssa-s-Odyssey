@@ -4,12 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-
 #include "GameModes/MainGameMode.h"
-#include "Characters/Lyssa/Lyssa.h"
-#include "Characters/Foes/Foe.h"
-#include "WorldAssets/FinishArea.h"
-
 #include "Utils/Structures/StructDialogue.h"
 
 #include "LevelGameMode.generated.h"
@@ -49,13 +44,13 @@ public:
 		bool ShowMouseCursorInLevel = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
-		AFinishArea* FinishArea;
+		class AFinishArea* FinishArea;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
-		ALyssa* Lyssa;
+		class ALyssa* Lyssa;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
-		TArray<AFoe*> Foes;
+		TArray<class AFoe*> Foes;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
 		float CollisionDistThreshold = 300.0f;
@@ -80,7 +75,7 @@ public:
 		int LevelTotalScore;
 
 #pragma region MyRegion
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Dialogue")
 		UUserWidget* DialogueWidget;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Dialogue")
