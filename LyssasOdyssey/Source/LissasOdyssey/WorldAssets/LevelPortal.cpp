@@ -13,7 +13,7 @@ void ALevelPortal::InitializeText(UTextRenderComponent* textToInit, bool isFront
 	if (isFrontText)
 		textToInit->SetRelativeLocationAndRotation(FVector(200.0f, 0, 90.0f), FQuat::MakeFromEuler(FVector(0, 80.0f, 0)));
 	else
-		textToInit->SetRelativeLocationAndRotation(FVector(-200.0f, 0, 90.0f), FQuat::MakeFromEuler(FVector(360.0f, 80.0f, 180.0f)));
+		textToInit->SetRelativeLocationAndRotation(FVector(-200.0f, 0, 90.0f), FQuat::MakeFromEuler(FVector(360.0f, 100.0f, 0)));
 	textToInit->SetText(ActualText);
 }
 
@@ -34,9 +34,12 @@ ALevelPortal::ALevelPortal()
 	TextFront->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	InitializeText(TextFront, true);
 
-	TextBack = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TextBack"));
-	TextBack->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	InitializeText(TextBack, false);
+	if (TextOnBothSides)
+	{
+		TextBack = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TextBack"));
+		TextBack->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+		InitializeText(TextBack, false);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -45,7 +48,7 @@ void ALevelPortal::BeginPlay()
 	Super::BeginPlay();
 
 	TextFront->SetText(ActualText);
-	TextBack->SetText(ActualText);
+	if (TextOnBothSides) TextBack->SetText(ActualText);
 }
 
 void ALevelPortal::SwapLevel()

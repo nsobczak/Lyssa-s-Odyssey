@@ -37,9 +37,11 @@ public:
 		FString SaveSlotName = FString(TEXT("PlayerSaveSlot"));
 #pragma endregion
 
-	UPROPERTY(EditAnywhere, Category = "Menu_Settings") bool IsPauseAllowed = true;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+		bool IsPauseAllowed = true;
 
-	UPROPERTY(EditAnywhere, Category = "Menu_Settings") bool IsMenu = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+		bool IsMenu = false;
 
 #pragma region widget functions
 	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")

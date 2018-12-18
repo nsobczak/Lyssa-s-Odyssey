@@ -35,7 +35,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
 	void SwapLevel();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Level")
+		bool TextOnBothSides = true;
 
 private:
 	/** Static mesh to represent the Mesh in the level*/
