@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/TextRenderComponent.h"
 #include "LevelPortal.generated.h"
 
 UCLASS()
@@ -17,6 +18,18 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Level")
+		FName LevelToOpen = "MainMenu";
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Level")
+		UTextRenderComponent* TextFront;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Level")
+		UTextRenderComponent* TextBack;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Level")
+		FText ActualText = FText::FromString("LevelName");
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,8 +46,9 @@ private:
 		class UStaticMeshComponent* PortalInterior;
 
 	UFUNCTION()
+		void InitializeText(UTextRenderComponent* textToInit, bool isFrontText = true);
+
+	UFUNCTION()
 		void HandleOverlap();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Level", meta = (AllowPrivateAccess = "true"))
-		FName LevelName = "MainMenu";
 };

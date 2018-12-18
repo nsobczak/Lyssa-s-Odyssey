@@ -4,6 +4,20 @@
 #include "Characters/Lyssa/Lyssa.h"
 
 // Sets default values
+void ALevelPortal::InitializeText(UTextRenderComponent* textToInit, bool isFrontText)
+{
+	textToInit->HorizontalAlignment = EHorizTextAligment::EHTA_Center;
+	textToInit->VerticalAlignment = EVerticalTextAligment::EVRTA_TextCenter;
+	textToInit->TextRenderColor = FColor::FColor(0x60, 0x60, 0x60, 0xFF);
+	textToInit->SetRelativeScale3D(FVector(10, 10, 10));
+	if (isFrontText)
+		textToInit->SetRelativeLocationAndRotation(FVector(200.0f, 0, 90.0f), FQuat::MakeFromEuler(FVector(0, 80.0f, 0)));
+	else
+		textToInit->SetRelativeLocationAndRotation(FVector(-200.0f, 0, 90.0f), FQuat::MakeFromEuler(FVector(360.0f, 80.0f, 180.0f)));
+	textToInit->SetText(ActualText);
+}
+
+
 ALevelPortal::ALevelPortal()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -15,6 +29,14 @@ ALevelPortal::ALevelPortal()
 
 	PortalInterior = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PortalInterior"));
 	PortalInterior->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+	TextFront = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TextFront"));
+	TextFront->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	InitializeText(TextFront, true);
+
+	TextBack = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TextBack"));
+	TextBack->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	InitializeText(TextBack, false);
 }
 
 // Called when the game starts or when spawned
@@ -22,6 +44,8 @@ void ALevelPortal::BeginPlay()
 {
 	Super::BeginPlay();
 
+	TextFront->SetText(ActualText);
+	TextBack->SetText(ActualText);
 }
 
 void ALevelPortal::SwapLevel()
@@ -29,7 +53,7 @@ void ALevelPortal::SwapLevel()
 	UWorld* currentWorld = GetWorld();
 
 	FString CurrentLevel = currentWorld->GetMapName();
-	UGameplayStatics::OpenLevel(GetWorld(), LevelName);
+	UGameplayStatics::OpenLevel(GetWorld(), LevelToOpen);
 }
 
 void ALevelPortal::HandleOverlap()
