@@ -24,7 +24,7 @@ AMainGameMode::AMainGameMode()
 
 #pragma region GameSave
 
-void AMainGameMode::SaveCurrentMainSaveGameValues(UMainSaveGame* SaveInstance)
+void AMainGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
 {
 	// Values
 	SaveInstance->CurrentLanguage = this->CurrentLanguage;
@@ -36,7 +36,9 @@ void AMainGameMode::SaveCurrentMainSaveGameValues(UMainSaveGame* SaveInstance)
 	SaveInstance->FPSIndex = this->FPSIndex;
 	SaveInstance->ResolutionIndex = this->ResIndex;
 
-	SaveInstance->MasterVolumeSliderValue = this->MasterVolume;
+	SaveInstance->MasterVolumeSliderValue = this->MasterVolumeSliderValue;
+	SaveInstance->MusicVolumeSliderValue = this->MusicVolumeSliderValue;
+	SaveInstance->EffectVolumeSliderValue = this->EffectVolumeSliderValue;
 
 	SaveInstance->PlayerKeys = this->KeyList;
 
@@ -56,7 +58,7 @@ void AMainGameMode::SaveGameSettings()
 
 	if (SaveInstance->IsValidLowLevel())
 	{
-		SaveCurrentMainSaveGameValues(SaveInstance);
+		SaveSettingsValues(SaveInstance);
 	}
 	else
 	{
@@ -67,14 +69,14 @@ void AMainGameMode::SaveGameSettings()
 		if (!SaveInstanceAlternate)
 			return;
 		else
-			SaveCurrentMainSaveGameValues(SaveInstanceAlternate);
+			SaveSettingsValues(SaveInstanceAlternate);
 	}
 	// Windows .Sav File Paths:
 		// If in editor:			\Unreal Projects\{UE4_PROJECT_NAME}\Saved\SaveGames\PlayerSaveSlot.sav
 		// If in packaged game:		C:\Users\{YOUR_USERNAME}\AppData\Local\{UE4_PROJECT_NAME}\Saved\SaveGames\PlayerSaveSlot.sav
 }
 
-void AMainGameMode::LoadSettings(UMainSaveGame * &LoadInstance)
+void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 {
 	LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
 
@@ -87,7 +89,9 @@ void AMainGameMode::LoadSettings(UMainSaveGame * &LoadInstance)
 	this->FPSIndex = LoadInstance->FPSIndex;
 	this->ResIndex = LoadInstance->ResolutionIndex;
 
-	this->MasterVolume = LoadInstance->MasterVolumeSliderValue;
+	this->MasterVolumeSliderValue = LoadInstance->MasterVolumeSliderValue;
+	this->MusicVolumeSliderValue = LoadInstance->MusicVolumeSliderValue;
+	this->EffectVolumeSliderValue = LoadInstance->EffectVolumeSliderValue;
 
 	if (this->KeyList.Num() == LoadInstance->PlayerKeys.Num())
 		this->KeyList = LoadInstance->PlayerKeys;
@@ -116,7 +120,7 @@ void AMainGameMode::LoadGameSettings()
 
 		if (LoadInstance->IsValidLowLevel())
 		{
-			LoadSettings(LoadInstance);
+			LoadSettingsValues(LoadInstance);
 		}
 		else
 		{
@@ -127,7 +131,7 @@ void AMainGameMode::LoadGameSettings()
 			if (!LoadInstanceAlternate)
 				return;
 			else
-				LoadSettings(LoadInstanceAlternate);
+				LoadSettingsValues(LoadInstanceAlternate);
 		}
 	}
 	else

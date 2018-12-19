@@ -17,7 +17,9 @@ UMainSaveGame::UMainSaveGame()
 	ResolutionIndex = 2;
 
 	//audio
-	MasterVolumeSliderValue = 1;
+	MasterVolumeSliderValue = 1.0f;
+	MusicVolumeSliderValue = 1.0f;
+	EffectVolumeSliderValue = 1.0f;
 
 	//key
 	//PlayerKeys = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::E, EKeys::R, EKeys::Tab };

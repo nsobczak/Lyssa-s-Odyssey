@@ -10,6 +10,16 @@
 UENUM(BlueprintType)        //"BlueprintType" is essential specifier
 enum GraphicLabel { Graphical, PP, AA, Shadow, FPS, Res };
 
+UENUM(BlueprintType)
+enum PlayerActionLabel
+{
+	MoveUp, MoveRight, MoveDown, MoveLeft, AAccept, ABack, AStart,
+	FMoveUp, FMoveRight, FMoveDown, FMoveLeft, ATabLeft, ATabRight
+};
+
+UENUM(BlueprintType)
+enum SoundLabel { Music, Effect };
+
 /**
  *
  */
@@ -124,9 +134,14 @@ public:
 #pragma endregion
 
 #pragma region audio settings
-	//main volume
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio_Settings")
-		float MasterVolume = 1.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings")
+		float MasterVolumeSliderValue = 1.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings")
+		float MusicVolumeSliderValue = 1.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings")
+		float EffectVolumeSliderValue = 1.0f;
 #pragma endregion
 
 #pragma region keybind settings
@@ -154,9 +169,9 @@ protected:
 	void InitializeSettingsMenu();
 
 	UFUNCTION()
-		void SaveCurrentMainSaveGameValues(class UMainSaveGame* SaveInstance);
+		void SaveSettingsValues(class UMainSaveGame* SaveInstance);
 	UFUNCTION()
-		void LoadSettings(class UMainSaveGame * &LoadInstance);
+		void LoadSettingsValues(class UMainSaveGame * &LoadInstance);
 
 	/** The widget class we will use as our menu when the game starts. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")

@@ -49,6 +49,10 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "settings")
 		float MasterVolumeSliderValue;
+	UPROPERTY(EditAnywhere, Category = "settings")
+		float MusicVolumeSliderValue;
+	UPROPERTY(EditAnywhere, Category = "settings")
+		float EffectVolumeSliderValue;
 
 	UPROPERTY(EditAnywhere, Category = "settings")
 		TArray<FKey> PlayerKeys;
