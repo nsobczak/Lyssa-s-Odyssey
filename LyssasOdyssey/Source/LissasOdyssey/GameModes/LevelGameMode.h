@@ -43,9 +43,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameSettings")
 		bool ShowMouseCursorInLevel = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
-		class AFinishArea* FinishArea;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
 		class ALyssa* Lyssa;
 

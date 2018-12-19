@@ -239,8 +239,7 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 
 	case ELevelPlayState::ELevelCompleted:
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Lyssa is in finish area!"));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Lyssa is in finish area!"));
+		UE_LOG(LogTemp, Log, TEXT("Level Completed!"));
 
 		AMainGameMode* gameMode = Cast<AMainGameMode>(GetWorld()->GetAuthGameMode());
 		if (gameMode)

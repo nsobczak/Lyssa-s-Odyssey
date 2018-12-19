@@ -53,6 +53,20 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
 		bool IsMenu = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
+		USoundMix* SoundMix;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
+		USoundClass *  SCMusic;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
+		USoundClass *  SCEffect;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
+	//	UAudioComponent* GameModeMusic;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
+		USoundBase * MapTheme;
+
 #pragma region widget functions
 	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void ShowCursor(bool showCursor);
@@ -142,6 +156,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings")
 		float EffectVolumeSliderValue = 1.0f;
+
+	UFUNCTION(BlueprintCallable, Category = "Audio_Settings")
+		void UpdateAudioVolumes();
 #pragma endregion
 
 #pragma region keybind settings

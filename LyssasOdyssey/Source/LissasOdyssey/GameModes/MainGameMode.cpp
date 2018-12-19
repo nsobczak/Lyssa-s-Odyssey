@@ -140,6 +140,13 @@ void AMainGameMode::LoadGameSettings()
 #pragma endregion
 
 
+void AMainGameMode::UpdateAudioVolumes()
+{
+	UGameplayStatics::SetSoundMixClassOverride(GetWorld(), SoundMix, SCMusic, MusicVolumeSliderValue, 1.0f, 0, true);
+	UGameplayStatics::SetSoundMixClassOverride(GetWorld(), SoundMix, SCEffect, EffectVolumeSliderValue, 1.0f, 0, true);
+}
+
+
 void AMainGameMode::InitializeSettingsMenu()
 {
 	//command
@@ -171,9 +178,21 @@ void AMainGameMode::BeginPlay()
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	PlayerController->bAutoManageActiveCameraTarget = false;
 
-	//TODO: load saved settings here
+	//load saved settings here
 	LoadGameSettings();
 
+	//Audio
+	if (!SoundMix) UE_LOG(LogTemp, Error, TEXT("SoundMix is null."));
+	if (!SCMusic) UE_LOG(LogTemp, Error, TEXT("SCMusic is null."));
+	if (!SCEffect) UE_LOG(LogTemp, Error, TEXT("SCEffect is null."));
+	UGameplayStatics::PushSoundMixModifier(GetWorld(), SoundMix);
+	//SetSoundMixClassOverride
+	UpdateAudioVolumes();
+	//play music
+	if (MapTheme)
+		UGameplayStatics::PlaySound2D(GetWorld(), MapTheme, 1.0f);
+
+	//menu
 	if (IsMenu)
 	{
 		InitializeSettingsMenu();
