@@ -4,7 +4,7 @@
 #include "Characters/Lyssa/Lyssa.h"
 #include "Blueprint/UserWidget.h"
 #include "Engine/Public/SystemSettings.h"
-#include "Editor/UnrealEd/Public/Editor.h"
+//#include "Editor/UnrealEd/Public/Editor.h"
 
 #pragma region Initialization
 //==============================================================================================
@@ -27,12 +27,12 @@ AMainGameMode::AMainGameMode()
 
 bool AMainGameMode::ExecuteConsoleCommand(FString consoleCommand)
 {
-	if (GEditor)
+	if (GEngine)
 	{
-		UWorld* world = GEditor->GetEditorWorldContext().World();
+		UWorld* world = this->GetWorld();// GEngine->GetWorld();// GetEditorWorldContext().World();
 		if (world)
 		{
-			return GEditor->Exec(world, *consoleCommand);
+			return GEngine->Exec(world, *consoleCommand);
 		}
 		else
 		{

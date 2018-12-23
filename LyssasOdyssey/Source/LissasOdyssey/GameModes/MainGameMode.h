@@ -38,7 +38,7 @@ public:
 		APlayerController* PlayerController;
 
 	UFUNCTION(BlueprintCallable, Category = "utils")
-		static bool	ExecuteConsoleCommand(FString consoleCommand);
+		bool	ExecuteConsoleCommand(FString consoleCommand);//static
 
 #pragma region save region
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
