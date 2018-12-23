@@ -1,8 +1,10 @@
 #include "MainGameMode.h"
-#include "Runtime/Core/Public/Math/UnrealMathUtility.h"
-#include "Runtime/Engine/Classes/Engine/World.h"
+#include "Core/Public/Math/UnrealMathUtility.h"
+#include "Engine/Classes/Engine/World.h"
 #include "Characters/Lyssa/Lyssa.h"
 #include "Blueprint/UserWidget.h"
+#include "Engine/Public/SystemSettings.h"
+#include "Editor/UnrealEd/Public/Editor.h"
 
 #pragma region Initialization
 //==============================================================================================
@@ -21,6 +23,30 @@ AMainGameMode::AMainGameMode()
 
 	//HUDClass = AFPSHUD::StaticClass();
 }
+
+
+bool AMainGameMode::ExecuteConsoleCommand(FString consoleCommand)
+{
+	if (GEditor)
+	{
+		UWorld* world = GEditor->GetEditorWorldContext().World();
+		if (world)
+		{
+			return GEditor->Exec(world, *consoleCommand);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("world is null"));
+			return false;
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("GEditor is null"));
+		return false;
+	}
+}
+
 
 #pragma region GameSave
 
@@ -147,27 +173,27 @@ void AMainGameMode::UpdateAudioVolumes()
 }
 
 
-void AMainGameMode::InitializeSettingsMenu()
+void AMainGameMode::InitializeGraphicalSettings()
 {
 	//command
-	TAGraphicalCommands.Append(GraphicalCommands, ARRAY_COUNT(GraphicalCommands));
-	TAPPCommands.Append(GraphicalCommands, ARRAY_COUNT(PPCommands));
-	TAAACommands.Append(GraphicalCommands, ARRAY_COUNT(AACommands));
-	TAShadowCommands.Append(GraphicalCommands, ARRAY_COUNT(ShadowCommands));
-	TAFPSCommands.Append(GraphicalCommands, ARRAY_COUNT(FPSCommands));
-	TAResCommands.Append(ResCommands, ARRAY_COUNT(ResCommands));
+	if (TAGraphicalCommands.Num() < 1) TAGraphicalCommands.Append(GraphicalCommands, ARRAY_COUNT(GraphicalCommands));
+	ExecuteConsoleCommand(*(GraphicalCommands[GraphicalIndex]));
+	if (TAPPCommands.Num() < 1)TAPPCommands.Append(PPCommands, ARRAY_COUNT(PPCommands));
+	ExecuteConsoleCommand(*(PPCommands[PPIndex]));
+	if (TAAACommands.Num() < 1)TAAACommands.Append(AACommands, ARRAY_COUNT(AACommands));
+	ExecuteConsoleCommand(*(AACommands[AAIndex]));
+	if (TAShadowCommands.Num() < 1)TAShadowCommands.Append(ShadowCommands, ARRAY_COUNT(ShadowCommands));
+	ExecuteConsoleCommand(*(ShadowCommands[ShadowIndex]));
+	if (TAFPSCommands.Num() < 1)TAFPSCommands.Append(FPSCommands, ARRAY_COUNT(FPSCommands));
+	ExecuteConsoleCommand(*(FPSCommands[FPSIndex]));
+	if (TAResCommands.Num() < 1)TAResCommands.Append(ResCommands, ARRAY_COUNT(ResCommands));
+	ExecuteConsoleCommand(*(ResCommands[ResIndex]));
 
-	//TMP
-	FString Final0 = "r.ScreenPercentage 50";
-	GetWorld()->Exec(GetWorld(), *Final0);
-	FString Final1 = "sg.PostProcessQuality 1";
-	GetWorld()->Exec(GetWorld(), *Final1);
-	FString Final2 = "r.PostProcessAAQuality 1";
-	GetWorld()->Exec(GetWorld(), *Final2);
-	FString Final3 = "sg.ShadowQuality 1";
-	GetWorld()->Exec(GetWorld(), *Final3);
-	FString Final4 = "t.MaxFPS 30";
-	GetWorld()->Exec(GetWorld(), *Final4);
+	if (ShowFPS)
+	{
+		FString showFpsCommand = "stat fps";
+		ExecuteConsoleCommand(*showFpsCommand);
+	}
 }
 
 
@@ -192,10 +218,10 @@ void AMainGameMode::BeginPlay()
 	if (MapTheme)
 		UGameplayStatics::PlaySound2D(GetWorld(), MapTheme, 1.0f);
 
-	//menu
-	if (IsMenu)
+	//Menu
+	if (IsMainMenu)
 	{
-		InitializeSettingsMenu();
+		InitializeGraphicalSettings();
 		ChangeMenuWidget(StartingWidgetClass, true);
 	}
 }
@@ -376,7 +402,12 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 
 	//command
 	if (commandIndex >= 0 && commandIndex < commandList.Num()) //check for safety
-		GetWorld()->Exec(GetWorld(), *(commandList[commandIndex]));
+	{
+		bool wasCommandExecuted = ExecuteConsoleCommand(*(commandList[commandIndex]));
+		UE_LOG(LogTemp, Log, TEXT("exec command: %s, success?: %s"),
+			*(commandList[commandIndex]), (wasCommandExecuted ? TEXT("True") : TEXT("False")));
+	}
+
 }
 
 void AMainGameMode::AssignNewKey(FKey newKey, int moveToChangeIndex)
@@ -424,8 +455,6 @@ void AMainGameMode::ListenToNewKeyForMove(int moveToChangeIndex, int iteration)
 				return;
 			}
 		}
-
-		//TODO: block ui input when IsListeningToKey is true to prevent user from changing menu
 	}
 
 	//delay

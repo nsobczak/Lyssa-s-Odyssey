@@ -219,7 +219,7 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 
 	case ELevelPlayState::EGameOver:
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Lyssa died | game over"));
+		UE_LOG(LogTemp, Log, TEXT("Lyssa died | game over."));
 
 		AMainGameMode* gameMode = Cast<AMainGameMode>(GetWorld()->GetAuthGameMode());
 		if (gameMode)

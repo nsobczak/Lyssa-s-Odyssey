@@ -37,6 +37,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
 		APlayerController* PlayerController;
 
+	UFUNCTION(BlueprintCallable, Category = "utils")
+		static bool	ExecuteConsoleCommand(FString consoleCommand);
+
 #pragma region save region
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
 		void SaveGameSettings();
@@ -51,7 +54,7 @@ public:
 		bool IsPauseAllowed = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
-		bool IsMenu = false;
+		bool IsMainMenu = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
 		USoundMix* SoundMix;
@@ -131,6 +134,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString ResCommands[4] = { "r.SetRes 800x600w","r.SetRes 1280x720w", "r.SetRes 1600x900w", "r.SetRes 1920x1080w" };
 	TArray<FString> TAResCommands;
 	//1280x720w ou f
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
+		bool ShowFPS = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
+		bool IsFullScreen = false;
 
 	//indexes
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
@@ -183,7 +190,7 @@ protected:
 	/** Called when the game starts. */
 	virtual void BeginPlay() override;
 
-	void InitializeSettingsMenu();
+	void InitializeGraphicalSettings();
 
 	UFUNCTION()
 		void SaveSettingsValues(class UMainSaveGame* SaveInstance);
