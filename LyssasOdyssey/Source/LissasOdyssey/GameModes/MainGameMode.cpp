@@ -177,17 +177,21 @@ void AMainGameMode::InitializeGraphicalSettings()
 {
 	//command
 	if (TAGraphicalCommands.Num() < 1) TAGraphicalCommands.Append(GraphicalCommands, ARRAY_COUNT(GraphicalCommands));
-	ExecuteConsoleCommand(*(GraphicalCommands[GraphicalIndex]));
 	if (TAPPCommands.Num() < 1)TAPPCommands.Append(PPCommands, ARRAY_COUNT(PPCommands));
-	ExecuteConsoleCommand(*(PPCommands[PPIndex]));
 	if (TAAACommands.Num() < 1)TAAACommands.Append(AACommands, ARRAY_COUNT(AACommands));
-	ExecuteConsoleCommand(*(AACommands[AAIndex]));
 	if (TAShadowCommands.Num() < 1)TAShadowCommands.Append(ShadowCommands, ARRAY_COUNT(ShadowCommands));
-	ExecuteConsoleCommand(*(ShadowCommands[ShadowIndex]));
 	if (TAFPSCommands.Num() < 1)TAFPSCommands.Append(FPSCommands, ARRAY_COUNT(FPSCommands));
-	ExecuteConsoleCommand(*(FPSCommands[FPSIndex]));
 	if (TAResCommands.Num() < 1)TAResCommands.Append(ResCommands, ARRAY_COUNT(ResCommands));
-	ExecuteConsoleCommand(*(ResCommands[ResIndex]));
+
+	if (IsMainMenu)
+	{
+		ExecuteConsoleCommand(*(GraphicalCommands[GraphicalIndex]));
+		ExecuteConsoleCommand(*(PPCommands[PPIndex]));
+		ExecuteConsoleCommand(*(AACommands[AAIndex]));
+		ExecuteConsoleCommand(*(ShadowCommands[ShadowIndex]));
+		ExecuteConsoleCommand(*(FPSCommands[FPSIndex]));
+		ExecuteConsoleCommand(*(ResCommands[ResIndex]));
+	}
 
 	if (ShowFPS)
 	{
@@ -206,6 +210,7 @@ void AMainGameMode::BeginPlay()
 
 	//load saved settings here
 	LoadGameSettings();
+	InitializeGraphicalSettings();
 
 	//Audio
 	if (!SoundMix) UE_LOG(LogTemp, Error, TEXT("SoundMix is null."));
@@ -221,7 +226,6 @@ void AMainGameMode::BeginPlay()
 	//Menu
 	if (IsMainMenu)
 	{
-		InitializeGraphicalSettings();
 		ChangeMenuWidget(StartingWidgetClass, true);
 	}
 }
