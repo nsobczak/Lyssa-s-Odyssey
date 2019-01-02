@@ -65,13 +65,7 @@ void ALyssa::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	////keep same z value - used only when colliding
-	//FVector loc = GetActorLocation();
-	//if (loc.Z != initialPosZValue)
-	//{
-	//	//UE_LOG(LogTemp, Log, TEXT("keep same z value for lyssa position"));
-	//	SetActorLocation(FVector(loc.X, loc.Y, initialPosZValue));
-	//}
+	UpdateRotation();
 
 	CollectPickups();
 }
@@ -93,33 +87,7 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
 	if (CurrentGameMode)
 	{
-		//TODO: debind all
-
-		//TArray<FKey> keys = CurrentGameMode->KeyListKeyboard;
-		//UE_LOG(LogTemp, Log, TEXT("keys: %s %s %s %s %s %s"), *(keys[0].ToString()), *(keys[1].ToString()),
-		//	*(keys[2].ToString()), *(keys[3].ToString()), *(keys[4].ToString()), *(keys[5].ToString()));
-
-		////// set up gameplay key bindings
-		////PlayerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
-		////PlayerInputComponent->BindAxis("MoveRight", this, &ALyssa::MoveRight);
-		//PlayerInputComponent->BindAxisKey(keys[0], this, &ALyssa::MoveUp);
-		//PlayerInputComponent->BindAxisKey(keys[1], this, &ALyssa::MoveDown);
-		//PlayerInputComponent->BindAxisKey(keys[2], this, &ALyssa::MoveLeft);
-		//PlayerInputComponent->BindAxisKey(keys[3], this, &ALyssa::MoveRight);
-		//PlayerInputComponent->BindKey(keys[4], EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
-		//PlayerInputComponent->BindKey(keys[5], EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
-		//PlayerInputComponent->BindKey(keys[6], EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
-
-		//keys = CurrentGameMode->KeyListGamepad;
-		//UE_LOG(LogTemp, Log, TEXT("keys: %s %s %s %s %s %s"), *(keys[0].ToString()), *(keys[1].ToString()),
-		//	*(keys[2].ToString()), *(keys[3].ToString()), *(keys[4].ToString()), *(keys[5].ToString()));
-		//PlayerInputComponent->BindAxisKey(keys[0], this, &ALyssa::MoveUp);
-		//PlayerInputComponent->BindAxisKey(keys[1], this, &ALyssa::MoveDown);
-		//PlayerInputComponent->BindAxisKey(keys[2], this, &ALyssa::MoveLeft);
-		//PlayerInputComponent->BindAxisKey(keys[3], this, &ALyssa::MoveRight);
-		//PlayerInputComponent->BindKey(keys[4], EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
-		//PlayerInputComponent->BindKey(keys[5], EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
-		//PlayerInputComponent->BindKey(keys[6], EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
+		//TODO: debind all before reassigning
 
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeys = CurrentGameMode->TMapKeyboardKeys;
 		UE_LOG(LogTemp, Log, TEXT("keyboard keys: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
@@ -165,7 +133,8 @@ void ALyssa::MoveUp(float value)
 		AddMovementInput(Direction, value);
 
 		// Set Character's rotation
-		this->GetMesh()->SetRelativeRotation(FRotator(0, 0, 0));
+		topKeyValue = value;
+		UE_LOG(LogTemp, Log, TEXT("topKeyValue = %f"), topKeyValue);
 	}
 }
 
@@ -182,7 +151,8 @@ void ALyssa::MoveDown(float value)
 		AddMovementInput(Direction, -value);
 
 		// Set Character's rotation
-		this->GetMesh()->SetRelativeRotation(FRotator(0, 180.0f, 0));
+		downKeyValue = value;
+		UE_LOG(LogTemp, Log, TEXT("downKeyValue = %f"), downKeyValue);
 	}
 }
 
@@ -199,7 +169,8 @@ void ALyssa::MoveRight(float value)
 		AddMovementInput(Direction, value);
 
 		// Set Character's rotation
-		this->GetMesh()->SetRelativeRotation(FRotator(0, 90.0f, 0));
+		rightKeyValue = value;
+		UE_LOG(LogTemp, Log, TEXT("rightKeyValue = %f"), rightKeyValue);
 	}
 }
 
@@ -216,8 +187,74 @@ void ALyssa::MoveLeft(float value)
 		AddMovementInput(Direction, -value);
 
 		// Set Character's rotation
-		this->GetMesh()->SetRelativeRotation(FRotator(0, 270.0f, 0));
+		leftKeyValue = value;
+		UE_LOG(LogTemp, Log, TEXT("leftKeyValue = %f"), leftKeyValue);
 	}
+}
+
+void ALyssa::UpdateRotation()
+{
+	/*UE_LOG(LogTemp, Log, TEXT("UpdateRotation - values: topKeyValue = %f | downKeyValue = %f | rightKeyValue = %f | leftKeyValue = %f"),
+		topKeyValue, downKeyValue, rightKeyValue, leftKeyValue);*/
+
+		//1 value
+	if (leftKeyValue != 0 && topKeyValue == 0 && rightKeyValue == 0 && downKeyValue == 0)
+	{
+		if (leftKeyValue > 0)
+			rotationAngle = 270.0f;
+		else
+			rotationAngle = 90.0f;
+		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+	}
+	else if (leftKeyValue == 0 && topKeyValue != 0 && rightKeyValue == 0 && downKeyValue == 0)
+	{
+		if (topKeyValue > 0)
+			rotationAngle = 0.0f;
+		else
+			rotationAngle = 180.0f;
+		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+	}
+	else if (leftKeyValue == 0 && topKeyValue == 0 && rightKeyValue != 0 && downKeyValue == 0)
+	{
+		if (rightKeyValue > 0)
+			rotationAngle = 90.0f;
+		else
+			rotationAngle = 270.0f;
+		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+	}
+	else if (leftKeyValue == 0 && topKeyValue == 0 && rightKeyValue == 0 && downKeyValue != 0)
+	{
+		if (downKeyValue > 0)
+			rotationAngle = 180.0f;
+		else
+			rotationAngle = 0.0f;
+		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+	}
+
+	//2 values
+	else if (leftKeyValue == 0 && topKeyValue != 0 && rightKeyValue != 0 && downKeyValue == 0)
+	{
+		rotationAngle = atan2f(rightKeyValue, topKeyValue) * 180 / PI;// 45.0f;
+		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+	}
+	else if (leftKeyValue == 0 && topKeyValue == 0 && rightKeyValue != 0 && downKeyValue != 0)
+	{
+		rotationAngle = 90.0f + atan2f(downKeyValue, rightKeyValue) * 180 / PI;// 135.0f;
+		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+	}
+	else if (leftKeyValue != 0 && topKeyValue == 0 && rightKeyValue == 0 && downKeyValue != 0)
+	{
+		rotationAngle = 180.0f + atan2f(leftKeyValue, downKeyValue) * 180 / PI; //225.0f;
+		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+	}
+	else if (leftKeyValue != 0 && topKeyValue != 0 && rightKeyValue == 0 && downKeyValue == 0)
+	{
+		rotationAngle = 270.0f + atan2f(topKeyValue, leftKeyValue) * 180 / PI; //315.0f;
+		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+	}
+
+	this->GetMesh()->SetRelativeRotation(FRotator(0, rotationAngle, 0));
+	leftKeyValue = 0; topKeyValue = 0; rightKeyValue = 0; downKeyValue = 0;
 }
 
 void ALyssa::ActionAccept()

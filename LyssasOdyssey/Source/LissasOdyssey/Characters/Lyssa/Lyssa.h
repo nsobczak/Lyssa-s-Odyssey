@@ -32,6 +32,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		UCameraComponent* MainCamera;
 
+
 	// === Input ===
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -48,6 +49,9 @@ public:
 	/**handles right*/
 	UFUNCTION()
 		void MoveRight(float value);
+
+	UFUNCTION(BlueprintCallable, Category = "Lyssa")
+		void UpdateRotation();
 
 	/**accept button*/
 	UFUNCTION()
@@ -67,11 +71,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Pickups")
 		void UpdateScorePickupAmount(int amountChange);
 
+
 protected:
 	float initialPosZValue;
 
 	UFUNCTION(BlueprintCallable, Category = "Pickups")
 		void CollectPickups();
+
 
 private:
 	/** Static mesh to represent the Lyssa in the level*/
@@ -83,5 +89,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Pickups")
 		int ScorePickupAmount;
+
+	float leftKeyValue = 0, topKeyValue = 0, rightKeyValue = 0, downKeyValue = 0;
+	float rotationAngle = 0;
 
 };
