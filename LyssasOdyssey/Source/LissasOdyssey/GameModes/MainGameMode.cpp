@@ -65,7 +65,11 @@ void AMainGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
 	SaveInstance->MusicVolumeSliderValue = this->MusicVolumeSliderValue;
 	SaveInstance->EffectVolumeSliderValue = this->EffectVolumeSliderValue;
 
-	SaveInstance->PlayerKeys = this->KeyList;
+	//SaveInstance->PlayerKeysKeyboard = this->KeyListKeyboard;
+	SaveInstance->TMapKeyboardKeys = this->TMapKeyboardKeys;
+
+	//SaveInstance->PlayerKeysGamepad = this->KeyListGamepad;
+	SaveInstance->TMapGamepadKeys = this->TMapGamepadKeys;
 
 	// Save computer local date
 	SaveInstance->PlayerSaveSlotDate = FDateTime::Now();
@@ -118,8 +122,13 @@ void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 	this->MusicVolumeSliderValue = LoadInstance->MusicVolumeSliderValue;
 	this->EffectVolumeSliderValue = LoadInstance->EffectVolumeSliderValue;
 
-	if (this->KeyList.Num() == LoadInstance->PlayerKeys.Num())
-		this->KeyList = LoadInstance->PlayerKeys;
+	//if (this->KeyListKeyboard.Num() == LoadInstance->PlayerKeysKeyboard.Num())
+	//	this->KeyListKeyboard = LoadInstance->PlayerKeysKeyboard;
+	//if (this->KeyListKeyboard.Num() == LoadInstance->PlayerKeysGamepad.Num())
+	//	this->KeyListGamepad = LoadInstance->PlayerKeysGamepad;
+
+	this->TMapKeyboardKeys = LoadInstance->TMapKeyboardKeys;
+	this->TMapGamepadKeys = LoadInstance->TMapGamepadKeys;
 
 	ALyssa* player = (ALyssa*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	if (nullptr != player)
@@ -413,27 +422,28 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 
 }
 
-void AMainGameMode::AssignNewKey(FKey newKey, int moveToChangeIndex)
+void AMainGameMode::AssignNewKey(FKey newKey, TEnumAsByte<PlayerActionLabel> actionToChange, bool isKeyboardKey)
 {
-	//Check if key is not already used, swap with old one if it is
-	if (this->KeyList.Contains(newKey))
+	if (isKeyboardKey)
 	{
-		this->KeyList.Swap(moveToChangeIndex, this->KeyList.IndexOfByKey(newKey));
+		this->TMapKeyboardKeys.Emplace(actionToChange, newKey);
+		//TODO: Check if key was already used, swap with old one if it was
 	}
-	else
+
+	else if (actionToChange != PlayerActionLabel::MoveDown && actionToChange != PlayerActionLabel::MoveLeft)
 	{
-		this->KeyList.RemoveAt(moveToChangeIndex);
-		this->KeyList.Insert(newKey, moveToChangeIndex);
+		//Check if key is not already used, swap with old one if it is
+		this->TMapGamepadKeys.Emplace(actionToChange, newKey);
 	}
 }
 
-void AMainGameMode::ListenToNewKeyForMove(int moveToChangeIndex, int iteration)
+void AMainGameMode::ListenToNewKeyForMove(TEnumAsByte<PlayerActionLabel> actionToChange, int iteration)
 {
-	if (moveToChangeIndex >= this->KeyList.Num() || iteration >= 50) { IsListeningToKey = false;  return; }
+	if (iteration >= 50) { IsListeningToKey = false; return; }
 
-	FKey boundKey = this->KeyList[moveToChangeIndex];
+	//FKey boundKey = this->KeyListKeyboard[moveToChangeIndex];
 	IsListeningToKey = true;
-	ListeningToKeyIndex = moveToChangeIndex;
+	ListeningToKeyLabel = actionToChange;
 
 	if (PlayerController->IsInputKeyDown(EKeys::AnyKey))//if any key pressed
 	{
@@ -448,11 +458,10 @@ void AMainGameMode::ListenToNewKeyForMove(int moveToChangeIndex, int iteration)
 				keyPressed = allKeys[i];
 				FString keyPressedString = keyPressed.ToString();
 				UE_LOG(LogTemp, Warning, TEXT("key %s was pressed"), *keyPressedString);
-				if (keyPressed.IsGamepadKey())
-					UE_LOG(LogTemp, Log, TEXT("key %s is gamepadKey"), *keyPressedString);
 
-				AssignNewKey(keyPressed, moveToChangeIndex);
-				boundKey = keyPressed;
+				bool isKeyboardKey = !keyPressed.IsGamepadKey();
+				if (!isKeyboardKey) UE_LOG(LogTemp, Log, TEXT("key %s is gamepadKey"), *keyPressedString);
+				AssignNewKey(keyPressed, actionToChange, isKeyboardKey);
 				IsListeningToKey = false;
 
 				return;
@@ -463,9 +472,96 @@ void AMainGameMode::ListenToNewKeyForMove(int moveToChangeIndex, int iteration)
 	//delay
 	FTimerHandle TimerHandle; // Handle to manage the timer
 	FTimerDelegate TimerDel; //Bind function with parameters
-	TimerDel.BindUFunction(this, FName("ListenToNewKeyForMove"), moveToChangeIndex, iteration + 1);
+	TimerDel.BindUFunction(this, FName("ListenToNewKeyForMove"), actionToChange, iteration + 1);
 	GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, 0.1f, false);
 }
+
+
+//void AMainGameMode::AssignNewKey(FKey newKey, int moveToChangeIndex, bool isKeyboardKey)
+//{
+//	if (isKeyboardKey)
+//	{
+//		//Check if key is not already used, swap with old one if it is
+//		if (this->KeyListKeyboard.Contains(newKey))
+//		{
+//			this->KeyListKeyboard.Swap(moveToChangeIndex, this->KeyListKeyboard.IndexOfByKey(newKey));
+//		}
+//		else
+//		{
+//			this->KeyListKeyboard.RemoveAt(moveToChangeIndex);
+//			this->KeyListKeyboard.Insert(newKey, moveToChangeIndex);
+//		}
+//	}
+//
+//	else if (moveToChangeIndex != 1 && moveToChangeIndex != 2)
+//	{
+//		//Check if key is not already used, swap with old one if it is
+//		if (this->KeyListGamepad.Contains(newKey) && moveToChangeIndex)
+//		{
+//			this->KeyListGamepad.Swap(moveToChangeIndex, this->KeyListGamepad.IndexOfByKey(newKey));
+//		}
+//		else
+//		{
+//			this->KeyListGamepad.RemoveAt(moveToChangeIndex);
+//			this->KeyListGamepad.Insert(newKey, moveToChangeIndex);
+//		}
+//		//special cases
+//		if (moveToChangeIndex == 0)
+//		{
+//			this->KeyListGamepad.RemoveAt(1);
+//			this->KeyListGamepad.Insert(newKey, 1);
+//		}
+//		if (moveToChangeIndex == 3)
+//		{
+//			this->KeyListGamepad.RemoveAt(2);
+//			this->KeyListGamepad.Insert(newKey, 2);
+//		}
+//	}
+//}
+
+//void AMainGameMode::ListenToNewKeyForMove(int moveToChangeIndex, int iteration)
+//{
+//	if (moveToChangeIndex >= this->KeyListKeyboard.Num() || moveToChangeIndex >= this->KeyListGamepad.Num() || iteration >= 50)
+//	{
+//		IsListeningToKey = false;
+//		return;
+//	}
+//
+//	//FKey boundKey = this->KeyListKeyboard[moveToChangeIndex];
+//	IsListeningToKey = true;
+//	ListeningToKeyIndex = moveToChangeIndex;
+//
+//	if (PlayerController->IsInputKeyDown(EKeys::AnyKey))//if any key pressed
+//	{
+//		//retrieve any key pressed
+//		FKey keyPressed;
+//		TArray<FKey> allKeys;
+//		EKeys::GetAllKeys(allKeys);
+//		for (size_t i = 0; i < allKeys.Num(); ++i)
+//		{
+//			if (allKeys[i] != EKeys::AnyKey && PlayerController->IsInputKeyDown(allKeys[i]))
+//			{
+//				keyPressed = allKeys[i];
+//				FString keyPressedString = keyPressed.ToString();
+//				UE_LOG(LogTemp, Warning, TEXT("key %s was pressed"), *keyPressedString);
+//
+//				bool isKeyboardKey = !keyPressed.IsGamepadKey();
+//				if (!isKeyboardKey) UE_LOG(LogTemp, Log, TEXT("key %s is gamepadKey"), *keyPressedString);
+//				AssignNewKey(keyPressed, moveToChangeIndex, isKeyboardKey);
+//				//boundKey = keyPressed;
+//				IsListeningToKey = false;
+//
+//				return;
+//			}
+//		}
+//	}
+//
+//	//delay
+//	FTimerHandle TimerHandle; // Handle to manage the timer
+//	FTimerDelegate TimerDel; //Bind function with parameters
+//	TimerDel.BindUFunction(this, FName("ListenToNewKeyForMove"), moveToChangeIndex, iteration + 1);
+//	GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, 0.1f, false);
+//}
 
 void AMainGameMode::Tick(float DeltaTime)
 {

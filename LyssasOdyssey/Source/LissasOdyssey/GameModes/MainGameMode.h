@@ -6,20 +6,6 @@
 
 #include "MainGameMode.generated.h"
 
-
-UENUM(BlueprintType)        //"BlueprintType" is essential specifier
-enum GraphicLabel { Graphical, PP, AA, Shadow, FPS, Res };
-
-UENUM(BlueprintType)
-enum PlayerActionLabel
-{
-	MoveUp, MoveRight, MoveDown, MoveLeft, AAccept, ABack, AStart,
-	FMoveUp, FMoveRight, FMoveDown, FMoveLeft, ATabLeft, ATabRight
-};
-
-UENUM(BlueprintType)
-enum SoundLabel { Music, Effect };
-
 /**
  *
  */
@@ -171,16 +157,26 @@ public:
 #pragma region keybind settings
 	/** Assign a new key to an input */
 	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
-		void ListenToNewKeyForMove(int moveToChangeIndex, int iteration);
+		void ListenToNewKeyForMove(TEnumAsByte<PlayerActionLabel> actionToChange, int iteration);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
 		bool IsListeningToKey = false;
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
+		int ListeningToKeyIndex;*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
-		int ListeningToKeyIndex;
+		TEnumAsByte<PlayerActionLabel> ListeningToKeyLabel;
 
 	/**list of keys*/
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
+		TArray<FKey> KeyListKeyboard = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::E, EKeys::R, EKeys::Tab };*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
-		TArray<FKey> KeyList = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::E, EKeys::R, EKeys::Tab };
+		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeyboardKeys;
+
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
+		TArray<FKey> KeyListGamepad = { EKeys::Gamepad_DPad_Up, EKeys::Gamepad_DPad_Down, EKeys::Gamepad_DPad_Left, EKeys::Gamepad_DPad_Right,
+			EKeys::Gamepad_FaceButton_Bottom, EKeys::Gamepad_FaceButton_Top, EKeys::Gamepad_FaceButton_Left };*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
+		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapGamepadKeys;
 
 #pragma endregion
 
@@ -227,6 +223,6 @@ protected:
 
 	/** Assign a new key to an input if not already used */
 	UFUNCTION()
-		void AssignNewKey(FKey newKey, int moveToChangeIndex);
+		void AssignNewKey(FKey newKey, TEnumAsByte<PlayerActionLabel> actionToChange, bool isKeyboardKey = true);
 
 };

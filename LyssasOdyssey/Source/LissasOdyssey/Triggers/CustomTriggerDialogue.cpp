@@ -65,7 +65,9 @@ void ACustomTriggerDialogue::Tick(float DeltaTime)
 	if (IsTriggered)
 	{
 		ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
-		if (CurrentGameMode && CurrentGameMode->PlayerController->WasInputKeyJustReleased(CurrentGameMode->KeyList[4]))//if any key pressed
+		if (CurrentGameMode &&
+			(CurrentGameMode->PlayerController->WasInputKeyJustReleased(CurrentGameMode->TMapKeyboardKeys[PlayerActionLabel::ACross])
+				|| CurrentGameMode->PlayerController->WasInputKeyJustReleased(CurrentGameMode->TMapGamepadKeys[PlayerActionLabel::ACross])))//if any key pressed
 		{
 			if (CurrentDialogueIndex < DialogueToDisplay.Num() - 1)
 			{

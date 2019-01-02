@@ -4,11 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
+#include "Utils/GameEnums.h"
 #include "MainSaveGame.generated.h"
 
-
-UENUM(BlueprintType)
-enum class ELanguages : uint8 {en, fr, count};
 /**
  *
  */
@@ -54,7 +52,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "settings")
 		float EffectVolumeSliderValue;
 
+	//UPROPERTY(EditAnywhere, Category = "settings")
+	//	TArray<FKey> PlayerKeysKeyboard;
 	UPROPERTY(EditAnywhere, Category = "settings")
-		TArray<FKey> PlayerKeys;
+		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeyboardKeys;
+
+	//UPROPERTY(EditAnywhere, Category = "settings")
+	//	TArray<FKey> PlayerKeysGamepad;
+	UPROPERTY(EditAnywhere, Category = "settings")
+		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapGamepadKeys;
 #pragma endregion
 };
