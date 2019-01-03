@@ -68,6 +68,32 @@ void ALyssa::Tick(float DeltaTime)
 	UpdateRotation();
 
 	CollectPickups();
+
+	////TODO: make function + add dedlay for following bloc
+	//ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+	//if (CurrentGameMode && CurrentGameMode->PlayerController->IsInputKeyDown(EKeys::AnyKey))//if any key pressed
+	//{
+	//	//retrieve any key pressed
+	//	FKey keyPressed;
+	//	TArray<FKey> allKeys;
+	//	EKeys::GetAllKeys(allKeys);
+	//	for (size_t i = 0; i < allKeys.Num(); ++i)
+	//	{
+	//		if (allKeys[i] != EKeys::AnyKey && CurrentGameMode->PlayerController->IsInputKeyDown(allKeys[i]))
+	//		{
+	//			CurrentGameMode->lastKeyUsed = allKeys[i];
+
+	//			FString keyPressedString = CurrentGameMode->lastKeyUsed.ToString();
+	//			UE_LOG(LogTemp, Warning, TEXT("key %s was pressed"), *keyPressedString);
+
+	//			bool isKeyboardKey = !keyPressed.IsGamepadKey();
+	//			UE_LOG(LogTemp, Warning, TEXT("is lastKeyUsed keyboard %s"), (isKeyboardKey ? TEXT("True") : TEXT("False")));
+
+	//			//if (!isKeyboardKey) UE_LOG(LogTemp, Log, TEXT("key %s is gamepadKey"), *keyPressedString);
+	//			return;
+	//		}
+	//	}
+	//}
 }
 
 AFylgja* ALyssa::GetFylgja() const
@@ -101,6 +127,10 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
 		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
 		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight);
+		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveUp), this, &ALyssa::MoveFUp);
+		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveDown), this, &ALyssa::MoveFDown);
+		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveLeft), this, &ALyssa::MoveFLeft);
+		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveRight), this, &ALyssa::MoveFRight);
 		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
 		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
 		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::AStart), EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
@@ -114,12 +144,19 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
 		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
 		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight);
+		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveUp), this, &ALyssa::MoveFUp);
+		//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveDown), this, &ALyssa::MoveFDown);
+		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveLeft), this, &ALyssa::MoveFLeft);
+		//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveRight), this, &ALyssa::MoveFRight);
 		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
 		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
 		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::AStart), EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
 	}
 }
 
+
+#pragma region Lyssa
+//_______________
 void ALyssa::MoveUp(float value)
 {
 	if (Controller != NULL && value != 0)
@@ -134,7 +171,7 @@ void ALyssa::MoveUp(float value)
 
 		// Set Character's rotation
 		topKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("topKeyValue = %f"), topKeyValue);
+		//UE_LOG(LogTemp, Log, TEXT("topKeyValue = %f"), topKeyValue);
 	}
 }
 
@@ -152,7 +189,7 @@ void ALyssa::MoveDown(float value)
 
 		// Set Character's rotation
 		downKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("downKeyValue = %f"), downKeyValue);
+		//UE_LOG(LogTemp, Log, TEXT("downKeyValue = %f"), downKeyValue);
 	}
 }
 
@@ -170,7 +207,7 @@ void ALyssa::MoveRight(float value)
 
 		// Set Character's rotation
 		rightKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("rightKeyValue = %f"), rightKeyValue);
+		//UE_LOG(LogTemp, Log, TEXT("rightKeyValue = %f"), rightKeyValue);
 	}
 }
 
@@ -188,7 +225,7 @@ void ALyssa::MoveLeft(float value)
 
 		// Set Character's rotation
 		leftKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("leftKeyValue = %f"), leftKeyValue);
+		//UE_LOG(LogTemp, Log, TEXT("leftKeyValue = %f"), leftKeyValue);
 	}
 }
 
@@ -204,7 +241,7 @@ void ALyssa::UpdateRotation()
 			rotationAngle = 270.0f;
 		else
 			rotationAngle = 90.0f;
-		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+		//UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
 	}
 	else if (leftKeyValue == 0 && topKeyValue != 0 && rightKeyValue == 0 && downKeyValue == 0)
 	{
@@ -212,7 +249,7 @@ void ALyssa::UpdateRotation()
 			rotationAngle = 0.0f;
 		else
 			rotationAngle = 180.0f;
-		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+		//UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
 	}
 	else if (leftKeyValue == 0 && topKeyValue == 0 && rightKeyValue != 0 && downKeyValue == 0)
 	{
@@ -220,7 +257,7 @@ void ALyssa::UpdateRotation()
 			rotationAngle = 90.0f;
 		else
 			rotationAngle = 270.0f;
-		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+		//UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
 	}
 	else if (leftKeyValue == 0 && topKeyValue == 0 && rightKeyValue == 0 && downKeyValue != 0)
 	{
@@ -228,34 +265,85 @@ void ALyssa::UpdateRotation()
 			rotationAngle = 180.0f;
 		else
 			rotationAngle = 0.0f;
-		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+		//UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
 	}
 
 	//2 values
 	else if (leftKeyValue == 0 && topKeyValue != 0 && rightKeyValue != 0 && downKeyValue == 0)
 	{
 		rotationAngle = atan2f(rightKeyValue, topKeyValue) * 180 / PI;// 45.0f;
-		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+		//UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
 	}
 	else if (leftKeyValue == 0 && topKeyValue == 0 && rightKeyValue != 0 && downKeyValue != 0)
 	{
 		rotationAngle = 90.0f + atan2f(downKeyValue, rightKeyValue) * 180 / PI;// 135.0f;
-		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+		//UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
 	}
 	else if (leftKeyValue != 0 && topKeyValue == 0 && rightKeyValue == 0 && downKeyValue != 0)
 	{
 		rotationAngle = 180.0f + atan2f(leftKeyValue, downKeyValue) * 180 / PI; //225.0f;
-		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+		//UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
 	}
 	else if (leftKeyValue != 0 && topKeyValue != 0 && rightKeyValue == 0 && downKeyValue == 0)
 	{
 		rotationAngle = 270.0f + atan2f(topKeyValue, leftKeyValue) * 180 / PI; //315.0f;
-		UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
+		//UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
 	}
 
 	this->GetMesh()->SetRelativeRotation(FRotator(0, rotationAngle, 0));
 	leftKeyValue = 0; topKeyValue = 0; rightKeyValue = 0; downKeyValue = 0;
 }
+//_______________
+#pragma endregion
+
+
+#pragma region Fylgja
+//_______________
+float fLeftKeyValue = 0, fTopKeyValue = 0, fRightKeyValue = 0, fDownKeyValue = 0;
+float fRotationAngle = 0;
+
+void ALyssa::MoveFUp(float value)
+{
+
+	if (value != 0)
+	{
+		// Set Character's rotation
+		this->Fylgja->fTopKeyValue = value;
+		UE_LOG(LogTemp, Log, TEXT("topKeyValue = %f"), this->Fylgja->fTopKeyValue);
+	}
+}
+
+void ALyssa::MoveFDown(float value)
+{
+	if (value != 0)
+	{
+		// Set Character's rotation
+		this->Fylgja->fDownKeyValue = value;
+		UE_LOG(LogTemp, Log, TEXT("downKeyValue = %f"), this->Fylgja->fDownKeyValue);
+	}
+}
+
+void ALyssa::MoveFRight(float value)
+{
+	if (value != 0)
+	{
+		// Set Character's rotation
+		this->Fylgja->fRightKeyValue = value;
+		UE_LOG(LogTemp, Log, TEXT("rightKeyValue = %f"), this->Fylgja->fRightKeyValue);
+	}
+}
+
+void ALyssa::MoveFLeft(float value)
+{
+	if (value != 0)
+	{
+		// Set Character's rotation
+		this->Fylgja->fLeftKeyValue = value;
+		UE_LOG(LogTemp, Log, TEXT("leftKeyValue = %f"), this->Fylgja->fLeftKeyValue);
+	}
+}
+//_______________
+#pragma endregion
 
 void ALyssa::ActionAccept()
 {

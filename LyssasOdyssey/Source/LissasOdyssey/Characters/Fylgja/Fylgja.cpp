@@ -42,6 +42,9 @@ void AFylgja::HideFylfja()
 	FylgjaMesh->SetVisibility(false, true);
 }
 
+#pragma region position
+//____________________________________________________________________________________
+
 void AFylgja::FollowMousePosition()
 {
 	//AFylgja *Character = Cast<AFylgja>(GetPawn());
@@ -73,10 +76,80 @@ void AFylgja::FollowMousePosition()
 }
 
 
+void AFylgja::UpdateFRotation()
+{
+	/*UE_LOG(LogTemp, Log, TEXT("UpdateRotation - values: topKeyValue = %f | downKeyValue = %f | rightKeyValue = %f | leftKeyValue = %f"),
+		topKeyValue, downKeyValue, rightKeyValue, leftKeyValue);*/
+
+		//1 value
+	if (fLeftKeyValue != 0 && fTopKeyValue == 0 && fRightKeyValue == 0 && fDownKeyValue == 0)
+	{
+		if (fLeftKeyValue > 0)
+			fRotationAngle = 270.0f;
+		else
+			fRotationAngle = 90.0f;
+		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
+	}
+	else if (fLeftKeyValue == 0 && fTopKeyValue != 0 && fRightKeyValue == 0 && fDownKeyValue == 0)
+	{
+		if (fTopKeyValue > 0)
+			fRotationAngle = 0.0f;
+		else
+			fRotationAngle = 180.0f;
+		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
+	}
+	else if (fLeftKeyValue == 0 && fTopKeyValue == 0 && fRightKeyValue != 0 && fDownKeyValue == 0)
+	{
+		if (fRightKeyValue > 0)
+			fRotationAngle = 90.0f;
+		else
+			fRotationAngle = 270.0f;
+		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
+	}
+	else if (fLeftKeyValue == 0 && fTopKeyValue == 0 && fRightKeyValue == 0 && fDownKeyValue != 0)
+	{
+		if (fDownKeyValue > 0)
+			fRotationAngle = 180.0f;
+		else
+			fRotationAngle = 0.0f;
+		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
+	}
+
+	//2 values
+	else if (fLeftKeyValue == 0 && fTopKeyValue != 0 && fRightKeyValue != 0 && fDownKeyValue == 0)
+	{
+		fRotationAngle = atan2f(fRightKeyValue, fTopKeyValue) * 180 / PI;// 45.0f;
+		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
+	}
+	else if (fLeftKeyValue == 0 && fTopKeyValue == 0 && fRightKeyValue != 0 && fDownKeyValue != 0)
+	{
+		fRotationAngle = 90.0f + atan2f(fDownKeyValue, fRightKeyValue) * 180 / PI;// 135.0f;
+		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
+	}
+	else if (fLeftKeyValue != 0 && fTopKeyValue == 0 && fRightKeyValue == 0 && fDownKeyValue != 0)
+	{
+		fRotationAngle = 180.0f + atan2f(fLeftKeyValue, fDownKeyValue) * 180 / PI; //225.0f;
+		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
+	}
+	else if (fLeftKeyValue != 0 && fTopKeyValue != 0 && fRightKeyValue == 0 && fDownKeyValue == 0)
+	{
+		fRotationAngle = 270.0f + atan2f(fTopKeyValue, fLeftKeyValue) * 180 / PI; //315.0f;
+		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
+	}
+
+	this->SetActorRotation(FRotator(0, fRotationAngle, 0));
+	fLeftKeyValue = 0; fTopKeyValue = 0; fRightKeyValue = 0; fDownKeyValue = 0;
+}
+
+//____________________________________________________________________________________
+#pragma endregion
+
 // Called every frame
 void AFylgja::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 	FollowMousePosition();
+
+	UpdateFRotation();
 }

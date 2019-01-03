@@ -28,6 +28,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Fylgja")
 		void HideFylfja();
 
+	UFUNCTION(BlueprintCallable, Category = "Fylgja")
+		void UpdateFRotation();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fylgja")
+
+	float fLeftKeyValue = 0, fTopKeyValue = 0, fRightKeyValue = 0, fDownKeyValue = 0;
+	float fRotationAngle = 0;
+
 protected:
 	UFUNCTION()
 		void FollowMousePosition();
@@ -41,4 +49,5 @@ private:
 	//	USkeletalMesh* FylgjaTop;
 	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
 	//	USkeletalMesh* FylgjaBottom;
+
 };

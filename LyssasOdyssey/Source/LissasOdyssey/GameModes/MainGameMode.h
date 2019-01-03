@@ -167,16 +167,14 @@ public:
 		TEnumAsByte<PlayerActionLabel> ListeningToKeyLabel;
 
 	/**list of keys*/
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
-		TArray<FKey> KeyListKeyboard = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::E, EKeys::R, EKeys::Tab };*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeyboardKeys;
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
-		TArray<FKey> KeyListGamepad = { EKeys::Gamepad_DPad_Up, EKeys::Gamepad_DPad_Down, EKeys::Gamepad_DPad_Left, EKeys::Gamepad_DPad_Right,
-			EKeys::Gamepad_FaceButton_Bottom, EKeys::Gamepad_FaceButton_Top, EKeys::Gamepad_FaceButton_Left };*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapGamepadKeys;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Key_Settings")
+		FKey lastKeyUsed;
 
 #pragma endregion
 

@@ -53,6 +53,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Lyssa")
 		void UpdateRotation();
 
+	/**handles fylgja moving up*/
+	UFUNCTION()
+		void MoveFUp(float value);
+	/**handles fylgja moving down*/
+	UFUNCTION()
+		void MoveFDown(float value);
+	/**handles fylgja left*/
+	UFUNCTION()
+		void MoveFLeft(float value);
+	/**handles fylgja right*/
+	UFUNCTION()
+		void MoveFRight(float value);
+
 	/**accept button*/
 	UFUNCTION()
 		void ActionAccept();
@@ -92,5 +105,4 @@ private:
 
 	float leftKeyValue = 0, topKeyValue = 0, rightKeyValue = 0, downKeyValue = 0;
 	float rotationAngle = 0;
-
 };
