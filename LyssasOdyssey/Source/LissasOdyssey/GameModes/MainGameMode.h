@@ -117,11 +117,10 @@ public:
 	TArray<FString> TAShadowCommands;
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString FPSCommands[4] = { "t.MaxFPS 15","t.MaxFPS 30", "t.MaxFPS 60", "t.MaxFPS 144" };
 	TArray<FString> TAFPSCommands;
-	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString ResCommands[4] = { "r.SetRes 800x600w","r.SetRes 1280x720w", "r.SetRes 1600x900w", "r.SetRes 1920x1080w" };
-	TArray<FString> TAResCommands;
-	//1280x720w ou f
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		bool ShowFPS = false;
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString ResCommands[4] = { "r.SetRes 800x600","r.SetRes 1280x720", "r.SetRes 1600x900", "r.SetRes 1920x1080" };
+	TArray<FString> TAResCommands;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		bool IsFullScreen = false;
 

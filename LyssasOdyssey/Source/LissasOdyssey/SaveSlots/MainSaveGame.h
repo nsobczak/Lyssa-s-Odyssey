@@ -42,8 +42,12 @@ public:
 		int32 ShadowIndex;
 	UPROPERTY(EditAnywhere, Category = "settings")
 		int32 FPSIndex;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
+		bool ShowFPS = false;
 	UPROPERTY(EditAnywhere, Category = "settings")
 		int32 ResolutionIndex;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
+		bool IsFullScreen = false;
 
 	UPROPERTY(EditAnywhere, Category = "settings")
 		float MasterVolumeSliderValue;

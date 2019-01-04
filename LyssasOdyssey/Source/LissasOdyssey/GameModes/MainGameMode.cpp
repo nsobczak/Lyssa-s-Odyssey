@@ -59,7 +59,9 @@ void AMainGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
 	SaveInstance->AAIndex = this->AAIndex;
 	SaveInstance->ShadowIndex = this->ShadowIndex;
 	SaveInstance->FPSIndex = this->FPSIndex;
+	SaveInstance->ShowFPS = this->ShowFPS;
 	SaveInstance->ResolutionIndex = this->ResIndex;
+	SaveInstance->IsFullScreen = this->IsFullScreen;
 
 	SaveInstance->MasterVolumeSliderValue = this->MasterVolumeSliderValue;
 	SaveInstance->MusicVolumeSliderValue = this->MusicVolumeSliderValue;
@@ -113,7 +115,9 @@ void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 	this->AAIndex = LoadInstance->AAIndex;
 	this->ShadowIndex = LoadInstance->ShadowIndex;
 	this->FPSIndex = LoadInstance->FPSIndex;
+	this->ShowFPS = LoadInstance->ShowFPS;
 	this->ResIndex = LoadInstance->ResolutionIndex;
+	this->IsFullScreen = LoadInstance->IsFullScreen;
 
 	this->MasterVolumeSliderValue = LoadInstance->MasterVolumeSliderValue;
 	this->MusicVolumeSliderValue = LoadInstance->MusicVolumeSliderValue;
@@ -188,15 +192,12 @@ void AMainGameMode::InitializeGraphicalSettings()
 	if (TAFPSCommands.Num() < 1)TAFPSCommands.Append(FPSCommands, ARRAY_COUNT(FPSCommands));
 	if (TAResCommands.Num() < 1)TAResCommands.Append(ResCommands, ARRAY_COUNT(ResCommands));
 
-	if (IsMainMenu)
-	{
-		ExecuteConsoleCommand(*(GraphicalCommands[GraphicalIndex]));
-		ExecuteConsoleCommand(*(PPCommands[PPIndex]));
-		ExecuteConsoleCommand(*(AACommands[AAIndex]));
-		ExecuteConsoleCommand(*(ShadowCommands[ShadowIndex]));
-		ExecuteConsoleCommand(*(FPSCommands[FPSIndex]));
-		ExecuteConsoleCommand(*(ResCommands[ResIndex]));
-	}
+	ExecuteConsoleCommand(*(GraphicalCommands[GraphicalIndex]));
+	ExecuteConsoleCommand(*(PPCommands[PPIndex]));
+	ExecuteConsoleCommand(*(AACommands[AAIndex]));
+	ExecuteConsoleCommand(*(ShadowCommands[ShadowIndex]));
+	ExecuteConsoleCommand(*(FPSCommands[FPSIndex]));
+	ExecuteConsoleCommand(*(ResCommands[ResIndex] + (IsFullScreen ? "f" : "w")));
 
 	if (ShowFPS)
 	{
@@ -352,7 +353,7 @@ void AMainGameMode::ChangeCurrentLanguage(bool increase)
 void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase)
 {
 	TArray <FString> commandList;
-	int32 commandIndex = 0;
+	FString commandString;
 
 	//index
 	switch (graphicLabel)
@@ -362,7 +363,7 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 		commandList = TAGraphicalCommands;
 		GraphicalIndex = (GraphicalIndex > commandList.Num() - 1) ? commandList.Num() - 1 :
 			(GraphicalIndex < 0) ? 0 : GraphicalIndex;
-		commandIndex = GraphicalIndex;
+		commandString = commandList[GraphicalIndex];
 		break;
 
 	case PP:
@@ -370,7 +371,7 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 		commandList = TAPPCommands;
 		PPIndex = (PPIndex > commandList.Num() - 1) ? commandList.Num() - 1 :
 			(PPIndex < 0) ? 0 : PPIndex;
-		commandIndex = PPIndex;
+		commandString = commandList[PPIndex];
 		break;
 
 	case AA:
@@ -378,7 +379,7 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 		commandList = TAAACommands;
 		AAIndex = (AAIndex > commandList.Num() - 1) ? commandList.Num() - 1 :
 			(AAIndex < 0) ? 0 : AAIndex;
-		commandIndex = AAIndex;
+		commandString = commandList[AAIndex];
 		break;
 
 	case Shadow:
@@ -386,7 +387,7 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 		commandList = TAShadowCommands;
 		ShadowIndex = (ShadowIndex > commandList.Num() - 1) ? commandList.Num() - 1 :
 			(ShadowIndex < 0) ? 0 : ShadowIndex;
-		commandIndex = ShadowIndex;
+		commandString = commandList[ShadowIndex];
 		break;
 
 	case FPS:
@@ -394,7 +395,7 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 		commandList = TAFPSCommands;
 		FPSIndex = (FPSIndex > commandList.Num() - 1) ? commandList.Num() - 1 :
 			(FPSIndex < 0) ? 0 : FPSIndex;
-		commandIndex = FPSIndex;
+		commandString = commandList[FPSIndex];
 		break;
 
 	case Res:
@@ -402,7 +403,7 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 		commandList = TAResCommands;
 		ResIndex = (ResIndex > commandList.Num() - 1) ? commandList.Num() - 1 :
 			(ResIndex < 0) ? 0 : ResIndex;
-		commandIndex = ResIndex;
+		commandString = commandList[ResIndex] + (IsFullScreen ? "f" : "w");
 		break;
 
 	default:
@@ -410,13 +411,9 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 	}
 
 	//command
-	if (commandIndex >= 0 && commandIndex < commandList.Num()) //check for safety
-	{
-		bool wasCommandExecuted = ExecuteConsoleCommand(*(commandList[commandIndex]));
-		UE_LOG(LogTemp, Log, TEXT("exec command: %s, success?: %s"),
-			*(commandList[commandIndex]), (wasCommandExecuted ? TEXT("True") : TEXT("False")));
-	}
-
+	bool wasCommandExecuted = ExecuteConsoleCommand(*commandString);
+	UE_LOG(LogTemp, Log, TEXT("exec command: %s, success?: %s"),
+		*commandString, (wasCommandExecuted ? TEXT("True") : TEXT("False")));
 }
 
 void AMainGameMode::AssignNewKey(FKey newKey, TEnumAsByte<PlayerActionLabel> actionToChange, bool isKeyboardKey)

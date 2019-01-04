@@ -69,31 +69,31 @@ void ALyssa::Tick(float DeltaTime)
 
 	CollectPickups();
 
-	////TODO: make function + add dedlay for following bloc
-	//ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
-	//if (CurrentGameMode && CurrentGameMode->PlayerController->IsInputKeyDown(EKeys::AnyKey))//if any key pressed
-	//{
-	//	//retrieve any key pressed
-	//	FKey keyPressed;
-	//	TArray<FKey> allKeys;
-	//	EKeys::GetAllKeys(allKeys);
-	//	for (size_t i = 0; i < allKeys.Num(); ++i)
-	//	{
-	//		if (allKeys[i] != EKeys::AnyKey && CurrentGameMode->PlayerController->IsInputKeyDown(allKeys[i]))
-	//		{
-	//			CurrentGameMode->lastKeyUsed = allKeys[i];
+	//TODO: make function + add dedlay for following bloc
+	ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+	if (CurrentGameMode && CurrentGameMode->PlayerController->IsInputKeyDown(EKeys::AnyKey))//if any key pressed
+	{
+		//retrieve any key pressed
+		FKey keyPressed;
+		TArray<FKey> allKeys;
+		EKeys::GetAllKeys(allKeys);
+		for (size_t i = 0; i < allKeys.Num(); ++i)
+		{
+			if (allKeys[i] != EKeys::AnyKey && CurrentGameMode->PlayerController->IsInputKeyDown(allKeys[i]))
+			{
+				CurrentGameMode->lastKeyUsed = allKeys[i];
 
-	//			FString keyPressedString = CurrentGameMode->lastKeyUsed.ToString();
-	//			UE_LOG(LogTemp, Warning, TEXT("key %s was pressed"), *keyPressedString);
+				FString keyPressedString = CurrentGameMode->lastKeyUsed.ToString();
+				UE_LOG(LogTemp, Warning, TEXT("key %s was pressed"), *keyPressedString);
 
-	//			bool isKeyboardKey = !keyPressed.IsGamepadKey();
-	//			UE_LOG(LogTemp, Warning, TEXT("is lastKeyUsed keyboard %s"), (isKeyboardKey ? TEXT("True") : TEXT("False")));
+				bool isKeyboardKey = !keyPressed.IsGamepadKey();
+				UE_LOG(LogTemp, Warning, TEXT("is lastKeyUsed keyboard %s"), (isKeyboardKey ? TEXT("True") : TEXT("False")));
 
-	//			//if (!isKeyboardKey) UE_LOG(LogTemp, Log, TEXT("key %s is gamepadKey"), *keyPressedString);
-	//			return;
-	//		}
-	//	}
-	//}
+				//if (!isKeyboardKey) UE_LOG(LogTemp, Log, TEXT("key %s is gamepadKey"), *keyPressedString);
+				return;
+			}
+		}
+	}
 }
 
 AFylgja* ALyssa::GetFylgja() const
@@ -171,7 +171,7 @@ void ALyssa::MoveUp(float value)
 
 		// Set Character's rotation
 		topKeyValue = value;
-		//UE_LOG(LogTemp, Log, TEXT("topKeyValue = %f"), topKeyValue);
+		UE_LOG(LogTemp, Log, TEXT("topKeyValue = %f"), topKeyValue);
 	}
 }
 
@@ -189,7 +189,7 @@ void ALyssa::MoveDown(float value)
 
 		// Set Character's rotation
 		downKeyValue = value;
-		//UE_LOG(LogTemp, Log, TEXT("downKeyValue = %f"), downKeyValue);
+		UE_LOG(LogTemp, Log, TEXT("downKeyValue = %f"), downKeyValue);
 	}
 }
 
@@ -207,7 +207,7 @@ void ALyssa::MoveRight(float value)
 
 		// Set Character's rotation
 		rightKeyValue = value;
-		//UE_LOG(LogTemp, Log, TEXT("rightKeyValue = %f"), rightKeyValue);
+		UE_LOG(LogTemp, Log, TEXT("rightKeyValue = %f"), rightKeyValue);
 	}
 }
 
@@ -225,7 +225,7 @@ void ALyssa::MoveLeft(float value)
 
 		// Set Character's rotation
 		leftKeyValue = value;
-		//UE_LOG(LogTemp, Log, TEXT("leftKeyValue = %f"), leftKeyValue);
+		UE_LOG(LogTemp, Log, TEXT("leftKeyValue = %f"), leftKeyValue);
 	}
 }
 
@@ -309,7 +309,7 @@ void ALyssa::MoveFUp(float value)
 	{
 		// Set Character's rotation
 		this->Fylgja->fTopKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("topKeyValue = %f"), this->Fylgja->fTopKeyValue);
+		UE_LOG(LogTemp, Log, TEXT("ftopKeyValue = %f"), this->Fylgja->fTopKeyValue);
 	}
 }
 
@@ -319,7 +319,7 @@ void ALyssa::MoveFDown(float value)
 	{
 		// Set Character's rotation
 		this->Fylgja->fDownKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("downKeyValue = %f"), this->Fylgja->fDownKeyValue);
+		UE_LOG(LogTemp, Log, TEXT("fdownKeyValue = %f"), this->Fylgja->fDownKeyValue);
 	}
 }
 
@@ -329,7 +329,7 @@ void ALyssa::MoveFRight(float value)
 	{
 		// Set Character's rotation
 		this->Fylgja->fRightKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("rightKeyValue = %f"), this->Fylgja->fRightKeyValue);
+		UE_LOG(LogTemp, Log, TEXT("frightKeyValue = %f"), this->Fylgja->fRightKeyValue);
 	}
 }
 
@@ -339,7 +339,7 @@ void ALyssa::MoveFLeft(float value)
 	{
 		// Set Character's rotation
 		this->Fylgja->fLeftKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("leftKeyValue = %f"), this->Fylgja->fLeftKeyValue);
+		UE_LOG(LogTemp, Log, TEXT("fleftKeyValue = %f"), this->Fylgja->fLeftKeyValue);
 	}
 }
 //_______________
