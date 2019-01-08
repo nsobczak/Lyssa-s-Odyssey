@@ -67,6 +67,7 @@ void AMainGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
 	SaveInstance->MusicVolumeSliderValue = this->MusicVolumeSliderValue;
 	SaveInstance->EffectVolumeSliderValue = this->EffectVolumeSliderValue;
 
+	SaveInstance->UseGamePad = this->UseGamePad;
 	SaveInstance->TMapKeyboardKeys = this->TMapKeyboardKeys;
 	SaveInstance->TMapGamepadKeys = this->TMapGamepadKeys;
 
@@ -128,6 +129,7 @@ void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 	//if (this->KeyListKeyboard.Num() == LoadInstance->PlayerKeysGamepad.Num())
 	//	this->KeyListGamepad = LoadInstance->PlayerKeysGamepad;
 
+	this->UseGamePad = LoadInstance->UseGamePad;
 	this->TMapKeyboardKeys = LoadInstance->TMapKeyboardKeys;
 	this->TMapGamepadKeys = LoadInstance->TMapGamepadKeys;
 
@@ -424,7 +426,8 @@ void AMainGameMode::AssignNewKey(FKey newKey, TEnumAsByte<PlayerActionLabel> act
 		//TODO: Check if key was already used, swap with old one if it was
 	}
 
-	else if (actionToChange != PlayerActionLabel::MoveDown && actionToChange != PlayerActionLabel::MoveLeft)
+	else if (actionToChange != PlayerActionLabel::MoveDown && actionToChange != PlayerActionLabel::MoveLeft
+		&& actionToChange != PlayerActionLabel::FMoveDown && actionToChange != PlayerActionLabel::FMoveLeft)
 	{
 		//Check if key is not already used, swap with old one if it is
 		this->TMapGamepadKeys.Emplace(actionToChange, newKey);

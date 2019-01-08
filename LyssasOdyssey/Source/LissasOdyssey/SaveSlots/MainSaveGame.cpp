@@ -22,6 +22,7 @@ UMainSaveGame::UMainSaveGame()
 	EffectVolumeSliderValue = 1.0f;
 
 	//key
+	UseGamePad = true;
 	//PlayerKeys = { EKeys::W, EKeys::S, EKeys::A, EKeys::D, EKeys::E, EKeys::R, EKeys::Tab };
 
 	//UE_LOG(LogTemp, Log, TEXT("constructed UMainSaveGame"));

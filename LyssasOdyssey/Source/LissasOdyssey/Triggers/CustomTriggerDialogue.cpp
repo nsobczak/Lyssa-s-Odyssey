@@ -65,6 +65,7 @@ void ACustomTriggerDialogue::Tick(float DeltaTime)
 	if (IsTriggered)
 	{
 		ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+		//TODO: change WasInputKeyJustReleased by event of key released once it will be created
 		if (CurrentGameMode &&
 			(CurrentGameMode->PlayerController->WasInputKeyJustReleased(CurrentGameMode->TMapKeyboardKeys[PlayerActionLabel::ACross])
 				|| CurrentGameMode->PlayerController->WasInputKeyJustReleased(CurrentGameMode->TMapGamepadKeys[PlayerActionLabel::ACross])))//if any key pressed

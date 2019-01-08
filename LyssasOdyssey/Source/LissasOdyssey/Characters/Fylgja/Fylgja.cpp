@@ -1,6 +1,8 @@
 #include "Fylgja.h"
 #include "Runtime/Engine/Classes/GameFramework/Controller.h"  
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h" 
+#include "GameModes/LevelGameMode.h"
+
 
 // Sets default values
 AFylgja::AFylgja(const class FObjectInitializer& ObjectInitializer)
@@ -85,17 +87,17 @@ void AFylgja::UpdateFRotation()
 	if (fLeftKeyValue != 0 && fTopKeyValue == 0 && fRightKeyValue == 0 && fDownKeyValue == 0)
 	{
 		if (fLeftKeyValue > 0)
-			fRotationAngle = 270.0f;
-		else
 			fRotationAngle = 90.0f;
+		else
+			fRotationAngle = 270.0f;
 		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 	else if (fLeftKeyValue == 0 && fTopKeyValue != 0 && fRightKeyValue == 0 && fDownKeyValue == 0)
 	{
 		if (fTopKeyValue > 0)
-			fRotationAngle = 0.0f;
-		else
 			fRotationAngle = 180.0f;
+		else
+			fRotationAngle = 0.0f;
 		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 	else if (fLeftKeyValue == 0 && fTopKeyValue == 0 && fRightKeyValue != 0 && fDownKeyValue == 0)
@@ -116,24 +118,24 @@ void AFylgja::UpdateFRotation()
 	}
 
 	//2 values
-	else if (fLeftKeyValue == 0 && fTopKeyValue != 0 && fRightKeyValue != 0 && fDownKeyValue == 0)
+	if (fLeftKeyValue == 0 && fTopKeyValue != 0 && fRightKeyValue != 0 && fDownKeyValue == 0)
 	{
-		fRotationAngle = atan2f(fRightKeyValue, fTopKeyValue) * 180 / PI;// 45.0f;
+		fRotationAngle = atan2f(fRightKeyValue, -fTopKeyValue) * 180 / PI;
 		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 	else if (fLeftKeyValue == 0 && fTopKeyValue == 0 && fRightKeyValue != 0 && fDownKeyValue != 0)
 	{
-		fRotationAngle = 90.0f + atan2f(fDownKeyValue, fRightKeyValue) * 180 / PI;// 135.0f;
+		fRotationAngle = 90.0f + atan2f(-fDownKeyValue, fRightKeyValue) * 180 / PI;
 		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 	else if (fLeftKeyValue != 0 && fTopKeyValue == 0 && fRightKeyValue == 0 && fDownKeyValue != 0)
 	{
-		fRotationAngle = 180.0f + atan2f(fLeftKeyValue, fDownKeyValue) * 180 / PI; //225.0f;
+		fRotationAngle = 180.0f + atan2f(fLeftKeyValue, -fDownKeyValue) * 180 / PI;
 		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 	else if (fLeftKeyValue != 0 && fTopKeyValue != 0 && fRightKeyValue == 0 && fDownKeyValue == 0)
 	{
-		fRotationAngle = 270.0f + atan2f(fTopKeyValue, fLeftKeyValue) * 180 / PI; //315.0f;
+		fRotationAngle = 270.0f + atan2f(-fTopKeyValue, fLeftKeyValue) * 180 / PI;
 		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 
@@ -149,7 +151,17 @@ void AFylgja::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FollowMousePosition();
-
-	UpdateFRotation();
+	// === FollowMousePosition ===
+	ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+	if (CurrentGameMode)
+	{
+		if (CurrentGameMode->UseGamePad)
+		{
+			UpdateFRotation();
+		}
+		else
+		{
+			FollowMousePosition();
+		}
+	}
 }

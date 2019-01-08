@@ -56,13 +56,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "settings")
 		float EffectVolumeSliderValue;
 
-	//UPROPERTY(EditAnywhere, Category = "settings")
-	//	TArray<FKey> PlayerKeysKeyboard;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
+		bool UseGamePad;
 	UPROPERTY(EditAnywhere, Category = "settings")
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeyboardKeys;
-
-	//UPROPERTY(EditAnywhere, Category = "settings")
-	//	TArray<FKey> PlayerKeysGamepad;
 	UPROPERTY(EditAnywhere, Category = "settings")
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapGamepadKeys;
 #pragma endregion

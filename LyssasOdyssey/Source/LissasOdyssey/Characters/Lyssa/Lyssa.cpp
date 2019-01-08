@@ -69,31 +69,31 @@ void ALyssa::Tick(float DeltaTime)
 
 	CollectPickups();
 
-	//TODO: make function + add dedlay for following bloc
-	ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
-	if (CurrentGameMode && CurrentGameMode->PlayerController->IsInputKeyDown(EKeys::AnyKey))//if any key pressed
-	{
-		//retrieve any key pressed
-		FKey keyPressed;
-		TArray<FKey> allKeys;
-		EKeys::GetAllKeys(allKeys);
-		for (size_t i = 0; i < allKeys.Num(); ++i)
-		{
-			if (allKeys[i] != EKeys::AnyKey && CurrentGameMode->PlayerController->IsInputKeyDown(allKeys[i]))
-			{
-				CurrentGameMode->lastKeyUsed = allKeys[i];
+	////TODO: make function + add delay for following bloc
+	//ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+	//if (CurrentGameMode && CurrentGameMode->PlayerController->IsInputKeyDown(EKeys::AnyKey))//if any key pressed
+	//{
+	//	//retrieve any key pressed
+	//	FKey keyPressed;
+	//	TArray<FKey> allKeys;
+	//	EKeys::GetAllKeys(allKeys);
+	//	for (size_t i = 0; i < allKeys.Num(); ++i)
+	//	{
+	//		if (allKeys[i] != EKeys::AnyKey && CurrentGameMode->PlayerController->IsInputKeyDown(allKeys[i]))
+	//		{
+	//			CurrentGameMode->lastKeyUsed = allKeys[i];
 
-				FString keyPressedString = CurrentGameMode->lastKeyUsed.ToString();
-				UE_LOG(LogTemp, Warning, TEXT("key %s was pressed"), *keyPressedString);
+	//			FString keyPressedString = CurrentGameMode->lastKeyUsed.ToString();
+	//			UE_LOG(LogTemp, Warning, TEXT("key %s was pressed"), *keyPressedString);
 
-				bool isKeyboardKey = !keyPressed.IsGamepadKey();
-				UE_LOG(LogTemp, Warning, TEXT("is lastKeyUsed keyboard %s"), (isKeyboardKey ? TEXT("True") : TEXT("False")));
+	//			bool isKeyboardKey = !keyPressed.IsGamepadKey();
+	//			UE_LOG(LogTemp, Warning, TEXT("is lastKeyUsed keyboard %s"), (isKeyboardKey ? TEXT("True") : TEXT("False")));
 
-				//if (!isKeyboardKey) UE_LOG(LogTemp, Log, TEXT("key %s is gamepadKey"), *keyPressedString);
-				return;
-			}
-		}
-	}
+	//			//if (!isKeyboardKey) UE_LOG(LogTemp, Log, TEXT("key %s is gamepadKey"), *keyPressedString);
+	//			return;
+	//		}
+	//	}
+	//}
 }
 
 AFylgja* ALyssa::GetFylgja() const
@@ -116,41 +116,47 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		//TODO: debind all before reassigning
 
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeys = CurrentGameMode->TMapKeyboardKeys;
-		UE_LOG(LogTemp, Log, TEXT("keyboard keys: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
-			*(TMapKeys.FindRef(PlayerActionLabel::MoveDown).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::MoveLeft).ToString()),
-			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
-			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
-		// set up gameplay key bindings
-		//PlayerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
-		//PlayerInputComponent->BindAxis("MoveRight", this, &ALyssa::MoveRight);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveUp), this, &ALyssa::MoveFUp);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveDown), this, &ALyssa::MoveFDown);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveLeft), this, &ALyssa::MoveFLeft);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveRight), this, &ALyssa::MoveFRight);
-		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
-		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
-		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::AStart), EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
 
-		TMapKeys = CurrentGameMode->TMapGamepadKeys;
-		UE_LOG(LogTemp, Log, TEXT("keyboard keys: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
-			*(TMapKeys.FindRef(PlayerActionLabel::MoveDown).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::MoveLeft).ToString()),
-			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
-			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveUp), this, &ALyssa::MoveFUp);
-		//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveDown), this, &ALyssa::MoveFDown);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveLeft), this, &ALyssa::MoveFLeft);
-		//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveRight), this, &ALyssa::MoveFRight);
-		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
-		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
-		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::AStart), EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
+		if (CurrentGameMode->UseGamePad)
+		{
+			TMapKeys = CurrentGameMode->TMapGamepadKeys;
+			UE_LOG(LogTemp, Log, TEXT("Gamepad keys: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
+				*(TMapKeys.FindRef(PlayerActionLabel::MoveDown).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::MoveLeft).ToString()),
+				*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
+				*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
+			PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp);
+			//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
+			//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
+			PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight);
+			PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveUp), this, &ALyssa::MoveFUp);
+			//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveDown), this, &ALyssa::MoveFDown);
+			//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveLeft), this, &ALyssa::MoveFLeft);
+			PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveRight), this, &ALyssa::MoveFRight);
+			PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
+			PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
+			PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::AStart), EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Log, TEXT("keyboard keys: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
+				*(TMapKeys.FindRef(PlayerActionLabel::MoveDown).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::MoveLeft).ToString()),
+				*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
+				*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
+			// set up gameplay key bindings
+			//PlayerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
+			//PlayerInputComponent->BindAxis("MoveRight", this, &ALyssa::MoveRight);
+			PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp);
+			PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
+			PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
+			PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight);
+			//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveUp), this, &ALyssa::MoveFUp);
+			//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveDown), this, &ALyssa::MoveFDown);
+			//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveLeft), this, &ALyssa::MoveFLeft);
+			//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveRight), this, &ALyssa::MoveFRight);
+			PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
+			PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
+			PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::AStart), EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
+		}
 	}
 }
 
@@ -299,12 +305,8 @@ void ALyssa::UpdateRotation()
 
 #pragma region Fylgja
 //_______________
-float fLeftKeyValue = 0, fTopKeyValue = 0, fRightKeyValue = 0, fDownKeyValue = 0;
-float fRotationAngle = 0;
-
 void ALyssa::MoveFUp(float value)
 {
-
 	if (value != 0)
 	{
 		// Set Character's rotation

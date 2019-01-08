@@ -154,14 +154,15 @@ public:
 #pragma endregion
 
 #pragma region keybind settings
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
+		bool UseGamePad = true;
+
 	/** Assign a new key to an input */
 	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
 		void ListenToNewKeyForMove(TEnumAsByte<PlayerActionLabel> actionToChange, int iteration);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
 		bool IsListeningToKey = false;
-	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
-		int ListeningToKeyIndex;*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
 		TEnumAsByte<PlayerActionLabel> ListeningToKeyLabel;
 
