@@ -56,7 +56,7 @@ void ALevelGameMode::BeginPlay()
 		playerController->SetInputMode(FInputModeGameAndUI());
 	}
 
-	if (ShowMouseCursorInLevel)
+	if (ShowMouseCursorInLevel && !UseGamePad)
 	{
 		PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 		PlayerController->bShowMouseCursor = true;
