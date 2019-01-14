@@ -173,8 +173,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapGamepadKeys;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Key_Settings")
-		FKey lastKeyUsed;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Key_Settings")
+	//	FKey lastKeyUsed;
 
 #pragma endregion
 

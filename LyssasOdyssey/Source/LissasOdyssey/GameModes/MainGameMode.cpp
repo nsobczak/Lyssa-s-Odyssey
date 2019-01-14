@@ -438,7 +438,6 @@ void AMainGameMode::ListenToNewKeyForMove(TEnumAsByte<PlayerActionLabel> actionT
 {
 	if (iteration >= 50) { IsListeningToKey = false; return; }
 
-	//FKey boundKey = this->KeyListKeyboard[moveToChangeIndex];
 	IsListeningToKey = true;
 	ListeningToKeyLabel = actionToChange;
 
@@ -450,16 +449,19 @@ void AMainGameMode::ListenToNewKeyForMove(TEnumAsByte<PlayerActionLabel> actionT
 		EKeys::GetAllKeys(allKeys);
 		for (size_t i = 0; i < allKeys.Num(); ++i)
 		{
-			if (allKeys[i] != EKeys::AnyKey && PlayerController->IsInputKeyDown(allKeys[i]))
+			if (allKeys[i] != EKeys::AnyKey && PlayerController->WasInputKeyJustPressed(allKeys[i]))
 			{
 				keyPressed = allKeys[i];
 				FString keyPressedString = keyPressed.ToString();
-				UE_LOG(LogTemp, Warning, TEXT("key %s was pressed"), *keyPressedString);
+				bool isAxis = EKeys::IsAxis(keyPressed);
+				UE_LOG(LogTemp, Log, TEXT("key %s was pressed | is key Axis: %s"), *keyPressedString, (isAxis ? TEXT("True") : TEXT("False")));
 
 				bool isKeyboardKey = !keyPressed.IsGamepadKey();
 				if (!isKeyboardKey) UE_LOG(LogTemp, Log, TEXT("key %s is gamepadKey"), *keyPressedString);
+
 				AssignNewKey(keyPressed, actionToChange, isKeyboardKey);
 				IsListeningToKey = false;
+				UE_LOG(LogTemp, Log, TEXT("IsListeningToKey = %s"), (IsListeningToKey ? TEXT("True") : TEXT("False")));
 
 				return;
 			}

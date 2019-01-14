@@ -177,7 +177,7 @@ void ALyssa::MoveUp(float value)
 
 		// Set Character's rotation
 		topKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("topKeyValue = %f"), topKeyValue);
+		//UE_LOG(LogTemp, Log, TEXT("topKeyValue = %f"), topKeyValue);
 	}
 }
 
@@ -195,7 +195,7 @@ void ALyssa::MoveDown(float value)
 
 		// Set Character's rotation
 		downKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("downKeyValue = %f"), downKeyValue);
+		//UE_LOG(LogTemp, Log, TEXT("downKeyValue = %f"), downKeyValue);
 	}
 }
 
@@ -213,7 +213,7 @@ void ALyssa::MoveRight(float value)
 
 		// Set Character's rotation
 		rightKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("rightKeyValue = %f"), rightKeyValue);
+		//UE_LOG(LogTemp, Log, TEXT("rightKeyValue = %f"), rightKeyValue);
 	}
 }
 
@@ -231,7 +231,7 @@ void ALyssa::MoveLeft(float value)
 
 		// Set Character's rotation
 		leftKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("leftKeyValue = %f"), leftKeyValue);
+		//UE_LOG(LogTemp, Log, TEXT("leftKeyValue = %f"), leftKeyValue);
 	}
 }
 
@@ -311,7 +311,7 @@ void ALyssa::MoveFUp(float value)
 	{
 		// Set Character's rotation
 		this->Fylgja->fTopKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("ftopKeyValue = %f"), this->Fylgja->fTopKeyValue);
+		//UE_LOG(LogTemp, Log, TEXT("ftopKeyValue = %f"), this->Fylgja->fTopKeyValue);
 	}
 }
 
@@ -321,7 +321,7 @@ void ALyssa::MoveFDown(float value)
 	{
 		// Set Character's rotation
 		this->Fylgja->fDownKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("fdownKeyValue = %f"), this->Fylgja->fDownKeyValue);
+		//UE_LOG(LogTemp, Log, TEXT("fdownKeyValue = %f"), this->Fylgja->fDownKeyValue);
 	}
 }
 
@@ -331,7 +331,7 @@ void ALyssa::MoveFRight(float value)
 	{
 		// Set Character's rotation
 		this->Fylgja->fRightKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("frightKeyValue = %f"), this->Fylgja->fRightKeyValue);
+		//UE_LOG(LogTemp, Log, TEXT("frightKeyValue = %f"), this->Fylgja->fRightKeyValue);
 	}
 }
 
@@ -341,7 +341,7 @@ void ALyssa::MoveFLeft(float value)
 	{
 		// Set Character's rotation
 		this->Fylgja->fLeftKeyValue = value;
-		UE_LOG(LogTemp, Log, TEXT("fleftKeyValue = %f"), this->Fylgja->fLeftKeyValue);
+		//UE_LOG(LogTemp, Log, TEXT("fleftKeyValue = %f"), this->Fylgja->fLeftKeyValue);
 	}
 }
 //_______________

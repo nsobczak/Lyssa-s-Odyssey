@@ -90,7 +90,6 @@ void AFylgja::UpdateFRotation()
 			fRotationAngle = 90.0f;
 		else
 			fRotationAngle = 270.0f;
-		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 	else if (fLeftKeyValue == 0 && fTopKeyValue != 0 && fRightKeyValue == 0 && fDownKeyValue == 0)
 	{
@@ -98,7 +97,6 @@ void AFylgja::UpdateFRotation()
 			fRotationAngle = 180.0f;
 		else
 			fRotationAngle = 0.0f;
-		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 	else if (fLeftKeyValue == 0 && fTopKeyValue == 0 && fRightKeyValue != 0 && fDownKeyValue == 0)
 	{
@@ -106,7 +104,6 @@ void AFylgja::UpdateFRotation()
 			fRotationAngle = 90.0f;
 		else
 			fRotationAngle = 270.0f;
-		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 	else if (fLeftKeyValue == 0 && fTopKeyValue == 0 && fRightKeyValue == 0 && fDownKeyValue != 0)
 	{
@@ -114,31 +111,27 @@ void AFylgja::UpdateFRotation()
 			fRotationAngle = 180.0f;
 		else
 			fRotationAngle = 0.0f;
-		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 
 	//2 values
 	if (fLeftKeyValue == 0 && fTopKeyValue != 0 && fRightKeyValue != 0 && fDownKeyValue == 0)
 	{
 		fRotationAngle = atan2f(fRightKeyValue, -fTopKeyValue) * 180 / PI;
-		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 	else if (fLeftKeyValue == 0 && fTopKeyValue == 0 && fRightKeyValue != 0 && fDownKeyValue != 0)
 	{
 		fRotationAngle = 90.0f + atan2f(-fDownKeyValue, fRightKeyValue) * 180 / PI;
-		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 	else if (fLeftKeyValue != 0 && fTopKeyValue == 0 && fRightKeyValue == 0 && fDownKeyValue != 0)
 	{
 		fRotationAngle = 180.0f + atan2f(fLeftKeyValue, -fDownKeyValue) * 180 / PI;
-		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 	else if (fLeftKeyValue != 0 && fTopKeyValue != 0 && fRightKeyValue == 0 && fDownKeyValue == 0)
 	{
 		fRotationAngle = 270.0f + atan2f(-fTopKeyValue, fLeftKeyValue) * 180 / PI;
-		UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	}
 
+	//UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	this->SetActorRotation(FRotator(0, fRotationAngle, 0));
 	fLeftKeyValue = 0; fTopKeyValue = 0; fRightKeyValue = 0; fDownKeyValue = 0;
 }
