@@ -40,6 +40,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		FString LevelTitle = "LevelTitle";
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHub")
+		bool ShowTime = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHub")
+		bool ShowLife = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHub")
+		bool ShowTitle = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHub")
+		bool ShowPickup = true;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameSettings")
 		bool ShowMouseCursorInLevel = true;
 
