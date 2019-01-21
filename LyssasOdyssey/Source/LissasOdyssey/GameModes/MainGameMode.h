@@ -188,6 +188,8 @@ protected:
 
 	void InitializeGraphicalSettings();
 
+	void InitializeKeySettings();
+
 	UFUNCTION()
 		void SaveSettingsValues(class UMainSaveGame* SaveInstance);
 	UFUNCTION()

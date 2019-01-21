@@ -1,6 +1,7 @@
 #include "MainGameMode.h"
 #include "Core/Public/Math/UnrealMathUtility.h"
 #include "Engine/Classes/Engine/World.h"
+#include "Utils/GameConstants.h"
 #include "Characters/Lyssa/Lyssa.h"
 #include "Blueprint/UserWidget.h"
 #include "Engine/Public/SystemSettings.h"
@@ -172,7 +173,10 @@ void AMainGameMode::LoadGameSettings()
 		}
 	}
 	else
+	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString(TEXT("No save game found.")), true);
+		InitializeKeySettings();
+	}
 }
 #pragma endregion
 
@@ -206,6 +210,30 @@ void AMainGameMode::InitializeGraphicalSettings()
 		FString showFpsCommand = "stat fps";
 		ExecuteConsoleCommand(*showFpsCommand);
 	}
+}
+
+
+void AMainGameMode::InitializeKeySettings()
+{
+	//GamePad
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DefaultGPKey_MoveVertical);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveRight, GameConstants::DefaultGPKey_MoveHorizontal);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::FMoveUp, GameConstants::DefaultGPKey_FMoveVertical);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::FMoveRight, GameConstants::DefaultGPKey_FMoveHorizontal);
+
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::ACross, GameConstants::DefaultGPKey_ACross);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::ATriangle, GameConstants::DefaultGPKey_ATriangle);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::AStart, GameConstants::DefaultGPKey_AStart);
+
+	//Keyboard
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DefaultKKey_MoveUp);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveDown, GameConstants::DefaultKKey_MoveRight);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveLeft, GameConstants::DefaultKKey_MoveDown);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveRight, GameConstants::DefaultKKey_MoveLeft);
+
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ACross, GameConstants::DefaultKKey_ACross);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ATriangle, GameConstants::DefaultKKey_ATriangle);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::AStart, GameConstants::DefaultKKey_AStart);
 }
 
 
