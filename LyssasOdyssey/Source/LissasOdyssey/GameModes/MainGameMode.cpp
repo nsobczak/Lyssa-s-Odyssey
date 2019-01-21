@@ -418,6 +418,12 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 		*commandString, (wasCommandExecuted ? TEXT("True") : TEXT("False")));
 }
 
+bool AMainGameMode::SwitchUseGamePad()
+{
+	UseGamePad = !UseGamePad;
+	return UseGamePad;
+}
+
 void AMainGameMode::AssignNewKey(FKey newKey, TEnumAsByte<PlayerActionLabel> actionToChange, bool isKeyboardKey)
 {
 	if (isKeyboardKey)

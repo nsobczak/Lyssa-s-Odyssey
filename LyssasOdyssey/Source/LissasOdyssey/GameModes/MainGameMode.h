@@ -156,6 +156,8 @@ public:
 #pragma region keybind settings
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		bool UseGamePad = true;
+	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
+		bool SwitchUseGamePad();
 
 	/** Assign a new key to an input */
 	UFUNCTION(BlueprintCallable, Category = "Key_Settings")

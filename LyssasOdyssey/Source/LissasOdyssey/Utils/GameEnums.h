@@ -19,6 +19,9 @@ enum PlayerActionLabel
 };
 
 UENUM(BlueprintType)
+enum DeviceName { Keyboard, Gamepad };
+
+UENUM(BlueprintType)
 enum SoundLabel { Music, Effect };
 
 /**
