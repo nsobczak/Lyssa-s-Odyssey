@@ -174,7 +174,6 @@ void AMainGameMode::LoadGameSettings()
 	else
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString(TEXT("No save game found.")), true);
-		InitializeKeySettingsWithDefault();
 
 		//TODO
 		ALyssa* Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
@@ -185,7 +184,7 @@ void AMainGameMode::LoadGameSettings()
 		else
 			UE_LOG(LogTemp, Error, TEXT("no result for GetPlayerPawn"));
 
-		SaveGameSettings();
+		UseDefaultSettings();//InitializeKeySettingsWithDefault
 	}
 }
 #pragma endregion
@@ -198,7 +197,7 @@ void AMainGameMode::UpdateAudioVolumes()
 }
 
 
-void AMainGameMode::InitializeGraphicalSettings()
+void AMainGameMode::InitializeTArrayAndApplyGraphicalSettings()
 {
 	//command
 	if (TAGraphicalCommands.Num() < 1) TAGraphicalCommands.Append(GraphicalCommands, ARRAY_COUNT(GraphicalCommands));
@@ -223,8 +222,35 @@ void AMainGameMode::InitializeGraphicalSettings()
 }
 
 
+#pragma region Initialize default values
+void AMainGameMode::InitializeGeneralSettingsWithDefault()
+{
+	this->CurrentLanguage = GameConstants::DefaultGeneral_CurrentLanguage;
+}
+
+void AMainGameMode::InitializeGraphicalSettingsWithDefault()
+{
+	this->ShowFPS = GameConstants::DefaultGraphical_ShowFPS;
+	this->IsFullScreen = GameConstants::DefaultGraphical_IsFullScreen;
+	this->GraphicalIndex = GameConstants::DefaultGraphical_GraphicalIndex;
+	this->PPIndex = GameConstants::DefaultGraphical_PPIndex;
+	this->AAIndex = GameConstants::DefaultGraphical_AAIndex;
+	this->ShadowIndex = GameConstants::DefaultGraphical_ShadowIndex;
+	this->FPSIndex = GameConstants::DefaultGraphical_FPSIndex;
+	this->ResIndex = GameConstants::DefaultGraphical_ResIndex;
+}
+
+void AMainGameMode::InitializeAudioSettingsWithDefault()
+{
+	this->MasterVolumeSliderValue = GameConstants::DefaultAudio_MasterVolumeSliderValue;
+	this->MusicVolumeSliderValue = GameConstants::DefaultAudio_MusicVolumeSliderValue;
+	this->EffectVolumeSliderValue = GameConstants::DefaultAudio_EffectVolumeSliderValue;
+}
+
 void AMainGameMode::InitializeKeySettingsWithDefault()
 {
+	this->UseGamePad = GameConstants::UseGamePad;
+
 	//GamePad
 	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DefaultGPKey_MoveVertical);
 	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveRight, GameConstants::DefaultGPKey_MoveHorizontal);
@@ -245,6 +271,7 @@ void AMainGameMode::InitializeKeySettingsWithDefault()
 	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ATriangle, GameConstants::DefaultKKey_ATriangle);
 	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::AStart, GameConstants::DefaultKKey_AStart);
 }
+#pragma endregion
 
 
 void AMainGameMode::BeginPlay()
@@ -256,7 +283,7 @@ void AMainGameMode::BeginPlay()
 
 	//load saved settings here
 	LoadGameSettings();
-	InitializeGraphicalSettings();
+	InitializeTArrayAndApplyGraphicalSettings();
 
 	//Audio
 	if (!SoundMix) UE_LOG(LogTemp, Error, TEXT("SoundMix is null."));
@@ -374,6 +401,17 @@ void AMainGameMode::ShowHUD()
 
 #pragma endregion
 
+#pragma region Settings
+
+void AMainGameMode::UseDefaultSettings()
+{
+	InitializeGeneralSettingsWithDefault();
+	InitializeGraphicalSettingsWithDefault();
+	InitializeAudioSettingsWithDefault();
+	InitializeKeySettingsWithDefault();
+
+	SaveGameSettings();
+}
 
 void AMainGameMode::ChangeCurrentLanguage(bool increase)
 {
@@ -518,6 +556,8 @@ void AMainGameMode::ListenToNewKeyForMove(TEnumAsByte<PlayerActionLabel> actionT
 	TimerDel.BindUFunction(this, FName("ListenToNewKeyForMove"), actionToChange, iteration + 1);
 	GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, 0.1f, false);
 }
+#pragma endregion
+
 
 void AMainGameMode::Tick(float DeltaTime)
 {

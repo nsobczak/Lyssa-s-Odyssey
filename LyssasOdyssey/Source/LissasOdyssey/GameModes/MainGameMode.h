@@ -42,20 +42,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
 		bool IsMainMenu = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
-		USoundMix* SoundMix;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
-		USoundClass *  SCMusic;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
-		USoundClass *  SCEffect;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
-	//	UAudioComponent* GameModeMusic;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
-		USoundBase * MapTheme;
-
 #pragma region widget functions
 	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void ShowCursor(bool showCursor);
@@ -92,6 +78,9 @@ public:
 
 #pragma region game settings
 
+	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
+		void UseDefaultSettings();
+
 #pragma region general settings
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "General_Settings")
 		ELanguages CurrentLanguage;
@@ -118,44 +107,59 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString FPSCommands[4] = { "t.MaxFPS 15","t.MaxFPS 30", "t.MaxFPS 60", "t.MaxFPS 144" };
 	TArray<FString> TAFPSCommands;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		bool ShowFPS = false;
+		bool ShowFPS;
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString ResCommands[4] = { "r.SetRes 800x600","r.SetRes 1280x720", "r.SetRes 1600x900", "r.SetRes 1920x1080" };
 	TArray<FString> TAResCommands;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		bool IsFullScreen = false;
+		bool IsFullScreen;
 
 	//indexes
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		int32 GraphicalIndex = 2;
+		int32 GraphicalIndex;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		int32 PPIndex = 2;
+		int32 PPIndex;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		int32 AAIndex = 2;
+		int32 AAIndex;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		int32 ShadowIndex = 2;
+		int32 ShadowIndex;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		int32 FPSIndex = 2;
+		int32 FPSIndex;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		int32 ResIndex = 3;
+		int32 ResIndex;
 #pragma endregion
 
 #pragma region audio settings
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings")
-		float MasterVolumeSliderValue = 1.0f;
+		float MasterVolumeSliderValue;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings")
-		float MusicVolumeSliderValue = 1.0f;
+		float MusicVolumeSliderValue;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings")
-		float EffectVolumeSliderValue = 1.0f;
+		float EffectVolumeSliderValue;
 
 	UFUNCTION(BlueprintCallable, Category = "Audio_Settings")
 		void UpdateAudioVolumes();
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
+		USoundMix* SoundMix;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
+		USoundClass *  SCMusic;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
+		USoundClass *  SCEffect;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
+	//	UAudioComponent* GameModeMusic;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
+		USoundBase * MapTheme;
 #pragma endregion
 
 #pragma region keybind settings
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
-		bool UseGamePad = true;
+		bool UseGamePad;
 	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
 		bool SwitchUseGamePad();
 
@@ -174,10 +178,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapGamepadKeys;
-
-	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Key_Settings")
-	//	FKey lastKeyUsed;
-
 #pragma endregion
 
 #pragma endregion
@@ -186,9 +186,12 @@ protected:
 	/** Called when the game starts. */
 	virtual void BeginPlay() override;
 
-	void InitializeGraphicalSettings();
-
+	void InitializeGeneralSettingsWithDefault();
+	void InitializeGraphicalSettingsWithDefault();
+	void InitializeAudioSettingsWithDefault();
 	void InitializeKeySettingsWithDefault();
+
+	void InitializeTArrayAndApplyGraphicalSettings();
 
 	virtual void SaveSettingsValues(class UMainSaveGame* SaveInstance);
 	virtual void LoadSettingsValues(class UMainSaveGame * &LoadInstance);
@@ -224,5 +227,4 @@ protected:
 	/** Assign a new key to an input if not already used */
 	UFUNCTION()
 		void AssignNewKey(FKey newKey, TEnumAsByte<PlayerActionLabel> actionToChange, bool isKeyboardKey = true);
-
 };

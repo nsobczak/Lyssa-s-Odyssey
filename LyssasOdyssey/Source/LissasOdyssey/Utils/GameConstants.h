@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Utils/GameEnums.h"
 //#include "GameConstants.generated.h"
 
 /**
@@ -16,7 +17,30 @@ public:
 
 	static const FColor ColorTextLightGray;
 
-#pragma region Defaults Keys
+#pragma region Defaults general settings
+	static const ELanguages DefaultGeneral_CurrentLanguage;
+#pragma endregion
+
+#pragma region Defaults graphics settings
+	static const bool DefaultGraphical_ShowFPS;
+	static const bool DefaultGraphical_IsFullScreen;
+	static const int32 DefaultGraphical_GraphicalIndex;
+	static const int32 DefaultGraphical_PPIndex;
+	static const int32 DefaultGraphical_AAIndex;
+	static const int32 DefaultGraphical_ShadowIndex;
+	static const int32 DefaultGraphical_FPSIndex;
+	static const int32 DefaultGraphical_ResIndex;
+#pragma endregion
+
+#pragma region Defaults audio settings
+	static const float DefaultAudio_MasterVolumeSliderValue;
+	static const float DefaultAudio_MusicVolumeSliderValue;
+	static const float DefaultAudio_EffectVolumeSliderValue;
+#pragma endregion
+
+#pragma region Defaults keybind settings
+	static const bool UseGamePad;
+
 	//GamePad
 	static const FKey DefaultGPKey_MoveVertical;
 	static const FKey DefaultGPKey_MoveHorizontal;
