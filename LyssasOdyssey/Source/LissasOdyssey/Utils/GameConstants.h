@@ -38,4 +38,12 @@ public:
 	static const FKey DefaultKKey_AStart;
 #pragma endregion
 
+#pragma region Game
+	//GamePad
+	static const int CanyonPickupAmount;
+	static const int ForestPickupAmount;
+	static const int IcePickupAmount;
+	static const int VolcanoPickupAmount;
+#pragma endregion
+
 };

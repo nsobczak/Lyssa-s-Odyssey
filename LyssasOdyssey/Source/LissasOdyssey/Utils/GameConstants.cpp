@@ -27,6 +27,13 @@ const FKey GameConstants::DefaultKKey_ATriangle = EKeys::R;
 const FKey GameConstants::DefaultKKey_AStart = EKeys::T;
 #pragma endregion
 
+#pragma region Game
+const int CanyonPickupAmount = 1;
+const int ForestPickupAmount = 2;
+const int IcePickupAmount = 3;
+const int VolcanoPickupAmount = 4;
+#pragma endregion
+
 GameConstants::GameConstants()
 {
 }

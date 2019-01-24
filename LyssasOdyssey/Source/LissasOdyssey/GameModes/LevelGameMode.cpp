@@ -15,6 +15,7 @@
 
 //#include "Engine/DataTable.h"
 
+#pragma region Initialization
 // Sets default values
 ALevelGameMode::ALevelGameMode()
 {
@@ -31,6 +32,150 @@ ALevelGameMode::ALevelGameMode()
 
 	//HUDClass = AFPSHUD::StaticClass();
 }
+
+
+#pragma region GameSave
+
+void ALevelGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
+{
+	UE_LOG(LogTemp, Warning, TEXT("SaveSettingsValues function from levelGameMode"));
+
+	// Values
+	SaveInstance->CurrentLanguage = this->CurrentLanguage;
+
+	SaveInstance->GraphicalIndex = this->GraphicalIndex;
+	SaveInstance->PPIndex = this->PPIndex;
+	SaveInstance->AAIndex = this->AAIndex;
+	SaveInstance->ShadowIndex = this->ShadowIndex;
+	SaveInstance->FPSIndex = this->FPSIndex;
+	SaveInstance->ShowFPS = this->ShowFPS;
+	SaveInstance->ResolutionIndex = this->ResIndex;
+	SaveInstance->IsFullScreen = this->IsFullScreen;
+
+	SaveInstance->MasterVolumeSliderValue = this->MasterVolumeSliderValue;
+	SaveInstance->MusicVolumeSliderValue = this->MusicVolumeSliderValue;
+	SaveInstance->EffectVolumeSliderValue = this->EffectVolumeSliderValue;
+
+	SaveInstance->UseGamePad = this->UseGamePad;
+	SaveInstance->TMapKeyboardKeys = this->TMapKeyboardKeys;
+	SaveInstance->TMapGamepadKeys = this->TMapGamepadKeys;
+
+	// Save computer local date
+	SaveInstance->PlayerSaveSlotDate = FDateTime::Now();
+
+	// Save to slot
+	UGameplayStatics::SaveGameToSlot(SaveInstance, SaveSlotName, 0);
+
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString(TEXT("Game saved!")), true);
+}
+
+void ALevelGameMode::SaveGameSettings()
+{
+	Super::SaveGameSettings();
+
+	UE_LOG(LogTemp, Warning, TEXT("SaveGameSettings function from levelGameMode"));
+
+	// Create save game object, make sure it exists, then save player variables
+	class UMainSaveGame* SaveInstance = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(UMainSaveGame::StaticClass()));
+
+	if (SaveInstance->IsValidLowLevel())
+	{
+		SaveSettingsValues(SaveInstance);
+	}
+	else
+	{
+		// If the save game object is not found, create a new one
+		class UMainSaveGame* SaveInstanceAlternate = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(
+			UMainSaveGame::StaticClass()));
+
+		if (!SaveInstanceAlternate)
+			return;
+		else
+			SaveSettingsValues(SaveInstanceAlternate);
+	}
+}
+
+void ALevelGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
+{
+	UE_LOG(LogTemp, Warning, TEXT("LoadSettingsValues function from levelGameMode"));
+
+	LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
+
+	this->CurrentLanguage = LoadInstance->CurrentLanguage;
+
+	this->GraphicalIndex = LoadInstance->GraphicalIndex;
+	this->PPIndex = LoadInstance->PPIndex;
+	this->AAIndex = LoadInstance->AAIndex;
+	this->ShadowIndex = LoadInstance->ShadowIndex;
+	this->FPSIndex = LoadInstance->FPSIndex;
+	this->ShowFPS = LoadInstance->ShowFPS;
+	this->ResIndex = LoadInstance->ResolutionIndex;
+	this->IsFullScreen = LoadInstance->IsFullScreen;
+
+	this->MasterVolumeSliderValue = LoadInstance->MasterVolumeSliderValue;
+	this->MusicVolumeSliderValue = LoadInstance->MusicVolumeSliderValue;
+
+	this->UseGamePad = LoadInstance->UseGamePad;
+	this->TMapKeyboardKeys = LoadInstance->TMapKeyboardKeys;
+	this->TMapGamepadKeys = LoadInstance->TMapGamepadKeys;
+
+	ALyssa* player = (ALyssa*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	if (nullptr != player)
+	{
+		UE_LOG(LogTemp, Log, TEXT("player is %s | player->InputComponent = %s"), *(player->GetName()), *(player->InputComponent->GetFName().ToString()));
+		player->SetupPlayerInputComponent(player->InputComponent);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("no player pawn detected in level"));
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("Game loaded from save!"));
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Purple, FString(TEXT("Game loaded from save!")), true);
+}
+
+void ALevelGameMode::LoadGameSettings()
+{
+	Super::LoadGameSettings();
+
+	UE_LOG(LogTemp, Warning, TEXT("LoadGameSettings function from levelGameMode"));
+
+	//// Only load game stats if the load .sav file exists
+	//if (UGameplayStatics::DoesSaveGameExist(SaveSlotName, 0))
+	//{
+	//	class UMainSaveGame* LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(UMainSaveGame::StaticClass()));
+
+	//	if (LoadInstance->IsValidLowLevel())
+	//	{
+	//		LoadSettingsValues(LoadInstance);
+	//	}
+	//	else
+	//	{
+	//		// If save game object not found, create a new one
+	//		class UMainSaveGame* LoadInstanceAlternate = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(
+	//			UMainSaveGame::StaticClass()));
+
+	//		if (!LoadInstanceAlternate)
+	//			return;
+	//		else
+	//			LoadSettingsValues(LoadInstanceAlternate);
+	//	}
+	//}
+	//else
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString(TEXT("No save game found.")), true);
+	//	InitializeKeySettings();
+
+	//	ALyssa* Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
+	//	if (Lyssa)
+	//	{
+	//		Lyssa->ResetTMapPlayerPickupAmountByLevel();
+	//	}
+	//	else
+	//		UE_LOG(LogTemp, Error, TEXT("no result for GetPlayerPawn"));
+	//}
+}
+#pragma endregion
 
 
 // Called when the game starts or when spawned
@@ -82,20 +227,21 @@ void ALevelGameMode::BeginPlay()
 		}
 	}
 
-	// === LevelTotalScore === 
-	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APickupScore::StaticClass(), FoundActors);
-	LevelTotalScore = 0;
-	for (size_t i = 0; i < FoundActors.Num(); i++)
-	{
-		APickupScore* currentPickupScore = (APickupScore*)FoundActors[i];
-		if (currentPickupScore)
-			LevelTotalScore += currentPickupScore->GetScoreAmount();
-	}
+	//// === LevelTotalScore === 
+	//TArray<AActor*> FoundActors;
+	//UGameplayStatics::GetAllActorsOfClass(GetWorld(), APickupScore::StaticClass(), FoundActors);
+	//LevelTotalScore = 0;
+	//for (size_t i = 0; i < FoundActors.Num(); i++)
+	//{
+	//	APickupScore* currentPickupScore = (APickupScore*)FoundActors[i];
+	//	if (currentPickupScore)
+	//		LevelTotalScore += currentPickupScore->GetScoreAmount();
+	//}
 }
 
-
+#pragma endregion
 //_____________________________________________________________________________________________
+
 
 FText ALevelGameMode::GetTimerForHud()
 {

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameEnums.generated.h"
 
+#pragma region Settings
 UENUM(BlueprintType)	//"BlueprintType" is essential specifier
 enum class ELanguages : uint8 { en, fr, count };
 
@@ -23,6 +24,15 @@ enum DeviceName { Keyboard, Gamepad };
 
 UENUM(BlueprintType)
 enum SoundLabel { Music, Effect };
+
+#pragma endregion
+
+#pragma region Game
+
+UENUM(BlueprintType)
+enum LevelLabels { Canyon, Hub, Forest, Ice, Volcano };
+
+#pragma endregion
 
 /**
  * 

@@ -108,6 +108,8 @@ void AMainGameMode::SaveGameSettings()
 
 void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 {
+	UE_LOG(LogTemp, Warning, TEXT("LoadSettingsValues function from mainGameMode"));
+
 	LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
 
 	this->CurrentLanguage = LoadInstance->CurrentLanguage;
@@ -124,11 +126,6 @@ void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 	this->MasterVolumeSliderValue = LoadInstance->MasterVolumeSliderValue;
 	this->MusicVolumeSliderValue = LoadInstance->MusicVolumeSliderValue;
 	this->EffectVolumeSliderValue = LoadInstance->EffectVolumeSliderValue;
-
-	//if (this->KeyListKeyboard.Num() == LoadInstance->PlayerKeysKeyboard.Num())
-	//	this->KeyListKeyboard = LoadInstance->PlayerKeysKeyboard;
-	//if (this->KeyListKeyboard.Num() == LoadInstance->PlayerKeysGamepad.Num())
-	//	this->KeyListGamepad = LoadInstance->PlayerKeysGamepad;
 
 	this->UseGamePad = LoadInstance->UseGamePad;
 	this->TMapKeyboardKeys = LoadInstance->TMapKeyboardKeys;
@@ -151,6 +148,8 @@ void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 
 void AMainGameMode::LoadGameSettings()
 {
+	UE_LOG(LogTemp, Warning, TEXT("LoadGameSettings function from AMainGameMode"));
+
 	// Only load game stats if the load .sav file exists
 	if (UGameplayStatics::DoesSaveGameExist(SaveSlotName, 0))
 	{
@@ -175,7 +174,18 @@ void AMainGameMode::LoadGameSettings()
 	else
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString(TEXT("No save game found.")), true);
-		InitializeKeySettings();
+		InitializeKeySettingsWithDefault();
+
+		//TODO
+		ALyssa* Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
+		if (Lyssa)
+		{
+			Lyssa->ResetTMapPlayerPickupAmountByLevel();
+		}
+		else
+			UE_LOG(LogTemp, Error, TEXT("no result for GetPlayerPawn"));
+
+		SaveGameSettings();
 	}
 }
 #pragma endregion
@@ -213,7 +223,7 @@ void AMainGameMode::InitializeGraphicalSettings()
 }
 
 
-void AMainGameMode::InitializeKeySettings()
+void AMainGameMode::InitializeKeySettingsWithDefault()
 {
 	//GamePad
 	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DefaultGPKey_MoveVertical);
@@ -227,9 +237,9 @@ void AMainGameMode::InitializeKeySettings()
 
 	//Keyboard
 	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DefaultKKey_MoveUp);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveDown, GameConstants::DefaultKKey_MoveRight);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveLeft, GameConstants::DefaultKKey_MoveDown);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveRight, GameConstants::DefaultKKey_MoveLeft);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveDown, GameConstants::DefaultKKey_MoveDown);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveLeft, GameConstants::DefaultKKey_MoveLeft);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveRight, GameConstants::DefaultKKey_MoveRight);
 
 	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ACross, GameConstants::DefaultKKey_ACross);
 	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ATriangle, GameConstants::DefaultKKey_ATriangle);

@@ -40,20 +40,27 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		FString LevelTitle = "LevelTitle";
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHub")
+#pragma region save region
+	virtual void SaveGameSettings();
+	virtual void LoadGameSettings();
+#pragma endregion
+
+#pragma region hud elements visibility
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
 		bool ShowTime = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHub")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
 		bool ShowLife = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHub")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
 		bool ShowTitle = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHub")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
 		bool ShowPickup = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameSettings")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
 		bool ShowMouseCursorInLevel = true;
+#pragma endregion
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
 		class ALyssa* Lyssa;
@@ -75,7 +82,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GameController")
 		void SetCurrentState(ELevelPlayState newState);
 
-	//TODO: add infos here
+#pragma region level timer
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameTimer")
 		float TimeLimit = 99.0f;
 
@@ -84,11 +91,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "GameTimer")
 		FText GetTimerForHud();
+#pragma endregion
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Level")
-		int LevelTotalScore;
-
-#pragma region MyRegion
+#pragma region Dialogue
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Dialogue")
 		UUserWidget* DialogueWidget;
 
@@ -109,6 +114,13 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameTimer")
 		float DamageRateTimer = 0.0f;
+
+#pragma region save region
+	UFUNCTION()
+		virtual void SaveSettingsValues(class UMainSaveGame* SaveInstance);
+	UFUNCTION()
+		virtual void LoadSettingsValues(class UMainSaveGame * &LoadInstance);
+#pragma endregion
 
 private:
 	void CheckForDeath();

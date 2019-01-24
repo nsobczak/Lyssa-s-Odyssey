@@ -28,9 +28,9 @@ public:
 
 #pragma region save region
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
-		void SaveGameSettings();
+		virtual void SaveGameSettings();
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
-		void LoadGameSettings();
+		virtual void LoadGameSettings();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
 		FString SaveSlotName = FString(TEXT("PlayerSaveSlot"));
@@ -188,12 +188,10 @@ protected:
 
 	void InitializeGraphicalSettings();
 
-	void InitializeKeySettings();
+	void InitializeKeySettingsWithDefault();
 
-	UFUNCTION()
-		void SaveSettingsValues(class UMainSaveGame* SaveInstance);
-	UFUNCTION()
-		void LoadSettingsValues(class UMainSaveGame * &LoadInstance);
+	virtual void SaveSettingsValues(class UMainSaveGame* SaveInstance);
+	virtual void LoadSettingsValues(class UMainSaveGame * &LoadInstance);
 
 	/** The widget class we will use as our menu when the game starts. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")

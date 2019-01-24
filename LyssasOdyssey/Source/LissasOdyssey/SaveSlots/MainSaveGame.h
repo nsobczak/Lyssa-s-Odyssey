@@ -63,4 +63,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "settings")
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapGamepadKeys;
 #pragma endregion
+
+#pragma region Game
+
+	UPROPERTY(EditAnywhere, Category = "game")
+		TMap<TEnumAsByte<LevelLabels>, int>TMapPlayerPickupByLevel;
+#pragma endregion
 };

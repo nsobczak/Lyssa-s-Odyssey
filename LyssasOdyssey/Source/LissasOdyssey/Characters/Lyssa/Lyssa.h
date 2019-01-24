@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Utils/GameEnums.h"
 
 #include "Characters/Fylgja/Fylgja.h"
 #include "Characters/CharacterBase.h"
@@ -84,6 +85,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Pickups")
 		void UpdateScorePickupAmount(int amountChange);
 
+	UFUNCTION(BlueprintPure, Category = "Pickups")
+		TMap<TEnumAsByte<LevelLabels>, int> GetTMapPlayerPickupAmountByLevel();
+
+	UFUNCTION(BlueprintCallable, Category = "Pickups")
+		void UpdateTMapPlayerPickupAmountByLevel(LevelLabels LevelToChange, int amountChange);
+	
+	UFUNCTION(BlueprintCallable, Category = "Pickups")
+		void ResetTMapPlayerPickupAmountByLevel();
+
 
 protected:
 	float initialPosZValue;
@@ -99,6 +109,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
 		class AFylgja* Fylgja;
+
+	UPROPERTY(VisibleAnywhere, Category = "Pickups")
+		TMap<TEnumAsByte<LevelLabels>, int>TMapPlayerPickupAmountByLevel;
 
 	UPROPERTY(VisibleAnywhere, Category = "Pickups")
 		int ScorePickupAmount;

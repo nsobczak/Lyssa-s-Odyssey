@@ -114,11 +114,14 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	if (CurrentGameMode)
 	{
 		//TODO: debind all before reassigning
+		//PlayerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
+		//PlayerInputComponent->BindAxis("MoveRight", this, &ALyssa::MoveRight);
+
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeys;
 
 		//-Gamepad-
 		TMapKeys = CurrentGameMode->TMapGamepadKeys;
-		UE_LOG(LogTemp, Log, TEXT("Gamepad keys: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
+		UE_LOG(LogTemp, Log, TEXT("Gamepad keys before binding: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::MoveDown).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::MoveLeft).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
@@ -136,13 +139,11 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 		//-Keyboard-
 		TMapKeys = CurrentGameMode->TMapKeyboardKeys;
-		UE_LOG(LogTemp, Log, TEXT("keyboard keys: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
+		UE_LOG(LogTemp, Log, TEXT("keyboard keys before binding: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::MoveDown).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::MoveLeft).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
-		// set up gameplay key bindings
-		//PlayerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
-		//PlayerInputComponent->BindAxis("MoveRight", this, &ALyssa::MoveRight);
+
 		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp);
 		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
 		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
@@ -386,6 +387,29 @@ void ALyssa::UpdateScorePickupAmount(int amountChange)
 	{
 		ScorePickupAmount = 0;
 	}
+}
+
+TMap<TEnumAsByte<LevelLabels>, int>  ALyssa::GetTMapPlayerPickupAmountByLevel()
+{
+	return this->TMapPlayerPickupAmountByLevel;
+}
+
+void ALyssa::UpdateTMapPlayerPickupAmountByLevel(LevelLabels LevelToChange, int amountChange)
+{
+	if (this->TMapPlayerPickupAmountByLevel.Contains(LevelToChange))
+	{
+		this->TMapPlayerPickupAmountByLevel.Emplace(
+			LevelToChange, this->TMapPlayerPickupAmountByLevel.FindRef(LevelToChange) + amountChange);
+	}
+}
+
+void ALyssa::ResetTMapPlayerPickupAmountByLevel()
+{
+	this->TMapPlayerPickupAmountByLevel.Reset();
+	TMapPlayerPickupAmountByLevel.Emplace(LevelLabels::Canyon, 0);
+	TMapPlayerPickupAmountByLevel.Emplace(LevelLabels::Forest, 0);
+	TMapPlayerPickupAmountByLevel.Emplace(LevelLabels::Ice, 0);
+	TMapPlayerPickupAmountByLevel.Emplace(LevelLabels::Volcano, 0);
 }
 
 void ALyssa::CollectPickups()
