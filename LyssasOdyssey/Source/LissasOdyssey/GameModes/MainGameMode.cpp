@@ -12,14 +12,14 @@ AMainGameMode::AMainGameMode()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	DefaultPawnClass = ALyssa::StaticClass();
+	DefaultPawnClass = nullptr;
 
-	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnObject(TEXT("/Game/Characters/Lyssa/BPLyssa"));
-	if (PlayerPawnObject.Succeeded())
-	{
-		DefaultPawnClass = PlayerPawnObject.Class;
-	}
+	//// set default pawn class to our Blueprinted character
+	//static ConstructorHelpers::FClassFinder<APawn> PlayerPawnObject(TEXT("/Game/Characters/Lyssa/BPLyssa"));
+	//if (PlayerPawnObject.Succeeded())
+	//{
+	//	DefaultPawnClass = PlayerPawnObject.Class;
+	//}
 
 	//HUDClass = AFPSHUD::StaticClass();
 }
@@ -78,10 +78,11 @@ void AMainGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
 	// Save to slot
 	UGameplayStatics::SaveGameToSlot(SaveInstance, SaveSlotName, 0);
 
+	UE_LOG(LogTemp, Log, TEXT("Game saved from AMainGameMode"));
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString(TEXT("Game saved!")), true);
 }
 
-void AMainGameMode::SaveGameSettings()
+bool AMainGameMode::SaveGameSettings()
 {
 	// Create save game object, make sure it exists, then save player variables
 	class UMainSaveGame* SaveInstance = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(UMainSaveGame::StaticClass()));
@@ -89,6 +90,7 @@ void AMainGameMode::SaveGameSettings()
 	if (SaveInstance->IsValidLowLevel())
 	{
 		SaveSettingsValues(SaveInstance);
+		return true;
 	}
 	else
 	{
@@ -97,9 +99,13 @@ void AMainGameMode::SaveGameSettings()
 			UMainSaveGame::StaticClass()));
 
 		if (!SaveInstanceAlternate)
-			return;
+			return false;
 		else
+		{
 			SaveSettingsValues(SaveInstanceAlternate);
+			return true;
+		}
+
 	}
 	// Windows .Sav File Paths:
 		// If in editor:			\Unreal Projects\{UE4_PROJECT_NAME}\Saved\SaveGames\PlayerSaveSlot.sav
@@ -131,22 +137,11 @@ void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 	this->TMapKeyboardKeys = LoadInstance->TMapKeyboardKeys;
 	this->TMapGamepadKeys = LoadInstance->TMapGamepadKeys;
 
-	ALyssa* player = (ALyssa*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	if (nullptr != player)
-	{
-		UE_LOG(LogTemp, Log, TEXT("player is %s | player->InputComponent = %s"), *(player->GetName()), *(player->InputComponent->GetFName().ToString()));
-		player->SetupPlayerInputComponent(player->InputComponent);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Log, TEXT("no player pawn detected in level"));
-	}
-
 	UE_LOG(LogTemp, Log, TEXT("Game loaded from save!"));
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Purple, FString(TEXT("Game loaded from save!")), true);
 }
 
-void AMainGameMode::LoadGameSettings()
+bool AMainGameMode::LoadGameSettings()
 {
 	UE_LOG(LogTemp, Warning, TEXT("LoadGameSettings function from AMainGameMode"));
 
@@ -166,25 +161,18 @@ void AMainGameMode::LoadGameSettings()
 				UMainSaveGame::StaticClass()));
 
 			if (!LoadInstanceAlternate)
-				return;
+				return false;
 			else
 				LoadSettingsValues(LoadInstanceAlternate);
 		}
+		return true;
 	}
 	else
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString(TEXT("No save game found.")), true);
 
-		//TODO
-		ALyssa* Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
-		if (Lyssa)
-		{
-			Lyssa->ResetTMapPlayerPickupAmountByLevel();
-		}
-		else
-			UE_LOG(LogTemp, Error, TEXT("no result for GetPlayerPawn"));
-
 		UseDefaultSettings();//InitializeKeySettingsWithDefault
+		return false;
 	}
 }
 #pragma endregion
@@ -250,6 +238,7 @@ void AMainGameMode::InitializeAudioSettingsWithDefault()
 void AMainGameMode::InitializeKeySettingsWithDefault()
 {
 	this->UseGamePad = GameConstants::UseGamePad;
+	this->TMapGamepadKeys.Reset();
 
 	//GamePad
 	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DefaultGPKey_MoveVertical);
@@ -405,6 +394,8 @@ void AMainGameMode::ShowHUD()
 
 void AMainGameMode::UseDefaultSettings()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Use default settings"));
+
 	InitializeGeneralSettingsWithDefault();
 	InitializeGraphicalSettingsWithDefault();
 	InitializeAudioSettingsWithDefault();

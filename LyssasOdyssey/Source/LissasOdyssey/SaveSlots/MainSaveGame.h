@@ -68,5 +68,8 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "game")
 		TMap<TEnumAsByte<LevelLabels>, int>TMapPlayerPickupByLevel;
+
+	UPROPERTY(VisibleAnywhere, Category = "game")
+		bool IsInitialized_TMapPlayerPickupByLevel;
 #pragma endregion
 };

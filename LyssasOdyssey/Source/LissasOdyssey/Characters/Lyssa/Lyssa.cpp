@@ -104,6 +104,65 @@ AFylgja* ALyssa::GetFylgja() const
 #pragma region Input
 //____________________________________________________________________________________
 
+void ALyssa::WaitForLoadCompletionAndAssignKeys(ALevelGameMode* currentGameMode, UInputComponent* playerInputComponent, float checkInterval)
+{
+	UE_LOG(LogTemp, Log, TEXT("waiting for begin function completion | IsBeginFunctionCompleted = %s"), (currentGameMode->GetIsBeginFunctionCompleted() ? TEXT("True") : TEXT("False")));
+
+	if (currentGameMode->GetIsBeginFunctionCompleted())
+	{
+		//TODO: debind all before reassigning
+		//playerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
+		//playerInputComponent->BindAxis("MoveRight", this, &ALyssa::MoveRight);
+
+		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeys;
+
+		//-Gamepad-
+		TMapKeys = currentGameMode->TMapGamepadKeys;
+		UE_LOG(LogTemp, Log, TEXT("Gamepad keys before binding: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
+			*(TMapKeys.FindRef(PlayerActionLabel::MoveDown).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::MoveLeft).ToString()),
+			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
+			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp);
+		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
+		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight);
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveUp), this, &ALyssa::MoveFUp);
+		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveDown), this, &ALyssa::MoveFDown);
+		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveLeft), this, &ALyssa::MoveFLeft);
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveRight), this, &ALyssa::MoveFRight);
+		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
+		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
+		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::AStart), EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
+
+		//-Keyboard-
+		TMapKeys = currentGameMode->TMapKeyboardKeys;
+		UE_LOG(LogTemp, Log, TEXT("keyboard keys before binding: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
+			*(TMapKeys.FindRef(PlayerActionLabel::MoveDown).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::MoveLeft).ToString()),
+			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
+			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
+
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp);
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight);
+		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveUp), this, &ALyssa::MoveFUp);
+		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveDown), this, &ALyssa::MoveFDown);
+		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveLeft), this, &ALyssa::MoveFLeft);
+		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveRight), this, &ALyssa::MoveFRight);
+		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
+		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
+		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::AStart), EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
+	}
+	else
+	{
+		//delay
+		FTimerHandle TimerHandle; // Handle to manage the timer
+		FTimerDelegate TimerDel; //Bind function with parameters
+		TimerDel.BindUFunction(this, FName("WaitForLoadCompletionAndAssignKeys"), currentGameMode, playerInputComponent, checkInterval);
+		GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, checkInterval, false); //0.1f
+	}
+}
+
 // Called to bind functionality to input
 void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -113,48 +172,11 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
 	if (CurrentGameMode)
 	{
-		//TODO: debind all before reassigning
-		//PlayerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
-		//PlayerInputComponent->BindAxis("MoveRight", this, &ALyssa::MoveRight);
+		//check for CurrentGameMode begin completion, wait if not completed
 
-		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeys;
-
-		//-Gamepad-
-		TMapKeys = CurrentGameMode->TMapGamepadKeys;
-		UE_LOG(LogTemp, Log, TEXT("Gamepad keys before binding: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
-			*(TMapKeys.FindRef(PlayerActionLabel::MoveDown).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::MoveLeft).ToString()),
-			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
-			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp);
-		//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
-		//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveUp), this, &ALyssa::MoveFUp);
-		//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveDown), this, &ALyssa::MoveFDown);
-		//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveLeft), this, &ALyssa::MoveFLeft);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveRight), this, &ALyssa::MoveFRight);
-		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
-		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
-		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::AStart), EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
-
-		//-Keyboard-
-		TMapKeys = CurrentGameMode->TMapKeyboardKeys;
-		UE_LOG(LogTemp, Log, TEXT("keyboard keys before binding: %s %s %s %s %s %s %s"), *(TMapKeys.FindRef(PlayerActionLabel::MoveUp).ToString()),
-			*(TMapKeys.FindRef(PlayerActionLabel::MoveDown).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::MoveLeft).ToString()),
-			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
-			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
-
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
-		PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight);
-		//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveUp), this, &ALyssa::MoveFUp);
-		//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveDown), this, &ALyssa::MoveFDown);
-		//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveLeft), this, &ALyssa::MoveFLeft);
-		//PlayerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveRight), this, &ALyssa::MoveFRight);
-		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
-		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
-		PlayerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::AStart), EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
+		//UE_LOG(LogTemp, Log, TEXT("before waiting for begin function completion"));
+		WaitForLoadCompletionAndAssignKeys(CurrentGameMode, PlayerInputComponent, 0.05f);
+		//UE_LOG(LogTemp, Log, TEXT("after waiting for begin function completion"));
 	}
 }
 
@@ -394,6 +416,19 @@ TMap<TEnumAsByte<LevelLabels>, int>  ALyssa::GetTMapPlayerPickupAmountByLevel()
 	return this->TMapPlayerPickupAmountByLevel;
 }
 
+void ALyssa::SetTMapPlayerPickupAmountByLevel(TMap<TEnumAsByte<LevelLabels>, int> newTMap)
+{
+	this->TMapPlayerPickupAmountByLevel = newTMap;
+}
+
+void ALyssa::EmplaceTMapPlayerPickupAmountByLevel(LevelLabels LevelToChange, int newAmount)
+{
+	if (this->TMapPlayerPickupAmountByLevel.Contains(LevelToChange))
+	{
+		this->TMapPlayerPickupAmountByLevel.Emplace(LevelToChange, newAmount);
+	}
+}
+
 void ALyssa::UpdateTMapPlayerPickupAmountByLevel(LevelLabels LevelToChange, int amountChange)
 {
 	if (this->TMapPlayerPickupAmountByLevel.Contains(LevelToChange))
@@ -410,6 +445,7 @@ void ALyssa::ResetTMapPlayerPickupAmountByLevel()
 	TMapPlayerPickupAmountByLevel.Emplace(LevelLabels::Forest, 0);
 	TMapPlayerPickupAmountByLevel.Emplace(LevelLabels::Ice, 0);
 	TMapPlayerPickupAmountByLevel.Emplace(LevelLabels::Volcano, 0);
+	this->IsInitialized_TMapPlayerPickupByLevel = true;
 }
 
 void ALyssa::CollectPickups()

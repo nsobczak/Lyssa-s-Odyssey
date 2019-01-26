@@ -2,6 +2,7 @@
 
 #include "LevelGameMode.h"
 #include "GameModes/MainGameMode.h"
+#include "Utils/GameConstants.h"
 #include "WorldAssets/FinishArea.h"
 #include "Characters/Lyssa/Lyssa.h"
 #include "Characters/Fylgja/Fylgja.h"
@@ -12,8 +13,6 @@
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h" //to be able to access the character and pause game
 #include "Kismet/KismetMathLibrary.h"
 #include "Blueprint/UserWidget.h"
-
-//#include "Engine/DataTable.h"
 
 #pragma region Initialization
 // Sets default values
@@ -31,6 +30,8 @@ ALevelGameMode::ALevelGameMode()
 	}
 
 	//HUDClass = AFPSHUD::StaticClass();
+
+	IsBeginFunctionCompleted = false;
 }
 
 
@@ -40,39 +41,42 @@ void ALevelGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
 {
 	UE_LOG(LogTemp, Warning, TEXT("SaveSettingsValues function from levelGameMode"));
 
+	Super::SaveSettingsValues(SaveInstance);
+
+	//SaveInstance->CurrentLanguage = this->CurrentLanguage;
+
+	//SaveInstance->GraphicalIndex = this->GraphicalIndex;
+	//SaveInstance->PPIndex = this->PPIndex;
+	//SaveInstance->AAIndex = this->AAIndex;
+	//SaveInstance->ShadowIndex = this->ShadowIndex;
+	//SaveInstance->FPSIndex = this->FPSIndex;
+	//SaveInstance->ShowFPS = this->ShowFPS;
+	//SaveInstance->ResolutionIndex = this->ResIndex;
+	//SaveInstance->IsFullScreen = this->IsFullScreen;
+
+	//SaveInstance->MasterVolumeSliderValue = this->MasterVolumeSliderValue;
+	//SaveInstance->MusicVolumeSliderValue = this->MusicVolumeSliderValue;
+	//SaveInstance->EffectVolumeSliderValue = this->EffectVolumeSliderValue;
+
+	//SaveInstance->UseGamePad = this->UseGamePad;
+	//SaveInstance->TMapKeyboardKeys = this->TMapKeyboardKeys;
+	//SaveInstance->TMapGamepadKeys = this->TMapGamepadKeys;
+
+	//// Save computer local date
+	//SaveInstance->PlayerSaveSlotDate = FDateTime::Now();
+
 	// Values
-	SaveInstance->CurrentLanguage = this->CurrentLanguage;
-
-	SaveInstance->GraphicalIndex = this->GraphicalIndex;
-	SaveInstance->PPIndex = this->PPIndex;
-	SaveInstance->AAIndex = this->AAIndex;
-	SaveInstance->ShadowIndex = this->ShadowIndex;
-	SaveInstance->FPSIndex = this->FPSIndex;
-	SaveInstance->ShowFPS = this->ShowFPS;
-	SaveInstance->ResolutionIndex = this->ResIndex;
-	SaveInstance->IsFullScreen = this->IsFullScreen;
-
-	SaveInstance->MasterVolumeSliderValue = this->MasterVolumeSliderValue;
-	SaveInstance->MusicVolumeSliderValue = this->MusicVolumeSliderValue;
-	SaveInstance->EffectVolumeSliderValue = this->EffectVolumeSliderValue;
-
-	SaveInstance->UseGamePad = this->UseGamePad;
-	SaveInstance->TMapKeyboardKeys = this->TMapKeyboardKeys;
-	SaveInstance->TMapGamepadKeys = this->TMapGamepadKeys;
-
-	// Save computer local date
-	SaveInstance->PlayerSaveSlotDate = FDateTime::Now();
+	SaveInstance->IsInitialized_TMapPlayerPickupByLevel = this->Lyssa->IsInitialized_TMapPlayerPickupByLevel;
+	SaveInstance->TMapPlayerPickupByLevel = this->Lyssa->GetTMapPlayerPickupAmountByLevel();
 
 	// Save to slot
 	UGameplayStatics::SaveGameToSlot(SaveInstance, SaveSlotName, 0);
 
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString(TEXT("Game saved!")), true);
+	UE_LOG(LogTemp, Log, TEXT("Game saved from ALevelGameMode"));
 }
 
-void ALevelGameMode::SaveGameSettings()
+bool ALevelGameMode::SaveGameSettings()
 {
-	Super::SaveGameSettings();
-
 	UE_LOG(LogTemp, Warning, TEXT("SaveGameSettings function from levelGameMode"));
 
 	// Create save game object, make sure it exists, then save player variables
@@ -81,6 +85,7 @@ void ALevelGameMode::SaveGameSettings()
 	if (SaveInstance->IsValidLowLevel())
 	{
 		SaveSettingsValues(SaveInstance);
+		return true;
 	}
 	else
 	{
@@ -89,9 +94,12 @@ void ALevelGameMode::SaveGameSettings()
 			UMainSaveGame::StaticClass()));
 
 		if (!SaveInstanceAlternate)
-			return;
+			return false;
 		else
+		{
 			SaveSettingsValues(SaveInstanceAlternate);
+			return true;
+		}
 	}
 }
 
@@ -99,89 +107,105 @@ void ALevelGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 {
 	UE_LOG(LogTemp, Warning, TEXT("LoadSettingsValues function from levelGameMode"));
 
+	Super::LoadSettingsValues(LoadInstance);
+
 	LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
 
-	this->CurrentLanguage = LoadInstance->CurrentLanguage;
-
-	this->GraphicalIndex = LoadInstance->GraphicalIndex;
-	this->PPIndex = LoadInstance->PPIndex;
-	this->AAIndex = LoadInstance->AAIndex;
-	this->ShadowIndex = LoadInstance->ShadowIndex;
-	this->FPSIndex = LoadInstance->FPSIndex;
-	this->ShowFPS = LoadInstance->ShowFPS;
-	this->ResIndex = LoadInstance->ResolutionIndex;
-	this->IsFullScreen = LoadInstance->IsFullScreen;
-
-	this->MasterVolumeSliderValue = LoadInstance->MasterVolumeSliderValue;
-	this->MusicVolumeSliderValue = LoadInstance->MusicVolumeSliderValue;
-
-	this->UseGamePad = LoadInstance->UseGamePad;
-	this->TMapKeyboardKeys = LoadInstance->TMapKeyboardKeys;
-	this->TMapGamepadKeys = LoadInstance->TMapGamepadKeys;
-
-	ALyssa* player = (ALyssa*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	if (nullptr != player)
+	Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
+	if (Lyssa)
 	{
-		UE_LOG(LogTemp, Log, TEXT("player is %s | player->InputComponent = %s"), *(player->GetName()), *(player->InputComponent->GetFName().ToString()));
-		player->SetupPlayerInputComponent(player->InputComponent);
+		this->Lyssa->IsInitialized_TMapPlayerPickupByLevel = LoadInstance->IsInitialized_TMapPlayerPickupByLevel;
+
+		if (!LoadInstance->IsInitialized_TMapPlayerPickupByLevel)
+		{
+			//initialize tmap - save only if player finishes level
+			Lyssa->ResetTMapPlayerPickupAmountByLevel();
+		}
+		else
+		{
+			//load existing tmap
+			this->Lyssa->SetTMapPlayerPickupAmountByLevel(LoadInstance->TMapPlayerPickupByLevel);
+		}
 	}
 	else
 	{
-		UE_LOG(LogTemp, Log, TEXT("no player pawn detected in level"));
+		UE_LOG(LogTemp, Error, TEXT("Lyssa is null"));
 	}
 
 	UE_LOG(LogTemp, Log, TEXT("Game loaded from save!"));
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Purple, FString(TEXT("Game loaded from save!")), true);
 }
 
-void ALevelGameMode::LoadGameSettings()
+bool ALevelGameMode::LoadGameSettings()
 {
-	Super::LoadGameSettings();
-
 	UE_LOG(LogTemp, Warning, TEXT("LoadGameSettings function from levelGameMode"));
 
-	//// Only load game stats if the load .sav file exists
-	//if (UGameplayStatics::DoesSaveGameExist(SaveSlotName, 0))
-	//{
-	//	class UMainSaveGame* LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(UMainSaveGame::StaticClass()));
+	// Only load game stats if the load .sav file exists
+	if (UGameplayStatics::DoesSaveGameExist(SaveSlotName, 0))
+	{
+		class UMainSaveGame* LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(UMainSaveGame::StaticClass()));
 
-	//	if (LoadInstance->IsValidLowLevel())
-	//	{
-	//		LoadSettingsValues(LoadInstance);
-	//	}
-	//	else
-	//	{
-	//		// If save game object not found, create a new one
-	//		class UMainSaveGame* LoadInstanceAlternate = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(
-	//			UMainSaveGame::StaticClass()));
+		if (LoadInstance->IsValidLowLevel())
+		{
+			LoadSettingsValues(LoadInstance);
+			return true;
+		}
+		else
+		{
+			// If save game object not found, create a new one
+			class UMainSaveGame* LoadInstanceAlternate = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(
+				UMainSaveGame::StaticClass()));
 
-	//		if (!LoadInstanceAlternate)
-	//			return;
-	//		else
-	//			LoadSettingsValues(LoadInstanceAlternate);
-	//	}
-	//}
-	//else
-	//{
-	//	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString(TEXT("No save game found.")), true);
-	//	InitializeKeySettings();
+			if (!LoadInstanceAlternate)
+				return false;
+			else
+				LoadSettingsValues(LoadInstanceAlternate);
 
-	//	ALyssa* Lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
-	//	if (Lyssa)
-	//	{
-	//		Lyssa->ResetTMapPlayerPickupAmountByLevel();
-	//	}
-	//	else
-	//		UE_LOG(LogTemp, Error, TEXT("no result for GetPlayerPawn"));
-	//}
+			return true;
+		}
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString(TEXT("No save game found.")), true);
+		UE_LOG(LogTemp, Error, TEXT("No save game found. Main menu should be called first"));
+
+		return false;
+	}
 }
 #pragma endregion
 
+bool ALevelGameMode::GetIsBeginFunctionCompleted()
+{
+	return IsBeginFunctionCompleted;
+}
 
 // Called when the game starts or when spawned
 void ALevelGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	switch (this->LevelLabel)
+	{
+	case Canyon:
+		this->LevelTitle = GameConstants::LevelTitle_Canyon;
+		break;
+	case Hub:
+		this->LevelTitle = GameConstants::LevelTitle_Hub;
+		break;
+	case Forest:
+		this->LevelTitle = GameConstants::LevelTitle_Forest;
+		break;
+	case Ice:
+		this->LevelTitle = GameConstants::LevelTitle_Ice;
+		break;
+	case Volcano:
+		this->LevelTitle = GameConstants::LevelTitle_Volcano;
+		break;
+	default:
+		this->LevelTitle = GameConstants::LevelTitle_Default;
+		break;
+	}
+
 
 	SetCurrentState(ELevelPlayState::EPlaying);
 
@@ -227,16 +251,8 @@ void ALevelGameMode::BeginPlay()
 		}
 	}
 
-	//// === LevelTotalScore === 
-	//TArray<AActor*> FoundActors;
-	//UGameplayStatics::GetAllActorsOfClass(GetWorld(), APickupScore::StaticClass(), FoundActors);
-	//LevelTotalScore = 0;
-	//for (size_t i = 0; i < FoundActors.Num(); i++)
-	//{
-	//	APickupScore* currentPickupScore = (APickupScore*)FoundActors[i];
-	//	if (currentPickupScore)
-	//		LevelTotalScore += currentPickupScore->GetScoreAmount();
-	//}
+	UE_LOG(LogTemp, Warning, TEXT("initialized lyssa variable"));
+	IsBeginFunctionCompleted = true;
 }
 
 #pragma endregion
@@ -398,6 +414,15 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 				playerController->SetCinematicMode(true, false, false, true, true);
 			}
 			gameMode->ShowEndingWidget();
+		}
+
+		//pickup amount for this level
+		if (Lyssa->GetTMapPlayerPickupAmountByLevel().Contains(this->LevelLabel)
+			&& Lyssa->GetCurrentScorePickupAmount() > Lyssa->GetTMapPlayerPickupAmountByLevel().FindRef(this->LevelLabel))
+		{
+			Lyssa->EmplaceTMapPlayerPickupAmountByLevel(this->LevelLabel, Lyssa->GetCurrentScorePickupAmount());
+
+			this->SaveGameSettings();
 		}
 
 		break;

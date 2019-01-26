@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "GameModes/MainGameMode.h"
 #include "Utils/Structures/StructDialogue.h"
+#include "Utils/GameEnums.h"
 
 #include "LevelGameMode.generated.h"
 
@@ -34,15 +35,21 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable, Category = "GameControl")
+		bool GetIsBeginFunctionCompleted();
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		float VerticalLevel = 50.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
+		TEnumAsByte<LevelLabels> LevelLabel;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		FString LevelTitle = "LevelTitle";
 
 #pragma region save region
-	virtual void SaveGameSettings();
-	virtual void LoadGameSettings();
+	virtual bool SaveGameSettings() override;
+	virtual bool LoadGameSettings() override;
 #pragma endregion
 
 #pragma region hud elements visibility
@@ -117,9 +124,9 @@ protected:
 
 #pragma region save region
 	UFUNCTION()
-		virtual void SaveSettingsValues(class UMainSaveGame* SaveInstance);
+		virtual void SaveSettingsValues(class UMainSaveGame* SaveInstance) override;
 	UFUNCTION()
-		virtual void LoadSettingsValues(class UMainSaveGame * &LoadInstance);
+		virtual void LoadSettingsValues(class UMainSaveGame * &LoadInstance) override;
 #pragma endregion
 
 private:
@@ -132,4 +139,5 @@ private:
 	/**handle any function call that rely upon changing the playing state of the game*/
 	void HandleNewState(ELevelPlayState newState);
 
+	bool IsBeginFunctionCompleted = false;
 };

@@ -28,9 +28,9 @@ public:
 
 #pragma region save region
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
-		virtual void SaveGameSettings();
+		virtual bool SaveGameSettings();
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
-		virtual void LoadGameSettings();
+		virtual bool LoadGameSettings();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
 		FString SaveSlotName = FString(TEXT("PlayerSaveSlot"));

@@ -35,6 +35,10 @@ public:
 
 
 	// === Input ===
+	/** Wait for level game mode begin function completion and assign keys*/
+	UFUNCTION(BlueprintCallable, Category = "Input")
+		void WaitForLoadCompletionAndAssignKeys(class ALevelGameMode* currentGameMode, class UInputComponent* playerInputComponent, float checkInterval = 0.1f);
+
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -87,12 +91,19 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Pickups")
 		TMap<TEnumAsByte<LevelLabels>, int> GetTMapPlayerPickupAmountByLevel();
+	UFUNCTION(BlueprintCallable, Category = "Pickups")
+		void SetTMapPlayerPickupAmountByLevel(TMap<TEnumAsByte<LevelLabels>, int> newTMap);
 
 	UFUNCTION(BlueprintCallable, Category = "Pickups")
 		void UpdateTMapPlayerPickupAmountByLevel(LevelLabels LevelToChange, int amountChange);
-	
+	UFUNCTION(BlueprintCallable, Category = "Pickups")
+		void EmplaceTMapPlayerPickupAmountByLevel(LevelLabels LevelToChange, int newAmount);
+
 	UFUNCTION(BlueprintCallable, Category = "Pickups")
 		void ResetTMapPlayerPickupAmountByLevel();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickups")
+		bool IsInitialized_TMapPlayerPickupByLevel = false;
 
 
 protected:

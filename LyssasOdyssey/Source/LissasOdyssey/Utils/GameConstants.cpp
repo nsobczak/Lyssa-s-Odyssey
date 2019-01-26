@@ -52,14 +52,24 @@ const FKey GameConstants::DefaultKKey_ATriangle = EKeys::R;
 const FKey GameConstants::DefaultKKey_AStart = EKeys::T;
 #pragma endregion
 
-#pragma region Game
-const int GameConstants::CanyonPickupAmount = 1;
-const int GameConstants::ForestPickupAmount = 2;
-const int GameConstants::IcePickupAmount = 3;
-const int GameConstants::VolcanoPickupAmount = 4;
 #pragma endregion
 
+#pragma region Game
+//level titles
+const FString  GameConstants::LevelTitle_Default = "LevelTitle";
+const FString  GameConstants::LevelTitle_Canyon = "Canyon";
+const FString  GameConstants::LevelTitle_Hub = "Hub";
+const FString  GameConstants::LevelTitle_Forest = "Forest";
+const FString  GameConstants::LevelTitle_Ice = "Ice";
+const FString  GameConstants::LevelTitle_Volcano = "Volcano";
+
+//Game
+const int  GameConstants::CanyonPickupAmount = 1;
+const int  GameConstants::ForestPickupAmount = 2;
+const int  GameConstants::IcePickupAmount = 3;
+const int  GameConstants::VolcanoPickupAmount = 4;
 #pragma endregion
+
 
 GameConstants::GameConstants()
 {

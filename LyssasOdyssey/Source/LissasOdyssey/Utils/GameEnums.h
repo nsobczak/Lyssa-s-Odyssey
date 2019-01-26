@@ -30,7 +30,7 @@ enum SoundLabel { Music, Effect };
 #pragma region Game
 
 UENUM(BlueprintType)
-enum LevelLabels { Canyon, Hub, Forest, Ice, Volcano };
+enum LevelLabels { LevelTitle, Canyon, Hub, Forest, Ice, Volcano };
 
 #pragma endregion
 

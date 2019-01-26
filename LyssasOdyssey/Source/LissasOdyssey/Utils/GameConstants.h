@@ -17,6 +17,7 @@ public:
 
 	static const FColor ColorTextLightGray;
 
+#pragma region Settings
 #pragma region Defaults general settings
 	static const ELanguages DefaultGeneral_CurrentLanguage;
 #pragma endregion
@@ -60,10 +61,20 @@ public:
 	static const FKey DefaultKKey_ACross;
 	static const FKey DefaultKKey_ATriangle;
 	static const FKey DefaultKKey_AStart;
+#pragma endregion  
 #pragma endregion
 
+
 #pragma region Game
-	//GamePad
+	//level titles
+	static const FString LevelTitle_Default;
+	static const FString LevelTitle_Canyon;
+	static const FString LevelTitle_Hub;
+	static const FString LevelTitle_Forest;
+	static const FString LevelTitle_Ice;
+	static const FString LevelTitle_Volcano;
+
+	//Game
 	static const int CanyonPickupAmount;
 	static const int ForestPickupAmount;
 	static const int IcePickupAmount;
