@@ -15,70 +15,71 @@ public:
 	GameConstants();
 	~GameConstants();
 
-	static const FColor ColorTextLightGray;
+	//TODO: use caps lock
+	static const FColor COLOR_TEXT_LIGHT_GRAY;
 
 #pragma region Settings
 #pragma region Defaults general settings
-	static const ELanguages DefaultGeneral_CurrentLanguage;
+	static const ELanguages DEF_GENERAL_CURRENT_LANGUAGE;
 #pragma endregion
 
 #pragma region Defaults graphics settings
-	static const bool DefaultGraphical_ShowFPS;
-	static const bool DefaultGraphical_IsFullScreen;
-	static const int32 DefaultGraphical_GraphicalIndex;
-	static const int32 DefaultGraphical_PPIndex;
-	static const int32 DefaultGraphical_AAIndex;
-	static const int32 DefaultGraphical_ShadowIndex;
-	static const int32 DefaultGraphical_FPSIndex;
-	static const int32 DefaultGraphical_ResIndex;
+	static const bool DEF_GRAPHICAL_SHOW_FPS;
+	static const bool DEF_GRAPHICAL_IS_FULL_SCREEN;
+	static const int32 DEF_GRAPHICAL_GRAPHICAL_IDX;
+	static const int32 DEF_GRAPHICAL_PP_IDX;
+	static const int32 DEF_GRAPHICAL_AA_IDX;
+	static const int32 DEF_GRAPHICAL_SHADOW_IDX;
+	static const int32 DEF_GRAPHICAL_FPS_IDX;
+	static const int32 DEF_GRAPHICAL_RES_IDX;
 #pragma endregion
 
 #pragma region Defaults audio settings
-	static const float DefaultAudio_MasterVolumeSliderValue;
-	static const float DefaultAudio_MusicVolumeSliderValue;
-	static const float DefaultAudio_EffectVolumeSliderValue;
+	static const float DEF_AUDIO_MASTER_VOL_VAL;
+	static const float DEF_AUDIO_MUSIC_VOL_VAL;
+	static const float DEF_AUDIO_EFFECT_VOL_VAL;
 #pragma endregion
 
 #pragma region Defaults keybind settings
-	static const bool UseGamePad;
+	static const bool DEF_USE_GAMEPAD;
 
 	//GamePad
-	static const FKey DefaultGPKey_MoveVertical;
-	static const FKey DefaultGPKey_MoveHorizontal;
-	static const FKey DefaultGPKey_FMoveVertical;
-	static const FKey DefaultGPKey_FMoveHorizontal;
+	static const FKey DEF_GPKEY_MOVE_VERTICAL;
+	static const FKey DEF_GPKEY_MOVE_HORIZONTAL;
+	static const FKey DEF_GPKEY_FMOVE_VERTICAL;
+	static const FKey DEF_GPKEY_FMOVE_HORIZONTAL;
 
-	static const FKey DefaultGPKey_ACross;
-	static const FKey DefaultGPKey_ATriangle;
-	static const FKey DefaultGPKey_AStart;
+	static const FKey DEF_GPKEY_ACROSS;
+	static const FKey DEF_GPKEY_ATRIANGLE;
+	static const FKey DEF_GPKEY_ASTART;
 
 	//Keyboard
-	static const FKey DefaultKKey_MoveUp;
-	static const FKey DefaultKKey_MoveRight;
-	static const FKey DefaultKKey_MoveDown;
-	static const FKey DefaultKKey_MoveLeft;
+	static const FKey DEF_KKEY_MOVE_UP;
+	static const FKey DEF_KKEY_MOVE_RIGHT;
+	static const FKey DEF_KKEY_MOVE_DOWN;
+	static const FKey DEF_KKEY_MOVE_LEFT;
 
-	static const FKey DefaultKKey_ACross;
-	static const FKey DefaultKKey_ATriangle;
-	static const FKey DefaultKKey_AStart;
+	static const FKey DEF_KKEY_ACROSS;
+	static const FKey DEF_KKEY_ATRIANGLE;
+	static const FKey DEF_KKEY_ASTART;
 #pragma endregion  
 #pragma endregion
 
 
 #pragma region Game
 	//level titles
-	static const FString LevelTitle_Default;
-	static const FString LevelTitle_Canyon;
-	static const FString LevelTitle_Hub;
-	static const FString LevelTitle_Forest;
-	static const FString LevelTitle_Ice;
-	static const FString LevelTitle_Volcano;
+	static const FString LVL_TITLE_DEFAULT;
+	static const FString LVL_TITLE_CANYON;
+	static const FString LVL_TITLE_HUB;
+	static const FString LVL_TITLE_FOREST;
+	static const FString LVL_TITLE_ICE;
+	static const FString LVL_TITLE_VOLCANO;
 
 	//Game
-	static const int CanyonPickupAmount;
-	static const int ForestPickupAmount;
-	static const int IcePickupAmount;
-	static const int VolcanoPickupAmount;
+	static const int PICKUP_AMOUNT_CANYON;
+	static const int PICKUP_AMOUNT_FOREST;
+	static const int PICKUP_AMOUNT_ICE;
+	static const int PICKUP_AMOUNT_VOLCANO;
 #pragma endregion
 
 };

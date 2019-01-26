@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "LevelGameMode.h"
 #include "GameModes/MainGameMode.h"
 #include "Utils/GameConstants.h"
@@ -187,22 +185,22 @@ void ALevelGameMode::BeginPlay()
 	switch (this->LevelLabel)
 	{
 	case Canyon:
-		this->LevelTitle = GameConstants::LevelTitle_Canyon;
+		this->LevelTitle = GameConstants::LVL_TITLE_CANYON;
 		break;
 	case Hub:
-		this->LevelTitle = GameConstants::LevelTitle_Hub;
+		this->LevelTitle = GameConstants::LVL_TITLE_HUB;
 		break;
 	case Forest:
-		this->LevelTitle = GameConstants::LevelTitle_Forest;
+		this->LevelTitle = GameConstants::LVL_TITLE_FOREST;
 		break;
 	case Ice:
-		this->LevelTitle = GameConstants::LevelTitle_Ice;
+		this->LevelTitle = GameConstants::LVL_TITLE_ICE;
 		break;
 	case Volcano:
-		this->LevelTitle = GameConstants::LevelTitle_Volcano;
+		this->LevelTitle = GameConstants::LVL_TITLE_VOLCANO;
 		break;
 	default:
-		this->LevelTitle = GameConstants::LevelTitle_Default;
+		this->LevelTitle = GameConstants::LVL_TITLE_DEFAULT;
 		break;
 	}
 
@@ -326,13 +324,6 @@ void ALevelGameMode::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	LevelTimer += DeltaTime;
-
-	DamageRateTimer -= DeltaTime;
-	if (DamageRateTimer < DamageRate)
-	{
-		//HandleProjectileDamage();
-		DamageRateTimer = DamageRate;
-	}
 
 	if (Currentstate == ELevelPlayState::EPlaying)
 	{

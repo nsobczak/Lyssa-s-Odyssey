@@ -9,7 +9,7 @@ void ALevelPortal::InitializeText(UTextRenderComponent* textToInit, bool isFront
 {
 	textToInit->HorizontalAlignment = EHorizTextAligment::EHTA_Center;
 	textToInit->VerticalAlignment = EVerticalTextAligment::EVRTA_TextCenter;
-	textToInit->TextRenderColor = GameConstants::ColorTextLightGray;
+	textToInit->TextRenderColor = GameConstants::COLOR_TEXT_LIGHT_GRAY;
 	textToInit->SetRelativeScale3D(FVector(10, 10, 10));
 	if (isFrontText)
 		textToInit->SetRelativeLocationAndRotation(FVector(200.0f, 0, 90.0f), FQuat::MakeFromEuler(FVector(0, 80.0f, 0)));

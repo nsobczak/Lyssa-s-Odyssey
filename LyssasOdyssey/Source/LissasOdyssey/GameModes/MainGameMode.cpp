@@ -171,7 +171,7 @@ bool AMainGameMode::LoadGameSettings()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString(TEXT("No save game found.")), true);
 
-		UseDefaultSettings();//InitializeKeySettingsWithDefault
+		UseDefaultSettings();
 		return false;
 	}
 }
@@ -201,64 +201,58 @@ void AMainGameMode::InitializeTArrayAndApplyGraphicalSettings()
 	ExecuteConsoleCommand(*(ShadowCommands[ShadowIndex]));
 	ExecuteConsoleCommand(*(FPSCommands[FPSIndex]));
 	ExecuteConsoleCommand(*(ResCommands[ResIndex] + (IsFullScreen ? "f" : "w")));
-
-	//if (ShowFPS)
-	//{
-	//	FString showFpsCommand = "stat fps ";
-	//	ExecuteConsoleCommand(*showFpsCommand);
-	//}
 }
 
 
 #pragma region Initialize default values
 void AMainGameMode::InitializeGeneralSettingsWithDefault()
 {
-	this->CurrentLanguage = GameConstants::DefaultGeneral_CurrentLanguage;
+	this->CurrentLanguage = GameConstants::DEF_GENERAL_CURRENT_LANGUAGE;
 }
 
 void AMainGameMode::InitializeGraphicalSettingsWithDefault()
 {
-	this->ShowFPS = GameConstants::DefaultGraphical_ShowFPS;
-	this->IsFullScreen = GameConstants::DefaultGraphical_IsFullScreen;
-	this->GraphicalIndex = GameConstants::DefaultGraphical_GraphicalIndex;
-	this->PPIndex = GameConstants::DefaultGraphical_PPIndex;
-	this->AAIndex = GameConstants::DefaultGraphical_AAIndex;
-	this->ShadowIndex = GameConstants::DefaultGraphical_ShadowIndex;
-	this->FPSIndex = GameConstants::DefaultGraphical_FPSIndex;
-	this->ResIndex = GameConstants::DefaultGraphical_ResIndex;
+	this->ShowFPS = GameConstants::DEF_GRAPHICAL_SHOW_FPS;
+	this->IsFullScreen = GameConstants::DEF_GRAPHICAL_IS_FULL_SCREEN;
+	this->GraphicalIndex = GameConstants::DEF_GRAPHICAL_GRAPHICAL_IDX;
+	this->PPIndex = GameConstants::DEF_GRAPHICAL_PP_IDX;
+	this->AAIndex = GameConstants::DEF_GRAPHICAL_AA_IDX;
+	this->ShadowIndex = GameConstants::DEF_GRAPHICAL_SHADOW_IDX;
+	this->FPSIndex = GameConstants::DEF_GRAPHICAL_FPS_IDX;
+	this->ResIndex = GameConstants::DEF_GRAPHICAL_RES_IDX;
 }
 
 void AMainGameMode::InitializeAudioSettingsWithDefault()
 {
-	this->MasterVolumeSliderValue = GameConstants::DefaultAudio_MasterVolumeSliderValue;
-	this->MusicVolumeSliderValue = GameConstants::DefaultAudio_MusicVolumeSliderValue;
-	this->EffectVolumeSliderValue = GameConstants::DefaultAudio_EffectVolumeSliderValue;
+	this->MasterVolumeSliderValue = GameConstants::DEF_AUDIO_MASTER_VOL_VAL;
+	this->MusicVolumeSliderValue = GameConstants::DEF_AUDIO_MUSIC_VOL_VAL;
+	this->EffectVolumeSliderValue = GameConstants::DEF_AUDIO_EFFECT_VOL_VAL;
 }
 
 void AMainGameMode::InitializeKeySettingsWithDefault()
 {
-	this->UseGamePad = GameConstants::UseGamePad;
+	this->UseGamePad = GameConstants::DEF_USE_GAMEPAD;
 	this->TMapGamepadKeys.Reset();
 
 	//GamePad
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DefaultGPKey_MoveVertical);
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveRight, GameConstants::DefaultGPKey_MoveHorizontal);
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::FMoveUp, GameConstants::DefaultGPKey_FMoveVertical);
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::FMoveRight, GameConstants::DefaultGPKey_FMoveHorizontal);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DEF_GPKEY_MOVE_VERTICAL);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveRight, GameConstants::DEF_GPKEY_MOVE_HORIZONTAL);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::FMoveUp, GameConstants::DEF_GPKEY_FMOVE_VERTICAL);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::FMoveRight, GameConstants::DEF_GPKEY_FMOVE_HORIZONTAL);
 
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::ACross, GameConstants::DefaultGPKey_ACross);
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::ATriangle, GameConstants::DefaultGPKey_ATriangle);
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::AStart, GameConstants::DefaultGPKey_AStart);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::ACross, GameConstants::DEF_GPKEY_ACROSS);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::ATriangle, GameConstants::DEF_GPKEY_ATRIANGLE);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::AStart, GameConstants::DEF_GPKEY_ASTART);
 
 	//Keyboard
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DefaultKKey_MoveUp);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveDown, GameConstants::DefaultKKey_MoveDown);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveLeft, GameConstants::DefaultKKey_MoveLeft);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveRight, GameConstants::DefaultKKey_MoveRight);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DEF_KKEY_MOVE_UP);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveDown, GameConstants::DEF_KKEY_MOVE_DOWN);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveLeft, GameConstants::DEF_KKEY_MOVE_LEFT);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveRight, GameConstants::DEF_KKEY_MOVE_RIGHT);
 
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ACross, GameConstants::DefaultKKey_ACross);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ATriangle, GameConstants::DefaultKKey_ATriangle);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::AStart, GameConstants::DefaultKKey_AStart);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ACross, GameConstants::DEF_KKEY_ACROSS);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ATriangle, GameConstants::DEF_KKEY_ATRIANGLE);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::AStart, GameConstants::DEF_KKEY_ASTART);
 }
 #pragma endregion
 
@@ -295,6 +289,7 @@ void AMainGameMode::BeginPlay()
 #pragma endregion
 
 #pragma region Widgets
+//==============================================================================================
 void AMainGameMode::ShowCursor(bool showCursor)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("before if - showCursor = %s"), showCursor ? TEXT("true") : TEXT("false"));
@@ -386,12 +381,11 @@ void AMainGameMode::ShowHUD()
 {
 	ChangeMenuWidget(HUDWidget, false);
 }
-
-
+//==============================================================================================
 #pragma endregion
 
 #pragma region Settings
-
+//==============================================================================================
 void AMainGameMode::UseDefaultSettings()
 {
 	UE_LOG(LogTemp, Log, TEXT("Use default settings"));
@@ -494,9 +488,6 @@ void AMainGameMode::UpdateGraphicSettings()
 	ExecuteConsoleCommand(*(ShadowCommands[ShadowIndex]));
 	ExecuteConsoleCommand(*(FPSCommands[FPSIndex]));
 	ExecuteConsoleCommand(*(ResCommands[ResIndex] + (IsFullScreen ? "f" : "w")));
-
-	//FString showFpsCommand = "stat fps ";
-	//ExecuteConsoleCommand(*showFpsCommand);
 }
 
 bool AMainGameMode::SwitchShowFPS()
@@ -524,14 +515,14 @@ void AMainGameMode::AssignNewKey(FKey newKey, TEnumAsByte<PlayerActionLabel> act
 {
 	if (isKeyboardKey)
 	{
-		this->TMapKeyboardKeys.Emplace(actionToChange, newKey);
 		//TODO: Check if key was already used, swap with old one if it was
+		this->TMapKeyboardKeys.Emplace(actionToChange, newKey);
 	}
 
 	else if (actionToChange != PlayerActionLabel::MoveDown && actionToChange != PlayerActionLabel::MoveLeft
 		&& actionToChange != PlayerActionLabel::FMoveDown && actionToChange != PlayerActionLabel::FMoveLeft)
 	{
-		//Check if key is not already used, swap with old one if it is
+		//TODO: Check if key is not already used, swap with old one if it is
 		this->TMapGamepadKeys.Emplace(actionToChange, newKey);
 	}
 }
@@ -576,6 +567,7 @@ void AMainGameMode::ListenToNewKeyForMove(TEnumAsByte<PlayerActionLabel> actionT
 	TimerDel.BindUFunction(this, FName("ListenToNewKeyForMove"), actionToChange, iteration + 1);
 	GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, 0.1f, false);
 }
+//==============================================================================================
 #pragma endregion
 
 

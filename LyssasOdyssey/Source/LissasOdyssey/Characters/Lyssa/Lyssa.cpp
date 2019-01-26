@@ -4,7 +4,6 @@
 #include "GameFramework/Actor.h"
 
 #include "GameModes/LevelGameMode.h"
-
 #include "Camera/CameraComponent.h"
 #include "Runtime/Core/Public/Math/Vector.h"
 #include "ConstructorHelpers.h"
@@ -14,6 +13,9 @@
 #include "Pickups/PickupLife.h"
 #include "Pickups/PickupScore.h"
 
+
+#pragma region Initialization
+//____________________________________________________________________________________
 
 // Sets default values
 ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
@@ -39,7 +41,7 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	MainCamera->RelativeRotation.Pitch = 290.0f;
 	MainCamera->bUsePawnControlRotation = false; // Allow the pawn to control rotation.
 
-	ScorePickupAmount = 0; //TODO: check how many score pickup we already have picked up in current level
+	ScorePickupAmount = 0;
 }
 
 // Called when the game starts or when spawned
@@ -100,6 +102,9 @@ AFylgja* ALyssa::GetFylgja() const
 {
 	return Fylgja;
 }
+//____________________________________________________________________________________
+#pragma endregion
+
 
 #pragma region Input
 //____________________________________________________________________________________
@@ -179,7 +184,6 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		//UE_LOG(LogTemp, Log, TEXT("after waiting for begin function completion"));
 	}
 }
-
 
 #pragma region Lyssa
 //_______________
@@ -367,6 +371,7 @@ void ALyssa::MoveFLeft(float value)
 //_______________
 #pragma endregion
 
+
 void ALyssa::ActionAccept()
 {
 	UE_LOG(LogTemp, Log, TEXT("ActionAccept"));
@@ -387,16 +392,12 @@ void ALyssa::PauseGame()
 		CurrentGameMode->SetCurrentState(ELevelPlayState::EPause);
 	}
 }
-
-
 //____________________________________________________________________________________
 #pragma endregion
 
 
 #pragma region Pickup
 //____________________________________________________________________________________
-
-
 int ALyssa::GetCurrentScorePickupAmount()
 {
 	return ScorePickupAmount;
@@ -479,6 +480,5 @@ void ALyssa::CollectPickups()
 		}
 	}
 }
-
 //____________________________________________________________________________________
 #pragma endregion

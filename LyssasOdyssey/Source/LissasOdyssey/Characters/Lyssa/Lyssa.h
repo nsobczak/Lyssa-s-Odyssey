@@ -30,7 +30,7 @@ public:
 
 	// === Components ===
 	// camera
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 		UCameraComponent* MainCamera;
 
 

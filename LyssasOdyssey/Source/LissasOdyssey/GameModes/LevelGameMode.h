@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -10,7 +8,7 @@
 
 #include "LevelGameMode.generated.h"
 
-//enum to store the current state of gameplay
+/**enum to store the current state of gameplay*/
 UENUM(BlueprintType)
 enum class ELevelPlayState : uint8
 {
@@ -116,17 +114,9 @@ public:
 #pragma endregion
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
-		float DamageRate = 100.0f;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameTimer")
-		float DamageRateTimer = 0.0f;
-
 #pragma region save region
-	UFUNCTION()
-		virtual void SaveSettingsValues(class UMainSaveGame* SaveInstance) override;
-	UFUNCTION()
-		virtual void LoadSettingsValues(class UMainSaveGame * &LoadInstance) override;
+	virtual void SaveSettingsValues(class UMainSaveGame* SaveInstance) override;
+	virtual void LoadSettingsValues(class UMainSaveGame * &LoadInstance) override;
 #pragma endregion
 
 private:

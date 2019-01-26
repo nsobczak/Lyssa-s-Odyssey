@@ -56,19 +56,19 @@ public:
 		void HideCurrentWidget(bool showCursor);
 
 	/** Remove the current menu widget and create a new one from the specified class, if provided. */
-	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
+	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor = false);
 
-	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
+	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void ShowStartingWidget();
 
-	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
+	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void ShowEndingWidget();
 
-	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
+	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void ShowGameOverWidget();
 
-	UFUNCTION(BlueprintCallable, Category = "Menu_Settings")
+	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void ShowPauseWidget();
 
 	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
@@ -205,34 +205,33 @@ protected:
 	virtual void LoadSettingsValues(class UMainSaveGame * &LoadInstance);
 
 	/** The widget class we will use as our menu when the game starts. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Widget")
 		TSubclassOf<UUserWidget> StartingWidgetClass;
 
 	/** The widget class we will use as our menu when the game end. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Widget")
 		TSubclassOf<UUserWidget> EndingWidgetClass;
 
 	/** The widget class we will use as our menu when player dies. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Widget")
 		TSubclassOf<UUserWidget> GameOverWidgetClass;
 
 	/** The widget class we will use as our menu when the game is paused. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Widget")
 		TSubclassOf<UUserWidget> PauseWidgetClass;
 
 	/** The widget instance that we are using as our menu. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Menu_Widget")
 		UUserWidget* CurrentWidget;
 
 	/** The widget instance that we used. (useful for return buttons) */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Menu_Widget")
 		UUserWidget* OldWidget;
 
 	/**widget to use for our HUD screen*/
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HUD", Meta = (BlueprintProtected = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Menu_Widget", Meta = (BlueprintProtected = "true"))
 		TSubclassOf<class UUserWidget> HUDWidget;
 
 	/** Assign a new key to an input if not already used */
-	UFUNCTION()
-		void AssignNewKey(FKey newKey, TEnumAsByte<PlayerActionLabel> actionToChange, bool isKeyboardKey = true);
+	void AssignNewKey(FKey newKey, TEnumAsByte<PlayerActionLabel> actionToChange, bool isKeyboardKey = true);
 };

@@ -3,71 +3,71 @@
 #include "GameConstants.h"
 #include "Runtime/InputCore/Classes/InputCoreTypes.h"
 
-const FColor GameConstants::ColorTextLightGray = FColor::FromHex("#606060FF");
+const FColor GameConstants::COLOR_TEXT_LIGHT_GRAY = FColor::FromHex("#606060FF");
 
 #pragma region Game Settings
 
 #pragma region Defaults general settings
-const ELanguages GameConstants::DefaultGeneral_CurrentLanguage = ELanguages::en;
+const ELanguages GameConstants::DEF_GENERAL_CURRENT_LANGUAGE = ELanguages::en;
 #pragma endregion
 
 #pragma region Defaults graphics settings
-const bool GameConstants::DefaultGraphical_ShowFPS = false;
-const bool GameConstants::DefaultGraphical_IsFullScreen = false;
-const int32 GameConstants::DefaultGraphical_GraphicalIndex = 3;
-const int32 GameConstants::DefaultGraphical_PPIndex = 3;
-const int32 GameConstants::DefaultGraphical_AAIndex = 3;
-const int32 GameConstants::DefaultGraphical_ShadowIndex = 3;
-const int32 GameConstants::DefaultGraphical_FPSIndex = 2;
-const int32 GameConstants::DefaultGraphical_ResIndex = 3;
+const bool GameConstants::DEF_GRAPHICAL_SHOW_FPS = false;
+const bool GameConstants::DEF_GRAPHICAL_IS_FULL_SCREEN = false;
+const int32 GameConstants::DEF_GRAPHICAL_GRAPHICAL_IDX = 3;
+const int32 GameConstants::DEF_GRAPHICAL_PP_IDX = 3;
+const int32 GameConstants::DEF_GRAPHICAL_AA_IDX = 3;
+const int32 GameConstants::DEF_GRAPHICAL_SHADOW_IDX = 3;
+const int32 GameConstants::DEF_GRAPHICAL_FPS_IDX = 2;
+const int32 GameConstants::DEF_GRAPHICAL_RES_IDX = 3;
 #pragma endregion
 
 #pragma region Defaults audio settings
-const float GameConstants::DefaultAudio_MasterVolumeSliderValue = 1.0f;
-const float GameConstants::DefaultAudio_MusicVolumeSliderValue = 1.0f;
-const float GameConstants::DefaultAudio_EffectVolumeSliderValue = 1.0f;
+const float GameConstants::DEF_AUDIO_MASTER_VOL_VAL = 1.0f;
+const float GameConstants::DEF_AUDIO_MUSIC_VOL_VAL = 1.0f;
+const float GameConstants::DEF_AUDIO_EFFECT_VOL_VAL = 1.0f;
 #pragma endregion
 
 #pragma region Defaults keybind settings
-const bool GameConstants::UseGamePad = true;
+const bool GameConstants::DEF_USE_GAMEPAD = true;
 
 //GamePad
-const FKey GameConstants::DefaultGPKey_MoveVertical = EKeys::Gamepad_LeftY;
-const FKey GameConstants::DefaultGPKey_MoveHorizontal = EKeys::Gamepad_LeftX;
-const FKey GameConstants::DefaultGPKey_FMoveVertical = EKeys::Gamepad_RightY;
-const FKey GameConstants::DefaultGPKey_FMoveHorizontal = EKeys::Gamepad_RightX;
+const FKey GameConstants::DEF_GPKEY_MOVE_VERTICAL = EKeys::Gamepad_LeftY;
+const FKey GameConstants::DEF_GPKEY_MOVE_HORIZONTAL = EKeys::Gamepad_LeftX;
+const FKey GameConstants::DEF_GPKEY_FMOVE_VERTICAL = EKeys::Gamepad_RightY;
+const FKey GameConstants::DEF_GPKEY_FMOVE_HORIZONTAL = EKeys::Gamepad_RightX;
 
-const FKey GameConstants::DefaultGPKey_ACross = EKeys::Gamepad_FaceButton_Bottom;
-const FKey GameConstants::DefaultGPKey_ATriangle = EKeys::Gamepad_FaceButton_Right;
-const FKey GameConstants::DefaultGPKey_AStart = EKeys::Gamepad_Special_Right;
+const FKey GameConstants::DEF_GPKEY_ACROSS = EKeys::Gamepad_FaceButton_Bottom;
+const FKey GameConstants::DEF_GPKEY_ATRIANGLE = EKeys::Gamepad_FaceButton_Right;
+const FKey GameConstants::DEF_GPKEY_ASTART = EKeys::Gamepad_Special_Right;
 
 //Keyboard
-const FKey GameConstants::DefaultKKey_MoveUp = EKeys::W;
-const FKey GameConstants::DefaultKKey_MoveRight = EKeys::D;
-const FKey GameConstants::DefaultKKey_MoveDown = EKeys::S;
-const FKey GameConstants::DefaultKKey_MoveLeft = EKeys::A;
+const FKey GameConstants::DEF_KKEY_MOVE_UP = EKeys::W;
+const FKey GameConstants::DEF_KKEY_MOVE_RIGHT = EKeys::D;
+const FKey GameConstants::DEF_KKEY_MOVE_DOWN = EKeys::S;
+const FKey GameConstants::DEF_KKEY_MOVE_LEFT = EKeys::A;
 
-const FKey GameConstants::DefaultKKey_ACross = EKeys::E;
-const FKey GameConstants::DefaultKKey_ATriangle = EKeys::R;
-const FKey GameConstants::DefaultKKey_AStart = EKeys::T;
+const FKey GameConstants::DEF_KKEY_ACROSS = EKeys::E;
+const FKey GameConstants::DEF_KKEY_ATRIANGLE = EKeys::R;
+const FKey GameConstants::DEF_KKEY_ASTART = EKeys::T;
 #pragma endregion
 
 #pragma endregion
 
 #pragma region Game
 //level titles
-const FString  GameConstants::LevelTitle_Default = "LevelTitle";
-const FString  GameConstants::LevelTitle_Canyon = "Canyon";
-const FString  GameConstants::LevelTitle_Hub = "Hub";
-const FString  GameConstants::LevelTitle_Forest = "Forest";
-const FString  GameConstants::LevelTitle_Ice = "Ice";
-const FString  GameConstants::LevelTitle_Volcano = "Volcano";
+const FString  GameConstants::LVL_TITLE_DEFAULT = "LevelTitle";
+const FString  GameConstants::LVL_TITLE_CANYON = "Canyon";
+const FString  GameConstants::LVL_TITLE_HUB = "Hub";
+const FString  GameConstants::LVL_TITLE_FOREST = "Forest";
+const FString  GameConstants::LVL_TITLE_ICE = "Ice";
+const FString  GameConstants::LVL_TITLE_VOLCANO = "Volcano";
 
 //Game
-const int  GameConstants::CanyonPickupAmount = 1;
-const int  GameConstants::ForestPickupAmount = 2;
-const int  GameConstants::IcePickupAmount = 3;
-const int  GameConstants::VolcanoPickupAmount = 4;
+const int  GameConstants::PICKUP_AMOUNT_CANYON = 1;
+const int  GameConstants::PICKUP_AMOUNT_FOREST = 2;
+const int  GameConstants::PICKUP_AMOUNT_ICE = 3;
+const int  GameConstants::PICKUP_AMOUNT_VOLCANO = 4;
 #pragma endregion
 
 
