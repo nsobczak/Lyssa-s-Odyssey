@@ -25,6 +25,9 @@ enum DeviceName { Keyboard, Gamepad };
 UENUM(BlueprintType)
 enum SoundLabel { Music, Effect };
 
+UENUM(BlueprintType)
+enum LineBoolSwitch { Key_Device, Graphical_FullScreen, Graphical_ShowFPS };
+
 #pragma endregion
 
 #pragma region Game
@@ -35,7 +38,7 @@ enum LevelLabels { LevelTitle, Canyon, Hub, Forest, Ice, Volcano };
 #pragma endregion
 
 /**
- * 
+ *
  */
 class LISSASODYSSEY_API GameEnums
 {

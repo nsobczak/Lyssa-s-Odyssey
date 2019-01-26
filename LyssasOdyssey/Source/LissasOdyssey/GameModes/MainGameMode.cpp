@@ -60,7 +60,7 @@ void AMainGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
 	SaveInstance->AAIndex = this->AAIndex;
 	SaveInstance->ShadowIndex = this->ShadowIndex;
 	SaveInstance->FPSIndex = this->FPSIndex;
-	SaveInstance->ShowFPS = this->ShowFPS;
+	//SaveInstance->ShowFPS = this->ShowFPS;
 	SaveInstance->ResolutionIndex = this->ResIndex;
 	SaveInstance->IsFullScreen = this->IsFullScreen;
 
@@ -125,7 +125,7 @@ void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 	this->AAIndex = LoadInstance->AAIndex;
 	this->ShadowIndex = LoadInstance->ShadowIndex;
 	this->FPSIndex = LoadInstance->FPSIndex;
-	this->ShowFPS = LoadInstance->ShowFPS;
+	//this->ShowFPS = LoadInstance->ShowFPS;
 	this->ResIndex = LoadInstance->ResolutionIndex;
 	this->IsFullScreen = LoadInstance->IsFullScreen;
 
@@ -202,11 +202,11 @@ void AMainGameMode::InitializeTArrayAndApplyGraphicalSettings()
 	ExecuteConsoleCommand(*(FPSCommands[FPSIndex]));
 	ExecuteConsoleCommand(*(ResCommands[ResIndex] + (IsFullScreen ? "f" : "w")));
 
-	if (ShowFPS)
-	{
-		FString showFpsCommand = "stat fps";
-		ExecuteConsoleCommand(*showFpsCommand);
-	}
+	//if (ShowFPS)
+	//{
+	//	FString showFpsCommand = "stat fps ";
+	//	ExecuteConsoleCommand(*showFpsCommand);
+	//}
 }
 
 
@@ -394,7 +394,7 @@ void AMainGameMode::ShowHUD()
 
 void AMainGameMode::UseDefaultSettings()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Use default settings"));
+	UE_LOG(LogTemp, Log, TEXT("Use default settings"));
 
 	InitializeGeneralSettingsWithDefault();
 	InitializeGraphicalSettingsWithDefault();
@@ -402,6 +402,7 @@ void AMainGameMode::UseDefaultSettings()
 	InitializeKeySettingsWithDefault();
 
 	SaveGameSettings();
+	UpdateGraphicSettings();
 }
 
 void AMainGameMode::ChangeCurrentLanguage(bool increase)
@@ -484,6 +485,34 @@ void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increas
 	UE_LOG(LogTemp, Log, TEXT("exec command: %s, success?: %s"),
 		*commandString, (wasCommandExecuted ? TEXT("True") : TEXT("False")));
 }
+
+void AMainGameMode::UpdateGraphicSettings()
+{
+	ExecuteConsoleCommand(*(GraphicalCommands[GraphicalIndex]));
+	ExecuteConsoleCommand(*(PPCommands[PPIndex]));
+	ExecuteConsoleCommand(*(AACommands[AAIndex]));
+	ExecuteConsoleCommand(*(ShadowCommands[ShadowIndex]));
+	ExecuteConsoleCommand(*(FPSCommands[FPSIndex]));
+	ExecuteConsoleCommand(*(ResCommands[ResIndex] + (IsFullScreen ? "f" : "w")));
+
+	//FString showFpsCommand = "stat fps ";
+	//ExecuteConsoleCommand(*showFpsCommand);
+}
+
+bool AMainGameMode::SwitchShowFPS()
+{
+	ShowFPS = !ShowFPS;
+	FString showFpsCommand = "stat fps ";
+	ExecuteConsoleCommand(*showFpsCommand);
+	return ShowFPS;
+}
+
+bool AMainGameMode::SwitchFullScreen()
+{
+	IsFullScreen = !IsFullScreen;
+	return IsFullScreen;
+}
+
 
 bool AMainGameMode::SwitchUseGamePad()
 {

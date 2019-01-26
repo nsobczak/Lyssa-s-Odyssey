@@ -91,9 +91,13 @@ public:
 #pragma endregion
 
 #pragma region graphic settings
-	/** Decrease if increase is false */
+	/** Decrease if increase is false, increase otherwise */
 	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
 		void ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase);
+
+	/** Execute all actual graphic settings*/
+	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
+		void UpdateGraphicSettings();
 
 	//commands
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString GraphicalCommands[4] = { "r.ScreenPercentage 25", "r.ScreenPercentage 50","r.ScreenPercentage 75","r.ScreenPercentage 100" };
@@ -107,11 +111,15 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString FPSCommands[4] = { "t.MaxFPS 15","t.MaxFPS 30", "t.MaxFPS 60", "t.MaxFPS 144" };
 	TArray<FString> TAFPSCommands;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		bool ShowFPS;
+		bool ShowFPS = false;
+	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
+		bool SwitchShowFPS();
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString ResCommands[4] = { "r.SetRes 800x600","r.SetRes 1280x720", "r.SetRes 1600x900", "r.SetRes 1920x1080" };
 	TArray<FString> TAResCommands;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		bool IsFullScreen;
+	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
+		bool SwitchFullScreen();
 
 	//indexes
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
