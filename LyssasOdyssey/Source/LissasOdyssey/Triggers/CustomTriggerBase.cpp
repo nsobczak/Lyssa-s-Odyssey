@@ -44,17 +44,25 @@ void ACustomTriggerBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (nullptr != ActorThatTriggers && nullptr != TriggerElement
-		&& TriggerElement->IsOverlappingActor(ActorThatTriggers) && !IsTriggered
-		&& (!hasBeenTriggered || CanBeTriggeredSeveralTimes))
+	if (nullptr != ActorThatTriggers && nullptr != TriggerElement)
 	{
-		//delay event
-		FTimerHandle TimerHandle; // Handle to manage the timer
-		FTimerDelegate TimerDel; //Bind function with parameters
-		TimerDel.BindUFunction(this, OnTriggerDetectedName);
-		GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, DelayBfrShowingDialogue, false);
+		if (TriggerElement->IsOverlappingActor(ActorThatTriggers))
+		{
+			if (!IsTriggered && (!hasBeenTriggered || CanBeTriggeredSeveralTimes))
+			{
+				//delay event
+				FTimerHandle TimerHandle; // Handle to manage the timer
+				FTimerDelegate TimerDel; //Bind function with parameters
+				TimerDel.BindUFunction(this, OnTriggerDetectedName);
+				GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, DelayBfrShowingDialogue, false);
 
-		hasBeenTriggered = true;
+				hasBeenTriggered = true;
+			}
+		}
+		else if (IsTriggered)
+		{
+			IsTriggered = false;
+		}
 	}
 }
 
