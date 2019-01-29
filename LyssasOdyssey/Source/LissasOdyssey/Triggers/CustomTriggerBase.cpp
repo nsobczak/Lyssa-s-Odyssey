@@ -4,12 +4,15 @@
 #include "Engine/TriggerBase.h"
 #include "Engine/Public/TimerManager.h"
 
-
 // Sets default values
 ACustomTriggerBase::ACustomTriggerBase()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	//create the static mesh component
+	TriggerCrossMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PortalMesh"));
+	RootComponent = (USceneComponent*)TriggerCrossMesh;
 }
 
 // Called when the game starts or when spawned
@@ -25,6 +28,8 @@ void ACustomTriggerBase::BeginPlay()
 		if (Comps[i]->IsA(ATriggerBase::StaticClass()))
 			TriggerElement = (ATriggerBase*)Comps[i];
 	}
+
+	TriggerCrossMesh->SetVisibility(false, false);
 }
 
 void ACustomTriggerBase::OnTriggerDetected_Implementation()

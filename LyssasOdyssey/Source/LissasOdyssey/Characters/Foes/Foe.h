@@ -130,5 +130,4 @@ private:
 
 	void HandleNewState(ECharacterActionState newState);
 
-
 };

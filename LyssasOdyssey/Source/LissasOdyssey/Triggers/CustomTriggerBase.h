@@ -31,7 +31,7 @@ protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "Trigger_event")
 		void OnTriggerDetected();
 	virtual void OnTriggerDetected_Implementation();
-	FName OnTriggerDetectedName = FName("OnTriggerDetected");
+	FName OnTriggerDetectedName = FName("OnTriggerDetected"); //for delay: BindUFunction
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Trigger_settings")
 		float DelayBfrShowingDialogue = 0.05f;
@@ -45,4 +45,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Trigger_settings")
 		bool IsTriggered = false;
 
+private:
+	/** Static mesh to represent the Mesh in the level*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "TriggerGate", meta = (AllowPrivateAccess = "true"))
+		class UStaticMeshComponent* TriggerCrossMesh;
 };

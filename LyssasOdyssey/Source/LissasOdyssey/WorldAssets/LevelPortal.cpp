@@ -4,7 +4,6 @@
 #include "Characters/Lyssa/Lyssa.h"
 #include "Utils/GameConstants.h"
 
-// Sets default values
 void ALevelPortal::InitializeText(UTextRenderComponent* textToInit, bool isFrontText)
 {
 	textToInit->HorizontalAlignment = EHorizTextAligment::EHTA_Center;
@@ -17,7 +16,6 @@ void ALevelPortal::InitializeText(UTextRenderComponent* textToInit, bool isFront
 		textToInit->SetRelativeLocationAndRotation(FVector(-200.0f, 0, 90.0f), FQuat::MakeFromEuler(FVector(360.0f, 100.0f, 0)));
 	textToInit->SetText(ActualText);
 }
-
 
 ALevelPortal::ALevelPortal()
 {
