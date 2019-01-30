@@ -37,9 +37,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Gate")
 		bool ShouldOpenGatesAfterDeath = true;
 
+	UFUNCTION(BlueprintPure, Category = "Boss")
+		EBossAttackState GetCurrentAttackState();
 
 protected:
 	virtual bool CustomDestroy() override;
+
+	void HandleAttackState(float DeltaTime, bool isUnderPlayerDetectionDistance);
 
 	//BlueprintImplementableEvent = we don't need to define function in code at all, just call it and let the blueprint define it
 	UFUNCTION(BlueprintCallable, Category = "Boss")

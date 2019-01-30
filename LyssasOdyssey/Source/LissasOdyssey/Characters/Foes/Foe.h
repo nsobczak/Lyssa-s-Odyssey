@@ -36,7 +36,7 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-#pragma region Shots
+#pragma region Life
 public:
 	UFUNCTION(BlueprintPure, Category = "Life")
 		float GetCurrentLife();
@@ -77,6 +77,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
 		float PlayerDetectionDistance = 20000000.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
+		float PlayerCollisionDamage = 20.0f;
+
 #pragma region Shots
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FoeShot")
 		TSubclassOf<class AShot> BPShot;
@@ -102,11 +105,22 @@ public:
 		ALyssa* Lyssa;
 
 protected:
+	UFUNCTION()
+		void MainFoe(float DeltaTime, bool isUnderPlayerDetectionDistance);
+
 	UFUNCTION(BlueprintCallable, Category = "Foe")
 		virtual bool CustomDestroy();
 
+	UFUNCTION(BlueprintCallable, Category = "Foe")
+		void CheckForPlayerOverlap(float deltaTime);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
+		float PlayerOverlapCheckRate = 0.25f;
+
+	float OverlapTimer = 0;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
-		bool InvisibleRootMesh = true;
+		bool IsRootMeshInvisible = true;
 
 	UPROPERTY(VisibleAnywhere, Category = "Foe")
 		bool IsFoeActive = false;
@@ -116,6 +130,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
 		float DelayBfrDestroyBody = 2.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
+		bool UsePlayerDetectionDistance = true;
 
 	void LookAtPlayer();
 
@@ -133,12 +150,12 @@ protected:
 		void DeathEffect();
 
 private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe", meta = (AllowPrivateAccess = "true"))
+		class USkeletalMeshComponent* FoeSKMesh;
+
 	/** Static mesh to represent the foe collider*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Foe", meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* FoeColliderMesh;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe", meta = (AllowPrivateAccess = "true"))
-		//USkeletalMesh* FoeSKMesh;
 
 	UPROPERTY(VisibleAnywhere, Category = "Foe")
 		ECharacterActionState CurrentState;

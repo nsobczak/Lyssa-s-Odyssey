@@ -15,16 +15,18 @@ void ABoss::BeginPlay()
 	CurrentAttackState = EBossAttackState::ENotAttacking;
 }
 
-void ABoss::Tick(float DeltaTime)
+EBossAttackState ABoss::GetCurrentAttackState()
 {
-	if (!IsFoeActive) { return; }
+	return this->CurrentAttackState;
+}
 
-	CurrentStateTimer += DeltaTime;
 
+void ABoss::HandleAttackState(float DeltaTime, bool isUnderPlayerDetectionDistance)
+{
 	switch (CurrentAttackState)
 	{
-	case	EBossAttackState::EThrowProjectiles:
-		Super::Tick(DeltaTime);
+	case EBossAttackState::EThrowProjectiles:
+		MainFoe(DeltaTime, isUnderPlayerDetectionDistance);
 
 		if (CurrentStateTimer >= Timer_SpawnShots)
 		{
@@ -59,13 +61,30 @@ void ABoss::Tick(float DeltaTime)
 		break;
 
 	default:
-		//waiting to be activated	
-		if (IsFoeActive)
-		{
-			CurrentAttackState = EBossAttackState::EThrowProjectiles;
-		}
+		CurrentAttackState = IsFoeActive ? EBossAttackState::EThrowProjectiles : EBossAttackState::ENotAttacking;
 		break;
 	}
+}
+
+void ABoss::Tick(float DeltaTime)
+{
+	if (!IsFoeActive)
+	{
+		CurrentAttackState = EBossAttackState::ENotAttacking;
+		return;
+	}
+
+	CurrentStateTimer += DeltaTime;
+
+	bool isUnderPlayerDetectionDistance = true;
+	if (UsePlayerDetectionDistance)
+		isUnderPlayerDetectionDistance = FVector::DistSquared(GetActorLocation(), Lyssa->GetActorLocation()) < PlayerDetectionDistance;
+
+	OverlapTimer += DeltaTime;
+	if (isUnderPlayerDetectionDistance && OverlapTimer > PlayerOverlapCheckRate)
+		CheckForPlayerOverlap(DeltaTime);
+
+	HandleAttackState(DeltaTime, isUnderPlayerDetectionDistance);
 }
 
 bool ABoss::CustomDestroy()

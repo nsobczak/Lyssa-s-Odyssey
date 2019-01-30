@@ -12,12 +12,12 @@ AFoe::AFoe(const class FObjectInitializer& ObjectInitializer)
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//create the static mesh component
-	FoeColliderMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FoeColliderMesh"));
-	RootComponent = (USceneComponent*)FoeColliderMesh;
+	FoeSKMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FoeSKMesh"));
+	RootComponent = (USceneComponent*)FoeSKMesh;
 
-	//FoeSKMesh = CreateDefaultSubobject<USkeletalMesh>(TEXT("FoeSKMesh"));
-	//RootComponent = (USceneComponent*)FoeSKMesh;
+	FoeColliderMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FoeColliderMesh"));
+	FoeColliderMesh->AttachToComponent(FoeSKMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	//RootComponent = (USceneComponent*)FoeColliderMesh;
 }
 
 // Called when the game starts or when spawned
@@ -39,15 +39,14 @@ void AFoe::BeginPlay()
 		ShotOffset = FVector(ShotOffset.X, ShotOffset.Y, currentGameMode->VerticalLevel);
 	}
 
-	FoeColliderMesh->SetVisibility(!InvisibleRootMesh);
+	FoeColliderMesh->SetVisibility(!IsRootMeshInvisible);
 
 	SetCurrentState(ECharacterActionState::EIdle);
-	SetIsFoeActive(ShouldFoeStartActive);
+	IsFoeActive = ShouldFoeStartActive;
 }
 
 bool AFoe::CustomDestroy()
 {
-	//TODO: use a timer to make dead body disappear after a while (use ShotCountdown to do so)
 	return Super::Destroy();
 }
 
@@ -88,6 +87,7 @@ void AFoe::LookAtPlayer()
 	SetActorRotation(Rot);
 }
 
+
 void AFoe::SpawnShots()
 {
 	if (BPShot == nullptr) { return; }
@@ -113,15 +113,30 @@ void AFoe::CheckForDeath()
 	}
 }
 
+
+void AFoe::CheckForPlayerOverlap(float deltaTime)
+{
+	//get overlaping actors and store them in an array
+	TArray<AActor*> collectedActors;
+	FoeSKMesh->GetOverlappingActors(collectedActors);
+	//for each actor we collected
+	for (int32 iCollected = 0; iCollected < collectedActors.Num(); ++iCollected)
+	{
+		//cast the actor to Lyssa
+		ALyssa* castedLyssa = Cast<ALyssa>(collectedActors[iCollected]);
+		if (castedLyssa)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("foe overlap with lyssa"));
+			castedLyssa->UpdateLife(-PlayerCollisionDamage);
+			OverlapTimer = 0;
+		}
+	}
+}
+
 //________________________________________________________________________
 
-// Called every frame
-void AFoe::Tick(float DeltaTime)
+void AFoe::MainFoe(float DeltaTime, bool isUnderPlayerDetectionDistance)
 {
-	Super::Tick(DeltaTime);
-
-	if (!IsFoeActive) { return; }
-
 	//DrawDebugLine(GetWorld(), this->GetActorLocation(), this->GetActorLocation() + this->GetActorForwardVector() * 1000.0f, FColor::Red);
 	if (Life < 0.0f)
 		SetCurrentState(ECharacterActionState::EDying);
@@ -135,7 +150,7 @@ void AFoe::Tick(float DeltaTime)
 	else if (CurrentState == ECharacterActionState::ETakeDamage)
 		SetCurrentState(ECharacterActionState::EIdle);
 
-	else if (FVector::DistSquared(GetActorLocation(), Lyssa->GetActorLocation()) < PlayerDetectionDistance)
+	else if (isUnderPlayerDetectionDistance)
 	{
 		if (ShouldLookAtPlayer)
 			LookAtPlayer();
@@ -149,6 +164,23 @@ void AFoe::Tick(float DeltaTime)
 
 	else
 		SetCurrentState(ECharacterActionState::EIdle);
+}
+
+// Called every frame
+void AFoe::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (!IsFoeActive) { return; }
+
+	bool isUnderPlayerDetectionDistance = true;
+	if (UsePlayerDetectionDistance)
+		isUnderPlayerDetectionDistance = FVector::DistSquared(GetActorLocation(), Lyssa->GetActorLocation()) < PlayerDetectionDistance;
+
+	OverlapTimer += DeltaTime;
+	if (isUnderPlayerDetectionDistance && OverlapTimer > PlayerOverlapCheckRate)
+		CheckForPlayerOverlap(DeltaTime);
+
+	MainFoe(DeltaTime, isUnderPlayerDetectionDistance);
 }
 
 #pragma region ActionStates
@@ -192,8 +224,6 @@ void AFoe::HandleNewState(ECharacterActionState newState)
 		FTimerDelegate TimerDel; //Bind function with parameters
 		TimerDel.BindUFunction(this, FName("CustomDestroy"));
 		GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, DelayBfrDestroyBody, false);
-
-		//CustomDestroy();
 	}
 	break;
 
