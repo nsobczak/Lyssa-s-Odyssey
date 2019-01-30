@@ -13,7 +13,8 @@ enum class EBossAttackState : uint8
 {
 	EThrowProjectiles,
 	EMoveTowards,
-	EArmAttack,
+	EArmAttackL,
+	EArmAttackR,
 	ENotAttacking
 };
 
@@ -73,4 +74,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Boss")
 		float Timer_FastMove = 2.0f;
+
+	UPROPERTY(VisibleAnywhere, Category = "Boss")
+		EBossAttackState LastArmAttack = EBossAttackState::EArmAttackL;
 };

@@ -48,11 +48,13 @@ void ABoss::HandleAttackState(float DeltaTime, bool isUnderPlayerDetectionDistan
 		else
 		{
 			CurrentStateTimer = 0;
-			CurrentAttackState = EBossAttackState::EArmAttack;
+			CurrentAttackState = (LastArmAttack == EBossAttackState::EArmAttackL) ? EBossAttackState::EArmAttackR : EBossAttackState::EArmAttackL;
+			LastArmAttack = CurrentAttackState;
 		}
 		break;
 
-	case EBossAttackState::EArmAttack:
+	case EBossAttackState::EArmAttackL:
+	case EBossAttackState::EArmAttackR:
 		if (CurrentStateTimer >= Timer_ArmAttack)
 		{
 			CurrentStateTimer = 0;
