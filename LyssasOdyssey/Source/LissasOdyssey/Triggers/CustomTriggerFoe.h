@@ -4,25 +4,25 @@
 
 #include "CoreMinimal.h"
 #include "Triggers/CustomTriggerBase.h"
-#include "CustomTriggerGate.generated.h"
+#include "CustomTriggerFoe.generated.h"
 
 /**
  *
  */
 UCLASS()
-class LISSASODYSSEY_API ACustomTriggerGate : public ACustomTriggerBase
+class LISSASODYSSEY_API ACustomTriggerFoe : public ACustomTriggerBase
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	ACustomTriggerGate();
+	ACustomTriggerFoe();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerGate")
-		TArray<class AGate*> GatesToControl;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerFoe")
+		TArray<class AFoe*> FoesToControl;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerGate")
-		bool ShouldTriggerOpen = true;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerFoe")
+		bool ShouldActivateFoes = true;
 
 protected:
 	// Called when the game starts or when spawned
@@ -30,6 +30,6 @@ protected:
 
 	void OnTriggerDetected_Implementation() override;
 
-	UPROPERTY(VisibleAnywhere, Category = "TriggerGate")
+	UPROPERTY(VisibleAnywhere, Category = "TriggerFoe")
 		bool IsPlayerActorThatTriggers = true;
 };

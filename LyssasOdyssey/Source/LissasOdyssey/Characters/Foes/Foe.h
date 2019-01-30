@@ -62,12 +62,18 @@ public:
 
 	void SetCurrentState(ECharacterActionState newState);
 
+	UFUNCTION(BlueprintPure, Category = "Foe")
+		bool GetIsFoeActive();
+
 	UFUNCTION(BlueprintCallable, Category = "Foe")
-		bool CustomDestroy();
+		void SetIsFoeActive(bool newState);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
-		float DestroyCountdown = 5.0f;	
-	
+		bool ShouldFoeStartActive = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
+		float DestroyCountdown = 5.0f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
 		float PlayerDetectionDistance = 20000000.0f;
 
@@ -96,15 +102,20 @@ public:
 		ALyssa* Lyssa;
 
 protected:
+	virtual bool CustomDestroy();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
 		bool InvisibleRootMesh = true;
+
+	UPROPERTY(VisibleAnywhere, Category = "Foe")
+		bool IsFoeActive = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
 		bool ShouldLookAtPlayer = true;
 
 	void LookAtPlayer();
 
-	void HandleShots();
+	void SpawnShots();
 
 	void CheckForDeath();
 
@@ -126,8 +137,7 @@ private:
 		//USkeletalMesh* FoeSKMesh;
 
 	UPROPERTY(VisibleAnywhere, Category = "Foe")
-		ECharacterActionState Currentstate;
+		ECharacterActionState CurrentState;
 
 	void HandleNewState(ECharacterActionState newState);
-
 };

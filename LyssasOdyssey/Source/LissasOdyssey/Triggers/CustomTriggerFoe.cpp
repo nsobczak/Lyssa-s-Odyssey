@@ -1,19 +1,17 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "CustomTriggerGate.h"
-#include "Utils/GameConstants.h"
-#include "WorldAssets/Gate.h"
-#include "Engine/Classes/Kismet/GameplayStatics.h"
+#include "CustomTriggerFoe.h"
+#include "Characters/Foes/Foe.h"
 
 // Sets default values
-ACustomTriggerGate::ACustomTriggerGate()
+ACustomTriggerFoe::ACustomTriggerFoe()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bTickEvenWhenPaused = false;
 }
 
-void ACustomTriggerGate::BeginPlay()
+void ACustomTriggerFoe::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -21,14 +19,14 @@ void ACustomTriggerGate::BeginPlay()
 		ActorThatTriggers = (AActor*)UGameplayStatics::GetPlayerPawn(this, 0);
 }
 
-void ACustomTriggerGate::OnTriggerDetected_Implementation()
+void ACustomTriggerFoe::OnTriggerDetected_Implementation()
 {
 	Super::OnTriggerDetected_Implementation();
 
-	for (size_t i = 0; i < GatesToControl.Num(); i++)
+	for (size_t i = 0; i < FoesToControl.Num(); i++)
 	{
-		AGate* currentGate = GatesToControl[i];
-		if (currentGate)
-			currentGate->SetIsOpen(ShouldTriggerOpen);
+		AFoe* currentFoe = FoesToControl[i];
+		if (currentFoe)
+			currentFoe->SetIsFoeActive(ShouldActivateFoes);
 	}
 }

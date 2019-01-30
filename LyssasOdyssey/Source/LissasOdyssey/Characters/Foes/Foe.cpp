@@ -39,9 +39,10 @@ void AFoe::BeginPlay()
 		ShotOffset = FVector(ShotOffset.X, ShotOffset.Y, currentGameMode->VerticalLevel);
 	}
 
-	SetCurrentState(ECharacterActionState::EIdle);
-
 	FoeColliderMesh->SetVisibility(!InvisibleRootMesh);
+
+	SetCurrentState(ECharacterActionState::EIdle);
+	SetIsFoeActive(ShouldFoeStartActive);
 }
 
 bool AFoe::CustomDestroy()
@@ -64,6 +65,16 @@ void AFoe::UpdateLife(float lifeChange)
 	}
 }
 
+bool AFoe::GetIsFoeActive()
+{
+	return this->IsFoeActive;
+}
+
+void AFoe::SetIsFoeActive(bool newState)
+{
+	this->IsFoeActive = newState;
+}
+
 //________________________________________________________________________
 
 void AFoe::LookAtPlayer()
@@ -77,7 +88,7 @@ void AFoe::LookAtPlayer()
 	SetActorRotation(Rot);
 }
 
-void AFoe::HandleShots()
+void AFoe::SpawnShots()
 {
 	if (BPShot == nullptr) { return; }
 
@@ -92,6 +103,7 @@ void AFoe::HandleShots()
 
 	ShotCountdown = ShotInterval;
 }
+
 
 void AFoe::CheckForDeath()
 {
@@ -108,18 +120,19 @@ void AFoe::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//DrawDebugLine(GetWorld(), this->GetActorLocation(), this->GetActorLocation() + this->GetActorForwardVector() * 1000.0f, FColor::Red);
+	if (!IsFoeActive) { return; }
 
+	//DrawDebugLine(GetWorld(), this->GetActorLocation(), this->GetActorLocation() + this->GetActorForwardVector() * 1000.0f, FColor::Red);
 	if (Life < 0.0f)
 		SetCurrentState(ECharacterActionState::EDying);
 
-	else if (Currentstate == ECharacterActionState::EOverlapProjectile) //intermediate state needed because state is changed by overlaping shot
+	else if (CurrentState == ECharacterActionState::EOverlapProjectile) //intermediate state needed because state is changed by overlaping shot
 	{
 		//UE_LOG(LogTemp, Log, TEXT("ETakeDamage"));
 		SetCurrentState(ECharacterActionState::ETakeDamage);
 	}
 
-	else if (Currentstate == ECharacterActionState::ETakeDamage)
+	else if (CurrentState == ECharacterActionState::ETakeDamage)
 		SetCurrentState(ECharacterActionState::EIdle);
 
 	else if (FVector::DistSquared(GetActorLocation(), Lyssa->GetActorLocation()) < PlayerDetectionDistance)
@@ -138,19 +151,17 @@ void AFoe::Tick(float DeltaTime)
 		SetCurrentState(ECharacterActionState::EIdle);
 }
 
-
-
 #pragma region ActionStates
 
 ECharacterActionState AFoe::GetCurrentState() const
 {
-	return Currentstate;
+	return CurrentState;
 }
 
 void AFoe::SetCurrentState(ECharacterActionState newState)
 {
-	Currentstate = newState;
-	HandleNewState(Currentstate);
+	CurrentState = newState;
+	HandleNewState(CurrentState);
 }
 
 void AFoe::HandleNewState(ECharacterActionState newState)
@@ -161,7 +172,7 @@ void AFoe::HandleNewState(ECharacterActionState newState)
 		break;
 
 	case ECharacterActionState::EAttack:
-		HandleShots();
+		SpawnShots();
 		break;
 
 	case ECharacterActionState::EOverlapProjectile:
@@ -179,7 +190,6 @@ void AFoe::HandleNewState(ECharacterActionState newState)
 	default:
 		break;
 	}
-
 }
 
 #pragma endregion
