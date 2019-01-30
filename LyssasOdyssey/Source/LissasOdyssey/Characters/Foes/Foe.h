@@ -102,7 +102,8 @@ public:
 		ALyssa* Lyssa;
 
 protected:
-	virtual bool CustomDestroy();
+	UFUNCTION(BlueprintCallable, Category = "Foe")
+		virtual bool CustomDestroy();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
 		bool InvisibleRootMesh = true;
@@ -112,6 +113,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
 		bool ShouldLookAtPlayer = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
+		float DelayBfrDestroyBody = 2.0f;
 
 	void LookAtPlayer();
 

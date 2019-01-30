@@ -17,6 +17,8 @@ void ABoss::BeginPlay()
 
 void ABoss::Tick(float DeltaTime)
 {
+	if (!IsFoeActive) { return; }
+
 	CurrentStateTimer += DeltaTime;
 
 	switch (CurrentAttackState)
@@ -75,6 +77,8 @@ bool ABoss::CustomDestroy()
 			currentGate->SetIsOpen(ShouldOpenGatesAfterDeath);
 	}
 
+	UE_LOG(LogTemp, Log, TEXT("boss destroyed"));
+
 	return Super::CustomDestroy();
 }
 
@@ -87,5 +91,8 @@ void ABoss::MoveTowardsPlayer(float deltaTime, float speed)
 
 		FVector newLocation = this->GetActorLocation() + targetDirection * deltaTime * speed;
 		SetActorLocation(newLocation);
+
+		if (ShouldLookAtPlayer)
+			LookAtPlayer();
 	}
 }

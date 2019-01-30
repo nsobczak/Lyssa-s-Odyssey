@@ -183,9 +183,19 @@ void AFoe::HandleNewState(ECharacterActionState newState)
 		break;
 
 	case ECharacterActionState::EDying:
+	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Projectile hurts foe"));
+		IsFoeActive = false;
+
+		//delay
+		FTimerHandle TimerHandle; // Handle to manage the timer
+		FTimerDelegate TimerDel; //Bind function with parameters
+		TimerDel.BindUFunction(this, FName("CustomDestroy"));
+		GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, DelayBfrDestroyBody, false);
+
 		//CustomDestroy();
-		break;
+	}
+	break;
 
 	default:
 		break;
