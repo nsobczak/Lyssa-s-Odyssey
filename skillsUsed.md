@@ -7,6 +7,12 @@
 - post processing
 - user interface creation
 
+- graphic settings system
+- translation system
+- rebinding key system
+
 - level design
+- minimap
+
 - game design (gameplay creation + balance)
 - sound design (music + sound creation)
