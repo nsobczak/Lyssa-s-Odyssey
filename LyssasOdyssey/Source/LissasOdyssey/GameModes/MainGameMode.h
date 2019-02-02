@@ -151,12 +151,12 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
-		USoundMix* SoundMix;
+		class USoundMix* SoundMix;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
-		USoundClass *  SCMusic;
+		class USoundClass *  SCMusic;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
-		USoundClass *  SCEffect;
+		class USoundClass *  SCEffect;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
 	//	UAudioComponent* GameModeMusic;

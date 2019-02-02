@@ -65,6 +65,17 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
 		bool ShowMouseCursorInLevel = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
+		bool ShowMap = true;
+#pragma endregion
+
+#pragma region Map
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Map")
+		UTexture2D* Map;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Map")
+		UTexture2D* PlayerIcon;
 #pragma endregion
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")

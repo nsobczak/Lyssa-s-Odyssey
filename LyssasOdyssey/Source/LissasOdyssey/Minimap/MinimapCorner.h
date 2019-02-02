@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ActorWithMeshBase.h"
+#include "Utils/ActorWithMeshBase.h"
 #include "MinimapCorner.generated.h"
 
 UENUM(BlueprintType)
@@ -23,6 +23,16 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Corner")
 		bool ShouldMeshBeVisible = false;
+
+	UFUNCTION(BlueprintCallable, Category = "Corner")
+		bool IsTopLeft();
+	UFUNCTION(BlueprintCallable, Category = "Corner")
+		bool IsTopRight();
+	UFUNCTION(BlueprintCallable, Category = "Corner")
+		bool IsBottomLeft();
+	UFUNCTION(BlueprintCallable, Category = "Corner")
+		bool IsBottomRight();
+
 
 protected:
 	// Called when the game starts or when spawned
