@@ -41,7 +41,7 @@ void AMinimapCorner::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BaseMesh->SetVisibility(!ShouldMeshBeVisible);
+	BaseMesh->SetVisibility(ShouldMeshBeVisible, true);
 }
 
 //// Called every frame
