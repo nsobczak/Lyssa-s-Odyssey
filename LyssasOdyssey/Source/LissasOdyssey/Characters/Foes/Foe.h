@@ -128,6 +128,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
 		bool ShouldLookAtPlayer = true;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Foe")
+		FVector DefaultShotDirection = FVector(1.0f, 0, 0);
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
 		float DelayBfrDestroyBody = 2.0f;
 

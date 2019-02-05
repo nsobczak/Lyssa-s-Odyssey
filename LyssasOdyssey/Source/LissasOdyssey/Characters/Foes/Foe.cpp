@@ -98,7 +98,11 @@ void AFoe::SpawnShots()
 
 	shot->SetActorLocationAndRotation(GetActorLocation()
 		+ GetActorForwardVector() * ShotOffset.X + GetActorUpVector() * ShotOffset.Z, GetActorRotation());
-	shot->InitializeShot(this->GetActorLocation(), ShotTTL, ShotSpeed);
+
+	if (ShouldLookAtPlayer)
+		shot->InitializeShot(this->GetActorLocation(), ShotTTL, ShotSpeed);
+	else
+		shot->InitializeShot(this->GetActorLocation(), DefaultShotDirection, ShotTTL, ShotSpeed);
 	Shots.Add(shot);
 
 	ShotCountdown = ShotInterval;

@@ -22,14 +22,15 @@ public:
 	// Sets default values for this actor's properties
 	AShot();
 
-	UFUNCTION(BlueprintCallable, Category = "Shot")
-		void InitializeShot(FVector ownerLocation, float ttl, float speed);
-
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void InitializeShot(FVector ownerLocation, float ttl, float speed);
+
+	void InitializeShot(FVector ownerLocation, FVector targetDirection, float ttl, float speed);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Debug")
 		TSubclassOf<class AShot> BPShot;

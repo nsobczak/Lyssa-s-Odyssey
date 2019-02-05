@@ -37,15 +37,18 @@ void AShot::InitializeShot(FVector ownerLocation, float ttl, float speed)
 	ShotTTL = ttl;
 	ShotSpeed = speed;
 
-	if (LyssaActor)
-	{
-		TargetDirection = (this->GetActorLocation() - ownerLocation).GetSafeNormal();
-		TargetDirection -= FVector(0, 0, TargetDirection.Z); //keep it moving in 2D plan
-	}
-	else
-	{
-		TargetDirection = FVector::ZeroVector;
-	}
+	TargetDirection = (this->GetActorLocation() - ownerLocation).GetSafeNormal();
+	TargetDirection -= FVector(0, 0, TargetDirection.Z); //keep it moving in 2D plan
+
+	SetActorLocation(GetActorLocation() + TargetDirection);//SetActorLocation(GetActorLocation() + TargetDirection * offset);
+}
+
+void AShot::InitializeShot(FVector ownerLocation, FVector targetDirection, float ttl, float speed)
+{
+	ShotTTL = ttl;
+	ShotSpeed = speed;
+
+	TargetDirection = targetDirection.GetSafeNormal();
 
 	SetActorLocation(GetActorLocation() + TargetDirection);//SetActorLocation(GetActorLocation() + TargetDirection * offset);
 }
