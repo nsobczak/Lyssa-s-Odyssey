@@ -89,6 +89,7 @@ void UMinimap::NativeConstruct()
 		ImageMSlot->SetAlignment(FVector2D(0.0f, 1.0f));
 		//ImageMSlot->SetAutoSize(true);
 		ImageMSlot->SetZOrder(0);
+		MapSize = FVector2D(LevelGameMode->Map->GetSizeX(), LevelGameMode->Map->GetSizeY());
 		ImageMSlot->SetSize(MapSize);
 	}
 	else
@@ -139,7 +140,7 @@ void UMinimap::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	yPosition = yPosition / LeftAxis.Size();
 	//UE_LOG(LogTemp, Log, TEXT("player position on map = %f, %f"), xPosition, yPosition);
 	xPosition *= MapSize.X;
-	yPosition *= -MapSize.Y ;
+	yPosition *= -MapSize.Y;
 	//UE_LOG(LogTemp, Log, TEXT("scaled player position on map = %f, %f"), xPosition, yPosition);
 
 	FVector2D newPosition = FVector2D(xPosition, yPosition);

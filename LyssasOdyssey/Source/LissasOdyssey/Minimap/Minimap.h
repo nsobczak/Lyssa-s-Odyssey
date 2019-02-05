@@ -54,7 +54,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Debug")
 		FVector2D MapSize = FVector2D(300.0f, 300.0f);
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Debug")
-		FVector2D PlayerIconSize = FVector2D(30.0f, 30.0f);
+		FVector2D PlayerIconSize = FVector2D(25.0f, 25.0f);
 
 
 private:
