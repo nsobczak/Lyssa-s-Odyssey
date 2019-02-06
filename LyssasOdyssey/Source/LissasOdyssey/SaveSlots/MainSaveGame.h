@@ -33,6 +33,19 @@ public:
 		ELanguages CurrentLanguage;
 
 	UPROPERTY(EditAnywhere, Category = "settings")
+		bool ShowMinimap = true;
+	UPROPERTY(EditAnywhere, Category = "settings")
+		bool ShowTime = true;
+	UPROPERTY(EditAnywhere, Category = "settings")
+		bool ShowLife = true;
+	UPROPERTY(EditAnywhere, Category = "settings")
+		bool ShowTitle = true;
+	UPROPERTY(EditAnywhere, Category = "settings")
+		bool ShowPickup = true;
+	UPROPERTY(EditAnywhere, Category = "settings")
+		bool ShowMouseCursorInLevel = true;
+
+	UPROPERTY(EditAnywhere, Category = "settings")
 		int32 GraphicalIndex;
 	UPROPERTY(EditAnywhere, Category = "settings")
 		int32 PPIndex;

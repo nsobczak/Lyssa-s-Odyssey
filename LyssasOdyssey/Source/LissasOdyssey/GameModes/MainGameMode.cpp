@@ -54,6 +54,12 @@ void AMainGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
 {
 	// Values
 	SaveInstance->CurrentLanguage = this->CurrentLanguage;
+	SaveInstance->ShowMinimap = this->ShowMap;
+	SaveInstance->ShowTime = this->ShowTime;
+	SaveInstance->ShowLife = this->ShowLife;
+	SaveInstance->ShowTitle = this->ShowTitle;
+	SaveInstance->ShowPickup = this->ShowPickup;
+	SaveInstance->ShowMouseCursorInLevel = this->ShowMouseCursorInLevel;
 
 	SaveInstance->GraphicalIndex = this->GraphicalIndex;
 	SaveInstance->PPIndex = this->PPIndex;
@@ -119,6 +125,12 @@ void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 	LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
 
 	this->CurrentLanguage = LoadInstance->CurrentLanguage;
+	this->ShowMap = LoadInstance->ShowMinimap;
+	this->ShowTime = LoadInstance->ShowTime;
+	this->ShowLife = LoadInstance->ShowLife;
+	this->ShowTitle = LoadInstance->ShowTitle;
+	this->ShowPickup = LoadInstance->ShowPickup;
+	this->ShowMouseCursorInLevel = LoadInstance->ShowMouseCursorInLevel;
 
 	this->GraphicalIndex = LoadInstance->GraphicalIndex;
 	this->PPIndex = LoadInstance->PPIndex;
@@ -413,6 +425,13 @@ void AMainGameMode::ChangeCurrentLanguage(bool increase)
 
 	this->CurrentLanguage = (ELanguages)uint8CurrentLanguage;
 }
+
+bool AMainGameMode::SwitchShowMinimap()
+{
+	ShowMap = !ShowMap;
+	return ShowMap;
+}
+
 
 void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase)
 {

@@ -24,7 +24,7 @@ UENUM(BlueprintType)
 enum SoundLabel { Music, Effect };
 
 UENUM(BlueprintType)
-enum LineBoolSwitch { Key_Device, Graphical_FullScreen, Graphical_ShowFPS };
+enum LineBoolSwitch { Key_Device, ShowMinimap, Graphical_FullScreen, Graphical_ShowFPS };
 
 #pragma endregion
 

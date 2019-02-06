@@ -56,26 +56,6 @@ public:
 	virtual bool LoadGameSettings() override;
 #pragma endregion
 
-#pragma region hud elements visibility
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
-		bool ShowTime = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
-		bool ShowLife = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
-		bool ShowTitle = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
-		bool ShowPickup = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
-		bool ShowMouseCursorInLevel = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
-		bool ShowMap = true;
-#pragma endregion
-
 #pragma region Map
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Map")
 		UTexture2D* Map;

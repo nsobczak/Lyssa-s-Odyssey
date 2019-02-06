@@ -78,6 +78,22 @@ public:
 
 #pragma region game settings
 
+#pragma region hud elements visibility
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
+		bool ShowMap = true;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
+		bool ShowTime = true;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
+		bool ShowLife = true;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
+		bool ShowTitle = true;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
+		bool ShowPickup = true;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelHud")
+		bool ShowMouseCursorInLevel = true;
+#pragma endregion
+
+
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
 		void UseDefaultSettings();
 
@@ -88,6 +104,9 @@ public:
 	/** Decrease if increase is false */
 	UFUNCTION(BlueprintCallable, Category = "General_Settings")
 		void ChangeCurrentLanguage(bool increase);
+
+	UFUNCTION(BlueprintCallable, Category = "General_Settings")
+		bool SwitchShowMinimap();
 #pragma endregion
 
 #pragma region graphic settings
