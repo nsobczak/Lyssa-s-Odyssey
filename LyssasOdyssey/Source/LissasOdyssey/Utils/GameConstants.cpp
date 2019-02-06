@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GameConstants.h"
-#include "Runtime/InputCore/Classes/InputCoreTypes.h"
 
 const FColor GameConstants::COLOR_TEXT_LIGHT_GRAY = FColor::FromHex("#606060FF");
 
@@ -64,10 +63,10 @@ const FString  GameConstants::LVL_TITLE_ICE = "Ice";
 const FString  GameConstants::LVL_TITLE_VOLCANO = "Volcano";
 
 //Game
-const int  GameConstants::PICKUP_AMOUNT_CANYON = 1;
-const int  GameConstants::PICKUP_AMOUNT_FOREST = 2;
-const int  GameConstants::PICKUP_AMOUNT_ICE = 3;
-const int  GameConstants::PICKUP_AMOUNT_VOLCANO = 4;
+const int  GameConstants::PICKUP_SCORE_MAX_CANYON = 60;
+const int  GameConstants::PICKUP_SCORE_MAX_FOREST = 2;
+const int  GameConstants::PICKUP_SCORE_MAX_ICE = 3;
+const int  GameConstants::PICKUP_SCORE_MAX_VOLCANO = 4;
 #pragma endregion
 
 

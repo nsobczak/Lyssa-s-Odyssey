@@ -172,6 +172,43 @@ bool ALevelGameMode::LoadGameSettings()
 }
 #pragma endregion
 
+#pragma region Pickup score functions
+int ALevelGameMode::GetPickupScoreAmountInLevel()
+{
+	int result = 0;
+	TArray<AActor*> pickups;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APickupScore::StaticClass(), pickups);
+
+	for (size_t i = 0; i < pickups.Num(); i++)
+	{
+		APickupScore* pickup = Cast<APickupScore>(pickups[i]);
+		if (pickup)
+			result++;
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("There are %i score pickups in the level"), result);
+	return result;
+}
+
+int ALevelGameMode::GetPickupScoreValueInLevel()
+{
+	int result = 0;
+	TArray<AActor*> pickups;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APickupScore::StaticClass(), pickups);
+
+	for (size_t i = 0; i < pickups.Num(); i++)
+	{
+		APickupScore* pickup = Cast<APickupScore>(pickups[i]);
+		if (pickup)
+			result += pickup->GetScoreAmount();
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("All score pickups make a %i score in the level"), result);
+	return result;
+}
+#pragma endregion
+
+
 bool ALevelGameMode::GetIsBeginFunctionCompleted()
 {
 	return IsBeginFunctionCompleted;

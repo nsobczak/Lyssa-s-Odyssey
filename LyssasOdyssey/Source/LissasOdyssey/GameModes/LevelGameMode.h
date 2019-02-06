@@ -39,6 +39,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		float VerticalLevel = 50.0f;
 
+	UFUNCTION(exec)
+		int GetPickupScoreAmountInLevel();
+
+	UFUNCTION(exec)
+		int GetPickupScoreValueInLevel();
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		TEnumAsByte<LevelLabels> LevelLabel;
 

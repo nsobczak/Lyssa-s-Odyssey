@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Utils/GameEnums.h"
+#include "InputCore/Classes/InputCoreTypes.h"
+
 //#include "GameConstants.generated.h"
 
 /**
@@ -76,10 +78,10 @@ public:
 	static const FString LVL_TITLE_VOLCANO;
 
 	//Game
-	static const int PICKUP_AMOUNT_CANYON;
-	static const int PICKUP_AMOUNT_FOREST;
-	static const int PICKUP_AMOUNT_ICE;
-	static const int PICKUP_AMOUNT_VOLCANO;
+	static const int PICKUP_SCORE_MAX_CANYON;
+	static const int PICKUP_SCORE_MAX_FOREST;
+	static const int PICKUP_SCORE_MAX_ICE;
+	static const int PICKUP_SCORE_MAX_VOLCANO;
 #pragma endregion
 
 };
