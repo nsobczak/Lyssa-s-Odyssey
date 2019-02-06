@@ -32,4 +32,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "TriggerGate")
 		bool IsPlayerActorThatTriggers = true;
+
+	bool UseConditionToTriggerGates = false;
 };

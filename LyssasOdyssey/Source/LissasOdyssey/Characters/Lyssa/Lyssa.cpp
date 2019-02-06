@@ -422,6 +422,18 @@ void ALyssa::SetTMapPlayerPickupAmountByLevel(TMap<TEnumAsByte<LevelLabels>, int
 	this->TMapPlayerPickupAmountByLevel = newTMap;
 }
 
+int ALyssa::GetPlayerPickupTotalScore()
+{
+	int result = 0;
+	TArray<TEnumAsByte<LevelLabels>> levelKeys;
+	this->TMapPlayerPickupAmountByLevel.GetKeys(levelKeys);
+	for (size_t i = 0; i < levelKeys.Num(); ++i)
+	{
+		result += this->TMapPlayerPickupAmountByLevel.FindRef(levelKeys[i]);
+	}
+	return result;
+}
+
 void ALyssa::EmplaceTMapPlayerPickupAmountByLevel(LevelLabels LevelToChange, int newAmount)
 {
 	if (this->TMapPlayerPickupAmountByLevel.Contains(LevelToChange))

@@ -93,6 +93,8 @@ public:
 		TMap<TEnumAsByte<LevelLabels>, int> GetTMapPlayerPickupAmountByLevel();
 	UFUNCTION(BlueprintCallable, Category = "Pickups")
 		void SetTMapPlayerPickupAmountByLevel(TMap<TEnumAsByte<LevelLabels>, int> newTMap);
+	UFUNCTION(BlueprintCallable, Category = "Pickups")
+		int GetPlayerPickupTotalScore();
 
 	UFUNCTION(BlueprintCallable, Category = "Pickups")
 		void UpdateTMapPlayerPickupAmountByLevel(LevelLabels LevelToChange, int amountChange);

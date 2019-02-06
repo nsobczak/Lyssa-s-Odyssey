@@ -25,10 +25,13 @@ void ACustomTriggerGate::OnTriggerDetected_Implementation()
 {
 	Super::OnTriggerDetected_Implementation();
 
-	for (size_t i = 0; i < GatesToControl.Num(); i++)
+	if (!UseConditionToTriggerGates)
 	{
-		AGate* currentGate = GatesToControl[i];
-		if (currentGate)
-			currentGate->SetIsOpen(ShouldTriggerOpen);
+		for (size_t i = 0; i < GatesToControl.Num(); i++)
+		{
+			AGate* currentGate = GatesToControl[i];
+			if (currentGate)
+				currentGate->SetIsOpen(ShouldTriggerOpen);
+		}
 	}
 }

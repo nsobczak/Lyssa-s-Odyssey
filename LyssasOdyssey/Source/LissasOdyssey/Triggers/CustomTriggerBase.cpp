@@ -54,7 +54,7 @@ void ACustomTriggerBase::Tick(float DeltaTime)
 				FTimerHandle TimerHandle; // Handle to manage the timer
 				FTimerDelegate TimerDel; //Bind function with parameters
 				TimerDel.BindUFunction(this, OnTriggerDetectedName);
-				GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, DelayBfrShowingDialogue, false);
+				GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, DelayBfrTriggerDetection, false);
 
 				hasBeenTriggered = true;
 			}

@@ -34,7 +34,7 @@ protected:
 	FName OnTriggerDetectedName = FName("OnTriggerDetected"); //for delay: BindUFunction
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Trigger_settings")
-		float DelayBfrShowingDialogue = 0.05f;
+		float DelayBfrTriggerDetection = 0.05f;
 
 	UPROPERTY(VisibleAnywhere, Category = "Trigger_settings")
 		class ATriggerBase* TriggerElement;
