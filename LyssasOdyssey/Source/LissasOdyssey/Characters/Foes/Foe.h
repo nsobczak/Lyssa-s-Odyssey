@@ -108,6 +108,9 @@ protected:
 	UFUNCTION()
 		void MainFoe(float DeltaTime, bool isUnderPlayerDetectionDistance);
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Debug")
+		class ALevelGameMode* CurrentLGameMode;
+
 	UFUNCTION(BlueprintCallable, Category = "Foe")
 		virtual bool CustomDestroy();
 

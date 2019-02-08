@@ -41,6 +41,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Boss")
 		EBossAttackState GetCurrentAttackState();
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Boss")
+		FString BossName = "BossName";
+
 protected:
 	virtual bool CustomDestroy() override;
 

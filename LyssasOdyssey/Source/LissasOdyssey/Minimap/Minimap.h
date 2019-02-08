@@ -33,6 +33,12 @@ public:
 		class UImage* ImagePlayerIcon;
 
 protected:
+	UPROPERTY(VisibleAnywhere, Category = "Debug")
+		class ALevelGameMode* LevelGameMode;
+
+	UPROPERTY(VisibleAnywhere, Category = "Debug")
+		class ALyssa* LyssaActor;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Map")
 		class AMinimapCorner* CornerTopLeft;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Map")
@@ -60,10 +66,4 @@ protected:
 private:
 	FVector BottomAxis;
 	FVector LeftAxis;
-
-	UPROPERTY(VisibleAnywhere, Category = "Debug")
-		class ALevelGameMode* LevelGameMode;
-
-	UPROPERTY(VisibleAnywhere, Category = "Debug")
-		class ALyssa* LyssaActor;
 };

@@ -32,4 +32,7 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "TriggerFoe")
 		bool IsPlayerActorThatTriggers = true;
+
+	UPROPERTY(VisibleAnywhere, Category = "TriggerFoe")
+		class ALevelGameMode* LevelGameMode;
 };

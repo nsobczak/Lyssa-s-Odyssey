@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Boss.h"
+#include "GameModes/LevelGameMode.h"
+#include "UI/HUD_BossInfo.h"
+
 
 ABoss::ABoss(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -96,6 +99,12 @@ bool ABoss::CustomDestroy()
 		AGate* currentGate = GatesToControl[i];
 		if (currentGate)
 			currentGate->SetIsOpen(ShouldOpenGatesAfterDeath);
+	}
+
+	if (CurrentLGameMode && CurrentLGameMode->HudBossInfo)
+	{
+		CurrentLGameMode->HudBossInfo->HideInfo();
+		CurrentLGameMode->HudBossInfo->SetCurrentBoss(nullptr);
 	}
 
 	UE_LOG(LogTemp, Log, TEXT("boss destroyed"));

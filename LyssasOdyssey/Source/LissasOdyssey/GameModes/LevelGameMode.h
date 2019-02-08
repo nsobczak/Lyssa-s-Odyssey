@@ -63,6 +63,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Map")
 		UTexture2D* PlayerIcon;
 #pragma endregion
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GameController")
+		class UHUD_BossInfo* HudBossInfo;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
 		class ALyssa* Lyssa;
@@ -71,9 +74,6 @@ public:
 		class AFylgja* Fylgja;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
 		bool ShouldFylgjaStartVisible = true;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
-		TArray<class AFoe*> Foes;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
 		float CollisionDistThreshold = 300.0f;

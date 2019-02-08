@@ -2,6 +2,10 @@
 
 #include "CustomTriggerFoe.h"
 #include "Characters/Foes/Foe.h"
+#include "Characters/Foes/Boss.h"
+#include "GameModes/LevelGameMode.h"
+#include "Engine/Classes/Kismet/GameplayStatics.h"
+#include "UI/HUD_BossInfo.h"
 
 // Sets default values
 ACustomTriggerFoe::ACustomTriggerFoe()
@@ -17,6 +21,10 @@ void ACustomTriggerFoe::BeginPlay()
 
 	if (IsPlayerActorThatTriggers)
 		ActorThatTriggers = (AActor*)UGameplayStatics::GetPlayerPawn(this, 0);
+
+	this->LevelGameMode = Cast<ALevelGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (!LevelGameMode)
+		UE_LOG(LogTemp, Error, TEXT("LevelGameMode is null"));
 }
 
 void ACustomTriggerFoe::OnTriggerDetected_Implementation()
@@ -27,6 +35,15 @@ void ACustomTriggerFoe::OnTriggerDetected_Implementation()
 	{
 		AFoe* currentFoe = FoesToControl[i];
 		if (currentFoe)
+		{
 			currentFoe->SetIsFoeActive(ShouldActivateFoes);
+
+			ABoss* currentBoss = Cast<ABoss>(currentFoe);
+			if (currentBoss)
+			{
+				this->LevelGameMode->HudBossInfo->SetCurrentBoss(currentBoss);
+				this->LevelGameMode->HudBossInfo->ShowInfo();
+			}
+		}
 	}
 }

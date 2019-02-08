@@ -120,7 +120,7 @@ bool AMainGameMode::SaveGameSettings()
 
 void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 {
-	UE_LOG(LogTemp, Warning, TEXT("LoadSettingsValues function from mainGameMode"));
+	//UE_LOG(LogTemp, Warning, TEXT("LoadSettingsValues function from mainGameMode"));
 
 	LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
 
@@ -155,7 +155,7 @@ void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 
 bool AMainGameMode::LoadGameSettings()
 {
-	UE_LOG(LogTemp, Warning, TEXT("LoadGameSettings function from AMainGameMode"));
+	//UE_LOG(LogTemp, Warning, TEXT("LoadGameSettings function from AMainGameMode"));
 
 	// Only load game stats if the load .sav file exists
 	if (UGameplayStatics::DoesSaveGameExist(SaveSlotName, 0))

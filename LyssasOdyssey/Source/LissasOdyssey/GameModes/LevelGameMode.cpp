@@ -37,7 +37,7 @@ ALevelGameMode::ALevelGameMode()
 
 void ALevelGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
 {
-	UE_LOG(LogTemp, Warning, TEXT("SaveSettingsValues function from levelGameMode"));
+	//UE_LOG(LogTemp, Warning, TEXT("SaveSettingsValues function from levelGameMode"));
 
 	Super::SaveSettingsValues(SaveInstance);
 
@@ -75,7 +75,7 @@ void ALevelGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
 
 bool ALevelGameMode::SaveGameSettings()
 {
-	UE_LOG(LogTemp, Warning, TEXT("SaveGameSettings function from levelGameMode"));
+	//UE_LOG(LogTemp, Warning, TEXT("SaveGameSettings function from levelGameMode"));
 
 	// Create save game object, make sure it exists, then save player variables
 	class UMainSaveGame* SaveInstance = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(UMainSaveGame::StaticClass()));
@@ -103,7 +103,7 @@ bool ALevelGameMode::SaveGameSettings()
 
 void ALevelGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 {
-	UE_LOG(LogTemp, Warning, TEXT("LoadSettingsValues function from levelGameMode"));
+	//UE_LOG(LogTemp, Warning, TEXT("LoadSettingsValues function from levelGameMode"));
 
 	Super::LoadSettingsValues(LoadInstance);
 
@@ -136,7 +136,7 @@ void ALevelGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 
 bool ALevelGameMode::LoadGameSettings()
 {
-	UE_LOG(LogTemp, Warning, TEXT("LoadGameSettings function from levelGameMode"));
+	//UE_LOG(LogTemp, Warning, TEXT("LoadGameSettings function from levelGameMode"));
 
 	// Only load game stats if the load .sav file exists
 	if (UGameplayStatics::DoesSaveGameExist(SaveSlotName, 0))

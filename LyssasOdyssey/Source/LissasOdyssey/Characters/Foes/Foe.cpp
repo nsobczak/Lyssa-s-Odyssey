@@ -35,8 +35,9 @@ void AFoe::BeginPlay()
 	//offset
 	if (ShotOffset.Z == 1.0f)
 	{
-		ALevelGameMode* const currentGameMode = GetWorld()->GetAuthGameMode<ALevelGameMode>();
-		ShotOffset = FVector(ShotOffset.X, ShotOffset.Y, currentGameMode->VerticalLevel);
+		//ALevelGameMode* const currentGameMode = GetWorld()->GetAuthGameMode<ALevelGameMode>();
+		CurrentLGameMode = Cast<ALevelGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+		ShotOffset = FVector(ShotOffset.X, ShotOffset.Y, CurrentLGameMode->VerticalLevel);
 	}
 
 	FoeColliderMesh->SetVisibility(!IsRootMeshInvisible);

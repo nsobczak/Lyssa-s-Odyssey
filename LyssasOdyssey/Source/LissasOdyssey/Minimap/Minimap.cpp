@@ -2,10 +2,10 @@
 
 #include "Minimap.h"
 #include "Minimap/MinimapCorner.h"
+#include "UMG/Public/UMG.h"
 #include "Engine/Classes/Kismet/GameplayStatics.h"
 #include "GameModes/LevelGameMode.h"
 #include "Characters/Lyssa/Lyssa.h"
-#include "UMG/Public/UMG.h"
 
 
 UMinimap::UMinimap(const FObjectInitializer& ObjectInitializer)
