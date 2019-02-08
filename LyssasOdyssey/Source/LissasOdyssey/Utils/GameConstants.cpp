@@ -64,7 +64,7 @@ const FString  GameConstants::LVL_TITLE_VOLCANO = "Volcano";
 
 //Game
 const int  GameConstants::PICKUP_SCORE_MAX_CANYON = 60;
-const int  GameConstants::PICKUP_SCORE_MAX_FOREST = 2;
+const int  GameConstants::PICKUP_SCORE_MAX_FOREST = 140;
 const int  GameConstants::PICKUP_SCORE_MAX_ICE = 3;
 const int  GameConstants::PICKUP_SCORE_MAX_VOLCANO = 4;
 #pragma endregion

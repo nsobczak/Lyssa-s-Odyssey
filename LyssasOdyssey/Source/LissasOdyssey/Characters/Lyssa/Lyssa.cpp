@@ -70,32 +70,6 @@ void ALyssa::Tick(float DeltaTime)
 	UpdateRotation();
 
 	CollectPickups();
-
-	////TODO: make function + add delay for following bloc
-	//ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
-	//if (CurrentGameMode && CurrentGameMode->PlayerController->IsInputKeyDown(EKeys::AnyKey))//if any key pressed
-	//{
-	//	//retrieve any key pressed
-	//	FKey keyPressed;
-	//	TArray<FKey> allKeys;
-	//	EKeys::GetAllKeys(allKeys);
-	//	for (size_t i = 0; i < allKeys.Num(); ++i)
-	//	{
-	//		if (allKeys[i] != EKeys::AnyKey && CurrentGameMode->PlayerController->IsInputKeyDown(allKeys[i]))
-	//		{
-	//			CurrentGameMode->lastKeyUsed = allKeys[i];
-
-	//			FString keyPressedString = CurrentGameMode->lastKeyUsed.ToString();
-	//			UE_LOG(LogTemp, Warning, TEXT("key %s was pressed"), *keyPressedString);
-
-	//			bool isKeyboardKey = !keyPressed.IsGamepadKey();
-	//			UE_LOG(LogTemp, Warning, TEXT("is lastKeyUsed keyboard %s"), (isKeyboardKey ? TEXT("True") : TEXT("False")));
-
-	//			//if (!isKeyboardKey) UE_LOG(LogTemp, Log, TEXT("key %s is gamepadKey"), *keyPressedString);
-	//			return;
-	//		}
-	//	}
-	//}
 }
 
 AFylgja* ALyssa::GetFylgja() const
@@ -164,7 +138,7 @@ void ALyssa::WaitForLoadCompletionAndAssignKeys(ALevelGameMode* currentGameMode,
 		FTimerHandle TimerHandle; // Handle to manage the timer
 		FTimerDelegate TimerDel; //Bind function with parameters
 		TimerDel.BindUFunction(this, FName("WaitForLoadCompletionAndAssignKeys"), currentGameMode, playerInputComponent, checkInterval);
-		GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, checkInterval, false); //0.1f
+		GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, checkInterval, false); //0.1f as default parameter
 	}
 }
 
@@ -191,6 +165,9 @@ void ALyssa::MoveUp(float value)
 {
 	if (Controller != NULL && value != 0)
 	{
+		if (value * value > 0.5f * 0.5f)
+			OnUpDelegate.Broadcast();
+
 		// find out which way is up
 		const FRotator Rotation = Controller->GetControlRotation();
 		//const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -209,6 +186,9 @@ void ALyssa::MoveDown(float value)
 {
 	if (Controller != NULL && value != 0)
 	{
+		if (value * value > 0.5f * 0.5f)
+			OnDownDelegate.Broadcast();
+
 		// find out which way is up
 		const FRotator Rotation = Controller->GetControlRotation();
 		//const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -227,6 +207,9 @@ void ALyssa::MoveRight(float value)
 {
 	if (Controller != NULL && value != 0)
 	{
+		if (value * value > 0.5f * 0.5f)
+			OnRightDelegate.Broadcast();
+
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		//const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -245,6 +228,9 @@ void ALyssa::MoveLeft(float value)
 {
 	if (Controller != NULL && value != 0)
 	{
+		if (value * value > 0.5f * 0.5f)
+			OnLeftDelegate.Broadcast();
+
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		//const FRotator YawRotation(0, Rotation.Yaw, 0);

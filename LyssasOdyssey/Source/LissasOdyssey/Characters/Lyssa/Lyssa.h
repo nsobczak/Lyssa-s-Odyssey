@@ -11,6 +11,10 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActionAccept);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActionReturn);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActionUp);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActionRight);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActionDown);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActionLeft);
 
 UCLASS()
 class LISSASODYSSEY_API ALyssa : public ACharacterBase
@@ -34,9 +38,16 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "ActionEvent")
 		FActionAccept OnAcceptDelegate;
-
 	UPROPERTY(BlueprintAssignable, Category = "ActionEvent")
 		FActionReturn OnReturnDelegate;
+	UPROPERTY(BlueprintAssignable, Category = "ActionEvent")
+		FActionUp OnUpDelegate;
+	UPROPERTY(BlueprintAssignable, Category = "ActionEvent")
+		FActionRight OnRightDelegate;
+	UPROPERTY(BlueprintAssignable, Category = "ActionEvent")
+		FActionDown OnDownDelegate;
+	UPROPERTY(BlueprintAssignable, Category = "ActionEvent")
+		FActionLeft OnLeftDelegate;
 
 #pragma endregion
 
