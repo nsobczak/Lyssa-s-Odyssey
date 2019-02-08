@@ -4,6 +4,7 @@
 #include "Engine/Classes/Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h"
 #include "GameModes/LevelGameMode.h"
+#include "Characters/Lyssa/Lyssa.h"
 
 
 // Sets default values
@@ -15,15 +16,28 @@ ACustomTriggerDialogue::ACustomTriggerDialogue()
 
 }
 
+void ACustomTriggerDialogue::OnActionAccept()
+{
+	if (IsTriggered)
+	{
+		IsEventAccept = true;
+	}
+}
+
 // Called when the game starts or when spawned
 void ACustomTriggerDialogue::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Lyssa = (ALyssa*)UGameplayStatics::GetPlayerPawn(this, 0);
+
 	if (IsPlayerActorThatTriggers)
 	{
-		ActorThatTriggers = (AActor*)UGameplayStatics::GetPlayerPawn(this, 0);
+		ActorThatTriggers = (AActor*)Lyssa;//UGameplayStatics::GetPlayerPawn(this, 0)
 	}
+
+	//delegates
+	Lyssa->OnAcceptDelegate.AddDynamic(this, &ACustomTriggerDialogue::OnActionAccept);
 
 	DialogueToDisplay.Empty();
 	if (nullptr != DialogueDataTable && DialogueRows.Num() > 0)
@@ -64,17 +78,15 @@ void ACustomTriggerDialogue::Tick(float DeltaTime)
 
 	if (IsTriggered)
 	{
-		ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
-		//TODO: change WasInputKeyJustReleased by event of key released once it will be created
-		if (CurrentGameMode &&
-			(CurrentGameMode->PlayerController->WasInputKeyJustReleased(CurrentGameMode->TMapKeyboardKeys[PlayerActionLabel::ACross])
-				|| CurrentGameMode->PlayerController->WasInputKeyJustReleased(CurrentGameMode->TMapGamepadKeys[PlayerActionLabel::ACross])))//if any key pressed
+		ALevelGameMode* currentLGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+
+		if (currentLGameMode && IsEventAccept)//if any key pressed
 		{
 			if (CurrentDialogueIndex < DialogueToDisplay.Num() - 1)
 			{
 				//show next string
 				++CurrentDialogueIndex;
-				CurrentGameMode->UpdateDialogue(DialogueToDisplay[CurrentDialogueIndex]);
+				currentLGameMode->UpdateDialogue(DialogueToDisplay[CurrentDialogueIndex]);
 			}
 			else
 			{
@@ -83,9 +95,11 @@ void ACustomTriggerDialogue::Tick(float DeltaTime)
 				IsTriggered = false;
 
 				//set widget visibility to hidden
-				CurrentGameMode->HideDialogueWidget();
+				currentLGameMode->HideDialogueWidget();
 				UGameplayStatics::SetGamePaused(GetWorld(), false);
 			}
+
+			IsEventAccept = false;
 		}
 	}
 }

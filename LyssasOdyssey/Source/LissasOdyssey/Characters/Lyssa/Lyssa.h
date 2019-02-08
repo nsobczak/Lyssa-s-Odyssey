@@ -9,6 +9,9 @@
 
 #include "Lyssa.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActionAccept);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActionReturn);
+
 UCLASS()
 class LISSASODYSSEY_API ALyssa : public ACharacterBase
 {
@@ -27,6 +30,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+#pragma region Delegates
+
+	UPROPERTY(BlueprintAssignable, Category = "ActionEvent")
+		FActionAccept OnAcceptDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "ActionEvent")
+		FActionReturn OnReturnDelegate;
+
+#pragma endregion
 
 	// === Components ===
 	// camera

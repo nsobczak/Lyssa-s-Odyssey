@@ -51,4 +51,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "TriggerDialogue")
 		bool IsPlayerActorThatTriggers = true;
 
+	UPROPERTY(VisibleAnywhere, Category = "TriggerDebug")
+		class ALyssa* Lyssa;
+
+	UFUNCTION()
+		void OnActionAccept();
+
+	UPROPERTY(VisibleAnywhere, Category = "TriggerDebug")
+		bool IsEventAccept = false;
+
 };

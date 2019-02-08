@@ -374,12 +374,14 @@ void ALyssa::MoveFLeft(float value)
 
 void ALyssa::ActionAccept()
 {
-	UE_LOG(LogTemp, Log, TEXT("ActionAccept"));
+	//UE_LOG(LogTemp, Log, TEXT("ActionAccept"));
+	OnAcceptDelegate.Broadcast();
 }
 
 void ALyssa::ActionReturn()
 {
-	UE_LOG(LogTemp, Log, TEXT("ActionReturn"));
+	//UE_LOG(LogTemp, Log, TEXT("ActionReturn"));
+	OnReturnDelegate.Broadcast();
 }
 
 void ALyssa::PauseGame()
