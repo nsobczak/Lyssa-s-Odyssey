@@ -40,7 +40,7 @@ void ABoss::HandleAttackState(float DeltaTime, bool isUnderPlayerDetectionDistan
 
 	case EBossAttackState::EMoveTowards:
 		if (CurrentStateTimer <= Timer_Move
-			|| CurrentStateTimer > Timer_Move + Timer_FastMove && CurrentStateTimer <= 2 * Timer_Move + Timer_FastMove)
+			|| (CurrentStateTimer > Timer_Move + Timer_FastMove && CurrentStateTimer <= 2 * Timer_Move + Timer_FastMove))
 		{
 			MoveTowardsPlayer(DeltaTime, MoveSpeed);
 		}
