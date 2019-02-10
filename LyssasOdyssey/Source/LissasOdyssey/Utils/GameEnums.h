@@ -31,7 +31,7 @@ enum LineBoolSwitch { Key_Device, ShowMinimap, Graphical_FullScreen, Graphical_S
 #pragma region Game
 
 UENUM(BlueprintType)
-enum LevelLabels { LevelTitle, Canyon, Hub, Forest, Ice, Volcano };
+enum LevelLabels { LevelTitle, Canyon, Hub, Forest, Ice, Volcano, Playground };
 
 #pragma endregion
 

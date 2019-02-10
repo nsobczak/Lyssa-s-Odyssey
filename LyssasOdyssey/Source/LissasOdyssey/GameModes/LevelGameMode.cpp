@@ -236,6 +236,9 @@ void ALevelGameMode::BeginPlay()
 	case Volcano:
 		this->LevelTitle = GameConstants::LVL_TITLE_VOLCANO;
 		break;
+	case Playground:
+		this->LevelTitle = GameConstants::LVL_TITLE_PLAYGROUND;
+		break;
 	default:
 		this->LevelTitle = GameConstants::LVL_TITLE_DEFAULT;
 		break;

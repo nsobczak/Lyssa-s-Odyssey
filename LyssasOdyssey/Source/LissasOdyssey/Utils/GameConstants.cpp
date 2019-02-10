@@ -61,6 +61,15 @@ const FString  GameConstants::LVL_TITLE_HUB = "Hub";
 const FString  GameConstants::LVL_TITLE_FOREST = "Forest";
 const FString  GameConstants::LVL_TITLE_ICE = "Ice";
 const FString  GameConstants::LVL_TITLE_VOLCANO = "Volcano";
+const FString GameConstants::LVL_TITLE_PLAYGROUND = "Playground";
+
+//level map titles
+const FName GameConstants::LVL_MAP_TITLE_HUB = "Level_Hub";
+const FName GameConstants::LVL_MAP_TITLE_CANYON = "Level_Canyon_tuto";
+const FName GameConstants::LVL_MAP_TITLE_FOREST = "Level_Forest";
+const FName GameConstants::LVL_MAP_TITLE_ICE = "Level_Ice";
+const FName GameConstants::LVL_MAP_TITLE_VOLCANO = "Level_Volcano";
+const FName GameConstants::LVL_MAP_TITLE_PLAYGROUND = "Level_Playground";
 
 //Game
 const int  GameConstants::PICKUP_SCORE_MAX_CANYON = 60;

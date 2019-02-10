@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/TextRenderComponent.h"
+#include "Utils/GameEnums.h"
 #include "LevelPortal.generated.h"
 
 UCLASS()
@@ -19,27 +20,35 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Level")
-		FName LevelToOpen = "MainMenu";
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Level")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LevelPortalDebug")
 		UTextRenderComponent* TextFront;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Level")
-		UTextRenderComponent* TextBack;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LevelPortalDebug")
+		UTextRenderComponent* TextPickup;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Level")
-		FText ActualText = FText::FromString("LevelName");
+		TEnumAsByte<LevelLabels> LevelToOpen;
+
+	UFUNCTION(BlueprintCallable, Category = "Level")
+		void UpdateTexts();
+	UFUNCTION(BlueprintCallable, Category = "Level")
+		void UpdateLevelToOpenName();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LevelPortalDebug")
+		FName LevelToOpenName = "MainMenu";
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LevelPortal")
+		class ALevelGameMode* CurrentLGameMode;
+
 	UFUNCTION()
 	void SwapLevel();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Level")
-		bool TextOnBothSides = true;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelPortal")
+		bool NameOnBothSides = false;
 
 private:
 	/** Static mesh to represent the Mesh in the level*/

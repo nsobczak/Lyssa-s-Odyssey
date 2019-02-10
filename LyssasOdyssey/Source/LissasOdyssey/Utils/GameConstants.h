@@ -76,6 +76,14 @@ public:
 	static const FString LVL_TITLE_FOREST;
 	static const FString LVL_TITLE_ICE;
 	static const FString LVL_TITLE_VOLCANO;
+	static const FString LVL_TITLE_PLAYGROUND;
+
+	static const FName LVL_MAP_TITLE_HUB;
+	static const FName LVL_MAP_TITLE_CANYON;
+	static const FName LVL_MAP_TITLE_FOREST;
+	static const FName LVL_MAP_TITLE_ICE;
+	static const FName LVL_MAP_TITLE_VOLCANO;
+	static const FName LVL_MAP_TITLE_PLAYGROUND;
 
 	//Game
 	static const int PICKUP_SCORE_MAX_CANYON;
