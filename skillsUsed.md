@@ -16,3 +16,8 @@
 
 - game design (gameplay creation + balance)
 - sound design (music + sound creation)
+
+- licensing
+- publishing (github + itch.io)
+- communication (twitter)
+-
