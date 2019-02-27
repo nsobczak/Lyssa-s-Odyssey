@@ -323,18 +323,17 @@ void ALevelGameMode::CheckForDeath()
 	}
 }
 
-void ALevelGameMode::ShowDialogueWidget(FStructDialogue dialogue, bool showCursor = true)
+void ALevelGameMode::ShowDialogueWidget(bool showCursor = true)
 {
 	if (nullptr != DialogueWidget)
 	{
-		CurrentDialogueToDisplay = dialogue;
+		//CurrentDialogueToDisplay = dialogue;
 		//change visibility of DialogueWidget
 		DialogueWidget->SetVisibility(ESlateVisibility::Visible);
 		ShowCursor(showCursor);
 
 		IsPauseAllowed = false;
 	}
-
 }
 
 void ALevelGameMode::HideDialogueWidget(bool showCursor)

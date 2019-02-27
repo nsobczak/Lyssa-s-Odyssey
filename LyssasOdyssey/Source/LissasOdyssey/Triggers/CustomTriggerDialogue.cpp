@@ -30,6 +30,7 @@ void ACustomTriggerDialogue::BeginPlay()
 	Super::BeginPlay();
 
 	Lyssa = (ALyssa*)UGameplayStatics::GetPlayerPawn(this, 0);
+	CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
 
 	if (IsPlayerActorThatTriggers)
 	{
@@ -63,13 +64,14 @@ void ACustomTriggerDialogue::OnTriggerDetected_Implementation()
 	//UE_LOG(LogTemp, Log, TEXT("dialogueTrigger"));
 
 	// === GameMode ===
-	ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
 	if (DialogueToDisplay.Num() > 0 && CurrentGameMode)
 	{
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
-		CurrentGameMode->ShowDialogueWidget(DialogueToDisplay[CurrentDialogueIndex], DisplayCursorWithDialogue);
+		CurrentGameMode->ShowDialogueWidget(DisplayCursorWithDialogue);//DialogueToDisplay[CurrentDialogueIndex]
 	}
 }
+
+
 
 // Called every frame
 void ACustomTriggerDialogue::Tick(float DeltaTime)
@@ -78,15 +80,18 @@ void ACustomTriggerDialogue::Tick(float DeltaTime)
 
 	if (IsTriggered)
 	{
-		ALevelGameMode* currentLGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+		//ALevelGameMode* currentLGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
 
-		if (currentLGameMode && IsEventAccept)//if any key pressed
+		//typewriter effect
+		//CurrentGameMode->UpdateDialogue
+
+		if (CurrentGameMode && IsEventAccept)//if any key pressed
 		{
 			if (CurrentDialogueIndex < DialogueToDisplay.Num() - 1)
 			{
 				//show next string
 				++CurrentDialogueIndex;
-				currentLGameMode->UpdateDialogue(DialogueToDisplay[CurrentDialogueIndex]);
+				CurrentGameMode->UpdateDialogue(DialogueToDisplay[CurrentDialogueIndex]);
 			}
 			else
 			{
@@ -95,7 +100,7 @@ void ACustomTriggerDialogue::Tick(float DeltaTime)
 				IsTriggered = false;
 
 				//set widget visibility to hidden
-				currentLGameMode->HideDialogueWidget();
+				CurrentGameMode->HideDialogueWidget();
 				UGameplayStatics::SetGamePaused(GetWorld(), false);
 			}
 

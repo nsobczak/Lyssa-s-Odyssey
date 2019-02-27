@@ -60,4 +60,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "TriggerDebug")
 		bool IsEventAccept = false;
 
+private:
+	class ALevelGameMode* CurrentGameMode;
+
+	//3 variables string: currentText - toConsumedText - targetText
+	//delay, use textSpeed variable for delay
+	// currentText += toConsumedText[0] //append
+	// toConsumedText = rightChop(toConsumedText, 1)
+	// if click: if currentText == targetText => CurrentGameMode->UpdateDialogue(nextDisalogue)
+	//			 else: currentText = targetText
 };
