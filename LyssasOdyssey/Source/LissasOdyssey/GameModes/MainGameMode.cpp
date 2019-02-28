@@ -432,6 +432,11 @@ bool AMainGameMode::SwitchShowMinimap()
 	return ShowMap;
 }
 
+void AMainGameMode::ChangeTextSpeed(float newSpeed)
+{
+	TextSpeed = newSpeed;
+}
+
 
 void AMainGameMode::ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase)
 {

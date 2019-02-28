@@ -107,6 +107,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "General_Settings")
 		bool SwitchShowMinimap();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "General_Settings")
+		float TextSpeed = 0.05f;
+
+	UFUNCTION(BlueprintCallable, Category = "General_Settings")
+		void ChangeTextSpeed(float newSpeed);
 #pragma endregion
 
 #pragma region graphic settings

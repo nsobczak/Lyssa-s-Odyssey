@@ -348,6 +348,23 @@ void ALevelGameMode::HideDialogueWidget(bool showCursor)
 	}
 }
 
+void ALevelGameMode::UpdateCurrentDialogueText(FString newDialogueText)
+{
+	CurrentDialogueText = newDialogueText;
+}
+
+void ALevelGameMode::UpdateDialoguePictureStruct(FStructTextureData profilePictureStruct)
+{
+	CurrentDialogueToDisplay.ProfilePicture = profilePictureStruct;
+	//UE_LOG(LogTemp, Log, TEXT("updated profilePicture")); //CurrentDialogueText
+}
+
+void ALevelGameMode::UpdateDialogueTextStruct(FStructTextTrad dialogueTextStruct)
+{
+	CurrentDialogueToDisplay.DialogueText = dialogueTextStruct;
+	//UE_LOG(LogTemp, Log, TEXT("updated dialogueTextStruct"));
+}
+
 void ALevelGameMode::UpdateDialogue(FStructDialogue dialogue)
 {
 	CurrentDialogueToDisplay = dialogue;

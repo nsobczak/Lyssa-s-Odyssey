@@ -24,13 +24,17 @@ void ACustomTriggerDialogue::OnActionAccept()
 	}
 }
 
+
 // Called when the game starts or when spawned
 void ACustomTriggerDialogue::BeginPlay()
 {
 	Super::BeginPlay();
 
 	Lyssa = (ALyssa*)UGameplayStatics::GetPlayerPawn(this, 0);
+
 	CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+	if (CurrentGameMode == nullptr) UE_LOG(LogTemp, Error, TEXT("CurrentGameMode is null"));
+
 
 	if (IsPlayerActorThatTriggers)
 	{
@@ -56,21 +60,63 @@ void ACustomTriggerDialogue::BeginPlay()
 	CurrentDialogueIndex = 0;
 }
 
+
+void ACustomTriggerDialogue::TypewriterEffect()
+{
+	//check if not already displayed entirely (if we clicked before end of recusivity)
+	if (CurrentText.Equals(TargetText) || ToConsumedText.Len() <= 0) { return; }
+
+	if (DEBUG)
+		UE_LOG(LogTemp, Log, TEXT(" |ToConsumedText = %s|\n |ToConsumedText[0] = %c|\n |ToConsumedText.RightChop(1) = %s|\n |ToConsumedText = %s|"),
+			*ToConsumedText, ToConsumedText[0], *ToConsumedText.RightChop(1), *ToConsumedText);
+
+	CurrentText.AppendChar(ToConsumedText[0]);
+	ToConsumedText = ToConsumedText.RightChop(1);
+	CurrentGameMode->UpdateCurrentDialogueText(CurrentText);
+
+	//timer not working when game pause on anything other than Actor => manually do timer in update
+}
+
+
+void ACustomTriggerDialogue::UpdateDialogueData()
+{
+	CurrentGameMode->UpdateDialoguePictureStruct(DialogueToDisplay[CurrentDialogueIndex].ProfilePicture);
+
+	ELanguages currentLanguage = CurrentGameMode->CurrentLanguage;
+	switch (currentLanguage)
+	{
+	case ELanguages::fr:
+		TargetText = DialogueToDisplay[CurrentDialogueIndex].DialogueText.fr;
+		break;
+
+	default: //ELanguages::en
+		TargetText = DialogueToDisplay[CurrentDialogueIndex].DialogueText.en;
+		break;
+	}
+
+	ToConsumedText = TargetText;
+	CurrentText = FString("");
+}
+
+
 void ACustomTriggerDialogue::OnTriggerDetected_Implementation()
 {
 	Super::OnTriggerDetected_Implementation();
 
 	//triggered
-	//UE_LOG(LogTemp, Log, TEXT("dialogueTrigger"));
+	if (DEBUG)
+		UE_LOG(LogTemp, Log, TEXT("dialogueTrigger"));
 
-	// === GameMode ===
 	if (DialogueToDisplay.Num() > 0 && CurrentGameMode)
 	{
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
-		CurrentGameMode->ShowDialogueWidget(DisplayCursorWithDialogue);//DialogueToDisplay[CurrentDialogueIndex]
+		CurrentGameMode->ShowDialogueWidget(DisplayCursorWithDialogue);
+
+		UpdateDialogueData();
+
+		TypewriterEffect();
 	}
 }
-
 
 
 // Called every frame
@@ -78,30 +124,46 @@ void ACustomTriggerDialogue::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (IsTriggered)
+	if (IsTriggered && CurrentGameMode)
 	{
-		//ALevelGameMode* currentLGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
-
-		//typewriter effect
-		//CurrentGameMode->UpdateDialogue
-
-		if (CurrentGameMode && IsEventAccept)//if any key pressed
+		//TypewriterEffect
+		TextTimer += DeltaTime;
+		if (TextTimer >= CurrentGameMode->TextSpeed)
 		{
-			if (CurrentDialogueIndex < DialogueToDisplay.Num() - 1)
+			TypewriterEffect();
+			TextTimer = 0;
+		}
+
+		//accept key pressed
+		if (IsEventAccept)
+		{
+			if (!CurrentText.Equals(TargetText))
 			{
-				//show next string
-				++CurrentDialogueIndex;
-				CurrentGameMode->UpdateDialogue(DialogueToDisplay[CurrentDialogueIndex]);
+				//display text entirely
+				ToConsumedText = FString("");
+				CurrentText = TargetText;
+				CurrentGameMode->UpdateCurrentDialogueText(CurrentText);
 			}
+
 			else
 			{
-				//reset
-				CurrentDialogueIndex = 0;
-				IsTriggered = false;
+				//next text
+				if (CurrentDialogueIndex < DialogueToDisplay.Num() - 1)
+				{
+					//show next string
+					++CurrentDialogueIndex;
+					UpdateDialogueData();
+				}
+				else
+				{
+					//reset
+					CurrentDialogueIndex = 0;
+					IsTriggered = false;
 
-				//set widget visibility to hidden
-				CurrentGameMode->HideDialogueWidget();
-				UGameplayStatics::SetGamePaused(GetWorld(), false);
+					//set widget visibility to hidden
+					CurrentGameMode->HideDialogueWidget();
+					UGameplayStatics::SetGamePaused(GetWorld(), false);
+				}
 			}
 
 			IsEventAccept = false;

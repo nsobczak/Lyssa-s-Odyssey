@@ -63,7 +63,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Map")
 		UTexture2D* PlayerIcon;
 #pragma endregion
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GameController")
 		class UHUD_BossInfo* HudBossInfo;
 
@@ -100,12 +100,23 @@ public:
 		UUserWidget* DialogueWidget;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Dialogue")
+		FString CurrentDialogueText;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Dialogue")
 		FStructDialogue CurrentDialogueToDisplay;
 
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void ShowDialogueWidget(bool showCursor);
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void HideDialogueWidget(bool showCursor = true);
+
+	UFUNCTION(BlueprintCallable, Category = "Dialogue")
+		void UpdateCurrentDialogueText(FString newDialogueText);
+
+	UFUNCTION(BlueprintCallable, Category = "Dialogue")
+		void UpdateDialoguePictureStruct(FStructTextureData dialogue);
+	UFUNCTION(BlueprintCallable, Category = "Dialogue")
+		void UpdateDialogueTextStruct(FStructTextTrad dialogueText);
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void UpdateDialogue(FStructDialogue dialogue);
 #pragma endregion

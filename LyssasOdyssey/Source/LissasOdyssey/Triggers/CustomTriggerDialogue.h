@@ -36,15 +36,20 @@ public:
 		TArray< FName> DialogueRows;
 
 	/**list of dialogues to display*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "TriggerDialogue")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "DialogueDebug")
 		TArray<FStructDialogue> DialogueToDisplay;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "TriggerDialogue")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DialogueDebug")
 		int CurrentDialogueIndex = 0;
+
+	UFUNCTION()
+		void TypewriterEffect();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void UpdateDialogueData();
 
 	void OnTriggerDetected_Implementation() override;
 
@@ -61,12 +66,19 @@ protected:
 		bool IsEventAccept = false;
 
 private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DialogueDebug", meta = (AllowPrivateAccess = "true"))
+		bool DEBUG = false;
+
 	class ALevelGameMode* CurrentGameMode;
 
-	//3 variables string: currentText - toConsumedText - targetText
-	//delay, use textSpeed variable for delay
-	// currentText += toConsumedText[0] //append
-	// toConsumedText = rightChop(toConsumedText, 1)
-	// if click: if currentText == targetText => CurrentGameMode->UpdateDialogue(nextDisalogue)
-	//			 else: currentText = targetText
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DialogueDebug", meta = (AllowPrivateAccess = "true"))
+		FString CurrentText;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DialogueDebug", meta = (AllowPrivateAccess = "true"))
+		FString ToConsumedText;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DialogueDebug", meta = (AllowPrivateAccess = "true"))
+		FString TargetText;
+
+	float TextTimer = 0;
 };
