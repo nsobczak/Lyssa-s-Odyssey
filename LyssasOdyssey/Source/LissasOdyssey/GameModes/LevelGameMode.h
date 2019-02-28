@@ -36,6 +36,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GameControl")
 		bool GetIsBeginFunctionCompleted();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameControl")
+		bool IsShowingIntroScreen = false;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		float VerticalLevel = 50.0f;
 
@@ -50,6 +53,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		FString LevelTitle = "LevelTitle";
+
 
 #pragma region save region
 	virtual bool SaveGameSettings() override;
