@@ -31,6 +31,8 @@ public:
 #pragma region Settings
 	UPROPERTY(EditAnywhere, Category = "settings")
 		ELanguages CurrentLanguage;
+	UPROPERTY(EditAnywhere, Category = "settings")
+		ETextSpeed CurrentTextSpeed;
 
 	UPROPERTY(EditAnywhere, Category = "settings")
 		bool ShowMinimap = true;

@@ -128,7 +128,7 @@ void ACustomTriggerDialogue::Tick(float DeltaTime)
 	{
 		//TypewriterEffect
 		TextTimer += DeltaTime;
-		if (TextTimer >= CurrentGameMode->TextSpeed)
+		if (TextTimer >= CurrentGameMode->TextSpeedFloatValue)
 		{
 			TypewriterEffect();
 			TextTimer = 0;

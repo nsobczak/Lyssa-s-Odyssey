@@ -54,6 +54,7 @@ void AMainGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
 {
 	// Values
 	SaveInstance->CurrentLanguage = this->CurrentLanguage;
+	SaveInstance->CurrentTextSpeed = this->CurrentTextSpeed;
 	SaveInstance->ShowMinimap = this->ShowMap;
 	SaveInstance->ShowTime = this->ShowTime;
 	SaveInstance->ShowLife = this->ShowLife;
@@ -125,6 +126,8 @@ void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 	LoadInstance = Cast<UMainSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
 
 	this->CurrentLanguage = LoadInstance->CurrentLanguage;
+	this->CurrentTextSpeed = LoadInstance->CurrentTextSpeed;
+	UpdateTextSpeedFloatValue();
 	this->ShowMap = LoadInstance->ShowMinimap;
 	this->ShowTime = LoadInstance->ShowTime;
 	this->ShowLife = LoadInstance->ShowLife;
@@ -220,6 +223,9 @@ void AMainGameMode::InitializeTArrayAndApplyGraphicalSettings()
 void AMainGameMode::InitializeGeneralSettingsWithDefault()
 {
 	this->CurrentLanguage = GameConstants::DEF_GENERAL_CURRENT_LANGUAGE;
+
+	this->CurrentTextSpeed = GameConstants::DEF_GENERAL_CURRENT_TEXT_SPEED;
+	UpdateTextSpeedFloatValue();
 }
 
 void AMainGameMode::InitializeGraphicalSettingsWithDefault()
@@ -432,9 +438,37 @@ bool AMainGameMode::SwitchShowMinimap()
 	return ShowMap;
 }
 
-void AMainGameMode::ChangeTextSpeed(float newSpeed)
+void AMainGameMode::UpdateTextSpeedFloatValue()
 {
-	TextSpeed = newSpeed;
+	switch (this->CurrentTextSpeed)
+	{
+	case ETextSpeed::Slow:
+		this->TextSpeedFloatValue = GameConstants::GENERAL_TEXT_SPEED_SLOW;
+		break;
+	case ETextSpeed::Fast:
+		this->TextSpeedFloatValue = GameConstants::GENERAL_TEXT_SPEED_FAST;
+		break;
+	default:
+		this->TextSpeedFloatValue = GameConstants::GENERAL_TEXT_SPEED_NORMAL;
+		break;
+	}
+	//UE_LOG(LogTemp, Log, TEXT("TextSpeedFloatValue = %f"), this->TextSpeedFloatValue);
+}
+
+void AMainGameMode::ChangeTextSpeed(bool increase)
+{
+	uint8 maxIndexCurrentTextSpeed = (uint8)ETextSpeed::count;
+	uint8 uint8CurrentTextSpeed = (uint8)this->CurrentTextSpeed;
+
+	if (increase && uint8CurrentTextSpeed == maxIndexCurrentTextSpeed - 1)
+		uint8CurrentTextSpeed = 0;
+	else if (!increase && uint8CurrentTextSpeed == 0)
+		uint8CurrentTextSpeed = maxIndexCurrentTextSpeed - 1;
+	else
+		increase ? ++uint8CurrentTextSpeed : --uint8CurrentTextSpeed;
+
+	this->CurrentTextSpeed = (ETextSpeed)uint8CurrentTextSpeed;
+	UpdateTextSpeedFloatValue();
 }
 
 

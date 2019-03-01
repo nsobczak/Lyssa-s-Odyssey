@@ -17,12 +17,16 @@ public:
 	GameConstants();
 	~GameConstants();
 
-	//TODO: use caps lock
 	static const FColor COLOR_TEXT_LIGHT_GRAY;
 
 #pragma region Settings
 #pragma region Defaults general settings
 	static const ELanguages DEF_GENERAL_CURRENT_LANGUAGE;
+
+	static const ETextSpeed DEF_GENERAL_CURRENT_TEXT_SPEED;
+	static const float GENERAL_TEXT_SPEED_SLOW;
+	static const float GENERAL_TEXT_SPEED_NORMAL;
+	static const float GENERAL_TEXT_SPEED_FAST;
 #pragma endregion
 
 #pragma region Defaults graphics settings

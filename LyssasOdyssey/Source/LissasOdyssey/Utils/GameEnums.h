@@ -8,6 +8,9 @@ UENUM(BlueprintType)	//"BlueprintType" is essential specifier
 enum class ELanguages : uint8 { en, fr, count };
 
 UENUM(BlueprintType)
+enum class ETextSpeed : uint8 { Slow, Normal, Fast, count};
+
+UENUM(BlueprintType)
 enum GraphicLabel { Graphical, PP, AA, Shadow, FPS, Res };
 
 UENUM(BlueprintType)

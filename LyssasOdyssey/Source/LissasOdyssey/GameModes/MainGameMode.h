@@ -100,7 +100,6 @@ public:
 #pragma region general settings
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "General_Settings")
 		ELanguages CurrentLanguage;
-
 	/** Decrease if increase is false */
 	UFUNCTION(BlueprintCallable, Category = "General_Settings")
 		void ChangeCurrentLanguage(bool increase);
@@ -109,10 +108,13 @@ public:
 		bool SwitchShowMinimap();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "General_Settings")
-		float TextSpeed = 0.05f;
-
+		ETextSpeed CurrentTextSpeed;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "General_Settings")
+		float TextSpeedFloatValue;
+	UFUNCTION()
+		void UpdateTextSpeedFloatValue();
 	UFUNCTION(BlueprintCallable, Category = "General_Settings")
-		void ChangeTextSpeed(float newSpeed);
+		void ChangeTextSpeed(bool increase);
 #pragma endregion
 
 #pragma region graphic settings

@@ -8,6 +8,11 @@ const FColor GameConstants::COLOR_TEXT_LIGHT_GRAY = FColor::FromHex("#606060FF")
 
 #pragma region Defaults general settings
 const ELanguages GameConstants::DEF_GENERAL_CURRENT_LANGUAGE = ELanguages::en;
+
+const ETextSpeed GameConstants::DEF_GENERAL_CURRENT_TEXT_SPEED = ETextSpeed::Normal;
+const float GameConstants::GENERAL_TEXT_SPEED_SLOW = 0.1f;
+const float GameConstants::GENERAL_TEXT_SPEED_NORMAL = 0.05f;
+const float GameConstants::GENERAL_TEXT_SPEED_FAST = 0.01f;
 #pragma endregion
 
 #pragma region Defaults graphics settings
