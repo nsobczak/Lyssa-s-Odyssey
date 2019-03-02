@@ -171,6 +171,7 @@ bool AMainGameMode::LoadGameSettings()
 		}
 		else
 		{
+			this->DoesSaveGameExist = false;
 			// If save game object not found, create a new one
 			class UMainSaveGame* LoadInstanceAlternate = Cast<UMainSaveGame>(UGameplayStatics::CreateSaveGameObject(
 				UMainSaveGame::StaticClass()));
@@ -180,11 +181,13 @@ bool AMainGameMode::LoadGameSettings()
 			else
 				LoadSettingsValues(LoadInstanceAlternate);
 		}
+		this->DoesSaveGameExist = true;
 		return true;
 	}
 	else
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString(TEXT("No save game found.")), true);
+		this->DoesSaveGameExist = false;
 
 		UseDefaultSettings();
 		return false;
@@ -567,6 +570,19 @@ bool AMainGameMode::SwitchUseGamePad()
 {
 	UseGamePad = !UseGamePad;
 	return UseGamePad;
+}
+
+void AMainGameMode::SetDeviceUsed(DeviceName deviceToUse)
+{
+	switch (deviceToUse)
+	{
+	case Keyboard:
+		UseGamePad = false;
+		break;
+	default:
+		UseGamePad = true;
+		break;
+	}
 }
 
 void AMainGameMode::AssignNewKey(FKey newKey, TEnumAsByte<PlayerActionLabel> actionToChange, bool isKeyboardKey)

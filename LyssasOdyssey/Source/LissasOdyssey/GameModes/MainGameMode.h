@@ -32,6 +32,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
 		virtual bool LoadGameSettings();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Menu_Settings")
+		bool DoesSaveGameExist = false;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
 		FString SaveSlotName = FString(TEXT("PlayerSaveSlot"));
 #pragma endregion
@@ -197,6 +200,8 @@ public:
 		bool UseGamePad;
 	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
 		bool SwitchUseGamePad();
+	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
+		void SetDeviceUsed(DeviceName deviceToUse);
 
 	/** Assign a new key to an input */
 	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
