@@ -2,7 +2,7 @@
 
 #include "Foe.h"
 #include "GameModes/LevelGameMode.h"
-#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Engine/Classes/Kismet/GameplayStatics.h"
 #include "DrawDebugHelpers.h"
 
 // Sets default values

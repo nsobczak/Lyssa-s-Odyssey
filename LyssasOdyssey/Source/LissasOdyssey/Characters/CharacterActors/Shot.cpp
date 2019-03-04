@@ -7,6 +7,7 @@
 #include "Characters/Foes/Foe.h"
 #include "WorldAssets/Wall.h"
 #include "WorldAssets/HindranceRock.h"
+#include "WorldAssets/HindranceTiltable.h"
 
 
 // Sets default values
@@ -180,10 +181,18 @@ bool AShot::HandleOverlapWithWall(AActor* currentActor)
 
 bool AShot::HandleOverlapWithHindrance(AActor* currentActor)
 {
-	AHindranceRock* currentHindrance = Cast<AHindranceRock>(currentActor);
-	if (currentHindrance && currentHindrance->BlockShots && !CanKillFoe)
+	AHindranceRock* currentHindranceRock = Cast<AHindranceRock>(currentActor);
+	AHindranceTiltable* currentHindranceTiltable = Cast<AHindranceTiltable>(currentActor);
+
+	if (currentHindranceRock && currentHindranceRock->BlockShots && !CanKillFoe)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("hindrance block shot"));
+		//UE_LOG(LogTemp, Warning, TEXT("hindrance rock block shot"));
+		CustomDestroy();
+		return true;
+	}
+	else if (currentHindranceTiltable && currentHindranceTiltable->BlockShots && !CanKillFoe)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("hindrance tiltable block shot"));
 		CustomDestroy();
 		return true;
 	}
