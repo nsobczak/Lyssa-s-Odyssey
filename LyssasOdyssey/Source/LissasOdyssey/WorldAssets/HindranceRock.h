@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Hindrance.h"
 //#include "DestructibleComponent.h"
 #include "HindranceRock.generated.h"
 
 UCLASS()
-class LISSASODYSSEY_API AHindranceRock : public AActor
+class LISSASODYSSEY_API AHindranceRock : public AHindrance
 {
 	GENERATED_BODY()
 
@@ -19,12 +19,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Hindrance")
-		bool BlockShots = true;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void HandleOverlap_Implementation() override;
+
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
@@ -35,10 +36,4 @@ private:
 
 	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 		//USkeletalMesh* HindranceSKMesh;
-
-	UFUNCTION()
-		void HandleOverlap();
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Hindrance", meta = (AllowPrivateAccess = "true"))
-		bool isDestroyed = false;
 };

@@ -3,13 +3,15 @@
 #include "HindranceTiltable.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/ChildActorComponent.h"
+#include "WorldAssets/Wall.h"
 #include "Characters/CharacterActors/Shot.h"
 
 
 // Sets default values
 AHindranceTiltable::AHindranceTiltable()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	HindranceSKMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("HindranceSKMesh"));
@@ -17,6 +19,19 @@ AHindranceTiltable::AHindranceTiltable()
 
 	ArrowMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ArrowMesh"));
 	ArrowMesh->AttachToComponent(HindranceSKMesh, FAttachmentTransformRules::KeepRelativeTransform);
+
+
+	InvisibleWallLeft_ChildActorComponent = CreateDefaultSubobject<UChildActorComponent>(TEXT("InvisibleWallLeft"));
+	//InvisibleWallLeft_ChildActorComponent->SetMobility(EComponentMobility::Movable);
+	InvisibleWallLeft_ChildActorComponent->AttachToComponent(HindranceSKMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	InvisibleWallLeft_ChildActorComponent->SetRelativeLocationAndRotation(FVector(-400.0f, -1070.0f, 0), FRotator(0, 0, 0));
+	InvisibleWallLeft_ChildActorComponent->SetRelativeScale3D(FVector(1.0f, 0.9375f, 1.0f));
+
+	InvisibleWallRight_ChildActorComponent = CreateDefaultSubobject<UChildActorComponent>(TEXT("InvisibleWallRight"));
+	//InvisibleWallRight_ChildActorComponent->SetMobility(EComponentMobility::Movable);
+	InvisibleWallRight_ChildActorComponent->AttachToComponent(HindranceSKMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	InvisibleWallRight_ChildActorComponent->SetRelativeLocationAndRotation(FVector(470.0f, -1071.0f, 0), FRotator(0, 2.19f, 0));
+	InvisibleWallRight_ChildActorComponent->SetRelativeScale3D(FVector(1.0f, 0.9375f, 1.0f));
 }
 
 
@@ -24,13 +39,33 @@ AHindranceTiltable::AHindranceTiltable()
 void AHindranceTiltable::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	ArrowMesh->SetVisibility(false);
 	HindranceSKMesh->CanCharacterStepUpOn = ECanBeCharacterBase::ECB_No;
+
+	InvisibleWallLeft = Cast<AWall>(InvisibleWallLeft_ChildActorComponent->GetChildActor());
+	if (InvisibleWallLeft)
+	{
+		InvisibleWallLeft->GetBaseMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("InvisibleWallLeft is null"));
+	}
+
+	InvisibleWallRight = Cast<AWall>(InvisibleWallRight_ChildActorComponent->GetChildActor());
+	if (InvisibleWallRight)
+	{
+		InvisibleWallRight->GetBaseMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("InvisibleWallRight is null"));
+	}
 }
 
 
-void AHindranceTiltable::HandleOverlap()
+void AHindranceTiltable::HandleOverlap_Implementation()
 {
 	//get overlaping actors and store them in an array
 	TArray<AActor*> collectedActors;
@@ -42,9 +77,14 @@ void AHindranceTiltable::HandleOverlap()
 		AShot* currentShot = Cast<AShot>(currentActor);
 		if (currentShot && currentShot->CanKillFoe)
 		{
-			isTilted = true;
+			IsActivated = true;
 			HindranceSKMesh->CanCharacterStepUpOn = ECanBeCharacterBase::ECB_Yes;
-			//HindranceSKMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+			if (InvisibleWallLeft && InvisibleWallRight)
+			{
+				InvisibleWallLeft->GetBaseMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+				InvisibleWallRight->GetBaseMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+			}
 		}
 	}
 }
@@ -55,9 +95,9 @@ void AHindranceTiltable::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!isTilted)
+	if (!IsActivated)
 	{
-		HandleOverlap();
+		HandleOverlap_Implementation();
 	}
 }
 

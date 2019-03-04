@@ -13,6 +13,11 @@ AActorWithMeshBase::AActorWithMeshBase()
 	RootComponent = (USceneComponent*)BaseMesh;
 }
 
+UStaticMeshComponent* AActorWithMeshBase::GetBaseMesh()
+{
+	return this->BaseMesh;
+}
+
 // Called when the game starts or when spawned
 void AActorWithMeshBase::BeginPlay()
 {

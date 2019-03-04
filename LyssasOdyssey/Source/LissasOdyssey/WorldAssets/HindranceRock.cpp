@@ -28,7 +28,7 @@ void AHindranceRock::BeginPlay()
 	HindranceMesh->SetVisibility(false);
 }
 
-void AHindranceRock::HandleOverlap()
+void AHindranceRock::HandleOverlap_Implementation()
 {
 	//get overlaping actors and store them in an array
 	TArray<AActor*> collectedActors;
@@ -40,7 +40,7 @@ void AHindranceRock::HandleOverlap()
 		AShot* currentShot = Cast<AShot>(currentActor);
 		if (currentShot && currentShot->CanKillFoe)
 		{
-			isDestroyed = true;
+			IsActivated = true;
 			HindranceMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			//Destroy();
 		}
@@ -52,9 +52,9 @@ void AHindranceRock::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!isDestroyed)
+	if (!IsActivated)
 	{
-		HandleOverlap();
+		HandleOverlap_Implementation();
 	}
 }
 
