@@ -105,6 +105,16 @@ public:
 	UFUNCTION()
 		void PauseGame();
 
+	// === KeyPickup ===
+	UFUNCTION(BlueprintPure, Category = "Pickups")
+		TArray<TEnumAsByte<KeyNature>> GetKeyPickups();
+
+	UFUNCTION(BlueprintCallable, Category = "Pickups")
+		void AddKeyPickup(TEnumAsByte<KeyNature> pickupNatureToAdd);
+
+	UFUNCTION(BlueprintCallable, Category = "Pickups")
+		bool RemoveKeyPickup(TEnumAsByte<KeyNature> pickupNatureToRemove);
+
 	// === ScorePickupAmount ===
 	UFUNCTION(BlueprintPure, Category = "Pickups")
 		int GetCurrentScorePickupAmount();
@@ -145,6 +155,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
 		class AFylgja* Fylgja;
+
+	UPROPERTY(VisibleAnywhere, Category = "Pickups")
+		TArray<TEnumAsByte<KeyNature>> KeyPickups;
 
 	UPROPERTY(VisibleAnywhere, Category = "Pickups")
 		TMap<TEnumAsByte<LevelLabels>, int>TMapPlayerPickupAmountByLevel;

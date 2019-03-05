@@ -12,6 +12,7 @@
 #include "Pickups/Pickup.h"
 #include "Pickups/PickupLife.h"
 #include "Pickups/PickupScore.h"
+#include "Pickups/PickupKey.h"
 
 
 #pragma region Initialization
@@ -384,7 +385,34 @@ void ALyssa::PauseGame()
 #pragma endregion
 
 
-#pragma region Pickup
+#pragma region Pickup key
+//____________________________________________________________________________________
+TArray<TEnumAsByte<KeyNature>> ALyssa::GetKeyPickups()
+{
+	return this->KeyPickups;
+}
+
+void ALyssa::AddKeyPickup(TEnumAsByte<KeyNature> pickupNatureToAdd)
+{
+	this->KeyPickups.Add(pickupNatureToAdd);
+}
+
+bool ALyssa::RemoveKeyPickup(TEnumAsByte<KeyNature> pickupNatureToRemove)
+{
+	if (this->KeyPickups.Contains(pickupNatureToRemove))
+	{
+		this->KeyPickups.Remove(pickupNatureToRemove);
+		return true;
+	}
+
+	return false;
+}
+//____________________________________________________________________________________
+#pragma endregion
+
+
+
+#pragma region Pickup score
 //____________________________________________________________________________________
 int ALyssa::GetCurrentScorePickupAmount()
 {
@@ -466,14 +494,17 @@ void ALyssa::CollectPickups()
 			//call the pickup's wasCollected function
 			castedPickup->WasCollected();
 
-			//check to see if the pickup is life
+			//check to see pickup nature and apply effect
 			APickupLife* const castedLife = Cast<APickupLife>(castedPickup);
 			APickupScore* const castedScore = Cast<APickupScore>(castedPickup);
+			APickupKey* const castedKey = Cast<APickupKey>(castedPickup);
 
 			if (castedLife)
 				UpdateLife(+castedLife->GetLifeAmount());
 			else if (castedScore)
 				UpdateScorePickupAmount(+castedScore->GetScoreAmount());
+			else if (castedKey)
+				AddKeyPickup(castedKey->GetKeyNature());
 
 			//deactivate the pickup
 			castedPickup->SetActive(false);

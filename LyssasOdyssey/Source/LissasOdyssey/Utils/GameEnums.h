@@ -8,7 +8,7 @@ UENUM(BlueprintType)	//"BlueprintType" is essential specifier
 enum class ELanguages : uint8 { en, fr, count };
 
 UENUM(BlueprintType)
-enum class ETextSpeed : uint8 { Slow, Normal, Fast, count};
+enum class ETextSpeed : uint8 { Slow, Normal, Fast, count };
 
 UENUM(BlueprintType)
 enum GraphicLabel { Graphical, PP, AA, Shadow, FPS, Res };
@@ -36,6 +36,8 @@ enum LineBoolSwitch { Key_Device, ShowMinimap, Graphical_FullScreen, Graphical_S
 UENUM(BlueprintType)
 enum LevelLabels { LevelTitle, Canyon, Hub, Forest, Ice, Volcano, Playground };
 
+UENUM(BlueprintType)
+enum KeyNature { BLUE, RED, YELLOW, GREEN, PURPLE };
 #pragma endregion
 
 /**

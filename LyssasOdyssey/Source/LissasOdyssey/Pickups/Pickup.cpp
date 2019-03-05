@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Pickup.h"
+#include "Components/StaticMeshComponent.h"
 #include "Utils/RotateOverTime.h"
 
 // Sets default values
@@ -53,5 +54,5 @@ void APickup::SetActive(bool newPickupState)
 void APickup::WasCollected_Implementation()
 {
 	FString pickupDebugString = GetName();
-	UE_LOG(LogClass, Log, TEXT("You collected %s"), *pickupDebugString);
+	UE_LOG(LogClass, Log, TEXT("Player collected %s"), *pickupDebugString);
 }
