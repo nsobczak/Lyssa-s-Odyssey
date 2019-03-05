@@ -13,7 +13,7 @@ void APickupKey::WasCollected_Implementation()
 }
 
 //report the power level of the battery
-TEnumAsByte<KeyNature> APickupKey::GetKeyNature()
+TEnumAsByte<KeyLockNature> APickupKey::GetKeyNature()
 {
 	return KeyNature;
 }

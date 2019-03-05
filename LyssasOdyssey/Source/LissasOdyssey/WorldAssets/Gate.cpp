@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Gate.h"
+#include "WorldAssets/GateLock.h"
 
 // Sets default values
 AGate::AGate()
@@ -16,6 +17,58 @@ void AGate::BeginPlay()
 	Super::BeginPlay();
 
 	this->IsOpen = StartOpen;
+
+	//locks
+	TArray<AActor*> childActors;
+	GetAllChildActors(childActors);
+
+	for (size_t i = 0; i < childActors.Num(); ++i)
+	{
+		AGateLock* currentLock = Cast<AGateLock>(childActors[i]);
+		KeyLockNature currentNature = currentLock->GetLockNature();
+
+		switch (currentNature)
+		{
+		case BLUE:
+			if (useBlueLock)
+				Locks.Add(currentLock);
+			else
+				currentLock->Destroy();
+			break;
+
+		case RED:
+			if (useRedLock)
+				Locks.Add(currentLock);
+			else
+				currentLock->Destroy();
+			break;
+
+		case YELLOW:
+			if (useYellowLock)
+				Locks.Add(currentLock);
+			else
+				currentLock->Destroy();
+			break;
+
+		case GREEN:
+			if (useGreenLock)
+				Locks.Add(currentLock);
+			else
+				currentLock->Destroy();
+			break;
+
+		case PURPLE:
+			if (usePurpleLock)
+				Locks.Add(currentLock);
+			else
+				currentLock->Destroy();
+			break;
+
+		default:
+			break;
+		}
+
+	}
 }
 
 bool AGate::GetIsOpen()
@@ -31,6 +84,31 @@ void AGate::SetIsOpen(bool newState)
 void AGate::ChangeIsOpen()
 {
 	this->IsOpen = !this->IsOpen;
+}
+
+TArray<AGateLock*> AGate::GetLocks()
+{
+	return Locks;
+}
+
+void AGate::AddLock(AGateLock* locktoAdd)
+{
+	Locks.Add(locktoAdd);
+}
+
+bool AGate::BreakLock(AGateLock* locktoBreak)
+{
+	if (Locks.Contains(locktoBreak))
+	{
+		UE_LOG(LogTemp, Log, TEXT("break lock: %s"), *(locktoBreak->GetName()));
+		Locks.Remove(locktoBreak);
+		locktoBreak->Destroy();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 

@@ -107,13 +107,13 @@ public:
 
 	// === KeyPickup ===
 	UFUNCTION(BlueprintPure, Category = "Pickups")
-		TArray<TEnumAsByte<KeyNature>> GetKeyPickups();
+		TArray<TEnumAsByte<KeyLockNature>> GetKeyPickups();
 
 	UFUNCTION(BlueprintCallable, Category = "Pickups")
-		void AddKeyPickup(TEnumAsByte<KeyNature> pickupNatureToAdd);
+		void AddKeyPickup(TEnumAsByte<KeyLockNature> pickupNatureToAdd);
 
 	UFUNCTION(BlueprintCallable, Category = "Pickups")
-		bool RemoveKeyPickup(TEnumAsByte<KeyNature> pickupNatureToRemove);
+		bool RemoveKeyPickup(TEnumAsByte<KeyLockNature> pickupNatureToRemove);
 
 	// === ScorePickupAmount ===
 	UFUNCTION(BlueprintPure, Category = "Pickups")
@@ -157,7 +157,7 @@ private:
 		class AFylgja* Fylgja;
 
 	UPROPERTY(VisibleAnywhere, Category = "Pickups")
-		TArray<TEnumAsByte<KeyNature>> KeyPickups;
+		TArray<TEnumAsByte<KeyLockNature>> KeyPickups;
 
 	UPROPERTY(VisibleAnywhere, Category = "Pickups")
 		TMap<TEnumAsByte<LevelLabels>, int>TMapPlayerPickupAmountByLevel;

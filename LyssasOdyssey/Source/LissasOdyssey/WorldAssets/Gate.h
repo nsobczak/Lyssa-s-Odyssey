@@ -30,10 +30,37 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Gate")
 		bool StartOpen = false;
 
+	UFUNCTION(BlueprintCallable, Category = "Gate")
+		TArray<class AGateLock*> GetLocks();
+
+	UFUNCTION(BlueprintCallable, Category = "Gate")
+		void AddLock(class AGateLock* locktoAdd);
+
+	UFUNCTION(BlueprintCallable, Category = "Gate")
+		bool BreakLock(class AGateLock* locktoBreak);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, Category = "Gate")
 		bool IsOpen = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gate")
+		bool useBlueLock = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gate")
+		bool useGreenLock = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gate")
+		bool usePurpleLock = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gate")
+		bool useRedLock = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gate")
+		bool useYellowLock = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gate")
+		TArray<class AGateLock*> Locks;
 };

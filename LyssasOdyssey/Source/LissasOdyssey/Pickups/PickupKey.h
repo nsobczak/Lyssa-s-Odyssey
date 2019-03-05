@@ -22,9 +22,9 @@ public:
 	/**Override the wasCollected function, use Implementation cause it's a blueprint native event*/
 	void WasCollected_Implementation() override;
 
-	TEnumAsByte<KeyNature> GetKeyNature();
+	TEnumAsByte<KeyLockNature> GetKeyNature();
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Key", meta = (AllowPrivateAccess = "true"))
-		TEnumAsByte<KeyNature> KeyNature = KeyNature::YELLOW;
+		TEnumAsByte<KeyLockNature> KeyNature = KeyLockNature::YELLOW;
 };

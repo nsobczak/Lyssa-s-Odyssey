@@ -387,17 +387,17 @@ void ALyssa::PauseGame()
 
 #pragma region Pickup key
 //____________________________________________________________________________________
-TArray<TEnumAsByte<KeyNature>> ALyssa::GetKeyPickups()
+TArray<TEnumAsByte<KeyLockNature>> ALyssa::GetKeyPickups()
 {
 	return this->KeyPickups;
 }
 
-void ALyssa::AddKeyPickup(TEnumAsByte<KeyNature> pickupNatureToAdd)
+void ALyssa::AddKeyPickup(TEnumAsByte<KeyLockNature> pickupNatureToAdd)
 {
 	this->KeyPickups.Add(pickupNatureToAdd);
 }
 
-bool ALyssa::RemoveKeyPickup(TEnumAsByte<KeyNature> pickupNatureToRemove)
+bool ALyssa::RemoveKeyPickup(TEnumAsByte<KeyLockNature> pickupNatureToRemove)
 {
 	if (this->KeyPickups.Contains(pickupNatureToRemove))
 	{

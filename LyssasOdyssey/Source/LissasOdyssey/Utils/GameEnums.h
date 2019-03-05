@@ -37,7 +37,7 @@ UENUM(BlueprintType)
 enum LevelLabels { LevelTitle, Canyon, Hub, Forest, Ice, Volcano, Playground };
 
 UENUM(BlueprintType)
-enum KeyNature { BLUE, RED, YELLOW, GREEN, PURPLE };
+enum KeyLockNature { BLUE, RED, YELLOW, GREEN, PURPLE };
 #pragma endregion
 
 /**
