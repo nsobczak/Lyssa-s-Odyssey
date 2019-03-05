@@ -24,14 +24,14 @@ AHindranceTiltable::AHindranceTiltable()
 	InvisibleWallLeft_ChildActorComponent = CreateDefaultSubobject<UChildActorComponent>(TEXT("InvisibleWallLeft"));
 	//InvisibleWallLeft_ChildActorComponent->SetMobility(EComponentMobility::Movable);
 	InvisibleWallLeft_ChildActorComponent->AttachToComponent(HindranceSKMesh, FAttachmentTransformRules::KeepRelativeTransform);
-	InvisibleWallLeft_ChildActorComponent->SetRelativeLocationAndRotation(FVector(-400.0f, -1070.0f, 0), FRotator(0, 0, 0));
-	InvisibleWallLeft_ChildActorComponent->SetRelativeScale3D(FVector(1.0f, 0.9375f, 1.0f));
+	InvisibleWallLeft_ChildActorComponent->SetRelativeLocationAndRotation(WLLocation, WLRotator);
+	InvisibleWallLeft_ChildActorComponent->SetRelativeScale3D(WLScale);
 
 	InvisibleWallRight_ChildActorComponent = CreateDefaultSubobject<UChildActorComponent>(TEXT("InvisibleWallRight"));
 	//InvisibleWallRight_ChildActorComponent->SetMobility(EComponentMobility::Movable);
 	InvisibleWallRight_ChildActorComponent->AttachToComponent(HindranceSKMesh, FAttachmentTransformRules::KeepRelativeTransform);
-	InvisibleWallRight_ChildActorComponent->SetRelativeLocationAndRotation(FVector(470.0f, -1071.0f, 0), FRotator(0, 2.19f, 0));
-	InvisibleWallRight_ChildActorComponent->SetRelativeScale3D(FVector(1.0f, 0.9375f, 1.0f));
+	InvisibleWallRight_ChildActorComponent->SetRelativeLocationAndRotation(WRLocation, WRRotator);
+	InvisibleWallRight_ChildActorComponent->SetRelativeScale3D(WRScale);
 }
 
 

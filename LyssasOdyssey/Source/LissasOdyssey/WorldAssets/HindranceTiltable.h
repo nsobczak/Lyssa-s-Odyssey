@@ -42,4 +42,18 @@ private:
 		class UChildActorComponent* InvisibleWallRight_ChildActorComponent;
 
 	class AWall* InvisibleWallRight;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HindranceWall", meta = (AllowPrivateAccess = "true"))
+		FVector WLLocation = FVector(-400.0f, -1070.0f, 0);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HindranceWall", meta = (AllowPrivateAccess = "true"))
+		FRotator WLRotator = FRotator(0, 0, 0);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HindranceWall", meta = (AllowPrivateAccess = "true"))
+		FVector WLScale = FVector(1.0f, 0.9375f, 1.0f);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HindranceWall", meta = (AllowPrivateAccess = "true"))
+		FVector WRLocation = FVector(470.0f, -1071.0f, 0);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HindranceWall", meta = (AllowPrivateAccess = "true"))
+		FRotator WRRotator = FRotator(0, 2.19f, 0);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HindranceWall", meta = (AllowPrivateAccess = "true"))
+		FVector WRScale = FVector(1.0f, 0.9375f, 1.0f);
 };
