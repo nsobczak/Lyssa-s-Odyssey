@@ -45,18 +45,23 @@ protected:
 		class ALevelGameMode* CurrentLGameMode;
 
 	UFUNCTION()
-	void SwapLevel();
+		void SwapLevel();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelPortal")
 		bool NameOnBothSides = false;
 
 private:
+	const bool DEBUG = false;
+
 	/** Static mesh to represent the Mesh in the level*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* PortalMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* PortalInterior;
+
+	UPROPERTY(VisibleAnywhere, Category = "LevelPortal")
+		bool IsInitialized = false;
 
 	UFUNCTION()
 		void InitializeText(UTextRenderComponent* textToInit, bool isFrontText = true);
