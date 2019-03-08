@@ -48,6 +48,20 @@ public:
 	UFUNCTION(exec)
 		int GetPickupScoreValueInLevel();
 
+	UFUNCTION(BlueprintCallable, Category = "GameControl")
+		bool AddKey(TEnumAsByte<KeyLockNature> keyNature);
+
+	UFUNCTION(exec)
+		bool AddBlueKey();
+	UFUNCTION(exec)
+		bool AddRedKey();
+	UFUNCTION(exec)
+		bool AddYellowKey();
+	UFUNCTION(exec)
+		bool AddGreenKey();
+	UFUNCTION(exec)
+		bool AddPurpleKey();
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		TEnumAsByte<LevelLabels> LevelLabel;
 

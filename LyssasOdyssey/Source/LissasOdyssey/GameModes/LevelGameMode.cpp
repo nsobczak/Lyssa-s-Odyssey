@@ -172,6 +172,8 @@ bool ALevelGameMode::LoadGameSettings()
 }
 #pragma endregion
 
+#pragma region exec functions
+
 #pragma region Pickup score functions
 int ALevelGameMode::GetPickupScoreAmountInLevel()
 {
@@ -208,6 +210,49 @@ int ALevelGameMode::GetPickupScoreValueInLevel()
 }
 #pragma endregion
 
+#pragma region Key functions
+bool ALevelGameMode::AddKey(TEnumAsByte<KeyLockNature> keyNature)
+{
+	bool result = false;
+	if (Lyssa)
+	{
+		Lyssa->AddKeyPickup(keyNature);
+		result = true;
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("Manage to assign the key to lyssa? => %s"), (result ? TEXT("True") : TEXT("False")));
+	return result;
+}
+
+bool ALevelGameMode::AddBlueKey()
+{
+	return AddKey(KeyLockNature::BLUE);
+}
+
+bool ALevelGameMode::AddRedKey()
+{
+	return AddKey(KeyLockNature::RED);
+}
+
+bool ALevelGameMode::AddYellowKey()
+{
+	return AddKey(KeyLockNature::YELLOW);
+}
+
+bool ALevelGameMode::AddGreenKey()
+{
+	return AddKey(KeyLockNature::GREEN);
+}
+
+bool ALevelGameMode::AddPurpleKey()
+{
+	return AddKey(KeyLockNature::PURPLE);
+}
+
+
+#pragma endregion
+
+#pragma endregion
 
 bool ALevelGameMode::GetIsBeginFunctionCompleted()
 {
