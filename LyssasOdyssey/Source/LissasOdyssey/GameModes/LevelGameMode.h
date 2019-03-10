@@ -36,8 +36,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GameControl")
 		bool GetIsBeginFunctionCompleted();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameControl")
-		bool IsShowingIntroScreen = false;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameControl")
+		//bool IsShowingIntroScreen = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		float VerticalLevel = 50.0f;

@@ -124,7 +124,7 @@ void ACustomTriggerDialogue::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (IsTriggered && CurrentGameMode && !CurrentGameMode->IsShowingIntroScreen)
+	if (IsTriggered && CurrentGameMode)
 	{
 		//TypewriterEffect
 		TextTimer += DeltaTime;
