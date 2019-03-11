@@ -30,6 +30,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Gate")
 		bool StartOpen = false;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Gate")
+		bool IsInitialized = false;
+
 	UFUNCTION(BlueprintCallable, Category = "Gate")
 		TArray<class AGateLock*> GetLocks();
 

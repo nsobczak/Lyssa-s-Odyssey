@@ -69,6 +69,8 @@ void AGate::BeginPlay()
 		}
 
 	}
+
+	IsInitialized = true;
 }
 
 bool AGate::GetIsOpen()
