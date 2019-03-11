@@ -43,4 +43,7 @@ protected:
 	/** Static mesh to represent the pickup in the level*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* PickupMesh;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Pickup")
+		void PickedUpEffect();
 };

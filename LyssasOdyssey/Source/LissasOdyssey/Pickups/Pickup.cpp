@@ -55,4 +55,5 @@ void APickup::WasCollected_Implementation()
 {
 	FString pickupDebugString = GetName();
 	UE_LOG(LogClass, Log, TEXT("Player collected %s"), *pickupDebugString);
+	PickedUpEffect();
 }

@@ -223,6 +223,7 @@ void AFoe::HandleNewState(ECharacterActionState newState)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, TEXT("Projectile hurts foe"));
 		IsFoeActive = false;
+		DeathEffect();
 
 		//delay
 		FTimerHandle TimerHandle; // Handle to manage the timer
