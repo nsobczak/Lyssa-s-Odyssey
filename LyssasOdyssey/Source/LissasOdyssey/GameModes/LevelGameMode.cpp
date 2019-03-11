@@ -208,6 +208,12 @@ int ALevelGameMode::GetPickupScoreValueInLevel()
 	UE_LOG(LogTemp, Log, TEXT("All score pickups make a %i score in the level"), result);
 	return result;
 }
+
+void ALevelGameMode::AddScorePickup(int amount)
+{
+	if (Lyssa)
+		Lyssa->UpdateScorePickupAmount(amount);
+}
 #pragma endregion
 
 #pragma region Key functions

@@ -48,6 +48,9 @@ public:
 	UFUNCTION(exec)
 		int GetPickupScoreValueInLevel();
 
+	UFUNCTION(exec)
+		void AddScorePickup(int amount);
+
 	UFUNCTION(BlueprintCallable, Category = "GameControl")
 		bool AddKey(TEnumAsByte<KeyLockNature> keyNature);
 

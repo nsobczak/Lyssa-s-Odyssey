@@ -21,7 +21,15 @@ public:
 
 	TEnumAsByte<KeyLockNature> GetLockNature();
 
+	void CustomDestroy();
+
 protected:
 	UPROPERTY(EditAnywhere, Category = "Key", meta = (AllowPrivateAccess = "true"))
 		TEnumAsByte<KeyLockNature> LockNature = KeyLockNature::YELLOW;
+
+	UPROPERTY(EditAnywhere, Category = "Key")
+		float SoundBreakLockDuration = 0.2f;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Key")
+		void BreakLockEffect();
 };

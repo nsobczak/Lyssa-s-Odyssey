@@ -102,9 +102,8 @@ bool AGate::BreakLock(AGateLock* locktoBreak)
 {
 	if (Locks.Contains(locktoBreak))
 	{
-		UE_LOG(LogTemp, Log, TEXT("break lock: %s"), *(locktoBreak->GetName()));
 		Locks.Remove(locktoBreak);
-		locktoBreak->Destroy();
+		locktoBreak->CustomDestroy();
 		return true;
 	}
 	else

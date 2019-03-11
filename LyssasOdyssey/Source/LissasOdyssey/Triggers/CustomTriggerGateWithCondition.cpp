@@ -26,7 +26,8 @@ void ACustomTriggerGateWithCondition::OnTriggerDetected_Implementation()
 	ALyssa* lyssa = Cast<ALyssa>(ActorThatTriggers);
 	if (lyssa)
 	{
-		int playerPickupTotalScore = lyssa->GetPlayerPickupTotalScore();
+		int playerPickupTotalScore = TriggerWithTotalScoreInsteadOfCurrentScore ?
+			lyssa->GetPlayerPickupTotalScore() : lyssa->GetCurrentScorePickupAmount();
 		if (playerPickupTotalScore >= ScorePickupAmountToTrigger)
 		{
 			UE_LOG(LogTemp, Log, TEXT("player has enough score pickups, he needs %i to trigger gates and he has %i"),
