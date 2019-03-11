@@ -8,11 +8,6 @@
 #include "Shot.generated.h"
 
 
-//UENUM(BlueprintType, Category = "Shot")        //"BlueprintType" is essential specifier
-//enum UShotNature { Shot01 = 0, Shot02 };
-//UENUM(BlueprintType, Category = "Shot")
-//enum UShotDirection { ToPlayer = 0, Random };
-
 UCLASS()
 class LISSASODYSSEY_API AShot : public AActor
 {
@@ -58,6 +53,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shot")
 		bool CanKillFoe = false;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Shot")
+		void ShotAttack();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Shot")
+		void ShotReflection();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Shot")
+		void ShotHitLyssa();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Shot")
+		void ShotHitFoe();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Debug")
 		AActor* LyssaActor;

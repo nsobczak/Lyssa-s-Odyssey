@@ -29,7 +29,7 @@ void AShot::BeginPlay()
 
 	SpawningLocation = this->GetActorLocation();
 
-	//float ShotTimer = 0.0f;
+	ShotAttack();
 }
 
 void AShot::InitializeShot(FVector ownerLocation, float ttl, float speed)
@@ -72,6 +72,8 @@ bool AShot::HandleOverlapWithFoe(AActor* currentActor)
 	AFoe* currentFoe = Cast<AFoe>(currentActor);
 	if (currentFoe && CanKillFoe && currentFoe->GetCurrentState() != ECharacterActionState::EDying)
 	{
+		ShotHitFoe();
+
 		//FString objectName = currentFoe->GetName();
 		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
 
@@ -96,6 +98,8 @@ bool AShot::HandleOverlapWithLyssa(AActor* currentActor)
 	ALyssa* currentLyssa = Cast<ALyssa>(currentActor);
 	if (currentLyssa && CanKillPlayer)
 	{
+		ShotHitLyssa();
+
 		//FString objectName = currentLyssa->GetName();
 		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
 
@@ -119,6 +123,8 @@ bool AShot::HandleOverlapWithFylgja(AActor* currentActor)
 	AFylgja* currentFylgja = Cast<AFylgja>(currentActor);
 	if (currentFylgja && currentFylgja->IsVisible)
 	{
+		ShotReflection();
+
 		//FString objectName = currentFylgja->GetName();
 		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
 
