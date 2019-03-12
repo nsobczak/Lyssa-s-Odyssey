@@ -28,8 +28,6 @@ void AShot::BeginPlay()
 	LyssaActor = Cast<AActor>(UGameplayStatics::GetPlayerPawn(this, 0));
 
 	SpawningLocation = this->GetActorLocation();
-
-	ShotAttack();
 }
 
 void AShot::InitializeShot(FVector ownerLocation, float ttl, float speed)
@@ -41,6 +39,7 @@ void AShot::InitializeShot(FVector ownerLocation, float ttl, float speed)
 	TargetDirection -= FVector(0, 0, TargetDirection.Z); //keep it moving in 2D plan
 
 	SetActorLocation(GetActorLocation() + TargetDirection);//SetActorLocation(GetActorLocation() + TargetDirection * offset);
+	ShotAttack();
 }
 
 void AShot::InitializeShot(FVector ownerLocation, FVector targetDirection, float ttl, float speed)
@@ -51,6 +50,7 @@ void AShot::InitializeShot(FVector ownerLocation, FVector targetDirection, float
 	TargetDirection = targetDirection.GetSafeNormal();
 
 	SetActorLocation(GetActorLocation() + TargetDirection);//SetActorLocation(GetActorLocation() + TargetDirection * offset);
+	ShotAttack();
 }
 
 bool AShot::CustomDestroy()
