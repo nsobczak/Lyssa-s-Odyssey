@@ -60,14 +60,16 @@ void UMinimap::BuildWidget()
 		UE_LOG(LogTemp, Error, TEXT("RootWidget is null"));
 		//RootWidget = WidgetTree->ConstructWidget<UCanvasPanel>(UCanvasPanel::StaticClass(), TEXT("Canvas"));
 	}
+	else
+	{
+		//add elements
 
-	//add elements
+		ImageMap = WidgetTree->ConstructWidget<UImage>(UImage::StaticClass(), TEXT("Map"));
+		RootWidget->AddChild(ImageMap);
 
-	ImageMap = WidgetTree->ConstructWidget<UImage>(UImage::StaticClass(), TEXT("Map"));
-	RootWidget->AddChild(ImageMap);
-
-	ImagePlayerIcon = WidgetTree->ConstructWidget<UImage>(UImage::StaticClass(), TEXT("PlayerIcon"));
-	RootWidget->AddChild(ImagePlayerIcon);
+		ImagePlayerIcon = WidgetTree->ConstructWidget<UImage>(UImage::StaticClass(), TEXT("PlayerIcon"));
+		RootWidget->AddChild(ImagePlayerIcon);
+	}
 }
 
 void UMinimap::NativeConstruct()
