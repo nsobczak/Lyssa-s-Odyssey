@@ -11,13 +11,15 @@ body {
     /*TODO: change font*/
     background-color: #474e5d;
     font-family: Helvetica, sans-serif;
-    color: #474e5d;
+    color: #373747;
 }
 
 h1, h2 {
     /*TODO: change font*/
-    color: white;
-    background-color: royalblue;
+    color: #EFEFEF;
+    margin: 0;
+    padding: 10px 20px;
+    /*background-color: royalblue;*/
     /*font-family: Helvetica, sans-serif;*/
     /*font-size: 1.4em;*/
     /*text-decoration: underline;*/
@@ -25,7 +27,7 @@ h1, h2 {
 
 h3, h4, h5, h6 {
     /*TODO: change font*/
-    color: black;
+    color: #1F1F2F;
     /*font-family: Helvetica, sans-serif;*/
     /*font-size: 1.4em;*/
     /*text-decoration: underline;*/
@@ -37,7 +39,8 @@ h3, h4, h5, h6 {
     max-width: 1400px;
     margin: 0 auto;
     background-color: #474eFF;
-    border: 4px solid #0F1FF0; /* window border */
+    border: 4px solid #291aff; /* window border */
+    box-shadow: 0px 0px 4px 2px #291aff; /*#0F1FF0*/
 }
 
 /* The actual timeline (the vertical ruler) */
@@ -54,7 +57,7 @@ h3, h4, h5, h6 {
 
 /* Container around content */
 .container {
-    padding: 10px 40px;
+    padding: 10px 38px;
     position: relative;
     background-color: inherit;
     width: 50%;
@@ -67,7 +70,7 @@ h3, h4, h5, h6 {
     width: 25px;
     height: 25px;
     right: -18px;
-    background-color: white;
+    background-color: #EFEFEF;
     border: 6px solid #FF9F55; /* circle border */
     top: 15px;
     border-radius: 50%;
@@ -119,11 +122,32 @@ h3, h4, h5, h6 {
 
 /* The actual content */
 .content {
-    padding: 20px 30px;
-    background-color: white;
+    padding: 2px 2px;
+    background-color: #291aff;
     position: relative;
     border-radius: 6px;
 }
+
+/* The inner content */
+.innerContent {
+    padding: 4px 24px;
+    background-color: #EFEFEF;
+    position: relative;
+    border-radius: 0;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
+/* The break content */
+.breakContent {
+    padding: 1px 20px;
+    background-color: #fff980;
+    position: relative;
+    border-radius: inherit;
+    border-style: solid ;
+    border-color: #FF9F55;
+}
+
 
 /* Media queries - Responsive timeline on screens less than 600px wide */
 @media screen and (max-width: 600px) {
