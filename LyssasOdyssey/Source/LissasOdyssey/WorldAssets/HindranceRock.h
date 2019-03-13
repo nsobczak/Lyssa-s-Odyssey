@@ -26,6 +26,9 @@ protected:
 
 	void HandleOverlap_Implementation() override;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "HindranceRock")
+		void ShotOverlapEffect();
+
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))

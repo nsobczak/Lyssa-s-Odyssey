@@ -42,6 +42,7 @@ void AHindranceRock::HandleOverlap_Implementation()
 		{
 			IsActivated = true;
 			HindranceMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			ShotOverlapEffect();
 			//Destroy();
 		}
 	}

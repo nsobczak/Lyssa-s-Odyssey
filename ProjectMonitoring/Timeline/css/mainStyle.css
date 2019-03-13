@@ -2,15 +2,28 @@
     box-sizing: border-box;
 }
 
+/*TODO: create a class for break weeks (like christmas and cotcot)*/
+/*TODO: add pictures (to opposite side?)*/
+
 /* Set a background color */
 body {
     /*TODO: change bg color*/
     /*TODO: change font*/
     background-color: #474e5d;
     font-family: Helvetica, sans-serif;
+    color: #474e5d;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2 {
+    /*TODO: change font*/
+    color: white;
+    background-color: royalblue;
+    /*font-family: Helvetica, sans-serif;*/
+    /*font-size: 1.4em;*/
+    /*text-decoration: underline;*/
+}
+
+h3, h4, h5, h6 {
     /*TODO: change font*/
     color: black;
     /*font-family: Helvetica, sans-serif;*/
