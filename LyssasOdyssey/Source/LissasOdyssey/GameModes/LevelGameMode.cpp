@@ -370,6 +370,7 @@ void ALevelGameMode::CheckForDeath()
 {
 	if (Lyssa->GetCurrentLife() < 0.0f)
 	{
+		Lyssa->DeathEffect();
 		SetCurrentState(ELevelPlayState::EGameOver);
 	}
 }
@@ -480,6 +481,7 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 	case ELevelPlayState::EGameOver:
 	{
 		UE_LOG(LogTemp, Log, TEXT("Lyssa died | game over."));
+		OnGameOver();
 
 		AMainGameMode* gameMode = Cast<AMainGameMode>(GetWorld()->GetAuthGameMode());
 		if (gameMode)
@@ -500,6 +502,7 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 	case ELevelPlayState::ELevelCompleted:
 	{
 		UE_LOG(LogTemp, Log, TEXT("Level Completed!"));
+		OnLevelCompleted();
 
 		AMainGameMode* gameMode = Cast<AMainGameMode>(GetWorld()->GetAuthGameMode());
 		if (gameMode)

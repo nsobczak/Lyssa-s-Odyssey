@@ -104,6 +104,7 @@ bool AShot::HandleOverlapWithLyssa(AActor* currentActor)
 		//UE_LOG(LogTemp, Log, TEXT("shot hurts %s"), *objectName);
 
 		currentLyssa->UpdateLife(-ShotDamage);
+		currentLyssa->DamageEffect();
 
 		FString TheFloatStr = FString::SanitizeFloat(currentLyssa->GetCurrentLife());
 		TheFloatStr = TEXT("Projectile hurts Lyssa | life = ") + TheFloatStr;

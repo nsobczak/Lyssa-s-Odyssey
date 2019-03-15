@@ -63,6 +63,14 @@ h3, h4, h5, h6 {
     width: 50%;
 }
 
+/* Container around content */
+.containerImage {
+    padding: 10px 38px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+}
+
 /* The circles on the timeline */
 .container::after {
     content: '';

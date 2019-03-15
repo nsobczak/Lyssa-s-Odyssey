@@ -22,20 +22,27 @@ public:
 	//// Called to bind functionality to input
 	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION(BlueprintPure, Category = "Character")
+	UFUNCTION(BlueprintPure, Category = "CharacterBase")
 		float GetCurrentLife();
 
 	/**	function to update the foe's life
 	* @param powerChange This is the amount to change the power by, can be positive or negative
 	*/
-	UFUNCTION(BlueprintCallable, Category = "Character")
+	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 		void UpdateLife(float lifeChange);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterBase")
 		float MaxLife = 100.0f;
 
+	//BlueprintImplementableEvent = we don't need to define function in code at all, just call it and let the blueprint define it
+	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase")
+		void DamageEffect();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase")
+		void DeathEffect();
+
 protected:
-	UPROPERTY(VisibleAnywhere, Category = "Character")
+	UPROPERTY(VisibleAnywhere, Category = "CharacterBase")
 		float Life;
 
 

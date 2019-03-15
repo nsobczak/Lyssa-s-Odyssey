@@ -36,24 +36,20 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GameControl")
 		bool GetIsBeginFunctionCompleted();
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameControl")
-		//bool IsShowingIntroScreen = false;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		float VerticalLevel = 50.0f;
 
+
+#pragma region exec functions
 	UFUNCTION(exec)
 		int GetPickupScoreAmountInLevel();
-
 	UFUNCTION(exec)
 		int GetPickupScoreValueInLevel();
-
 	UFUNCTION(exec)
 		void AddScorePickup(int amount);
 
 	UFUNCTION(BlueprintCallable, Category = "GameControl")
 		bool AddKey(TEnumAsByte<KeyLockNature> keyNature);
-
 	UFUNCTION(exec)
 		bool AddBlueKey();
 	UFUNCTION(exec)
@@ -64,6 +60,8 @@ public:
 		bool AddGreenKey();
 	UFUNCTION(exec)
 		bool AddPurpleKey();
+#pragma endregion
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		TEnumAsByte<LevelLabels> LevelLabel;
@@ -77,6 +75,7 @@ public:
 	virtual bool LoadGameSettings() override;
 #pragma endregion
 
+
 #pragma region Map
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Map")
 		UTexture2D* Map;
@@ -84,6 +83,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Map")
 		UTexture2D* PlayerIcon;
 #pragma endregion
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GameController")
 		class UHUD_BossInfo* HudBossInfo;
@@ -105,6 +105,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GameController")
 		void SetCurrentState(ELevelPlayState newState);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "GameController")
+		void OnLevelCompleted();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "GameController")
+		void OnGameOver();
+
+
 #pragma region level timer
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameTimer")
 		float TimeLimit = 99.0f;
@@ -115,6 +122,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = "GameTimer")
 		FText GetTimerForHud();
 #pragma endregion
+
 
 #pragma region Dialogue
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Dialogue")
@@ -141,6 +149,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void UpdateDialogue(FStructDialogue dialogue);
 #pragma endregion
+
 
 protected:
 #pragma region save region
