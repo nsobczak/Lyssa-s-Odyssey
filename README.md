@@ -109,6 +109,8 @@ Level or menu?
 - slippery slopes
 - red, hot
 
+![Volcano_editor_topView](Media/Volcano_editor_topView.PNG)
+
 ## menu idea
 
 - main menu and lyssa next to buttons (on right?)
