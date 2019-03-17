@@ -31,6 +31,14 @@ h3, h4, h5, h6 {
     /*text-decoration: underline;*/
 }
 
+img{
+    border: 4px solid black;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
 /* The actual timeline (the vertical ruler) */
 .timeline {
     position: relative;
@@ -134,13 +142,13 @@ h3, h4, h5, h6 {
     border-radius: 6px;
 }
 
-#newBuild {
+.newBuild {
     background-color: #9B3E36;
 }
 
 /* The inner content */
 .innerContent {
-    padding: 4px 24px;
+    padding: 4px 24px 20px 24px;
     background-color: #EFEFEF;
     position: relative;
     border-radius: 0;
