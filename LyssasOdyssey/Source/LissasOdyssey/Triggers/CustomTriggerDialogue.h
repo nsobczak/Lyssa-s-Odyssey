@@ -66,18 +66,18 @@ protected:
 		bool IsEventAccept = false;
 
 private:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DialogueDebug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DialogueDebug", meta = (AllowPrivateAccess = "true"), AdvancedDisplay)
 		bool DEBUG = false;
 
 	class ALevelGameMode* CurrentGameMode;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DialogueDebug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DialogueDebug", meta = (AllowPrivateAccess = "true"), AdvancedDisplay)
 		FString CurrentText;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DialogueDebug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DialogueDebug", meta = (AllowPrivateAccess = "true"), AdvancedDisplay)
 		FString ToConsumedText;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DialogueDebug", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DialogueDebug", meta = (AllowPrivateAccess = "true"), AdvancedDisplay)
 		FString TargetText;
 
 	float TextTimer = 0;

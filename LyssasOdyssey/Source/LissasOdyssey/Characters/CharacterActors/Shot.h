@@ -34,14 +34,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Shot")
 		bool CustomDestroy();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Shot")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Shot", AdvancedDisplay)
 		float ShotSpeed = 10000.0f; //default value that should be overriden at shot creation
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Shot")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Shot", AdvancedDisplay)
 		float ShotTTL = 2.0f; //default value that should be overriden at shot creation
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot", AdvancedDisplay)
 		float ShotTimer = 0.0f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot", AdvancedDisplay)
 		FVector TargetDirection;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Shot")

@@ -130,21 +130,32 @@ public:
 		void UpdateGraphicSettings();
 
 	//commands
-	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString GraphicalCommands[4] = { "r.ScreenPercentage 25", "r.ScreenPercentage 50","r.ScreenPercentage 75","r.ScreenPercentage 100" };
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay)
+		FString GraphicalCommands[4] = { "r.ScreenPercentage 25", "r.ScreenPercentage 50","r.ScreenPercentage 75","r.ScreenPercentage 100" };
 	TArray<FString> TAGraphicalCommands;
-	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString PPCommands[4] = { "sg.PostProcessQuality 0","sg.PostProcessQuality 1", "sg.PostProcessQuality 2", "sg.PostProcessQuality 3" };
+
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay)
+		FString PPCommands[4] = { "sg.PostProcessQuality 0", "sg.PostProcessQuality 1", "sg.PostProcessQuality 2", "sg.PostProcessQuality 3" };
 	TArray<FString> TAPPCommands;
-	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString AACommands[4] = { "r.PostProcessAAQuality 0","r.PostProcessAAQuality 1", "r.PostProcessAAQuality 2", "r.PostProcessAAQuality 3" };
+
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay)
+		FString AACommands[4] = { "r.PostProcessAAQuality 0", "r.PostProcessAAQuality 1", "r.PostProcessAAQuality 2", "r.PostProcessAAQuality 3" };
 	TArray<FString> TAAACommands;
-	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString ShadowCommands[4] = { "sg.ShadowQuality 0","sg.ShadowQuality 1", "sg.ShadowQuality 2", "sg.ShadowQuality 3" };
+
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay)
+		FString ShadowCommands[4] = { "sg.ShadowQuality 0", "sg.ShadowQuality 1", "sg.ShadowQuality 2", "sg.ShadowQuality 3" };
 	TArray<FString> TAShadowCommands;
-	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString FPSCommands[4] = { "t.MaxFPS 15","t.MaxFPS 30", "t.MaxFPS 60", "t.MaxFPS 144" };
+
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay)
+		FString FPSCommands[4] = { "t.MaxFPS 15", "t.MaxFPS 30", "t.MaxFPS 60", "t.MaxFPS 144" };
 	TArray<FString> TAFPSCommands;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		bool ShowFPS = false;
 	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
 		bool SwitchShowFPS();
-	UPROPERTY(EditAnywhere, Category = "Graphic_Settings") FString ResCommands[4] = { "r.SetRes 800x600","r.SetRes 1280x720", "r.SetRes 1600x900", "r.SetRes 1920x1080" };
+
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay) 
+		FString ResCommands[4] = { "r.SetRes 800x600","r.SetRes 1280x720", "r.SetRes 1600x900", "r.SetRes 1920x1080" };
 	TArray<FString> TAResCommands;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		bool IsFullScreen;
@@ -167,13 +178,13 @@ public:
 #pragma endregion
 
 #pragma region audio settings
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings", AdvancedDisplay)
 		float MasterVolumeSliderValue;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings", AdvancedDisplay)
 		float MusicVolumeSliderValue;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Audio_Settings", AdvancedDisplay)
 		float EffectVolumeSliderValue;
 
 	UFUNCTION(BlueprintCallable, Category = "Audio_Settings")

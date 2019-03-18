@@ -18,7 +18,7 @@ public:
 	// Sets default values for this actor's properties
 	ACustomTriggerGateWithCondition();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerGate")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerGateCondition")
 		bool TriggerWithTotalScoreInsteadOfCurrentScore = true;
 
 protected:
@@ -27,6 +27,12 @@ protected:
 
 	void OnTriggerDetected_Implementation() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerGate")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerGateCondition", meta = (EditCondition = "!IsFinalGate"))
 		int ScorePickupAmountToTrigger = 10;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerGateCondition")
+		bool IsFinalGate = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerGateCondition", meta = (EditCondition = "IsFinalGate"))
+		float TotalPickupAmountPercentage = 0.8f;
 };

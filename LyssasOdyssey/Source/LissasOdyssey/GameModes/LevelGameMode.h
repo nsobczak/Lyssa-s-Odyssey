@@ -113,9 +113,6 @@ public:
 
 
 #pragma region level timer
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameTimer")
-		float TimeLimit = 99.0f;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameTimer")
 		float LevelTimer = 0.0f;
 

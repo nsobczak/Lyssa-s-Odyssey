@@ -3,6 +3,7 @@
 #include "CustomTriggerGateWithCondition.h"
 #include "Characters/Lyssa/Lyssa.h"
 #include "WorldAssets/Gate.h"
+#include "Utils/GameConstants.h"
 
 // Sets default values
 ACustomTriggerGateWithCondition::ACustomTriggerGateWithCondition()
@@ -17,6 +18,13 @@ void ACustomTriggerGateWithCondition::BeginPlay()
 	Super::BeginPlay();
 
 	UseConditionToTriggerGates = true;
+
+	if (IsFinalGate)
+	{
+		ScorePickupAmountToTrigger = (int)(TotalPickupAmountPercentage *
+			(GameConstants::PICKUP_SCORE_MAX_CANYON + GameConstants::PICKUP_SCORE_MAX_FOREST +
+				GameConstants::PICKUP_SCORE_MAX_ICE));
+	}
 }
 
 void ACustomTriggerGateWithCondition::OnTriggerDetected_Implementation()
