@@ -2,7 +2,6 @@
     box-sizing: border-box;
 }
 
-/*TODO: add pictures (to opposite side?)*/
 
 /* Set a background color */
 body {
@@ -140,6 +139,8 @@ img{
     background-color: #323947;
     position: relative;
     border-radius: 6px;
+
+    box-shadow: 0px 0px 4px 2px #323947;
 }
 
 .newBuild {
@@ -175,6 +176,8 @@ img{
     border-radius: inherit;
     border-style: solid ;
     border-color: #323947;
+
+    box-shadow: 0px 0px 4px 1px #323947;
 }
 
 
