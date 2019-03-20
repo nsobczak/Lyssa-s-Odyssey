@@ -11,3 +11,6 @@ Stats/LocMetricsFunctions\.html
 
 ProjectMonitoring/Timeline/\.idea/
 ProjectMonitoring/Timeline/ref/
+
+*.kra~
+*.png~
