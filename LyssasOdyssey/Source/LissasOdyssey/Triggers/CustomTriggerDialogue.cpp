@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "GameModes/LevelGameMode.h"
 #include "Characters/Lyssa/Lyssa.h"
+#include "Utils/GameConstants.h"
 
 
 // Sets default values
@@ -92,6 +93,16 @@ void ACustomTriggerDialogue::UpdateDialogueData()
 	default: //ELanguages::en
 		TargetText = DialogueToDisplay[CurrentDialogueIndex].DialogueText.en;
 		break;
+	}
+
+	//TODO: make following better
+	if (TargetText.Contains(FString("<0>")))
+	{
+		int scorePickupAmountToTrigger = (int)(GameConstants::FINAL_GATE_SCORE_PERCENTAGE *
+			(GameConstants::PICKUP_SCORE_MAX_CANYON + GameConstants::PICKUP_SCORE_MAX_FOREST +
+				GameConstants::PICKUP_SCORE_MAX_ICE));
+		int missingScore = scorePickupAmountToTrigger - Lyssa->GetPlayerPickupTotalScore();
+		TargetText = TargetText.Replace(*FString("<0>"), *FString::FromInt(missingScore));
 	}
 
 	ToConsumedText = TargetText;

@@ -58,7 +58,7 @@ const FKey GameConstants::DEF_KKEY_ASTART = EKeys::T;
 
 #pragma endregion
 
-#pragma region Game
+#pragma region Levels
 //level titles
 const FString  GameConstants::LVL_TITLE_DEFAULT = "LevelTitle";
 const FString  GameConstants::LVL_TITLE_CANYON = "Canyon";
@@ -82,6 +82,8 @@ const int  GameConstants::PICKUP_SCORE_MAX_FOREST = 140;
 const int  GameConstants::PICKUP_SCORE_MAX_ICE = 0;
 const int  GameConstants::PICKUP_SCORE_MAX_VOLCANO = 144;
 #pragma endregion
+
+const float GameConstants::FINAL_GATE_SCORE_PERCENTAGE = 0.75f;
 
 
 GameConstants::GameConstants()

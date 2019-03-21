@@ -34,5 +34,8 @@ protected:
 		bool IsFinalGate = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerGateCondition", meta = (EditCondition = "IsFinalGate"))
+		bool DebugPickupAmount = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "TriggerGateCondition", meta = (EditCondition = "DebugPickupAmount"))
 		float TotalPickupAmountPercentage = 0.8f;
 };

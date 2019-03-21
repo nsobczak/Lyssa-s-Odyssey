@@ -73,6 +73,7 @@ public:
 
 
 #pragma region Game
+#pragma region Levels
 	//level titles
 	static const FString LVL_TITLE_DEFAULT;
 	static const FString LVL_TITLE_CANYON;
@@ -94,6 +95,10 @@ public:
 	static const int PICKUP_SCORE_MAX_FOREST;
 	static const int PICKUP_SCORE_MAX_ICE;
 	static const int PICKUP_SCORE_MAX_VOLCANO;
+#pragma endregion
+
+	static const float FINAL_GATE_SCORE_PERCENTAGE;
+
 #pragma endregion
 
 };
