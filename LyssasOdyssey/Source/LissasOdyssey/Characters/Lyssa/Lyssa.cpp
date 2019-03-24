@@ -499,15 +499,25 @@ void ALyssa::CollectPickups()
 			APickupScore* const castedScore = Cast<APickupScore>(castedPickup);
 			APickupKey* const castedKey = Cast<APickupKey>(castedPickup);
 
-			if (castedLife)
+			if (castedLife && Life != MaxLife)
+			{
 				UpdateLife(+castedLife->GetLifeAmount());
+				castedPickup->SetActive(false); //deactivate the life pickup
+			}
 			else if (castedScore)
+			{
 				UpdateScorePickupAmount(+castedScore->GetScoreAmount());
+				castedPickup->SetActive(false); //deactivate the score pickup
+			}
 			else if (castedKey)
+			{
 				AddKeyPickup(castedKey->GetKeyNature());
-
-			//deactivate the pickup
-			castedPickup->SetActive(false);
+				castedPickup->SetActive(false); //deactivate the key pickup
+			}
+			//else
+			//{
+			//	castedPickup->SetActive(false); //deactivate the basic pickup
+			//}
 		}
 	}
 }
