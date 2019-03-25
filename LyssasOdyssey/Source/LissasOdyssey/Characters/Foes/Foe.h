@@ -75,6 +75,9 @@ public:
 		float DestroyCountdown = 5.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
+		bool UsePlayerDetectionDistance = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe", meta = (EditCondition = "UsePlayerDetectionDistance"))
 		float PlayerDetectionDistance = 20000000.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
@@ -136,9 +139,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
 		float DelayBfrDestroyBody = 2.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Foe")
-		bool UsePlayerDetectionDistance = true;
 
 	void LookAtPlayer();
 

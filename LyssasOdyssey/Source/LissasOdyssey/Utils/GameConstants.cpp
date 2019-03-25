@@ -84,6 +84,7 @@ const int  GameConstants::PICKUP_SCORE_MAX_VOLCANO = 144;
 #pragma endregion
 
 const float GameConstants::FINAL_GATE_SCORE_PERCENTAGE = 0.75f;
+const int GameConstants::FROTATION_VALUE_COUNT = 20;
 
 
 GameConstants::GameConstants()

@@ -98,6 +98,7 @@ public:
 #pragma endregion
 
 	static const float FINAL_GATE_SCORE_PERCENTAGE;
+	static const int FROTATION_VALUE_COUNT;
 
 #pragma endregion
 

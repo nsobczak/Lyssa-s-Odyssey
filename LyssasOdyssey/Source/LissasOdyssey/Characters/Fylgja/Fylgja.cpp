@@ -2,6 +2,7 @@
 #include "Runtime/Engine/Classes/GameFramework/Controller.h"  
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h" 
 #include "GameModes/LevelGameMode.h"
+#include "Utils/GameConstants.h"
 
 
 // Sets default values
@@ -80,16 +81,49 @@ void AFylgja::FollowMousePosition()
 
 void AFylgja::UpdateFRotation()
 {
-	/*UE_LOG(LogTemp, Log, TEXT("UpdateRotation - values: topKeyValue = %f | downKeyValue = %f | rightKeyValue = %f | leftKeyValue = %f"),
-		topKeyValue, downKeyValue, rightKeyValue, leftKeyValue);*/
+	//moving average
+	FStructStickInputs val = FStructStickInputs(fTopKeyValue, fRightKeyValue, fDownKeyValue, fLeftKeyValue);
 
-		//1 value
+	if (this->FRotationValues.Num() < GameConstants::FROTATION_VALUE_COUNT)
+	{
+		for (size_t i = 0; i < GameConstants::FROTATION_VALUE_COUNT - this->FRotationValues.Num(); ++i)
+		{
+			this->FRotationValues.Insert(val, 0);
+		}
+	}
+	else
+	{
+		this->FRotationValues.Insert(val, 0);
+		this->FRotationValues.RemoveAt(GameConstants::FROTATION_VALUE_COUNT, 1, true);
+	}
+	//UE_LOG(LogTemp, Log, TEXT("this->FRotationValues.Num() = %i"), this->FRotationValues.Num());
+
+	FStructStickInputs buffer = FStructStickInputs(0, 0, 0, 0);
+	for (size_t i = 0; i < this->FRotationValues.Num(); ++i)
+	{
+		for (size_t j = 0; j < 4; ++j)
+		{
+			buffer.Inputs[j] += this->FRotationValues[i].Inputs[j];
+		}
+	}
+	for (size_t j = 0; j < 4; ++j)
+	{
+		val.Inputs[j] += buffer.Inputs[j] / this->FRotationValues.Num();
+	}
+
+	fTopKeyValue = val.Inputs[0];
+	fRightKeyValue = val.Inputs[1];
+	fDownKeyValue = val.Inputs[2];
+	fLeftKeyValue = val.Inputs[3];
+
+
+	//1 value
 	if (fLeftKeyValue != 0 && fTopKeyValue == 0 && fRightKeyValue == 0 && fDownKeyValue == 0)
 	{
 		if (fLeftKeyValue > 0)
 			fRotationAngle = 90.0f;
 		else
-			fRotationAngle = 270.0f;
+			fRotationAngle = -90.0f;
 	}
 	else if (fLeftKeyValue == 0 && fTopKeyValue != 0 && fRightKeyValue == 0 && fDownKeyValue == 0)
 	{
@@ -103,7 +137,7 @@ void AFylgja::UpdateFRotation()
 		if (fRightKeyValue > 0)
 			fRotationAngle = 90.0f;
 		else
-			fRotationAngle = 270.0f;
+			fRotationAngle = -90.0f;
 	}
 	else if (fLeftKeyValue == 0 && fTopKeyValue == 0 && fRightKeyValue == 0 && fDownKeyValue != 0)
 	{
@@ -133,6 +167,8 @@ void AFylgja::UpdateFRotation()
 
 	//UE_LOG(LogTemp, Log, TEXT("fRotationAngle = %f"), fRotationAngle);
 	this->SetActorRotation(FRotator(0, fRotationAngle, 0));
+
+
 	fLeftKeyValue = 0; fTopKeyValue = 0; fRightKeyValue = 0; fDownKeyValue = 0;
 }
 

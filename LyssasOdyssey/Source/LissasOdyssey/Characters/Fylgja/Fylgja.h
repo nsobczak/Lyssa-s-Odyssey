@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Engine.h" 
+#include "Utils/Structures/StructStickInputs.h"
 #include "Fylgja.generated.h"
 
 UCLASS()
@@ -33,7 +34,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fylgja")
 
-	float fLeftKeyValue = 0, fTopKeyValue = 0, fRightKeyValue = 0, fDownKeyValue = 0;
+		float fLeftKeyValue = 0, fTopKeyValue = 0, fRightKeyValue = 0, fDownKeyValue = 0;
 	float fRotationAngle = 0;
 
 protected:
@@ -44,6 +45,9 @@ private:
 	/** Static mesh to represent the Fylgja in the level*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* FylgjaMesh;
+
+	UPROPERTY(VisibleAnywhere, Category = "Fylgja")
+		TArray<FStructStickInputs> FRotationValues;
 
 	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
 	//	USkeletalMesh* FylgjaTop;
