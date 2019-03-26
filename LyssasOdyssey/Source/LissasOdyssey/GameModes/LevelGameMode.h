@@ -42,9 +42,9 @@ public:
 
 #pragma region exec functions
 	UFUNCTION(exec)
-		int GetPickupScoreAmountInLevel();
-	UFUNCTION(exec)
-		int GetPickupScoreValueInLevel();
+		int GetScorePickupCountInLevel();
+	UFUNCTION(exec, BlueprintPure, Category = "GameControl")
+		int GetScorePickupValueInLevel();
 	UFUNCTION(exec)
 		void AddScorePickup(int amount);
 

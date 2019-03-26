@@ -102,6 +102,7 @@ void ACustomTriggerDialogue::UpdateDialogueData()
 			(GameConstants::PICKUP_SCORE_MAX_CANYON + GameConstants::PICKUP_SCORE_MAX_FOREST +
 				GameConstants::PICKUP_SCORE_MAX_ICE));
 		int missingScore = scorePickupAmountToTrigger - Lyssa->GetPlayerPickupTotalScore();
+		missingScore = missingScore < 0 ? 0 : missingScore;
 		TargetText = TargetText.Replace(*FString("<0>"), *FString::FromInt(missingScore));
 	}
 

@@ -175,7 +175,7 @@ bool ALevelGameMode::LoadGameSettings()
 #pragma region exec functions
 
 #pragma region Pickup score functions
-int ALevelGameMode::GetPickupScoreAmountInLevel()
+int ALevelGameMode::GetScorePickupCountInLevel()
 {
 	int result = 0;
 	TArray<AActor*> pickups;
@@ -192,7 +192,7 @@ int ALevelGameMode::GetPickupScoreAmountInLevel()
 	return result;
 }
 
-int ALevelGameMode::GetPickupScoreValueInLevel()
+int ALevelGameMode::GetScorePickupValueInLevel()
 {
 	int result = 0;
 	TArray<AActor*> pickups;
