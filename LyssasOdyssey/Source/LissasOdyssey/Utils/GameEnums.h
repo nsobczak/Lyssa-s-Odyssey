@@ -38,6 +38,9 @@ enum LevelLabels { LevelTitle, Canyon, Hub, Forest, Ice, Volcano, Playground };
 
 UENUM(BlueprintType)
 enum KeyLockNature { BLUE, RED, YELLOW, GREEN, PURPLE };
+
+UENUM(BlueprintType)
+enum DialogueCharacterName { NONE, Lyssa, Fylgja, Ashe, Owl};
 #pragma endregion
 
 /**

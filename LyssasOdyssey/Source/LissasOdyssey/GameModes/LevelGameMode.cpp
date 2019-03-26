@@ -411,6 +411,12 @@ void ALevelGameMode::UpdateDialoguePictureStruct(FStructTextureData profilePictu
 	//UE_LOG(LogTemp, Log, TEXT("updated profilePicture")); //CurrentDialogueText
 }
 
+void ALevelGameMode::UpdateDialogueSpeakerName(DialogueCharacterName dialogueCharacterName)
+{
+	CurrentDialogueToDisplay.DialogueCharacterName = dialogueCharacterName;
+}
+
+
 void ALevelGameMode::UpdateDialogueTextStruct(FStructTextTrad dialogueTextStruct)
 {
 	CurrentDialogueToDisplay.DialogueText = dialogueTextStruct;

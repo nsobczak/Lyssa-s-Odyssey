@@ -83,6 +83,8 @@ void ACustomTriggerDialogue::UpdateDialogueData()
 {
 	CurrentGameMode->UpdateDialoguePictureStruct(DialogueToDisplay[CurrentDialogueIndex].ProfilePicture);
 
+	CurrentGameMode->UpdateDialogueSpeakerName(DialogueToDisplay[CurrentDialogueIndex].DialogueCharacterName);
+
 	ELanguages currentLanguage = CurrentGameMode->CurrentLanguage;
 	switch (currentLanguage)
 	{

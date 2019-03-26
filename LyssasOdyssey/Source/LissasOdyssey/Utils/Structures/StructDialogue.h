@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "Utils/GameEnums.h"
 #include "Utils/Structures/StructTextureData.h"
 #include "Utils/Structures/StructTextTrad.h"
 #include "StructDialogue.generated.h"
@@ -23,11 +24,12 @@ public:
 
 	// The 'Name' column is created by default
 
-	/** english*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FStructTextureData ProfilePicture;
 
-	/** french*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<DialogueCharacterName> DialogueCharacterName;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FStructTextTrad DialogueText;
 };

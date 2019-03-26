@@ -142,6 +142,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void UpdateDialoguePictureStruct(FStructTextureData dialogue);
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
+		void UpdateDialogueSpeakerName(DialogueCharacterName dialogueText);
+	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void UpdateDialogueTextStruct(FStructTextTrad dialogueText);
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void UpdateDialogue(FStructDialogue dialogue);
