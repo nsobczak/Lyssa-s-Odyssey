@@ -66,9 +66,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		TEnumAsByte<LevelLabels> LevelLabel;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LevelConstants")
-		FString LevelTitle = "LevelTitle";
-
 
 #pragma region save region
 	virtual bool SaveGameSettings() override;

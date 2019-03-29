@@ -74,15 +74,7 @@ public:
 
 #pragma region Game
 #pragma region Levels
-	//level titles
-	static const FString LVL_TITLE_DEFAULT;
-	static const FString LVL_TITLE_CANYON;
-	static const FString LVL_TITLE_HUB;
-	static const FString LVL_TITLE_FOREST;
-	static const FString LVL_TITLE_ICE;
-	static const FString LVL_TITLE_VOLCANO;
-	static const FString LVL_TITLE_PLAYGROUND;
-
+	//level map titles
 	static const FName LVL_MAP_TITLE_HUB;
 	static const FName LVL_MAP_TITLE_CANYON;
 	static const FName LVL_MAP_TITLE_FOREST;

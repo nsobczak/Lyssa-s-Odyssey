@@ -45,14 +45,13 @@ void ALevelPortal::UpdateTexts()
 	if (CurrentLGameMode && CurrentLGameMode->Lyssa)
 	{
 		int pickupCurrentScore = 0, pickupMaxScore = 0;
-		FString levelTitle = "";
+		//FString levelTitle = "";
 
 		switch (LevelToOpen)
 		{
 		case Canyon:
 			if (DEBUG)
 				UE_LOG(LogTemp, Log, TEXT("Canyon level for level portal %s"), *(this->GetName()));
-			levelTitle = GameConstants::LVL_TITLE_CANYON;
 			pickupCurrentScore = CurrentLGameMode->Lyssa->GetTMapPlayerPickupAmountByLevel().FindRef(LevelToOpen);
 			pickupMaxScore = GameConstants::PICKUP_SCORE_MAX_CANYON;
 			break;
@@ -60,7 +59,6 @@ void ALevelPortal::UpdateTexts()
 		case Forest:
 			if (DEBUG)
 				UE_LOG(LogTemp, Log, TEXT("Forest level for level portal %s"), *(this->GetName()));
-			levelTitle = GameConstants::LVL_TITLE_FOREST;
 			pickupCurrentScore = CurrentLGameMode->Lyssa->GetTMapPlayerPickupAmountByLevel().FindRef(LevelToOpen);
 			pickupMaxScore = GameConstants::PICKUP_SCORE_MAX_FOREST;
 			break;
@@ -68,7 +66,6 @@ void ALevelPortal::UpdateTexts()
 		case Ice:
 			if (DEBUG)
 				UE_LOG(LogTemp, Log, TEXT("Ice level for level portal %s"), *(this->GetName()));
-			levelTitle = GameConstants::LVL_TITLE_ICE;
 			pickupCurrentScore = CurrentLGameMode->Lyssa->GetTMapPlayerPickupAmountByLevel().FindRef(LevelToOpen);
 			pickupMaxScore = GameConstants::PICKUP_SCORE_MAX_ICE;
 			break;
@@ -76,7 +73,6 @@ void ALevelPortal::UpdateTexts()
 		case Volcano:
 			if (DEBUG)
 				UE_LOG(LogTemp, Log, TEXT("Volcano level for level portal %s"), *(this->GetName()));
-			levelTitle = GameConstants::LVL_TITLE_VOLCANO;
 			pickupCurrentScore = CurrentLGameMode->Lyssa->GetTMapPlayerPickupAmountByLevel().FindRef(LevelToOpen);
 			pickupMaxScore = GameConstants::PICKUP_SCORE_MAX_VOLCANO;
 			break;
@@ -84,25 +80,17 @@ void ALevelPortal::UpdateTexts()
 		case Playground:
 			if (DEBUG)
 				UE_LOG(LogTemp, Log, TEXT("Playground level for level portal %s"), *(this->GetName()));
-			levelTitle = GameConstants::LVL_TITLE_PLAYGROUND;
 			break;
 
 		default:
 			if (DEBUG)
 				UE_LOG(LogTemp, Log, TEXT("Default for level portal %s"), *(this->GetName()));
-			levelTitle = GameConstants::LVL_TITLE_HUB;
 			break;
 		}
 
 
 		// Assign texts 
-		if (TextFront)
-			TextFront->SetText(FText::FromString(levelTitle));
-		else
-			UE_LOG(LogTemp, Error, TEXT("TextFront is null"));
-
-		if (NameOnBothSides) TextPickup->SetText(FText::FromString(levelTitle));
-		else
+		if (!NameOnBothSides)
 		{
 			FString pickupString = FString::FromInt(pickupCurrentScore) + "/" + FString::FromInt(pickupMaxScore);
 			FText pickupText = FText::FromString(pickupString);

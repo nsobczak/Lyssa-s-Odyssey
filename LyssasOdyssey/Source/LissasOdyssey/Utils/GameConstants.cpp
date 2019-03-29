@@ -59,15 +59,6 @@ const FKey GameConstants::DEF_KKEY_ASTART = EKeys::T;
 #pragma endregion
 
 #pragma region Levels
-//level titles
-const FString  GameConstants::LVL_TITLE_DEFAULT = "LevelTitle";
-const FString  GameConstants::LVL_TITLE_CANYON = "Canyon";
-const FString  GameConstants::LVL_TITLE_HUB = "Hub";
-const FString  GameConstants::LVL_TITLE_FOREST = "Forest";
-const FString  GameConstants::LVL_TITLE_ICE = "Ice";
-const FString  GameConstants::LVL_TITLE_VOLCANO = "Volcano";
-const FString GameConstants::LVL_TITLE_PLAYGROUND = "Playground";
-
 //level map titles
 const FName GameConstants::LVL_MAP_TITLE_HUB = "Level_Hub";
 const FName GameConstants::LVL_MAP_TITLE_CANYON = "Level_Canyon_tuto";

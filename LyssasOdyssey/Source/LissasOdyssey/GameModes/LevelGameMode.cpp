@@ -270,31 +270,6 @@ void ALevelGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	switch (this->LevelLabel)
-	{
-	case Canyon:
-		this->LevelTitle = GameConstants::LVL_TITLE_CANYON;
-		break;
-	case Hub:
-		this->LevelTitle = GameConstants::LVL_TITLE_HUB;
-		break;
-	case Forest:
-		this->LevelTitle = GameConstants::LVL_TITLE_FOREST;
-		break;
-	case Ice:
-		this->LevelTitle = GameConstants::LVL_TITLE_ICE;
-		break;
-	case Volcano:
-		this->LevelTitle = GameConstants::LVL_TITLE_VOLCANO;
-		break;
-	case Playground:
-		this->LevelTitle = GameConstants::LVL_TITLE_PLAYGROUND;
-		break;
-	default:
-		this->LevelTitle = GameConstants::LVL_TITLE_DEFAULT;
-		break;
-	}
-
 
 	SetCurrentState(ELevelPlayState::EPlaying);
 
