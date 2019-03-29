@@ -7,7 +7,7 @@
 #include "MinimapCorner.generated.h"
 
 UENUM(BlueprintType)
-enum CornerNature { None, TopLeft, TopRight, BottomLeft, BottomRight };
+enum CornerNature { NONE_CORNER, TopLeft, TopRight, BottomLeft, BottomRight };
 
 UCLASS()
 class LISSASODYSSEY_API AMinimapCorner : public AActorWithMeshBase
@@ -43,5 +43,5 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Corner")
-		TEnumAsByte<CornerNature> Nature = CornerNature::None;
+		TEnumAsByte<CornerNature> Nature = CornerNature::NONE_CORNER;
 };
