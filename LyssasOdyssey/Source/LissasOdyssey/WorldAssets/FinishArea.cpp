@@ -1,7 +1,9 @@
 #include "FinishArea.h"
 #include "GameModes/LevelGameMode.h"
 #include "Characters/Lyssa/Lyssa.h"
-#include "Runtime/Engine/Public/DrawDebugHelpers.h"
+//#include "Runtime/Engine/Public/DrawDebugHelpers.h"
+//#include "Engine/Classes/Kismet/GameplayStatics.h"
+
 
 
 // Sets default values
@@ -27,7 +29,6 @@ void AFinishArea::Tick(float DeltaTime)
 
 	if (!IsLevelFinished)
 	{
-		//get overlaping actors and store them in an array
 		TArray<AActor*> overlappingActors;
 		BaseMesh->GetOverlappingActors(overlappingActors);
 		for (size_t i = 0; i < overlappingActors.Num(); ++i)
@@ -38,6 +39,9 @@ void AFinishArea::Tick(float DeltaTime)
 			{
 				currentGameMode->SetCurrentState(ELevelPlayState::ELevelCompleted);
 				IsLevelFinished = true;
+
+				//if (ShouldOpenLevelOnTrigger)
+				//	UGameplayStatics::OpenLevel(GetWorld(), LevelToOpenName);
 			}
 		}
 	}

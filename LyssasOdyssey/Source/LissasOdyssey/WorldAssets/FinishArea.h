@@ -8,18 +8,24 @@ UCLASS()
 class LISSASODYSSEY_API AFinishArea : public AActorWithMeshBase
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AFinishArea(const FObjectInitializer& ObjectInitializer);
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	bool IsLevelFinished;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "FinishAreaDebug")
+		bool IsLevelFinished;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FinishArea")
+	//	bool ShouldOpenLevelOnTrigger = false;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FinishArea", meta = (EditCondition = "ShouldOpenLevelOnTrigger"))
+	//	FName LevelToOpenName = "MainMenu";
 };
