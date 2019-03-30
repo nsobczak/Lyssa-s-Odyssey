@@ -1,5 +1,7 @@
 # Readme
 
+![Canyon_editor_fox](Media/Canyon_editor_fox2_1791x606.PNG)
+
 Top down view, 2D gameplay
 
 Lyssa's odyssey
@@ -25,6 +27,9 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - fylgja's size decreases when half/quarter of life left?
 - rpg element to improve stat or unlock skills?
 
+![Gameplay](Media/Gameplay03.PNG)
+
+
 ### score pickups
 
 - Red: 1
@@ -32,6 +37,7 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - Blue: 5
 - Yellow: 10
 (- Purple: 25 )
+
 
 
 ## 2.Story
@@ -80,7 +86,9 @@ Fylgja speaks to Lyssa to explain all that (= Lyssa speaks to herself)
 
 ### 4.2. Hub
 
-Level or menu?
+Level
+
+![Hub_editor_topView](Media/Hub.png)
 
 ### 4.3.countryside
 
@@ -117,3 +125,5 @@ Level or menu?
 - new game/continue
 - level selection (only for debug, player must enter a code in menu to see it)
 - Do a tuto cheat sheet accessible from pause menu and main menu.
+
+![MainMenu](Media/MainMenu_v1.40.png)
