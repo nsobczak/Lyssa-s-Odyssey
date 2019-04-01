@@ -84,6 +84,7 @@ public:
 
 	//Game
 	static const int PICKUP_SCORE_MAX_CANYON;
+	static const int PICKUP_SCORE_MAX_HUB;
 	static const int PICKUP_SCORE_MAX_FOREST;
 	static const int PICKUP_SCORE_MAX_ICE;
 	static const int PICKUP_SCORE_MAX_VOLCANO;

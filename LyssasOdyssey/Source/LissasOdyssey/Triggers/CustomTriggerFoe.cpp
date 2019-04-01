@@ -41,8 +41,8 @@ void ACustomTriggerFoe::OnTriggerDetected_Implementation()
 			ABoss* currentBoss = Cast<ABoss>(currentFoe);
 			if (currentBoss)
 			{
-				this->LevelGameMode->HudBossInfo->SetCurrentBoss(currentBoss);
-				this->LevelGameMode->HudBossInfo->ShowInfo();
+				this->LevelGameMode->CurrentBoss = currentBoss;
+				this->LevelGameMode->IsBossActive = true;
 			}
 		}
 	}

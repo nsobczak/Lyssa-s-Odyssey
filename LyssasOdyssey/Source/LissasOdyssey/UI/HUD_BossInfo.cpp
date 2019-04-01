@@ -41,18 +41,9 @@ void UHUD_BossInfo::NativeConstruct()
 	}
 }
 
-class ABoss*  UHUD_BossInfo::GetCurrentBoss()
-{
-	return this->CurrentBoss;
-}
-void UHUD_BossInfo::SetCurrentBoss(class ABoss* newBoss)
-{
-	this->CurrentBoss = newBoss;
-}
-
 void UHUD_BossInfo::ShowInfo()
 {
-	if (CurrentBoss)
+	if (this->LevelGameMode->CurrentBoss)
 	{
 		this->SetVisibility(ESlateVisibility::Visible);
 	}
@@ -60,13 +51,13 @@ void UHUD_BossInfo::ShowInfo()
 
 void UHUD_BossInfo::HideInfo()
 {
-	if (CurrentBoss)
+	if (this->LevelGameMode->CurrentBoss)
 	{
 		this->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 
-void UHUD_BossInfo::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
-{
-
-}
+//void UHUD_BossInfo::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+//{
+//
+//}

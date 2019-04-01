@@ -69,6 +69,7 @@ const FName GameConstants::LVL_MAP_TITLE_PLAYGROUND = "Level_Playground";
 
 //Game
 const int  GameConstants::PICKUP_SCORE_MAX_CANYON = 60;
+const int  GameConstants::PICKUP_SCORE_MAX_HUB = 0;
 const int  GameConstants::PICKUP_SCORE_MAX_FOREST = 140;
 const int  GameConstants::PICKUP_SCORE_MAX_ICE = 0;
 const int  GameConstants::PICKUP_SCORE_MAX_VOLCANO = 144;

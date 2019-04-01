@@ -104,7 +104,8 @@ bool ABoss::CustomDestroy()
 	if (CurrentLGameMode && CurrentLGameMode->HudBossInfo)
 	{
 		CurrentLGameMode->HudBossInfo->HideInfo();
-		CurrentLGameMode->HudBossInfo->SetCurrentBoss(nullptr);
+		CurrentLGameMode->CurrentBoss = nullptr;
+		CurrentLGameMode->IsBossActive = false;
 	}
 
 	UE_LOG(LogTemp, Log, TEXT("boss destroyed"));

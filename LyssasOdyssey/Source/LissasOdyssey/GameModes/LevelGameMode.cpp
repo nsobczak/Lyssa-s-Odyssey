@@ -209,6 +209,37 @@ int ALevelGameMode::GetScorePickupValueInLevel()
 	return result;
 }
 
+int ALevelGameMode::GetStaticTotalScoreInLevel()
+{
+	LevelLabels level = this->LevelLabel;
+	switch (level)
+	{
+	case Canyon:
+		return GameConstants::PICKUP_SCORE_MAX_CANYON;
+		break;
+
+	case Hub:
+		return GameConstants::PICKUP_SCORE_MAX_HUB;
+		break;
+
+	case Forest:
+		return GameConstants::PICKUP_SCORE_MAX_FOREST;
+		break;
+
+	case Ice:
+		return GameConstants::PICKUP_SCORE_MAX_ICE;
+		break;
+
+	case Volcano:
+		return GameConstants::PICKUP_SCORE_MAX_VOLCANO;
+		break;
+
+	default:
+		return 0;
+		break;
+	}
+}
+
 void ALevelGameMode::AddScorePickup(int amount)
 {
 	if (Lyssa)
@@ -454,6 +485,7 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Game paused"));
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		//WasGamePaused = true;
 		ShowPauseWidget();
 
 		break;

@@ -43,8 +43,10 @@ public:
 #pragma region exec functions
 	UFUNCTION(exec)
 		int GetScorePickupCountInLevel();
-	UFUNCTION(exec, BlueprintPure, Category = "GameControl")
+	UFUNCTION(exec)
 		int GetScorePickupValueInLevel();
+	UFUNCTION(exec, BlueprintPure, Category = "GameControl")
+		int GetStaticTotalScoreInLevel();
 	UFUNCTION(exec)
 		void AddScorePickup(int amount);
 
@@ -81,10 +83,6 @@ public:
 		UTexture2D* PlayerIcon;
 #pragma endregion
 
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GameController")
-		class UHUD_BossInfo* HudBossInfo;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
 		class ALyssa* Lyssa;
 
@@ -92,6 +90,15 @@ public:
 		class AFylgja* Fylgja;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
 		bool ShouldFylgjaStartVisible = true;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GameController")
+		class UHUD_BossInfo* HudBossInfo;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
+		class ABoss* CurrentBoss;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GameController")
+		bool IsBossActive = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
 		float CollisionDistThreshold = 300.0f;
@@ -101,6 +108,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "GameController")
 		void SetCurrentState(ELevelPlayState newState);
+
+	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "HUD_boss")
+	//	bool WasGamePaused = false;
+
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "GameController")
 		void OnLevelCompleted();
