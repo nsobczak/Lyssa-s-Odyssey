@@ -21,7 +21,12 @@ public:
 
 	TEnumAsByte<KeyLockNature> GetLockNature();
 
-	void CustomDestroy();
+	UFUNCTION(BlueprintCallable, Category = "Key")
+		void DelayedDestroy();
+
+	UFUNCTION(BlueprintCallable, Category = "Key")
+		void CustomDestroy();
+
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Key", meta = (AllowPrivateAccess = "true"))

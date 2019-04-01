@@ -16,11 +16,17 @@ TEnumAsByte<KeyLockNature> AGateLock::GetLockNature()
 
 void AGateLock::CustomDestroy()
 {
+	this->Destroy();
+}
+
+
+void AGateLock::DelayedDestroy()
+{
 	UE_LOG(LogTemp, Log, TEXT("break lock: %s"), *(this->GetName()));
 	BreakLockEffect();
 
 	FTimerHandle TimerHandle; // Handle to manage the timer
-	//FTimerDelegate TimerDel; //Bind function with parameters
-	//TimerDel.BindUFunction(this, FName("ListenToNewKeyForMove"), actionToChange, iteration + 1);
-	GetWorldTimerManager().SetTimer(TimerHandle, this->Destroy(), SoundBreakLockDuration, false);
+	FTimerDelegate TimerDel; //Bind function with parameters
+	TimerDel.BindUFunction(this, FName("CustomDestroy"));
+	GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, SoundBreakLockDuration, false);
 }

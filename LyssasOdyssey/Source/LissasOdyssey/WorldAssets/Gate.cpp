@@ -103,7 +103,7 @@ bool AGate::BreakLock(AGateLock* locktoBreak)
 	if (Locks.Contains(locktoBreak))
 	{
 		Locks.Remove(locktoBreak);
-		locktoBreak->CustomDestroy();
+		locktoBreak->DelayedDestroy();
 		return true;
 	}
 	else
