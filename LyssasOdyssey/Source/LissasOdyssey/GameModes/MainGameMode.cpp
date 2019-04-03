@@ -1,10 +1,14 @@
 #include "MainGameMode.h"
+
 #include "Core/Public/Math/UnrealMathUtility.h"
 #include "Engine/Classes/Engine/World.h"
-#include "Utils/GameConstants.h"
-#include "Characters/Lyssa/Lyssa.h"
 #include "Blueprint/UserWidget.h"
 #include "Engine/Public/SystemSettings.h"
+
+#include "Utils/GameConstants.h"
+#include "Characters/Lyssa/Lyssa.h"
+#include "Characters/CharacterWithInputs.h"
+
 
 #pragma region Initialization
 //==============================================================================================
@@ -12,14 +16,14 @@ AMainGameMode::AMainGameMode()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	DefaultPawnClass = nullptr;
+	DefaultPawnClass = ACharacterWithInputs::StaticClass();
 
-	//// set default pawn class to our Blueprinted character
-	//static ConstructorHelpers::FClassFinder<APawn> PlayerPawnObject(TEXT("/Game/Characters/Lyssa/BPLyssa"));
-	//if (PlayerPawnObject.Succeeded())
-	//{
-	//	DefaultPawnClass = PlayerPawnObject.Class;
-	//}
+	// set default pawn class to our Blueprinted character
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnObject(TEXT("/Game/Characters/BPDefaultCharacterWithInputs"));
+	if (PlayerPawnObject.Succeeded())
+	{
+		DefaultPawnClass = PlayerPawnObject.Class;
+	}
 
 	//HUDClass = AFPSHUD::StaticClass();
 }
@@ -278,6 +282,11 @@ void AMainGameMode::InitializeKeySettingsWithDefault()
 #pragma endregion
 
 
+bool AMainGameMode::GetIsBeginFunctionCompleted()
+{
+	return IsBeginFunctionCompleted;
+}
+
 void AMainGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -305,6 +314,8 @@ void AMainGameMode::BeginPlay()
 	{
 		ChangeMenuWidget(StartingWidgetClass, true);
 	}
+
+	IsBeginFunctionCompleted = true;
 }
 //==============================================================================================
 #pragma endregion

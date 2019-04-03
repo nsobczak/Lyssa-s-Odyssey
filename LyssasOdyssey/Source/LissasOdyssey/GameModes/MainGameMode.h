@@ -19,6 +19,9 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable, Category = "GameControl")
+		virtual bool GetIsBeginFunctionCompleted();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
 		APlayerController* PlayerController;
 
@@ -153,7 +156,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
 		bool SwitchShowFPS();
 
-	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay) 
+	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay)
 		FString ResCommands[4] = { "r.SetRes 800x600","r.SetRes 1280x720", "r.SetRes 1600x900", "r.SetRes 1920x1080" };
 	TArray<FString> TAResCommands;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
@@ -276,4 +279,7 @@ protected:
 
 	/** Assign a new key to an input if not already used */
 	void AssignNewKey(FKey newKey, TEnumAsByte<PlayerActionLabel> actionToChange, bool isKeyboardKey = true);
+
+private:
+	bool IsBeginFunctionCompleted = false;
 };

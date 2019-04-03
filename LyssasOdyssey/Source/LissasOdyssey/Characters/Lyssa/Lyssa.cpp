@@ -2,11 +2,11 @@
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Actor.h"
-
-#include "GameModes/LevelGameMode.h"
 #include "Camera/CameraComponent.h"
 #include "Runtime/Core/Public/Math/Vector.h"
 #include "ConstructorHelpers.h"
+
+#include "GameModes/LevelGameMode.h"
 #include "Characters/CharacterActors/Shot.h"
 
 #include "Pickups/Pickup.h"
@@ -409,7 +409,6 @@ bool ALyssa::RemoveKeyPickup(TEnumAsByte<KeyLockNature> pickupNatureToRemove)
 }
 //____________________________________________________________________________________
 #pragma endregion
-
 
 
 #pragma region Pickup score

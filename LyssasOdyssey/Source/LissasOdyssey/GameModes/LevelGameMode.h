@@ -33,8 +33,7 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable, Category = "GameControl")
-		bool GetIsBeginFunctionCompleted();
+	virtual bool GetIsBeginFunctionCompleted() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		float VerticalLevel = 50.0f;
