@@ -307,7 +307,12 @@ void AMainGameMode::BeginPlay()
 	UpdateAudioVolumes();
 	//play music
 	if (MapTheme)
-		UGameplayStatics::PlaySound2D(GetWorld(), MapTheme, 1.0f);
+	{
+		CurrentTheme_AC = UGameplayStatics::SpawnSound2D(GetWorld(), MapTheme);
+		CurrentTheme_AC->SetUISound(true);
+		CurrentTheme_AC->FadeIn(1.0f);
+	}
+
 
 	//Menu
 	if (IsMainMenu)
@@ -577,6 +582,13 @@ bool AMainGameMode::SwitchFullScreen()
 }
 
 
+void AMainGameMode::SwitchPlayingAudioComponent(USoundBase* newSound)
+{
+	CurrentTheme_AC->SetSound(newSound);
+	UE_LOG(LogTemp, Log, TEXT("now playing %s"), *(newSound->GetName()));
+}
+
+
 bool AMainGameMode::SwitchUseGamePad()
 {
 	UseGamePad = !UseGamePad;
@@ -660,3 +672,4 @@ void AMainGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
+

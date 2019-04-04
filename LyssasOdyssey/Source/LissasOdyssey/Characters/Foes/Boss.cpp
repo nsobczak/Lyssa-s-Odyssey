@@ -101,11 +101,20 @@ bool ABoss::CustomDestroy()
 			currentGate->SetIsOpen(ShouldOpenGatesAfterDeath);
 	}
 
-	if (CurrentLGameMode && CurrentLGameMode->HudBossInfo)
+	if (CurrentLGameMode)
 	{
-		CurrentLGameMode->HudBossInfo->HideInfo();
-		CurrentLGameMode->CurrentBoss = nullptr;
-		CurrentLGameMode->IsBossActive = false;
+		if (CurrentLGameMode->HudBossInfo)
+		{
+			CurrentLGameMode->HudBossInfo->HideInfo();
+			CurrentLGameMode->CurrentBoss = nullptr;
+			CurrentLGameMode->IsBossActive = false;
+		}
+
+		if (SwitchPlayingAudioComponentOnDeath)
+		{
+			USoundBase* nextAudioComponent = SwitchToOtherTheme ? CurrentLGameMode->OtherTheme : CurrentLGameMode->MapTheme;
+			CurrentLGameMode->SwitchPlayingAudioComponent(nextAudioComponent);
+		}
 	}
 
 	UE_LOG(LogTemp, Log, TEXT("boss destroyed"));

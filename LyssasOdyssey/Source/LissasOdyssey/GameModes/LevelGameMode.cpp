@@ -346,6 +346,7 @@ void ALevelGameMode::BeginPlay()
 		}
 	}
 
+
 	//UE_LOG(LogTemp, Log, TEXT("levelGameModed initialized lyssa variable"));
 	IsBeginFunctionCompleted = true;
 }

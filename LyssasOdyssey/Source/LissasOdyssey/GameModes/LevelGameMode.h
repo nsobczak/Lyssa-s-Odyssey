@@ -67,6 +67,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		TEnumAsByte<LevelLabels> LevelLabel;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
+		USoundBase* BossTheme;//replace by tArray if more than 1 boss in same level	
+
 
 #pragma region save region
 	virtual bool SaveGameSettings() override;

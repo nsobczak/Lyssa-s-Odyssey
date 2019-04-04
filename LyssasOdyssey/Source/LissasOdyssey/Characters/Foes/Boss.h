@@ -59,6 +59,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Boss")
 		float FastMoveSpeed = 3000.0f;
 
+	UPROPERTY(EditAnywhere, Category = "Boss")
+		bool SwitchPlayingAudioComponentOnDeath = true;
+
+	UPROPERTY(EditAnywhere, Category = "Boss", meta = (EditCondition = "SwitchPlayingAudioComponentOnDeath"))
+		bool SwitchToOtherTheme = false;
+
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Boss")

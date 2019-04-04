@@ -197,15 +197,25 @@ public:
 		class USoundMix* SoundMix;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
-		class USoundClass *  SCMusic;
+		class USoundClass*  SCMusic;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
-		class USoundClass *  SCEffect;
+		class USoundClass*  SCEffect;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
 	//	UAudioComponent* GameModeMusic;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
-		USoundBase * MapTheme;
+		USoundBase* MapTheme;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings", AdvancedDisplay)
+		USoundBase* OtherTheme;//replace by tArray if more than 1 boss in same level	
+
+	UPROPERTY(BlueprintReadOnly, Category = "Audio_Settings")
+		UAudioComponent* CurrentTheme_AC;
+
+	UFUNCTION(BlueprintCallable, Category = "Audio_Settings")
+		void SwitchPlayingAudioComponent(USoundBase* newSound);
+
 #pragma endregion
 
 #pragma region keybind settings

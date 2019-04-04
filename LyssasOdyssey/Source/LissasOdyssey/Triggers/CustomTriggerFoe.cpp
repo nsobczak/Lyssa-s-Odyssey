@@ -43,6 +43,7 @@ void ACustomTriggerFoe::OnTriggerDetected_Implementation()
 			{
 				this->LevelGameMode->CurrentBoss = currentBoss;
 				this->LevelGameMode->IsBossActive = true;
+				this->LevelGameMode->SwitchPlayingAudioComponent(this->LevelGameMode->BossTheme);
 			}
 		}
 	}
