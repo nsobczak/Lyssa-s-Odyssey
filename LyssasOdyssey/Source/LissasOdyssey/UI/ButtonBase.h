@@ -37,33 +37,45 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "ButtonBase")
 		void ClickedEffect();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "ButtonBase")
+		void ReturnEffect();
+
 	//UFUNCTION(BlueprintImplementableEvent, Category = "ButtonBase")
 	//	void HoveredEffect();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "ButtonBase")
 		void OnActivation();
+	UFUNCTION(BlueprintImplementableEvent, Category = "ButtonBase")
+		void OnDeactivation();
 
 	UFUNCTION(BlueprintCallable, Category = "ButtonBase")
 		void SetIsActive(bool isActive);
 	UFUNCTION(BlueprintPure, Category = "ButtonBase")
 		bool GetIsActive();
 
+	/** 0 means button will be active by default*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
-		UButtonBase* NextButton_Up;
+		int ButtonUniqueID = -1;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
-		UButtonBase* NextButton_Right;
+		int NextButtonID_Up = -1;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
-		UButtonBase* NextButton_Bottom;
+		int NextButtonID_Right = -1;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
-		UButtonBase* NextButton_Left;
+		int NextButtonID_Bottom = -1;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
+		int NextButtonID_Left = -1;
+
 
 
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Debug")
 		class AMainGameMode* MainGameMode;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ButtonNavigation")
+	UPROPERTY(VisibleAnywhere, Category = "ButtonNavigation")
 		bool IsActive = false;
+
+	UFUNCTION(BlueprintCallable, Category = "ButtonBase")
+		UButtonBase* FindButtonWithID(int id);
 
 	UFUNCTION()
 		void OnActionAccept();
@@ -80,8 +92,17 @@ protected:
 
 
 private:
+	TArray<UButtonBase*> ButtonsInWidget;
+	void InitializeButtonsTArray();
+	void InitializeButtonLinks();
+
 	bool WasAlreadyActivated = false;
 
-	float TimeBetweenInputs = 0.1f;
+	float TimeBetweenInputs = 0.15f;
 	float Timer = 0;
+
+	UButtonBase* NextButton_Up;
+	UButtonBase* NextButton_Right;
+	UButtonBase* NextButton_Bottom;
+	UButtonBase* NextButton_Left;
 };

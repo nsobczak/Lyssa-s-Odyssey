@@ -104,40 +104,71 @@ void ACharacterWithInputs::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 //_______________
 void ACharacterWithInputs::MoveUp(float value)
 {
-	if (Controller != NULL && value != 0 && value * value > 0.5f * 0.5f)
+	if (Controller != NULL && value != 0)
 	{
-		OnUpDelegate.Broadcast();
-		//UE_LOG(LogTemp, Log, TEXT("MoveUp"));
+		//UE_LOG(LogTemp, Log, TEXT("MoveUp with value of %f"), value);
+
+		if (value > 0.5f)
+		{
+			OnUpDelegate.Broadcast();
+		}
+		else if (value < -0.5f)
+		{
+			OnDownDelegate.Broadcast();
+		}
 	}
-	
+
 }
 
 void ACharacterWithInputs::MoveDown(float value)
 {
-	if (Controller != NULL && value != 0 && value * value > 0.5f * 0.5f)
+	if (Controller != NULL && value != 0)
 	{
-		OnDownDelegate.Broadcast();
-		//UE_LOG(LogTemp, Log, TEXT("MoveDown"));
+		//UE_LOG(LogTemp, Log, TEXT("MoveDown pressed with value of %f"), value);
+
+		if (value > 0.5f)
+		{
+			OnDownDelegate.Broadcast();
+		}
+		else if (value < -0.5f)
+		{
+			OnUpDelegate.Broadcast();
+		}
 	}
 }
 
 void ACharacterWithInputs::MoveRight(float value)
 {
-	if (Controller != NULL && value != 0 && value * value > 0.5f * 0.5f)
+	if (Controller != NULL && value != 0)
 	{
-		OnRightDelegate.Broadcast();
-		//UE_LOG(LogTemp, Log, TEXT("MoveRight"));
+		//UE_LOG(LogTemp, Log, TEXT("MoveRight pressed with value of %f"), value);
+
+		if (value > 0.5f)
+		{
+			OnRightDelegate.Broadcast();
+		}
+		else if (value < -0.5f)
+		{
+			OnLeftDelegate.Broadcast();
+		}
 	}
 }
 
 void ACharacterWithInputs::MoveLeft(float value)
 {
-	if (Controller != NULL && value != 0 && value * value > 0.5f * 0.5f)
+	if (Controller != NULL && value != 0)
 	{
-		OnLeftDelegate.Broadcast();
-		//UE_LOG(LogTemp, Log, TEXT("MoveLeft"));
-	}
+		//UE_LOG(LogTemp, Log, TEXT("MoveRight pressed with value of %f"), value);
 
+		if (value > 0.5f)
+		{
+			OnLeftDelegate.Broadcast();
+		}
+		else if (value < -0.5f)
+		{
+			OnLeftDelegate.Broadcast();
+		}
+	}
 }
 
 void ACharacterWithInputs::ActionAccept()
