@@ -8,6 +8,7 @@
 #include "Utils/GameConstants.h"
 #include "Characters/Lyssa/Lyssa.h"
 #include "Characters/CharacterWithInputs.h"
+#include "UI/ButtonBase.h"
 
 
 #pragma region Initialization
@@ -339,8 +340,7 @@ void AMainGameMode::ShowWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool sho
 {
 	if (NewWidgetClass != nullptr)
 	{
-		OldWidget = CurrentWidget;
-
+		//OldWidgetClass = NewWidgetClass;
 		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
 		if (CurrentWidget != nullptr)
 		{
@@ -356,6 +356,8 @@ void AMainGameMode::HideWidget(UUserWidget* widgetToHide, bool showCursor)
 	if (widgetToHide != nullptr)
 	{
 		widgetToHide->RemoveFromViewport();
+		widgetToHide->RemoveFromParent();
+		widgetToHide->Destruct();
 	}
 
 	ShowCursor(showCursor);
@@ -366,19 +368,27 @@ void AMainGameMode::HideCurrentWidget(bool showCursor)
 	if (CurrentWidget != nullptr)
 	{
 		CurrentWidget->RemoveFromViewport();
+		CurrentWidget->RemoveFromParent();
+		CurrentWidget->Destruct();
 		CurrentWidget = nullptr;
 	}
 
 	ShowCursor(showCursor);
 }
 
-void AMainGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor)
+UUserWidget* AMainGameMode::GetCurrentWidget()
 {
-	OldWidget = CurrentWidget;
+	return CurrentWidget;
+}
 
+void AMainGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor, bool resetButtonLinks)
+{
 	if (CurrentWidget != nullptr)
 	{
+		OldWidgetClass = CurrentWidget->GetClass();
 		CurrentWidget->RemoveFromViewport();
+		CurrentWidget->RemoveFromParent();
+		CurrentWidget->Destruct();
 		CurrentWidget = nullptr;
 	}
 
@@ -391,6 +401,11 @@ void AMainGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bo
 		}
 
 		ShowCursor(showCursor);
+	}
+
+	if (resetButtonLinks)
+	{
+		UButtonBase::ResetButtonsInGroup();
 	}
 }
 

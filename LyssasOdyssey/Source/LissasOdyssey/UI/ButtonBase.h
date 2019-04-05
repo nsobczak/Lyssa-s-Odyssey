@@ -26,6 +26,8 @@ public:
 
 	void BuildWidget();
 
+	static void ResetButtonsInGroup();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ButtonBase")
 		UButton* ButtonBase;
 
@@ -53,23 +55,32 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ButtonBase")
 		bool GetIsActive();
 
-	/** 0 means button will be active by default*/
+	/** button group ID, -1 will be ignored*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
+		int ButtonGroupUniqueID = -1;
+	/** Unique ID in group, 0 means button will be active by default, -1 will be ignored*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
 		int ButtonUniqueID = -1;
+	/** -1 will be ignored*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
 		int NextButtonID_Up = -1;
+	/** -1 will be ignored*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
 		int NextButtonID_Right = -1;
+	/** -1 will be ignored*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
 		int NextButtonID_Bottom = -1;
+	/** -1 will be ignored*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
 		int NextButtonID_Left = -1;
-
 
 
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Debug")
 		class AMainGameMode* MainGameMode;
+
+	static int ButtonCountInActiveGroup;
+	static int ActiveButtonGroupID;
 
 	UPROPERTY(VisibleAnywhere, Category = "ButtonNavigation")
 		bool IsActive = false;
@@ -92,11 +103,12 @@ protected:
 
 
 private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonBase", meta = (AllowPrivateAccess = "true"))
+		bool DEBUG = false;
+
 	TArray<UButtonBase*> ButtonsInWidget;
 	void InitializeButtonsTArray();
 	void InitializeButtonLinks();
-
-	bool WasAlreadyActivated = false;
 
 	float TimeBetweenInputs = 0.15f;
 	float Timer = 0;

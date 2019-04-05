@@ -60,9 +60,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void HideCurrentWidget(bool showCursor);
 
+	/** The widget instance that we are using as our menu. */
+	UFUNCTION(BlueprintPure, Category = "Widget_Functions")
+		UUserWidget* GetCurrentWidget();
+
 	/** Remove the current menu widget and create a new one from the specified class, if provided. */
 	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
-		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor = false);
+		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor = false, bool resetButtonLinks = true);
 
 	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void ShowStartingWidget();
@@ -281,11 +285,11 @@ protected:
 
 	/** The widget instance that we used. (useful for return buttons) */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Menu_Widget")
-		UUserWidget* OldWidget;
+		TSubclassOf<UUserWidget> OldWidgetClass;
 
 	/**widget to use for our HUD screen*/
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Menu_Widget", Meta = (BlueprintProtected = "true"))
-		TSubclassOf<class UUserWidget> HUDWidget;
+		TSubclassOf<UUserWidget> HUDWidget;
 
 	/** Assign a new key to an input if not already used */
 	void AssignNewKey(FKey newKey, TEnumAsByte<PlayerActionLabel> actionToChange, bool isKeyboardKey = true);

@@ -9,6 +9,10 @@
 #include "Characters/CharacterWithInputs.h"
 #include "Characters/Lyssa/Lyssa.h"
 
+
+int UButtonBase::ButtonCountInActiveGroup;
+int UButtonBase::ActiveButtonGroupID;
+
 UButtonBase::UButtonBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
@@ -20,13 +24,25 @@ void UButtonBase::InitializeButtonsTArray()
 	TArray<UUserWidget*> userWidgetArray;
 	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), userWidgetArray, UButtonBase::StaticClass(), false);
 
+	ButtonsInWidget.Reset(0);
+	if (DEBUG)
+		UE_LOG(LogTemp, Warning, TEXT("for button widget %s with group id = %i and id = %i, initialize following elements: "),
+			*(GetName()), ButtonGroupUniqueID, ButtonUniqueID);
+
 	for (size_t i = 0; i < userWidgetArray.Num(); ++i)
 	{
-		UUserWidget* w = userWidgetArray[i];
-		ButtonsInWidget.Add(Cast<UButtonBase>(w));
-
-		if (ButtonUniqueID == 0)
-			UE_LOG(LogTemp, Log, TEXT("widget name = %s"), *(w->GetName()));
+		UUserWidget* uw = userWidgetArray[i];
+		if (uw->IsVisible())
+		{
+			UButtonBase* bw = Cast<UButtonBase>(uw);
+			if (bw->ButtonGroupUniqueID == ButtonGroupUniqueID)
+			{
+				ButtonsInWidget.Add(bw);
+				if (DEBUG)
+					UE_LOG(LogTemp, Log, TEXT("button widget name = %s | group id = %i | id = %i"),
+						*(bw->GetName()), bw->ButtonGroupUniqueID, bw->ButtonUniqueID);
+			}
+		}
 	}
 }
 
@@ -63,7 +79,7 @@ void UButtonBase::OnActionAccept()
 {
 	if (Timer >= TimeBetweenInputs)
 	{
-		UE_LOG(LogTemp, Log, TEXT("OnActionAccept"));
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionAccept"));
 		ClickedEffect();
 		Timer = 0;
 	}
@@ -73,7 +89,7 @@ void UButtonBase::OnActionReturn()
 {
 	if (Timer >= TimeBetweenInputs)
 	{
-		UE_LOG(LogTemp, Log, TEXT("OnActionReturn"));
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionReturn"));
 		ReturnEffect();
 		Timer = 0;
 	}
@@ -83,7 +99,7 @@ void UButtonBase::OnActionMoveUp()
 {
 	if (Timer >= TimeBetweenInputs && NextButton_Up)
 	{
-		//UE_LOG(LogTemp, Log, TEXT("OnActionMoveUp: Activated %s | Deactivated %s"), *(NextButton_Up->GetName()), *(this->GetName()));
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionMoveUp: Activated %s | Deactivated %s"), *(NextButton_Up->GetName()), *(this->GetName()));
 		Timer = 0;
 
 		NextButton_Up->SetIsActive(true);
@@ -95,7 +111,7 @@ void UButtonBase::OnActionMoveRight()
 {
 	if (Timer >= TimeBetweenInputs && NextButton_Right)
 	{
-		//UE_LOG(LogTemp, Log, TEXT("OnActionMoveRight: Activated %s | Deactivated %s"), *(NextButton_Right->GetName()), *(this->GetName()));
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionMoveRight: Activated %s | Deactivated %s"), *(NextButton_Right->GetName()), *(this->GetName()));
 		Timer = 0;
 
 		NextButton_Right->SetIsActive(true);
@@ -107,7 +123,7 @@ void UButtonBase::OnActionMoveDown()
 {
 	if (Timer >= TimeBetweenInputs && NextButton_Bottom)
 	{
-		//UE_LOG(LogTemp, Log, TEXT("OnActionMoveDown: Activated %s | Deactivated %s"), *(NextButton_Bottom->GetName()), *(this->GetName()));
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionMoveDown: Activated %s | Deactivated %s"), *(NextButton_Bottom->GetName()), *(this->GetName()));
 		Timer = 0;
 
 		NextButton_Bottom->SetIsActive(true);
@@ -119,7 +135,7 @@ void UButtonBase::OnActionMoveLeft()
 {
 	if (Timer >= TimeBetweenInputs && NextButton_Left)
 	{
-		//UE_LOG(LogTemp, Log, TEXT("OnActionMoveLeft: Activated %s | Deactivated %s"), *(NextButton_Left->GetName()), *(this->GetName()));
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionMoveLeft: Activated %s | Deactivated %s"), *(NextButton_Left->GetName()), *(this->GetName()));
 		Timer = 0;
 
 		NextButton_Left->SetIsActive(true);
@@ -167,11 +183,12 @@ void UButtonBase::SetIsActive(bool isActive)
 
 	if (isActive == false)
 	{
-		WasAlreadyActivated = false;
+		//WasAlreadyActivated = false;
 		OnDeactivation();
 	}
 	else
 	{
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("%s is active"), *(this->GetName()));
 		OnActivation();
 	}
 }
@@ -182,69 +199,87 @@ bool UButtonBase::GetIsActive()
 }
 
 
+//static
+void UButtonBase::ResetButtonsInGroup()
+{
+	if (UButtonBase::ButtonCountInActiveGroup != 0)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("ResetButtonsInGroup called, it were equal to %i"), UButtonBase::ButtonCountInActiveGroup);
+		UButtonBase::ButtonCountInActiveGroup = 0;
+	}
+}
+
+
 void UButtonBase::NativeConstruct()
 {
-	// Do some custom setup
-	this->MainGameMode = Cast<AMainGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
-	if (!MainGameMode) UE_LOG(LogTemp, Error, TEXT("MainGameMode is null"));
-
-	BuildWidget();
-
-	// Call the Blueprint "Event Construct" node
-	Super::NativeConstruct();
-
-
-	if (ButtonBase)
+	if (IsVisible())
 	{
-		ButtonBase->OnClicked.AddDynamic(this, &UButtonBase::ClickedEffect);
-		//ButtonBase->OnHovered.AddDynamic(this, &UButtonBase::HoveredEffect);
-		ButtonBase->OnHovered.AddDynamic(this, &UButtonBase::OnActivation);
+		// Do some custom setup
+		this->MainGameMode = Cast<AMainGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+		if (!MainGameMode) UE_LOG(LogTemp, Error, TEXT("MainGameMode is null"));
+
+		BuildWidget();
+
+		// Call the Blueprint "Event Construct" node
+		Super::NativeConstruct();
+
+
+		if (ButtonBase)
+		{
+			ButtonBase->OnClicked.AddDynamic(this, &UButtonBase::ClickedEffect);
+			//ButtonBase->OnHovered.AddDynamic(this, &UButtonBase::HoveredEffect);
+			ButtonBase->OnHovered.AddDynamic(this, &UButtonBase::OnActivation);
+		}
+
+		//delegates
+		ALyssa* lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
+		ACharacterWithInputs* defCharacter = Cast<ACharacterWithInputs>(UGameplayStatics::GetPlayerPawn(this, 0));
+
+		if (lyssa)
+		{
+			lyssa->OnAcceptDelegate.AddDynamic(this, &UButtonBase::OnActionAccept);
+			lyssa->OnReturnDelegate.AddDynamic(this, &UButtonBase::OnActionReturn);
+			lyssa->OnUpDelegate.AddDynamic(this, &UButtonBase::OnActionMoveUp);
+			lyssa->OnRightDelegate.AddDynamic(this, &UButtonBase::OnActionMoveRight);
+			lyssa->OnDownDelegate.AddDynamic(this, &UButtonBase::OnActionMoveDown);
+			lyssa->OnLeftDelegate.AddDynamic(this, &UButtonBase::OnActionMoveLeft);
+		}
+
+		else if (defCharacter)
+		{
+			defCharacter->OnAcceptDelegate.AddDynamic(this, &UButtonBase::OnActionAccept);
+			defCharacter->OnReturnDelegate.AddDynamic(this, &UButtonBase::OnActionReturn);
+			defCharacter->OnUpDelegate.AddDynamic(this, &UButtonBase::OnActionMoveUp);
+			defCharacter->OnRightDelegate.AddDynamic(this, &UButtonBase::OnActionMoveRight);
+			defCharacter->OnDownDelegate.AddDynamic(this, &UButtonBase::OnActionMoveDown);
+			defCharacter->OnLeftDelegate.AddDynamic(this, &UButtonBase::OnActionMoveLeft);
+		}
+
+
+		UButtonBase::ButtonCountInActiveGroup += 1;
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("ButtonCountInActiveGroup = %i"), UButtonBase::ButtonCountInActiveGroup);
+		if (UButtonBase::ActiveButtonGroupID != ButtonGroupUniqueID)
+		{
+			UButtonBase::ActiveButtonGroupID = ButtonGroupUniqueID;
+		}
+
+		if (ButtonUniqueID == 0)
+			SetIsActive(true);
+
+		if (DEBUG) UE_LOG(LogTemp, Warning, TEXT("NativeConstruct called for %s"), *(GetName()));
 	}
-
-	//delegates
-	ALyssa* lyssa = Cast<ALyssa>(UGameplayStatics::GetPlayerPawn(this, 0));
-	ACharacterWithInputs* defCharacter = Cast<ACharacterWithInputs>(UGameplayStatics::GetPlayerPawn(this, 0));
-
-	if (lyssa)
-	{
-		lyssa->OnAcceptDelegate.AddDynamic(this, &UButtonBase::OnActionAccept);
-		lyssa->OnReturnDelegate.AddDynamic(this, &UButtonBase::OnActionReturn);
-		lyssa->OnUpDelegate.AddDynamic(this, &UButtonBase::OnActionMoveUp);
-		lyssa->OnRightDelegate.AddDynamic(this, &UButtonBase::OnActionMoveRight);
-		lyssa->OnDownDelegate.AddDynamic(this, &UButtonBase::OnActionMoveDown);
-		lyssa->OnLeftDelegate.AddDynamic(this, &UButtonBase::OnActionMoveLeft);
-	}
-
-	else if (defCharacter)
-	{
-		defCharacter->OnAcceptDelegate.AddDynamic(this, &UButtonBase::OnActionAccept);
-		defCharacter->OnReturnDelegate.AddDynamic(this, &UButtonBase::OnActionReturn);
-		defCharacter->OnUpDelegate.AddDynamic(this, &UButtonBase::OnActionMoveUp);
-		defCharacter->OnRightDelegate.AddDynamic(this, &UButtonBase::OnActionMoveRight);
-		defCharacter->OnDownDelegate.AddDynamic(this, &UButtonBase::OnActionMoveDown);
-		defCharacter->OnLeftDelegate.AddDynamic(this, &UButtonBase::OnActionMoveLeft);
-	}
-
-
-	InitializeButtonLinks();
-
-	if (ButtonUniqueID == 0)
-		SetIsActive(true);
-
-	UE_LOG(LogTemp, Warning, TEXT("NativeConstruct called"));
 }
 
 
 void UButtonBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
+	if (ButtonsInWidget.Num() < UButtonBase::ActiveButtonGroupID)
+	{
+		InitializeButtonLinks();
+	}
+
 	if (IsActive)
 	{
 		Timer += InDeltaTime;
-		if (!WasAlreadyActivated)
-		{
-			OnActivation();
-			WasAlreadyActivated = true;
-			UE_LOG(LogTemp, Log, TEXT("%s is active"), *(this->GetName()));
-		}
 	}
 }
