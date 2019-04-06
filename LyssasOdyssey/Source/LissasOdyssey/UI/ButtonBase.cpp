@@ -97,7 +97,7 @@ void UButtonBase::OnActionReturn()
 
 void UButtonBase::OnActionMoveUp()
 {
-	if (Timer >= TimeBetweenInputs && NextButton_Up)
+	if (Timer >= TimeBetweenInputs && NextButton_Up && NextButton_Up->IsVisible())
 	{
 		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionMoveUp: Activated %s | Deactivated %s"), *(NextButton_Up->GetName()), *(this->GetName()));
 		Timer = 0;
@@ -109,7 +109,7 @@ void UButtonBase::OnActionMoveUp()
 
 void UButtonBase::OnActionMoveRight()
 {
-	if (Timer >= TimeBetweenInputs && NextButton_Right)
+	if (Timer >= TimeBetweenInputs && NextButton_Right && NextButton_Right->IsVisible())
 	{
 		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionMoveRight: Activated %s | Deactivated %s"), *(NextButton_Right->GetName()), *(this->GetName()));
 		Timer = 0;
@@ -121,7 +121,7 @@ void UButtonBase::OnActionMoveRight()
 
 void UButtonBase::OnActionMoveDown()
 {
-	if (Timer >= TimeBetweenInputs && NextButton_Bottom)
+	if (Timer >= TimeBetweenInputs && NextButton_Bottom && NextButton_Bottom->IsVisible())
 	{
 		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionMoveDown: Activated %s | Deactivated %s"), *(NextButton_Bottom->GetName()), *(this->GetName()));
 		Timer = 0;
@@ -133,7 +133,7 @@ void UButtonBase::OnActionMoveDown()
 
 void UButtonBase::OnActionMoveLeft()
 {
-	if (Timer >= TimeBetweenInputs && NextButton_Left)
+	if (Timer >= TimeBetweenInputs && NextButton_Left && NextButton_Left->IsVisible())
 	{
 		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionMoveLeft: Activated %s | Deactivated %s"), *(NextButton_Left->GetName()), *(this->GetName()));
 		Timer = 0;
