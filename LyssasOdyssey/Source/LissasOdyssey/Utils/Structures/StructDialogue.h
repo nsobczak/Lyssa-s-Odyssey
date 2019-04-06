@@ -12,7 +12,6 @@
 /**
  *
  */
-
 USTRUCT(BlueprintType)
 struct FStructDialogue : public FTableRowBase
 {

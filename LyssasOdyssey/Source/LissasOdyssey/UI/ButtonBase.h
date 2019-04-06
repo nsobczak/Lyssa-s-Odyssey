@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "UMG/Public/UMG.h"
+#include "Utils/Structures/StructButtonLinks.h"
 #include "ButtonBase.generated.h"
 
 /**
@@ -28,10 +29,10 @@ public:
 
 	static void ResetButtonsInGroup();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ButtonBase")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ButtonBase", AdvancedDisplay)
 		UButton* ButtonBase;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ButtonBase")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ButtonBase", AdvancedDisplay)
 		UTextBlock* ButtonText;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ButtonBase")
 		bool IsButtonTextVisible = true;
@@ -55,25 +56,12 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ButtonBase")
 		bool GetIsActive();
 
-	/** button group ID, -1 will be ignored*/
+	/** button links*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
-		int ButtonGroupUniqueID = -1;
-	/** Unique ID in group, 0 means button will be active by default, -1 will be ignored*/
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
-		int ButtonUniqueID = -1;
-	/** -1 will be ignored*/
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
-		int NextButtonID_Up = -1;
-	/** -1 will be ignored*/
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
-		int NextButtonID_Right = -1;
-	/** -1 will be ignored*/
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
-		int NextButtonID_Bottom = -1;
-	/** -1 will be ignored*/
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
-		int NextButtonID_Left = -1;
+		FStructButtonLinks ButtonLinks;
 
+	UFUNCTION(BlueprintCallable, Category = "ButtonBase")
+		void SetButtonLinks(FStructButtonLinks newButtonLinks);
 
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Debug")

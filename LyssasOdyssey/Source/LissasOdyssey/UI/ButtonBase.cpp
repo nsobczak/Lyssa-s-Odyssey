@@ -27,7 +27,7 @@ void UButtonBase::InitializeButtonsTArray()
 	ButtonsInWidget.Reset(0);
 	if (DEBUG)
 		UE_LOG(LogTemp, Warning, TEXT("for button widget %s with group id = %i and id = %i, initialize following elements: "),
-			*(GetName()), ButtonGroupUniqueID, ButtonUniqueID);
+			*(GetName()), ButtonLinks.ButtonGroupUniqueID, ButtonLinks.ButtonUniqueID);
 
 	for (size_t i = 0; i < userWidgetArray.Num(); ++i)
 	{
@@ -35,12 +35,12 @@ void UButtonBase::InitializeButtonsTArray()
 		if (uw->IsVisible())
 		{
 			UButtonBase* bw = Cast<UButtonBase>(uw);
-			if (bw->ButtonGroupUniqueID == ButtonGroupUniqueID)
+			if (bw->ButtonLinks.ButtonGroupUniqueID == ButtonLinks.ButtonGroupUniqueID)
 			{
 				ButtonsInWidget.Add(bw);
 				if (DEBUG)
 					UE_LOG(LogTemp, Log, TEXT("button widget name = %s | group id = %i | id = %i"),
-						*(bw->GetName()), bw->ButtonGroupUniqueID, bw->ButtonUniqueID);
+						*(bw->GetName()), bw->ButtonLinks.ButtonGroupUniqueID, bw->ButtonLinks.ButtonUniqueID);
 			}
 		}
 	}
@@ -53,7 +53,7 @@ UButtonBase* UButtonBase::FindButtonWithID(int id)
 		for (size_t i = 0; i < ButtonsInWidget.Num(); i++)
 		{
 			UButtonBase* currentButton = ButtonsInWidget[i];
-			if (currentButton->ButtonUniqueID == id)
+			if (currentButton->ButtonLinks.ButtonUniqueID == id)
 			{
 				return currentButton;
 			}
@@ -67,10 +67,10 @@ void UButtonBase::InitializeButtonLinks()
 {
 	InitializeButtonsTArray();
 
-	NextButton_Up = FindButtonWithID(NextButtonID_Up);
-	NextButton_Right = FindButtonWithID(NextButtonID_Right);
-	NextButton_Bottom = FindButtonWithID(NextButtonID_Bottom);
-	NextButton_Left = FindButtonWithID(NextButtonID_Left);
+	NextButton_Up = FindButtonWithID(ButtonLinks.NextButtonID_Up);
+	NextButton_Right = FindButtonWithID(ButtonLinks.NextButtonID_Right);
+	NextButton_Bottom = FindButtonWithID(ButtonLinks.NextButtonID_Bottom);
+	NextButton_Left = FindButtonWithID(ButtonLinks.NextButtonID_Left);
 }
 
 
@@ -199,6 +199,12 @@ bool UButtonBase::GetIsActive()
 }
 
 
+void UButtonBase::SetButtonLinks(FStructButtonLinks newButtonLinks)
+{
+	ButtonLinks = newButtonLinks;
+}
+
+
 //static
 void UButtonBase::ResetButtonsInGroup()
 {
@@ -228,7 +234,7 @@ void UButtonBase::NativeConstruct()
 		{
 			ButtonBase->OnClicked.AddDynamic(this, &UButtonBase::ClickedEffect);
 			//ButtonBase->OnHovered.AddDynamic(this, &UButtonBase::HoveredEffect);
-			ButtonBase->OnHovered.AddDynamic(this, &UButtonBase::OnActivation);
+			//ButtonBase->OnHovered.AddDynamic(this, &UButtonBase::OnActivation);
 		}
 
 		//delegates
@@ -258,12 +264,12 @@ void UButtonBase::NativeConstruct()
 
 		UButtonBase::ButtonCountInActiveGroup += 1;
 		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("ButtonCountInActiveGroup = %i"), UButtonBase::ButtonCountInActiveGroup);
-		if (UButtonBase::ActiveButtonGroupID != ButtonGroupUniqueID)
+		if (UButtonBase::ActiveButtonGroupID != ButtonLinks.ButtonGroupUniqueID)
 		{
-			UButtonBase::ActiveButtonGroupID = ButtonGroupUniqueID;
+			UButtonBase::ActiveButtonGroupID = ButtonLinks.ButtonGroupUniqueID;
 		}
 
-		if (ButtonUniqueID == 0)
+		if (ButtonLinks.ButtonUniqueID == 0)
 			SetIsActive(true);
 
 		if (DEBUG) UE_LOG(LogTemp, Warning, TEXT("NativeConstruct called for %s"), *(GetName()));
