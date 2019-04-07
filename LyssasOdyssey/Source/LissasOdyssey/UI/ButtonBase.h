@@ -60,8 +60,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
 		FStructButtonLinks ButtonLinks;
 
-	UFUNCTION(BlueprintCallable, Category = "ButtonBase")
+	UFUNCTION(BlueprintCallable, Category = "ButtonNavigation")
 		void SetButtonLinks(FStructButtonLinks newButtonLinks);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ButtonNavigation", AdvancedDisplay)
+		bool BlockUpperLink = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ButtonNavigation", AdvancedDisplay)
+		bool BlockRightLink = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ButtonNavigation", AdvancedDisplay)
+		bool BlockBottomLink = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ButtonNavigation", AdvancedDisplay)
+		bool BlockLeftLink = false;
 
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Debug")
