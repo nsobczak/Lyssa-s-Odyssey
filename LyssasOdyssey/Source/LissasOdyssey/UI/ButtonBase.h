@@ -56,6 +56,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ButtonBase")
 		bool GetIsActive();
 
+	UFUNCTION(BlueprintCallable, Category = "ButtonBase")
+		void DeactivateAllButtonsInGroup();
+
 	/** button links*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
 		FStructButtonLinks ButtonLinks;
@@ -103,7 +106,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonBase", meta = (AllowPrivateAccess = "true"))
 		bool DEBUG = false;
 
-	TArray<UButtonBase*> ButtonsInWidget;
+	TArray<UButtonBase*> ButtonsInGroup;
 	void InitializeButtonsTArray();
 	void InitializeButtonLinks();
 

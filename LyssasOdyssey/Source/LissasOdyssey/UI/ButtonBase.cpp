@@ -24,7 +24,7 @@ void UButtonBase::InitializeButtonsTArray()
 	TArray<UUserWidget*> userWidgetArray;
 	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), userWidgetArray, UButtonBase::StaticClass(), false);
 
-	ButtonsInWidget.Reset(0);
+	ButtonsInGroup.Reset(0);
 	if (DEBUG)
 		UE_LOG(LogTemp, Warning, TEXT("for button widget %s with group id = %i and id = %i, initialize following elements: "),
 			*(GetName()), ButtonLinks.ButtonGroupUniqueID, ButtonLinks.ButtonUniqueID);
@@ -37,7 +37,7 @@ void UButtonBase::InitializeButtonsTArray()
 			UButtonBase* bw = Cast<UButtonBase>(uw);
 			if (bw->ButtonLinks.ButtonGroupUniqueID == ButtonLinks.ButtonGroupUniqueID)
 			{
-				ButtonsInWidget.Add(bw);
+				ButtonsInGroup.Add(bw);
 				if (DEBUG)
 					UE_LOG(LogTemp, Log, TEXT("button widget name = %s | group id = %i | id = %i"),
 						*(bw->GetName()), bw->ButtonLinks.ButtonGroupUniqueID, bw->ButtonLinks.ButtonUniqueID);
@@ -50,9 +50,9 @@ UButtonBase* UButtonBase::FindButtonWithID(int id)
 {
 	if (id > -1)
 	{
-		for (size_t i = 0; i < ButtonsInWidget.Num(); i++)
+		for (size_t i = 0; i < ButtonsInGroup.Num(); i++)
 		{
-			UButtonBase* currentButton = ButtonsInWidget[i];
+			UButtonBase* currentButton = ButtonsInGroup[i];
 			if (currentButton->ButtonLinks.ButtonUniqueID == id)
 			{
 				return currentButton;
@@ -199,6 +199,17 @@ bool UButtonBase::GetIsActive()
 	return IsActive;
 }
 
+void UButtonBase::DeactivateAllButtonsInGroup()
+{
+	for (size_t i = 0; i < ButtonsInGroup.Num(); ++i)
+	{
+		UButtonBase* cButton = ButtonsInGroup[i];
+		if (cButton->IsActive == true)
+		{
+			cButton->IsActive = false;
+		}
+	}
+}
 
 void UButtonBase::SetButtonLinks(FStructButtonLinks newButtonLinks)
 {
@@ -280,7 +291,7 @@ void UButtonBase::NativeConstruct()
 
 void UButtonBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
-	if (ButtonsInWidget.Num() < UButtonBase::ActiveButtonGroupID)
+	if (ButtonsInGroup.Num() < UButtonBase::ActiveButtonGroupID)
 	{
 		InitializeButtonLinks();
 	}
