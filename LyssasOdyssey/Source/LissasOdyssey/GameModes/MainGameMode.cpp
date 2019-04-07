@@ -599,8 +599,11 @@ bool AMainGameMode::SwitchFullScreen()
 
 void AMainGameMode::SwitchPlayingAudioComponent(USoundBase* newSound)
 {
-	CurrentTheme_AC->SetSound(newSound);
-	UE_LOG(LogTemp, Log, TEXT("now playing %s"), *(newSound->GetName()));
+	if (newSound)
+	{
+		CurrentTheme_AC->SetSound(newSound);
+		UE_LOG(LogTemp, Log, TEXT("now playing %s"), *(newSound->GetName()));
+	}
 }
 
 

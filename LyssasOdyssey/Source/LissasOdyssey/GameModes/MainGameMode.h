@@ -19,6 +19,7 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	/** call this to know if begin function has been completed*/
 	UFUNCTION(BlueprintCallable, Category = "GameControl")
 		virtual bool GetIsBeginFunctionCompleted();
 
@@ -44,6 +45,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
 		bool IsPauseAllowed = true;
 
+	/** show StartingWidgetClass at launch if true*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
 		bool IsMainMenu = false;
 
@@ -64,7 +66,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Widget_Functions")
 		UUserWidget* GetCurrentWidget();
 
-	/** Remove the current menu widget and create a new one from the specified class, if provided. */
+	/** Remove the current menu widget (if not null) and create a new one from the specified class, if provided.
+	Show cursor if true. Reset button links if true.*/
 	UFUNCTION(BlueprintCallable, Category = "Widget_Functions")
 		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass, bool showCursor = false, bool resetButtonLinks = true);
 
@@ -102,7 +105,7 @@ public:
 		bool ShowMouseCursorInLevel = true;
 #pragma endregion
 
-
+	/** Reset all settings to default values*/
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
 		void UseDefaultSettings();
 
@@ -113,6 +116,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "General_Settings")
 		void ChangeCurrentLanguage(bool increase);
 
+	/** Switch ShowMinimap value*/
 	UFUNCTION(BlueprintCallable, Category = "General_Settings")
 		bool SwitchShowMinimap();
 
@@ -120,7 +124,7 @@ public:
 		ETextSpeed CurrentTextSpeed;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "General_Settings")
 		float TextSpeedFloatValue;
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, Category = "General_Settings")
 		void UpdateTextSpeedFloatValue();
 	UFUNCTION(BlueprintCallable, Category = "General_Settings")
 		void ChangeTextSpeed(bool increase);
@@ -131,56 +135,69 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
 		void ChangeGraphicSetting(GraphicLabel graphicLabel, bool increase);
 
-	/** Execute all actual graphic settings*/
+	/** Execute all actual graphic settings commands*/
 	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
 		void UpdateGraphicSettings();
 
 	//commands
+	/** ScreenPercentage */
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay)
 		FString GraphicalCommands[4] = { "r.ScreenPercentage 25", "r.ScreenPercentage 50","r.ScreenPercentage 75","r.ScreenPercentage 100" };
 	TArray<FString> TAGraphicalCommands;
+	/** ScreenPercentage command index in list*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
+		int32 GraphicalIndex;
 
+	/** PostProcessQuality */
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay)
 		FString PPCommands[4] = { "sg.PostProcessQuality 0", "sg.PostProcessQuality 1", "sg.PostProcessQuality 2", "sg.PostProcessQuality 3" };
 	TArray<FString> TAPPCommands;
+	/** PostProcessQuality command index in list*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
+		int32 PPIndex;
 
+	/** PostProcessAAQuality */
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay)
 		FString AACommands[4] = { "r.PostProcessAAQuality 0", "r.PostProcessAAQuality 1", "r.PostProcessAAQuality 2", "r.PostProcessAAQuality 3" };
 	TArray<FString> TAAACommands;
+	/** PostProcessAAQuality command index in list*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
+		int32 AAIndex;
 
+	/** ShadowQuality */
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay)
 		FString ShadowCommands[4] = { "sg.ShadowQuality 0", "sg.ShadowQuality 1", "sg.ShadowQuality 2", "sg.ShadowQuality 3" };
 	TArray<FString> TAShadowCommands;
+	/** ShadowQuality command index in list*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
+		int32 ShadowIndex;
 
+	/** MaxFPS */
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay)
 		FString FPSCommands[4] = { "t.MaxFPS 15", "t.MaxFPS 30", "t.MaxFPS 60", "t.MaxFPS 144" };
 	TArray<FString> TAFPSCommands;
+	/** MaxFPS command index in list*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
+		int32 FPSIndex;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		bool ShowFPS = false;
+	/** Switch ShowFPS value*/
 	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
 		bool SwitchShowFPS();
 
+	/** Resolution */
 	UPROPERTY(EditAnywhere, Category = "Graphic_Settings", AdvancedDisplay)
 		FString ResCommands[4] = { "r.SetRes 800x600","r.SetRes 1280x720", "r.SetRes 1600x900", "r.SetRes 1920x1080" };
 	TArray<FString> TAResCommands;
+	/** Resolution command index in list*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
+		int32 ResIndex;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
 		bool IsFullScreen;
+	/** Switch IsFullScreen value*/
 	UFUNCTION(BlueprintCallable, Category = "Graphic_Settings")
 		bool SwitchFullScreen();
 
-	//indexes
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		int32 GraphicalIndex;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		int32 PPIndex;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		int32 AAIndex;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		int32 ShadowIndex;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		int32 FPSIndex;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Graphic_Settings")
-		int32 ResIndex;
 #pragma endregion
 
 #pragma region audio settings
@@ -200,23 +217,29 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
 		class USoundMix* SoundMix;
 
+	/** USoundClass for themes*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
 		class USoundClass*  SCMusic;
+	/** USoundClass for sound effects*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
 		class USoundClass*  SCEffect;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
 	//	UAudioComponent* GameModeMusic;
 
+	/** Main theme for the map*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
 		USoundBase* MapTheme;
 
+	/** Other theme for when we want to use another one*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings", AdvancedDisplay)
 		USoundBase* OtherTheme;//replace by tArray if more than 1 boss in same level	
 
+	/** AudioComponent currently playing*/
 	UPROPERTY(BlueprintReadOnly, Category = "Audio_Settings")
 		UAudioComponent* CurrentTheme_AC;
 
+	/** Change CurrentTheme_AC for new one if provided*/
 	UFUNCTION(BlueprintCallable, Category = "Audio_Settings")
 		void SwitchPlayingAudioComponent(USoundBase* newSound);
 
@@ -225,6 +248,7 @@ public:
 #pragma region keybind settings
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		bool UseGamePad;
+	/** Switch UseGamePad value*/
 	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
 		bool SwitchUseGamePad();
 	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
@@ -234,15 +258,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Key_Settings")
 		void ListenToNewKeyForMove(TEnumAsByte<PlayerActionLabel> actionToChange, int iteration);
 
+	/** Value to know if we are currently listening to a new key to assign or not*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
 		bool IsListeningToKey = false;
+	/** Current action to change*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Key_Settings")
 		TEnumAsByte<PlayerActionLabel> ListeningToKeyLabel;
 
-	/**list of keys*/
+	/**list of Keyboard keys*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeyboardKeys;
-
+	/**list of Gamepad keys*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Key_Settings")
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapGamepadKeys;
 #pragma endregion

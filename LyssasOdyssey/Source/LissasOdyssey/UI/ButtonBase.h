@@ -37,9 +37,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ButtonBase")
 		bool IsButtonTextVisible = true;
 
+	/** event called when ActionAccept button is pressed*/
 	UFUNCTION(BlueprintImplementableEvent, Category = "ButtonBase")
 		void ClickedEffect();
 
+	/** event called when ActionReturn button is pressed*/
 	UFUNCTION(BlueprintImplementableEvent, Category = "ButtonBase")
 		void ReturnEffect();
 
@@ -79,7 +81,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Debug")
 		class AMainGameMode* MainGameMode;
 
+	/** all buttons in current group*/
 	static int ButtonCountInActiveGroup;
+	/** the currently active group*/
 	static int ActiveButtonGroupID;
 
 	UPROPERTY(VisibleAnywhere, Category = "ButtonNavigation")
@@ -103,6 +107,7 @@ protected:
 
 
 private:
+	/** will write logs if true*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonBase", meta = (AllowPrivateAccess = "true"))
 		bool DEBUG = false;
 

@@ -382,7 +382,7 @@ void ALevelGameMode::CheckForDeath()
 	}
 }
 
-void ALevelGameMode::ShowDialogueWidget(bool showCursor = true)
+void ALevelGameMode::ShowDialogueWidget(bool showCursor)
 {
 	if (nullptr != DialogueWidget)
 	{
@@ -446,7 +446,7 @@ void ALevelGameMode::Tick(float DeltaTime)
 
 	LevelTimer += DeltaTime;
 
-	if (Currentstate == ELevelPlayState::EPlaying)
+	if (CurrentState == ELevelPlayState::EPlaying)
 	{
 		CheckForDeath();
 	}
@@ -457,13 +457,13 @@ void ALevelGameMode::Tick(float DeltaTime)
 
 ELevelPlayState ALevelGameMode::GetCurrentState() const
 {
-	return Currentstate;
+	return CurrentState;
 }
 
 void ALevelGameMode::SetCurrentState(ELevelPlayState newState)
 {
-	Currentstate = newState;
-	HandleNewState(Currentstate);
+	CurrentState = newState;
+	HandleNewState(CurrentState);
 }
 
 void ALevelGameMode::HandleNewState(ELevelPlayState newState)

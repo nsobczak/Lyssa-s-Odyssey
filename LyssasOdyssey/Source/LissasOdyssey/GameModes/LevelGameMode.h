@@ -35,6 +35,7 @@ public:
 
 	virtual bool GetIsBeginFunctionCompleted() override;
 
+	/** Vertical offset for shots*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		float VerticalLevel = 50.0f;
 
@@ -63,13 +64,13 @@ public:
 		bool AddPurpleKey();
 #pragma endregion
 
-
+	/** Level nature*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelConstants")
 		TEnumAsByte<LevelLabels> LevelLabel;
 
+	/** Boss theme for the map*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio_Settings")
 		USoundBase* BossTheme;//replace by tArray if more than 1 boss in same level	
-
 
 #pragma region save region
 	virtual bool SaveGameSettings() override;
@@ -78,32 +79,32 @@ public:
 
 
 #pragma region Map
+	/** Map texture*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Map")
 		UTexture2D* Map;
 
+	/** Player icon on map*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Map")
 		UTexture2D* PlayerIcon;
 #pragma endregion
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController", AdvancedDisplay)
 		class ALyssa* Lyssa;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameController", AdvancedDisplay)
 		class AFylgja* Fylgja;
+	/** Hide fylgja if false, useful for tutorial*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameController")
 		bool ShouldFylgjaStartVisible = true;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GameController")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GameController", AdvancedDisplay)
 		class UHUD_BossInfo* HudBossInfo;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GameController", AdvancedDisplay)
 		class ABoss* CurrentBoss;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GameController")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GameController", AdvancedDisplay)
 		bool IsBossActive = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameController")
-		float CollisionDistThreshold = 300.0f;
 
 	UFUNCTION(BlueprintPure, Category = "GameController")
 		ELevelPlayState GetCurrentState()const;
@@ -114,10 +115,11 @@ public:
 	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "HUD_boss")
 	//	bool WasGamePaused = false;
 
-
+	/** Level completed callback*/
 	UFUNCTION(BlueprintImplementableEvent, Category = "GameController")
 		void OnLevelCompleted();
 
+	/** Game over callback*/
 	UFUNCTION(BlueprintImplementableEvent, Category = "GameController")
 		void OnGameOver();
 
@@ -142,13 +144,12 @@ public:
 		FStructDialogue CurrentDialogueToDisplay;
 
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
-		void ShowDialogueWidget(bool showCursor);
+		void ShowDialogueWidget(bool showCursor = true);
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void HideDialogueWidget(bool showCursor = true);
 
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void UpdateCurrentDialogueText(FString newDialogueText);
-
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 		void UpdateDialoguePictureStruct(FStructTextureData dialogue);
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
@@ -171,7 +172,7 @@ private:
 
 	/**Keeps track of the current playing state*/
 	UPROPERTY(VisibleAnywhere, Category = "GameController")
-		ELevelPlayState Currentstate;
+		ELevelPlayState CurrentState;
 
 	/**handle any function call that rely upon changing the playing state of the game*/
 	void HandleNewState(ELevelPlayState newState);
