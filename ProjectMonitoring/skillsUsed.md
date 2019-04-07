@@ -7,19 +7,18 @@
 - post processing
 - user interface creation + design
 
-- graphic settings system
-- translation system
-- rebinding key system
-- minimap
-- level design
-
-- storytelling
-- dialogue system
-
 - game design (gameplay creation + balance)
-- sound design: music creation, effects in game and menus
+- sound design: music and effects in levels and menus
+- level design
 
 - licensing
 - publishing (github + itch.io)
 - communication (twitter)
--
+
+# Features
+- graphic settings system
+- translation system
+- rebinding key system
+- menu with gamepad compatibility
+- minimap
+- storytelling (dialogue system)
