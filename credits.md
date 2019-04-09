@@ -19,15 +19,15 @@ Public Domain:
 
 ## Sound effects
 hutvarev:
-- Autumn Audio Bundle 
+- Various sounds from Autumn Audio Bundle 
 
-ns
-- Game over
-- Level completed
+nsobczak:
+- Game over sound
+- Level completed sound
 
 ## Life bars
 Krystian Komisarek:
 - SDF Robo Progress Bars 
 
 ## Everything else
-ns
+nsobczak
