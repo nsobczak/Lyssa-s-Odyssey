@@ -16,6 +16,7 @@ ACharacterWithInputs::ACharacterWithInputs(const class FObjectInitializer& Objec
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 
+	PrimaryActorTick.bTickEvenWhenPaused = true;
 }
 
 // Called when the game starts or when spawned
@@ -106,7 +107,7 @@ void ACharacterWithInputs::MoveUp(float value)
 {
 	if (Controller != NULL && value != 0)
 	{
-		//UE_LOG(LogTemp, Log, TEXT("MoveUp with value of %f"), value);
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("MoveUp with value of %f"), value);
 
 		if (value > 0.5f)
 		{
@@ -124,7 +125,7 @@ void ACharacterWithInputs::MoveDown(float value)
 {
 	if (Controller != NULL && value != 0)
 	{
-		//UE_LOG(LogTemp, Log, TEXT("MoveDown pressed with value of %f"), value);
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("MoveDown pressed with value of %f"), value);
 
 		if (value > 0.5f)
 		{
@@ -141,7 +142,7 @@ void ACharacterWithInputs::MoveRight(float value)
 {
 	if (Controller != NULL && value != 0)
 	{
-		//UE_LOG(LogTemp, Log, TEXT("MoveRight pressed with value of %f"), value);
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("MoveRight pressed with value of %f"), value);
 
 		if (value > 0.5f)
 		{
@@ -158,7 +159,7 @@ void ACharacterWithInputs::MoveLeft(float value)
 {
 	if (Controller != NULL && value != 0)
 	{
-		//UE_LOG(LogTemp, Log, TEXT("MoveRight pressed with value of %f"), value);
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("MoveRight pressed with value of %f"), value);
 
 		if (value > 0.5f)
 		{
@@ -174,13 +175,13 @@ void ACharacterWithInputs::MoveLeft(float value)
 void ACharacterWithInputs::ActionAccept()
 {
 	OnAcceptDelegate.Broadcast();
-	//UE_LOG(LogTemp, Log, TEXT("ActionAccept"));
+	if (DEBUG) UE_LOG(LogTemp, Log, TEXT("ActionAccept"));
 }
 
 void ACharacterWithInputs::ActionReturn()
 {
 	OnReturnDelegate.Broadcast();
-	//UE_LOG(LogTemp, Log, TEXT("ActionReturn"));
+	if (DEBUG) UE_LOG(LogTemp, Log, TEXT("ActionReturn"));
 }
 //_______________
 #pragma endregion

@@ -77,4 +77,7 @@ public:
 	UFUNCTION()
 		virtual void ActionReturn();
 
+private:
+	bool DEBUG = false;
+
 };

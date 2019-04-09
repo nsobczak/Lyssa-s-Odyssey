@@ -16,6 +16,7 @@ int UButtonBase::ActiveButtonGroupID;
 UButtonBase::UButtonBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
+	//PrimaryActorTick.bTickEvenWhenPaused = true;
 }
 
 
@@ -77,7 +78,7 @@ void UButtonBase::InitializeButtonLinks()
 #pragma region Callbacks
 void UButtonBase::OnActionAccept()
 {
-	if (Timer >= TimeBetweenInputs)
+	if (Timer >= TimeBetweenInputs && IsActive)
 	{
 		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionAccept"));
 		ClickedEffect();
@@ -87,7 +88,7 @@ void UButtonBase::OnActionAccept()
 
 void UButtonBase::OnActionReturn()
 {
-	if (Timer >= TimeBetweenInputs)
+	if (Timer >= TimeBetweenInputs && IsActive)
 	{
 		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionReturn"));
 		ReturnEffect();
@@ -98,7 +99,7 @@ void UButtonBase::OnActionReturn()
 
 void UButtonBase::OnActionMoveUp()
 {
-	if (Timer >= TimeBetweenInputs && !BlockUpperLink && NextButton_Up && NextButton_Up->IsVisible())
+	if (Timer >= TimeBetweenInputs && IsActive && !BlockUpperLink && NextButton_Up && NextButton_Up->IsVisible())
 	{
 		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionMoveUp: Activated %s | Deactivated %s"), *(NextButton_Up->GetName()), *(this->GetName()));
 		Timer = 0;
@@ -110,7 +111,7 @@ void UButtonBase::OnActionMoveUp()
 
 void UButtonBase::OnActionMoveRight()
 {
-	if (Timer >= TimeBetweenInputs && !BlockRightLink && NextButton_Right && NextButton_Right->IsVisible())
+	if (Timer >= TimeBetweenInputs && IsActive && !BlockRightLink && NextButton_Right && NextButton_Right->IsVisible())
 	{
 		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionMoveRight: Activated %s | Deactivated %s"), *(NextButton_Right->GetName()), *(this->GetName()));
 		Timer = 0;
@@ -122,7 +123,7 @@ void UButtonBase::OnActionMoveRight()
 
 void UButtonBase::OnActionMoveDown()
 {
-	if (Timer >= TimeBetweenInputs && !BlockBottomLink && NextButton_Bottom && NextButton_Bottom->IsVisible())
+	if (Timer >= TimeBetweenInputs && IsActive && !BlockBottomLink && NextButton_Bottom && NextButton_Bottom->IsVisible())
 	{
 		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionMoveDown: Activated %s | Deactivated %s"), *(NextButton_Bottom->GetName()), *(this->GetName()));
 		Timer = 0;
@@ -134,7 +135,7 @@ void UButtonBase::OnActionMoveDown()
 
 void UButtonBase::OnActionMoveLeft()
 {
-	if (Timer >= TimeBetweenInputs && !BlockLeftLink && NextButton_Left && NextButton_Left->IsVisible())
+	if (Timer >= TimeBetweenInputs && IsActive && !BlockLeftLink && NextButton_Left && NextButton_Left->IsVisible())
 	{
 		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("OnActionMoveLeft: Activated %s | Deactivated %s"), *(NextButton_Left->GetName()), *(this->GetName()));
 		Timer = 0;
@@ -184,7 +185,7 @@ void UButtonBase::SetIsActive(bool isActive)
 
 	if (isActive == false)
 	{
-		//WasAlreadyActivated = false;
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("%s was deactivated"), *(this->GetName()));
 		OnDeactivation();
 	}
 	else
@@ -199,14 +200,14 @@ bool UButtonBase::GetIsActive()
 	return IsActive;
 }
 
-void UButtonBase::DeactivateAllButtonsInGroup()
+void UButtonBase::DeactivateAllOtherButtonsInGroup()
 {
 	for (size_t i = 0; i < ButtonsInGroup.Num(); ++i)
 	{
 		UButtonBase* cButton = ButtonsInGroup[i];
-		if (cButton->IsActive == true)
+		if (cButton->IsActive && cButton != this)
 		{
-			cButton->IsActive = false;
+			cButton->SetIsActive(false);
 		}
 	}
 }
@@ -255,6 +256,7 @@ void UButtonBase::NativeConstruct()
 
 		if (lyssa)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("lyssa is not null"), UButtonBase::ButtonCountInActiveGroup);
 			lyssa->OnAcceptDelegate.AddDynamic(this, &UButtonBase::OnActionAccept);
 			lyssa->OnReturnDelegate.AddDynamic(this, &UButtonBase::OnActionReturn);
 			lyssa->OnUpDelegate.AddDynamic(this, &UButtonBase::OnActionMoveUp);
@@ -265,6 +267,7 @@ void UButtonBase::NativeConstruct()
 
 		else if (defCharacter)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("lyssa is null => use defCharacter"), UButtonBase::ButtonCountInActiveGroup);
 			defCharacter->OnAcceptDelegate.AddDynamic(this, &UButtonBase::OnActionAccept);
 			defCharacter->OnReturnDelegate.AddDynamic(this, &UButtonBase::OnActionReturn);
 			defCharacter->OnUpDelegate.AddDynamic(this, &UButtonBase::OnActionMoveUp);

@@ -59,7 +59,7 @@ public:
 		bool GetIsActive();
 
 	UFUNCTION(BlueprintCallable, Category = "ButtonBase")
-		void DeactivateAllButtonsInGroup();
+		void DeactivateAllOtherButtonsInGroup();
 
 	/** button links*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")
