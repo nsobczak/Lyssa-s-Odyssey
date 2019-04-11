@@ -27,9 +27,8 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	RootComponent = GetCapsuleComponent();
 	PrimaryActorTick.bTickEvenWhenPaused = true;
 
-	//create the static mesh component
-	LyssaMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LyssaMesh"));
-	LyssaMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform);
+	LyssaSKMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("LyssaSKMesh"));
+	LyssaSKMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
 	////create Fylgja
 	//Fylgja = CreateDefaultSubobject<AFylgja>(TEXT("Fylgja"));
@@ -50,7 +49,7 @@ void ALyssa::BeginPlay()
 {
 	Super::BeginPlay();
 
-	initialPosZValue = GetActorLocation().Z;
+	InitialPosZValue = GetActorLocation().Z;
 
 	// === Fylgja === 
 	TArray<AActor*> Comps;
@@ -68,7 +67,15 @@ void ALyssa::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	Timer += DeltaTime;
+
+
 	UpdateRotation();
+
+	if (IsMoving && Timer > DelayBeforeNotMoving)
+	{
+		IsMoving = false;
+	}
 
 	CollectPickups();
 }
@@ -164,6 +171,8 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 //_______________
 void ALyssa::MoveUp(float value)
 {
+	//if (DEBUG) UE_LOG(LogTemp, Log, TEXT("topKeyValue = %f"), topKeyValue);
+
 	if (Controller != NULL && value != 0)
 	{
 		if (value * value > 0.5f * 0.5f)
@@ -177,9 +186,12 @@ void ALyssa::MoveUp(float value)
 		// add movement in that direction
 		AddMovementInput(Direction, value);
 
+		IsMoving = true;
+		Timer = 0;
+
 		// Set Character's rotation
 		topKeyValue = value;
-		//UE_LOG(LogTemp, Log, TEXT("topKeyValue = %f"), topKeyValue);
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("topKeyValue = %f"), topKeyValue);
 	}
 }
 
@@ -198,9 +210,12 @@ void ALyssa::MoveDown(float value)
 		// add movement in that direction
 		AddMovementInput(Direction, -value);
 
+		IsMoving = true;
+		Timer = 0;
+
 		// Set Character's rotation
 		downKeyValue = value;
-		//UE_LOG(LogTemp, Log, TEXT("downKeyValue = %f"), downKeyValue);
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("downKeyValue = %f"), downKeyValue);
 	}
 }
 
@@ -219,9 +234,12 @@ void ALyssa::MoveRight(float value)
 		// add movement in that direction
 		AddMovementInput(Direction, value);
 
+		IsMoving = true;
+		Timer = 0;
+
 		// Set Character's rotation
 		rightKeyValue = value;
-		//UE_LOG(LogTemp, Log, TEXT("rightKeyValue = %f"), rightKeyValue);
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("rightKeyValue = %f"), rightKeyValue);
 	}
 }
 
@@ -240,9 +258,12 @@ void ALyssa::MoveLeft(float value)
 		// add movement in that direction
 		AddMovementInput(Direction, -value);
 
+		IsMoving = true;
+		Timer = 0;
+
 		// Set Character's rotation
 		leftKeyValue = value;
-		//UE_LOG(LogTemp, Log, TEXT("leftKeyValue = %f"), leftKeyValue);
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("leftKeyValue = %f"), leftKeyValue);
 	}
 }
 
@@ -307,7 +328,7 @@ void ALyssa::UpdateRotation()
 		//UE_LOG(LogTemp, Log, TEXT("rotationAngle = %f"), rotationAngle);
 	}
 
-	this->GetMesh()->SetRelativeRotation(FRotator(0, rotationAngle, 0));
+	this->LyssaSKMesh->SetRelativeRotation(FRotator(0, rotationAngle, 0));
 	leftKeyValue = 0; topKeyValue = 0; rightKeyValue = 0; downKeyValue = 0;
 }
 //_______________
@@ -322,7 +343,7 @@ void ALyssa::MoveFUp(float value)
 	{
 		// Set Character's rotation
 		this->Fylgja->fTopKeyValue = value;
-		//UE_LOG(LogTemp, Log, TEXT("ftopKeyValue = %f"), this->Fylgja->fTopKeyValue);
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("ftopKeyValue = %f"), this->Fylgja->fTopKeyValue);
 	}
 }
 
@@ -332,7 +353,7 @@ void ALyssa::MoveFDown(float value)
 	{
 		// Set Character's rotation
 		this->Fylgja->fDownKeyValue = value;
-		//UE_LOG(LogTemp, Log, TEXT("fdownKeyValue = %f"), this->Fylgja->fDownKeyValue);
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("fdownKeyValue = %f"), this->Fylgja->fDownKeyValue);
 	}
 }
 
@@ -342,7 +363,7 @@ void ALyssa::MoveFRight(float value)
 	{
 		// Set Character's rotation
 		this->Fylgja->fRightKeyValue = value;
-		//UE_LOG(LogTemp, Log, TEXT("frightKeyValue = %f"), this->Fylgja->fRightKeyValue);
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("frightKeyValue = %f"), this->Fylgja->fRightKeyValue);
 	}
 }
 
@@ -352,7 +373,7 @@ void ALyssa::MoveFLeft(float value)
 	{
 		// Set Character's rotation
 		this->Fylgja->fLeftKeyValue = value;
-		//UE_LOG(LogTemp, Log, TEXT("fleftKeyValue = %f"), this->Fylgja->fLeftKeyValue);
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("fleftKeyValue = %f"), this->Fylgja->fLeftKeyValue);
 	}
 }
 //_______________
@@ -361,13 +382,13 @@ void ALyssa::MoveFLeft(float value)
 
 void ALyssa::ActionAccept()
 {
-	//UE_LOG(LogTemp, Log, TEXT("ActionAccept"));
+	if (DEBUG) UE_LOG(LogTemp, Log, TEXT("ActionAccept"));
 	OnAcceptDelegate.Broadcast();
 }
 
 void ALyssa::ActionReturn()
 {
-	//UE_LOG(LogTemp, Log, TEXT("ActionReturn"));
+	if (DEBUG) UE_LOG(LogTemp, Log, TEXT("ActionReturn"));
 	OnReturnDelegate.Broadcast();
 }
 
@@ -379,11 +400,12 @@ void ALyssa::PauseGame()
 	{
 		if (CurrentGameMode->GetCurrentState() != ELevelPlayState::EPause)
 		{
-			//UE_LOG(LogTemp, Warning, TEXT("Pause called"));
+			if (DEBUG) UE_LOG(LogTemp, Warning, TEXT("Pause called"));
 			CurrentGameMode->SetCurrentState(ELevelPlayState::EPause);
 		}
 		else
 		{
+			if (DEBUG) UE_LOG(LogTemp, Warning, TEXT("Unpaused"));
 			CurrentGameMode->SetCurrentState(ELevelPlayState::EPlaying);
 		}
 
@@ -488,7 +510,7 @@ void ALyssa::CollectPickups()
 {
 	//get overlaping actors and store them in an array
 	TArray<AActor*> collectedActors;
-	LyssaMesh->GetOverlappingActors(collectedActors);
+	this->GetOverlappingActors(collectedActors);
 
 	//for each actor we collected
 	for (int32 iCollected = 0; iCollected < collectedActors.Num(); ++iCollected)

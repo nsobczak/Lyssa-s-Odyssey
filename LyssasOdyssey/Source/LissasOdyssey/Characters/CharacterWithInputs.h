@@ -15,7 +15,7 @@ UCLASS()
 class LISSASODYSSEY_API ACharacterWithInputs : public ACharacterBase
 {
 	GENERATED_BODY()
-	
+
 public:
 	// Sets default values for this character's properties
 	ACharacterWithInputs(const FObjectInitializer& ObjectInitializer);
@@ -78,6 +78,7 @@ public:
 		virtual void ActionReturn();
 
 private:
-	bool DEBUG = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Debug", meta = (AllowPrivateAccess = "true"))
+		bool DEBUG = false;
 
 };

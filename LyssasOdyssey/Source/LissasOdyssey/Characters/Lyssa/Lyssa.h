@@ -78,8 +78,12 @@ public:
 	UFUNCTION()
 		void MoveRight(float value);
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Lyssa")
+		bool IsMoving = false;
+
 	UFUNCTION(BlueprintCallable, Category = "Lyssa")
 		void UpdateRotation();
+
 
 	/**handles fylgja moving up*/
 	UFUNCTION()
@@ -142,19 +146,26 @@ public:
 
 
 protected:
-	float initialPosZValue;
+	float InitialPosZValue;
+
+	float DelayBeforeNotMoving = 0.5f;
 
 	UFUNCTION(BlueprintCallable, Category = "Pickups")
 		void CollectPickups();
 
 
 private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Debug", meta = (AllowPrivateAccess = "true"))
+		bool DEBUG = false;
+
 	/** Static mesh to represent the Lyssa in the level*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lyssa", meta = (AllowPrivateAccess = "true"))
-		class UStaticMeshComponent* LyssaMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Lyssa", meta = (AllowPrivateAccess = "true"))
+		class USkeletalMeshComponent* LyssaSKMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Fylgja", meta = (AllowPrivateAccess = "true"))
 		class AFylgja* Fylgja;
+
+	float Timer = 0;
 
 	UPROPERTY(VisibleAnywhere, Category = "Pickups")
 		TArray<TEnumAsByte<KeyLockNature>> KeyPickups;

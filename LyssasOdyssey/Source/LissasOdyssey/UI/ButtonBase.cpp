@@ -256,7 +256,7 @@ void UButtonBase::NativeConstruct()
 
 		if (lyssa)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("lyssa is not null"), UButtonBase::ButtonCountInActiveGroup);
+			if (DEBUG) UE_LOG(LogTemp, Warning, TEXT("lyssa is not null"), UButtonBase::ButtonCountInActiveGroup);
 			lyssa->OnAcceptDelegate.AddDynamic(this, &UButtonBase::OnActionAccept);
 			lyssa->OnReturnDelegate.AddDynamic(this, &UButtonBase::OnActionReturn);
 			lyssa->OnUpDelegate.AddDynamic(this, &UButtonBase::OnActionMoveUp);
@@ -267,7 +267,7 @@ void UButtonBase::NativeConstruct()
 
 		else if (defCharacter)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("lyssa is null => use defCharacter"), UButtonBase::ButtonCountInActiveGroup);
+			if (DEBUG) UE_LOG(LogTemp, Warning, TEXT("lyssa is null => use defCharacter"), UButtonBase::ButtonCountInActiveGroup);
 			defCharacter->OnAcceptDelegate.AddDynamic(this, &UButtonBase::OnActionAccept);
 			defCharacter->OnReturnDelegate.AddDynamic(this, &UButtonBase::OnActionReturn);
 			defCharacter->OnUpDelegate.AddDynamic(this, &UButtonBase::OnActionMoveUp);
