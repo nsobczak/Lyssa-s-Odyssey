@@ -504,7 +504,7 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 			APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
 			if (playerController)
 			{
-				playerController->SetInputMode(FInputModeUIOnly());
+				playerController->SetInputMode(FInputModeGameAndUI());
 				playerController->SetCinematicMode(true, false, false, true, true);
 			}
 			gameMode->ShowGameOverWidget();
@@ -525,7 +525,7 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 			APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
 			if (playerController)
 			{
-				playerController->SetInputMode(FInputModeUIOnly());
+				playerController->SetInputMode(FInputModeGameAndUI());
 				playerController->SetCinematicMode(true, false, false, true, true);
 			}
 			gameMode->ShowEndingWidget();
