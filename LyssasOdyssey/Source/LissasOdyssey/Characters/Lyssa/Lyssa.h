@@ -65,19 +65,35 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	/**handles moving up*/
+
+	/**handles menu moving up*/
+	UFUNCTION()
+		void MoveMenuUp();
+	/**handles menu moving down*/
+	UFUNCTION()
+		void MoveMenuDown();
+	/**handles menu left*/
+	UFUNCTION()
+		void MoveMenuLeft();
+	/**handles menu right*/
+	UFUNCTION()
+		void MoveMenuRight();
+
+
+	/**handles lyssa moving up*/
 	UFUNCTION()
 		void MoveUp(float value);
-	/**handles moving down*/
+	/**handles lyssa moving down*/
 	UFUNCTION()
 		void MoveDown(float value);
-	/**handles left*/
+	/**handles lyssa left*/
 	UFUNCTION()
 		void MoveLeft(float value);
-	/**handles right*/
+	/**handles lyssa right*/
 	UFUNCTION()
 		void MoveRight(float value);
 
+	/**useful for animations*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Lyssa")
 		bool IsMoving = false;
 

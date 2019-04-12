@@ -53,6 +53,7 @@ void ACharacterWithInputs::WaitForLoadCompletionAndAssignKeys(AMainGameMode* cur
 			*(TMapKeys.FindRef(PlayerActionLabel::MoveDown).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::MoveLeft).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
+
 		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ACharacterWithInputs::MoveUp);
 		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ACharacterWithInputs::MoveDown);
 		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ACharacterWithInputs::MoveLeft);
@@ -167,7 +168,7 @@ void ACharacterWithInputs::MoveLeft(float value)
 		}
 		else if (value < -0.5f)
 		{
-			OnLeftDelegate.Broadcast();
+			OnRightDelegate.Broadcast();
 		}
 	}
 }

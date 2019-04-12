@@ -500,7 +500,7 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 		AMainGameMode* gameMode = Cast<AMainGameMode>(GetWorld()->GetAuthGameMode());
 		if (gameMode)
 		{
-			//block player input
+			//control player input
 			APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
 			if (playerController)
 			{
@@ -521,7 +521,7 @@ void ALevelGameMode::HandleNewState(ELevelPlayState newState)
 		AMainGameMode* gameMode = Cast<AMainGameMode>(GetWorld()->GetAuthGameMode());
 		if (gameMode)
 		{
-			//block player input
+			//control player input
 			APlayerController* playerController = UGameplayStatics::GetPlayerController(this, 0);
 			if (playerController)
 			{

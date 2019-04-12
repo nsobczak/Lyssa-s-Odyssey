@@ -6,7 +6,7 @@
 #include "StructButtonLinks.generated.h"
 
 /**
- * 
+ *
  */
 USTRUCT(BlueprintType)
 struct FStructButtonLinks
@@ -15,6 +15,11 @@ struct FStructButtonLinks
 
 public:
 	FStructButtonLinks();
+	FStructButtonLinks(int32 buttonGroupUniqueID, int32 buttonUniqueID,
+		int32 nextButtonID_Up, int32 nextButtonID_Right, int32 nextButtonID_Bottom, int32 nextButtonID_Left);
+
+	void SetButtonLinks(int32 buttonGroupUniqueID, int32 buttonUniqueID,
+		int32 nextButtonID_Up, int32 nextButtonID_Right, int32 nextButtonID_Bottom, int32 nextButtonID_Left);
 
 	/** button group ID, -1 will be ignored*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ButtonNavigation")

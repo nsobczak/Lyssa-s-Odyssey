@@ -25,7 +25,7 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 
 	RootComponent = GetCapsuleComponent();
-	PrimaryActorTick.bTickEvenWhenPaused = true;
+	PrimaryActorTick.bTickEvenWhenPaused = false;
 
 	LyssaSKMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("LyssaSKMesh"));
 	LyssaSKMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
@@ -98,8 +98,6 @@ void ALyssa::WaitForLoadCompletionAndAssignKeys(ALevelGameMode* currentGameMode,
 	if (currentGameMode->GetIsBeginFunctionCompleted())
 	{
 		//TODO: debind all before reassigning
-		//playerInputComponent->BindAxis("MoveUp", this, &ALyssa::MoveUp);
-		//playerInputComponent->BindAxis("MoveRight", this, &ALyssa::MoveRight);
 
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeys;
 
@@ -109,10 +107,11 @@ void ALyssa::WaitForLoadCompletionAndAssignKeys(ALevelGameMode* currentGameMode,
 			*(TMapKeys.FindRef(PlayerActionLabel::MoveDown).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::MoveLeft).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
-		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp);
+
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp).bExecuteWhenPaused = true;
 		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
 		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
-		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight);
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight).bExecuteWhenPaused = true;
 		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveUp), this, &ALyssa::MoveFUp);
 		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveDown), this, &ALyssa::MoveFDown);
 		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveLeft), this, &ALyssa::MoveFLeft);
@@ -128,14 +127,14 @@ void ALyssa::WaitForLoadCompletionAndAssignKeys(ALevelGameMode* currentGameMode,
 			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
 
-		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp);
-		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown);
-		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft);
-		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight);
-		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveUp), this, &ALyssa::MoveFUp);
-		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveDown), this, &ALyssa::MoveFDown);
-		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveLeft), this, &ALyssa::MoveFLeft);
-		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::FMoveRight), this, &ALyssa::MoveFRight);
+		//playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), EInputEvent::IE_Released, this, &ALyssa::MoveMenuUp);
+		//playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), EInputEvent::IE_Released, this, &ALyssa::MoveMenuDown);
+		//playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), EInputEvent::IE_Released, this, &ALyssa::MoveMenuLeft);
+		//playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), EInputEvent::IE_Released, this, &ALyssa::MoveMenuRight);
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp).bExecuteWhenPaused = true;
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown).bExecuteWhenPaused = true;
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft).bExecuteWhenPaused = true;
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ALyssa::MoveRight).bExecuteWhenPaused = true;
 		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ALyssa::ActionAccept).bExecuteWhenPaused = true;
 		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ALyssa::ActionReturn).bExecuteWhenPaused = true;
 		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::AStart), EInputEvent::IE_Released, this, &ALyssa::PauseGame).bExecuteWhenPaused = true;
@@ -167,6 +166,36 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	}
 }
 
+#pragma region Menu
+//_______________
+void ALyssa::MoveMenuUp()
+{
+	if (DEBUG) UE_LOG(LogTemp, Log, TEXT("MoveMenuUp"));
+	OnUpDelegate.Broadcast();
+}
+
+void ALyssa::MoveMenuDown()
+{
+	if (DEBUG) UE_LOG(LogTemp, Log, TEXT("MoveMenuDown"));
+	OnDownDelegate.Broadcast();
+}
+
+void ALyssa::MoveMenuLeft()
+{
+	if (DEBUG) UE_LOG(LogTemp, Log, TEXT("MoveMenuLeft"));
+	OnLeftDelegate.Broadcast();
+}
+
+void ALyssa::MoveMenuRight()
+{
+	if (DEBUG) UE_LOG(LogTemp, Log, TEXT("MoveMenuRight"));
+	OnRightDelegate.Broadcast();
+}
+
+//_______________
+#pragma endregion
+
+
 #pragma region Lyssa
 //_______________
 void ALyssa::MoveUp(float value)
@@ -175,8 +204,16 @@ void ALyssa::MoveUp(float value)
 
 	if (Controller != NULL && value != 0)
 	{
-		if (value * value > 0.5f * 0.5f)
+		//if (value * value > 0.5f * 0.5f)
+		//	OnUpDelegate.Broadcast();
+		if (value > 0.5f)
+		{
 			OnUpDelegate.Broadcast();
+		}
+		else if (value < -0.5f)
+		{
+			OnDownDelegate.Broadcast();
+		}
 
 		// find out which way is up
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -199,8 +236,16 @@ void ALyssa::MoveDown(float value)
 {
 	if (Controller != NULL && value != 0)
 	{
-		if (value * value > 0.5f * 0.5f)
+		//if (value * value > 0.5f * 0.5f)
+		//	OnDownDelegate.Broadcast();
+		if (value > 0.5f)
+		{
 			OnDownDelegate.Broadcast();
+		}
+		else if (value < -0.5f)
+		{
+			OnUpDelegate.Broadcast();
+		}
 
 		// find out which way is up
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -223,8 +268,16 @@ void ALyssa::MoveRight(float value)
 {
 	if (Controller != NULL && value != 0)
 	{
-		if (value * value > 0.5f * 0.5f)
+		//if (value * value > 0.5f * 0.5f)
+		//	OnRightDelegate.Broadcast();
+		if (value > 0.5f)
+		{
 			OnRightDelegate.Broadcast();
+		}
+		else if (value < -0.5f)
+		{
+			OnLeftDelegate.Broadcast();
+		}
 
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -247,8 +300,16 @@ void ALyssa::MoveLeft(float value)
 {
 	if (Controller != NULL && value != 0)
 	{
-		if (value * value > 0.5f * 0.5f)
+		//if (value * value > 0.5f * 0.5f)
+		//	OnLeftDelegate.Broadcast();
+		if (value > 0.5f)
+		{
 			OnLeftDelegate.Broadcast();
+		}
+		else if (value < -0.5f)
+		{
+			OnRightDelegate.Broadcast();
+		}
 
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
