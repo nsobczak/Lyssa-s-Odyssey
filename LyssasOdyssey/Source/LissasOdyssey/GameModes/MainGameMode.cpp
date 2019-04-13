@@ -60,6 +60,10 @@ void AMainGameMode::SaveSettingsValues(UMainSaveGame* SaveInstance)
 	// Values
 	SaveInstance->CurrentLanguage = this->CurrentLanguage;
 	SaveInstance->CurrentTextSpeed = this->CurrentTextSpeed;
+
+	SaveInstance->LyssaBodyMat = this->LyssaBodyMat;
+	SaveInstance->LyssaShapeMat = this->LyssaShapeMat;
+
 	SaveInstance->ShowMinimap = this->ShowMap;
 	SaveInstance->ShowTime = this->ShowTime;
 	SaveInstance->ShowLife = this->ShowLife;
@@ -133,6 +137,10 @@ void AMainGameMode::LoadSettingsValues(UMainSaveGame * &LoadInstance)
 	this->CurrentLanguage = LoadInstance->CurrentLanguage;
 	this->CurrentTextSpeed = LoadInstance->CurrentTextSpeed;
 	UpdateTextSpeedFloatValue();
+
+	this->LyssaBodyMat = LoadInstance->LyssaBodyMat;
+	this->LyssaShapeMat = LoadInstance->LyssaShapeMat;
+
 	this->ShowMap = LoadInstance->ShowMinimap;
 	this->ShowTime = LoadInstance->ShowTime;
 	this->ShowLife = LoadInstance->ShowLife;

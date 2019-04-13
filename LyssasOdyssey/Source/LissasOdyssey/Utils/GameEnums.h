@@ -11,6 +11,9 @@ UENUM(BlueprintType)
 enum class ETextSpeed : uint8 { Slow, Normal, Fast, count };
 
 UENUM(BlueprintType)
+enum LyssaColorMatLabel { BodyColor, ShapeColor};
+
+UENUM(BlueprintType)
 enum GraphicLabel { Graphical, PP, AA, Shadow, FPS, Res };
 
 UENUM(BlueprintType)

@@ -44,12 +44,22 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	ScorePickupAmount = 0;
 }
 
+void ALyssa::UpdateSKMeshColors()
+{
+	// === Colors === 
+	AMainGameMode* currentMainGameMode = (AMainGameMode*)GetWorld()->GetAuthGameMode();
+	if (currentMainGameMode->LyssaBodyMat) LyssaSKMesh->SetMaterial(0, currentMainGameMode->LyssaBodyMat);
+	if (currentMainGameMode->LyssaShapeMat) LyssaSKMesh->SetMaterial(1, currentMainGameMode->LyssaShapeMat);
+}
+
 // Called when the game starts or when spawned
 void ALyssa::BeginPlay()
 {
 	Super::BeginPlay();
 
 	InitialPosZValue = GetActorLocation().Z;
+
+	UpdateSKMeshColors();
 
 	// === Fylgja === 
 	TArray<AActor*> Comps;

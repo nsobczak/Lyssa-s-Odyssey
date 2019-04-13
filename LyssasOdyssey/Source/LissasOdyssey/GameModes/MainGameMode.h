@@ -128,6 +128,11 @@ public:
 		void UpdateTextSpeedFloatValue();
 	UFUNCTION(BlueprintCallable, Category = "General_Settings")
 		void ChangeTextSpeed(bool increase);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "General_Settings")
+		UMaterialInterface* LyssaBodyMat;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "General_Settings")
+		UMaterialInterface* LyssaShapeMat;
 #pragma endregion
 
 #pragma region graphic settings

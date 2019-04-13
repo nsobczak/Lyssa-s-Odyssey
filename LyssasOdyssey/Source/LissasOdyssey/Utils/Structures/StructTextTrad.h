@@ -9,7 +9,6 @@
 /**
  *
  */
-
 USTRUCT(BlueprintType)
 struct FStructTextTrad : public FTableRowBase
 {

@@ -25,14 +25,17 @@ public:
 	// Sets default values for this character's properties
 	ALyssa(const FObjectInitializer& ObjectInitializer);
 
-	UFUNCTION(BlueprintPure, Category = "Fylgja")
-		AFylgja* GetFylgja() const;
-
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION(BlueprintPure, Category = "Fylgja")
+		AFylgja* GetFylgja() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Lyssa")
+		void UpdateSKMeshColors();
 
 #pragma region Delegates
 
