@@ -51,7 +51,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
 		void InitIndexesValueFromGameMode();
-
 	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
 		int GetBodyMatIdx() const;
 	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
@@ -60,6 +59,11 @@ public:
 		int GetShapeMatIdx() const;
 	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
 		void SetShapeMatIdx(int idx);
+
+	UFUNCTION(exec, Category = "LyssaColor")
+		void PrintBodyMatIdx();
+	UFUNCTION(exec, Category = "LyssaColor")
+		void PrintShapeMatIdx();
 
 	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
 		void DecreaseBodyMatIdx();
@@ -74,6 +78,9 @@ public:
 		FStructMaterialWithName GetBodyStructMat() const;
 	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
 		FStructMaterialWithName GetShapeStructMat() const;
+
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		void ColorInitialization();
 #pragma endregion
 
 #pragma region Delegates

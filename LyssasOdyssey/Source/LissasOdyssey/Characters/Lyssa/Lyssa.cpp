@@ -73,6 +73,8 @@ void ALyssa::InitIndexesValueFromGameMode()
 {
 	this->BodyMatIdx = CurrentMainGameMode->LyssaBodyMatIdx;
 	this->ShapeMatIdx = CurrentMainGameMode->LyssaShapeMatIdx;
+	UE_LOG(LogTemp, Log, TEXT("Initialized current lyssa color indexes value from CurrentMainGameMode: BodyMatIdx = %i, ShapeMatIdx = %i"),
+		BodyMatIdx, ShapeMatIdx);
 }
 
 int ALyssa::GetBodyMatIdx() const
@@ -100,6 +102,16 @@ void ALyssa::SetShapeMatIdx(int idx)
 AFylgja* ALyssa::GetFylgja() const
 {
 	return Fylgja;
+}
+
+void ALyssa::PrintBodyMatIdx()
+{
+	UE_LOG(LogTemp, Log, TEXT("BodyMatIdx = %i"), this->BodyMatIdx);
+}
+
+void ALyssa::PrintShapeMatIdx()
+{
+	UE_LOG(LogTemp, Log, TEXT("ShapeMatIdx = %i"), this->ShapeMatIdx);
 }
 
 void ALyssa::DecreaseBodyMatIdx()
@@ -157,6 +169,39 @@ FStructMaterialWithName ALyssa::GetShapeStructMat() const
 }
 
 
+void ALyssa::ColorInitialization()
+{
+	if (CurrentMainGameMode->GetIsBeginFunctionCompleted())
+	{
+		if (ColorDataTable)
+		{
+			ColorsArray.Reset();
+			FString context;
+			TArray<FStructMaterialWithName*> cArray;
+			ColorDataTable->GetAllRows(context, cArray);
+			for (size_t i = 0; i < cArray.Num(); ++i)
+			{
+				ColorsArray.Add(*(cArray[i]));
+			}
+
+			InitIndexesValueFromGameMode();
+			UpdateSKMeshColors();
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("ColorDataTable is null"));
+		}
+	}
+	else
+	{
+		//delay
+		FTimerHandle TimerHandle; // Handle to manage the timer
+		FTimerDelegate TimerDel; //Bind function with parameters
+		TimerDel.BindUFunction(this, FName("ColorInitialization"));
+		GetWorldTimerManager().SetTimer(TimerHandle, TimerDel, 0.2f, false); //0.1f as default parameter
+	}
+}
+
 // Called when the game starts or when spawned
 void ALyssa::BeginPlay()
 {
@@ -171,25 +216,7 @@ void ALyssa::BeginPlay()
 		UE_LOG(LogTemp, Error, TEXT("CurrentMainGameMode is null"));
 	}
 
-	// === Colors === 
-	if (ColorDataTable)
-	{
-		ColorsArray.Reset();
-		FString context;
-		TArray<FStructMaterialWithName*> cArray;
-		ColorDataTable->GetAllRows(context, cArray);
-		for (size_t i = 0; i < cArray.Num(); ++i)
-		{
-			ColorsArray.Add(*(cArray[i]));
-		}
-
-		InitIndexesValueFromGameMode();
-		UpdateSKMeshColors();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("ColorDataTable is null"));
-	}
+	ColorInitialization();
 
 	// === Fylgja === 
 	TArray<AActor*> Comps;
@@ -221,7 +248,6 @@ void ALyssa::Tick(float DeltaTime)
 	}
 
 	CollectPickups();
-
 }
 
 
