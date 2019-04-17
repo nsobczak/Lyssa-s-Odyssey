@@ -266,9 +266,9 @@ void AMainGameMode::InitializeAudioSettingsWithDefault()
 void AMainGameMode::InitializeKeySettingsWithDefault()
 {
 	this->UseGamePad = GameConstants::DEF_USE_GAMEPAD;
-	this->TMapGamepadKeys.Reset();
 
 	//GamePad
+	//this->TMapGamepadKeys.Reset();
 	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DEF_GPKEY_MOVE_VERTICAL);
 	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveRight, GameConstants::DEF_GPKEY_MOVE_HORIZONTAL);
 	this->TMapGamepadKeys.Emplace(PlayerActionLabel::FMoveUp, GameConstants::DEF_GPKEY_FMOVE_VERTICAL);
@@ -279,6 +279,7 @@ void AMainGameMode::InitializeKeySettingsWithDefault()
 	this->TMapGamepadKeys.Emplace(PlayerActionLabel::AStart, GameConstants::DEF_GPKEY_ASTART);
 
 	//Keyboard
+	//this->TMapKeyboardKeys.Reset();
 	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DEF_KKEY_MOVE_UP);
 	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveDown, GameConstants::DEF_KKEY_MOVE_DOWN);
 	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveLeft, GameConstants::DEF_KKEY_MOVE_LEFT);

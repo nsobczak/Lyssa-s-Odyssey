@@ -54,10 +54,10 @@ void ACharacterWithInputs::WaitForLoadCompletionAndAssignKeys(AMainGameMode* cur
 			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
 
-		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ACharacterWithInputs::MoveUp);
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ACharacterWithInputs::MoveUp).bExecuteWhenPaused = true;
 		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ACharacterWithInputs::MoveDown);
 		//playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ACharacterWithInputs::MoveLeft);
-		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ACharacterWithInputs::MoveRight);
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ACharacterWithInputs::MoveRight).bExecuteWhenPaused = true;
 		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ACharacterWithInputs::ActionAccept).bExecuteWhenPaused = true;
 		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ACharacterWithInputs::ActionReturn).bExecuteWhenPaused = true;
 
@@ -68,10 +68,10 @@ void ACharacterWithInputs::WaitForLoadCompletionAndAssignKeys(AMainGameMode* cur
 			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
 
-		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ACharacterWithInputs::MoveUp);
-		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ACharacterWithInputs::MoveDown);
-		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ACharacterWithInputs::MoveLeft);
-		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ACharacterWithInputs::MoveRight);
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ACharacterWithInputs::MoveUp).bExecuteWhenPaused = true;
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ACharacterWithInputs::MoveDown).bExecuteWhenPaused = true;
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ACharacterWithInputs::MoveLeft).bExecuteWhenPaused = true;
+		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), this, &ACharacterWithInputs::MoveRight).bExecuteWhenPaused = true;
 		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ACross), EInputEvent::IE_Released, this, &ACharacterWithInputs::ActionAccept).bExecuteWhenPaused = true;
 		playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::ATriangle), EInputEvent::IE_Released, this, &ACharacterWithInputs::ActionReturn).bExecuteWhenPaused = true;
 	}

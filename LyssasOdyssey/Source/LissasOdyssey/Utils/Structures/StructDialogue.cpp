@@ -4,4 +4,5 @@
 
 FStructDialogue::FStructDialogue()
 {
+	DialogueCharacterName = DialogueCharacterName::NONE_DialogueCharacter;
 }

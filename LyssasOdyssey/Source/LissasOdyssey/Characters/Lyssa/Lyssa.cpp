@@ -48,8 +48,12 @@ void ALyssa::UpdateSKMeshColors()
 {
 	// === Colors === 
 	AMainGameMode* currentMainGameMode = (AMainGameMode*)GetWorld()->GetAuthGameMode();
-	if (currentMainGameMode->LyssaBodyMat) LyssaSKMesh->SetMaterial(0, currentMainGameMode->LyssaBodyMat);
+
+	if (currentMainGameMode->LyssaBodyMat) LyssaSKMesh->SetMaterial(0, currentMainGameMode->LyssaBodyMat); 
+	else UE_LOG(LogTemp, Error, TEXT("currentMainGameMode->LyssaBodyMat is null"));
+
 	if (currentMainGameMode->LyssaShapeMat) LyssaSKMesh->SetMaterial(1, currentMainGameMode->LyssaShapeMat);
+	else UE_LOG(LogTemp, Error, TEXT("currentMainGameMode->LyssaShapeMat is null"));
 }
 
 // Called when the game starts or when spawned
@@ -59,7 +63,7 @@ void ALyssa::BeginPlay()
 
 	InitialPosZValue = GetActorLocation().Z;
 
-	UpdateSKMeshColors();
+	//UpdateSKMeshColors();
 
 	// === Fylgja === 
 	TArray<AActor*> Comps;
@@ -88,6 +92,7 @@ void ALyssa::Tick(float DeltaTime)
 	}
 
 	CollectPickups();
+
 }
 
 AFylgja* ALyssa::GetFylgja() const
@@ -108,6 +113,7 @@ void ALyssa::WaitForLoadCompletionAndAssignKeys(ALevelGameMode* currentGameMode,
 	if (currentGameMode->GetIsBeginFunctionCompleted())
 	{
 		//TODO: debind all before reassigning
+		UpdateSKMeshColors();
 
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeys;
 
@@ -137,10 +143,6 @@ void ALyssa::WaitForLoadCompletionAndAssignKeys(ALevelGameMode* currentGameMode,
 			*(TMapKeys.FindRef(PlayerActionLabel::MoveRight).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::ACross).ToString()),
 			*(TMapKeys.FindRef(PlayerActionLabel::ATriangle).ToString()), *(TMapKeys.FindRef(PlayerActionLabel::AStart).ToString()));
 
-		//playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), EInputEvent::IE_Released, this, &ALyssa::MoveMenuUp);
-		//playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), EInputEvent::IE_Released, this, &ALyssa::MoveMenuDown);
-		//playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), EInputEvent::IE_Released, this, &ALyssa::MoveMenuLeft);
-		//playerInputComponent->BindKey(TMapKeys.FindRef(PlayerActionLabel::MoveRight), EInputEvent::IE_Released, this, &ALyssa::MoveMenuRight);
 		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveUp), this, &ALyssa::MoveUp).bExecuteWhenPaused = true;
 		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveDown), this, &ALyssa::MoveDown).bExecuteWhenPaused = true;
 		playerInputComponent->BindAxisKey(TMapKeys.FindRef(PlayerActionLabel::MoveLeft), this, &ALyssa::MoveLeft).bExecuteWhenPaused = true;

@@ -4,5 +4,6 @@
 
 FStructMaterialWithName::FStructMaterialWithName()
 {
+	Material = nullptr;
 }
 
