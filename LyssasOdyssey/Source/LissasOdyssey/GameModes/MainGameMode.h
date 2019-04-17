@@ -130,9 +130,9 @@ public:
 		void ChangeTextSpeed(bool increase);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "General_Settings")
-		UMaterialInterface* LyssaBodyMat;
+		int LyssaBodyMatIdx;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "General_Settings")
-		UMaterialInterface* LyssaShapeMat;
+		int LyssaShapeMatIdx;
 #pragma endregion
 
 #pragma region graphic settings

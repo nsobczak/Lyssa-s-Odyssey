@@ -44,17 +44,118 @@ ALyssa::ALyssa(const class FObjectInitializer& ObjectInitializer)
 	ScorePickupAmount = 0;
 }
 
+
+void ALyssa::UpdateSKMeshBodyColor()
+{
+	if (ColorsArray.Num() > 0)
+	{
+		UMaterialInterface* lyssaBodyMat = ColorsArray[BodyMatIdx].Material;
+		LyssaSKMesh->SetMaterial(0, lyssaBodyMat);
+	}
+}
+
+void ALyssa::UpdateSKMeshShapeColor()
+{
+	if (ColorsArray.Num() > 0)
+	{
+		UMaterialInterface* lyssaShapeMat = ColorsArray[ShapeMatIdx].Material;
+		LyssaSKMesh->SetMaterial(1, lyssaShapeMat);
+	}
+}
+
 void ALyssa::UpdateSKMeshColors()
 {
-	// === Colors === 
-	AMainGameMode* currentMainGameMode = (AMainGameMode*)GetWorld()->GetAuthGameMode();
-
-	if (currentMainGameMode->LyssaBodyMat) LyssaSKMesh->SetMaterial(0, currentMainGameMode->LyssaBodyMat); 
-	else UE_LOG(LogTemp, Error, TEXT("currentMainGameMode->LyssaBodyMat is null"));
-
-	if (currentMainGameMode->LyssaShapeMat) LyssaSKMesh->SetMaterial(1, currentMainGameMode->LyssaShapeMat);
-	else UE_LOG(LogTemp, Error, TEXT("currentMainGameMode->LyssaShapeMat is null"));
+	UpdateSKMeshBodyColor();
+	UpdateSKMeshShapeColor();
 }
+
+void ALyssa::InitIndexesValueFromGameMode()
+{
+	this->BodyMatIdx = CurrentMainGameMode->LyssaBodyMatIdx;
+	this->ShapeMatIdx = CurrentMainGameMode->LyssaShapeMatIdx;
+}
+
+int ALyssa::GetBodyMatIdx() const
+{
+	return this->BodyMatIdx;
+}
+
+void ALyssa::SetBodyMatIdx(int idx)
+{
+	this->BodyMatIdx = idx;
+	CurrentMainGameMode->LyssaBodyMatIdx = idx;
+}
+
+int ALyssa::GetShapeMatIdx() const
+{
+	return this->ShapeMatIdx;
+}
+
+void ALyssa::SetShapeMatIdx(int idx)
+{
+	this->ShapeMatIdx = idx;
+	CurrentMainGameMode->LyssaShapeMatIdx = idx;
+}
+
+AFylgja* ALyssa::GetFylgja() const
+{
+	return Fylgja;
+}
+
+void ALyssa::DecreaseBodyMatIdx()
+{
+	SetBodyMatIdx(BodyMatIdx - 1);
+	if (BodyMatIdx < 0)
+	{
+		SetBodyMatIdx(ColorsArray.Num() - 1);
+	}
+
+	UpdateSKMeshBodyColor();
+}
+
+void ALyssa::IncreaseBodyMatIdx()
+{
+	SetBodyMatIdx(BodyMatIdx + 1);
+	if (BodyMatIdx > ColorsArray.Num() - 1)
+	{
+		SetBodyMatIdx(0);
+	}
+
+	UpdateSKMeshBodyColor();
+}
+
+void ALyssa::DecreaseShapeMatIdx()
+{
+	SetShapeMatIdx(ShapeMatIdx - 1);
+	if (ShapeMatIdx < 0)
+	{
+		SetShapeMatIdx(ColorsArray.Num() - 1);
+	}
+
+	UpdateSKMeshShapeColor();
+}
+
+void ALyssa::IncreaseShapeMatIdx()
+{
+	SetShapeMatIdx(ShapeMatIdx + 1);
+	if (ShapeMatIdx > ColorsArray.Num() - 1)
+	{
+		SetShapeMatIdx(0);
+	}
+
+	UpdateSKMeshShapeColor();
+}
+
+FStructMaterialWithName ALyssa::GetBodyStructMat() const
+{
+	return ColorsArray[BodyMatIdx];
+}
+
+FStructMaterialWithName ALyssa::GetShapeStructMat() const
+{
+	return ColorsArray[ShapeMatIdx];
+}
+
 
 // Called when the game starts or when spawned
 void ALyssa::BeginPlay()
@@ -63,7 +164,32 @@ void ALyssa::BeginPlay()
 
 	InitialPosZValue = GetActorLocation().Z;
 
-	//UpdateSKMeshColors();
+	// === GameMode ===
+	CurrentMainGameMode = (AMainGameMode*)GetWorld()->GetAuthGameMode();
+	if (!CurrentMainGameMode)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CurrentMainGameMode is null"));
+	}
+
+	// === Colors === 
+	if (ColorDataTable)
+	{
+		ColorsArray.Reset();
+		FString context;
+		TArray<FStructMaterialWithName*> cArray;
+		ColorDataTable->GetAllRows(context, cArray);
+		for (size_t i = 0; i < cArray.Num(); ++i)
+		{
+			ColorsArray.Add(*(cArray[i]));
+		}
+
+		InitIndexesValueFromGameMode();
+		UpdateSKMeshColors();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ColorDataTable is null"));
+	}
 
 	// === Fylgja === 
 	TArray<AActor*> Comps;
@@ -74,6 +200,9 @@ void ALyssa::BeginPlay()
 			Fylgja = (AFylgja*)Comps[i];
 	}
 }
+
+//____________________________________________________________________________________
+#pragma endregion
 
 
 // Called every frame
@@ -95,13 +224,6 @@ void ALyssa::Tick(float DeltaTime)
 
 }
 
-AFylgja* ALyssa::GetFylgja() const
-{
-	return Fylgja;
-}
-//____________________________________________________________________________________
-#pragma endregion
-
 
 #pragma region Input
 //____________________________________________________________________________________
@@ -113,7 +235,6 @@ void ALyssa::WaitForLoadCompletionAndAssignKeys(ALevelGameMode* currentGameMode,
 	if (currentGameMode->GetIsBeginFunctionCompleted())
 	{
 		//TODO: debind all before reassigning
-		UpdateSKMeshColors();
 
 		TMap<TEnumAsByte<PlayerActionLabel>, FKey>TMapKeys;
 
@@ -167,13 +288,13 @@ void ALyssa::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	// === GameMode ===
-	ALevelGameMode* CurrentGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
-	if (CurrentGameMode)
+	ALevelGameMode* currentLevelGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+	if (currentLevelGameMode)
 	{
 		//check for CurrentGameMode begin completion, wait if not completed
 
 		//UE_LOG(LogTemp, Log, TEXT("before waiting for begin function completion"));
-		WaitForLoadCompletionAndAssignKeys(CurrentGameMode, PlayerInputComponent, 0.05f);
+		WaitForLoadCompletionAndAssignKeys(currentLevelGameMode, PlayerInputComponent, 0.05f);
 		//UE_LOG(LogTemp, Log, TEXT("after waiting for begin function completion"));
 	}
 }

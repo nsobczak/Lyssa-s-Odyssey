@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
 #include "Utils/GameEnums.h"
-#include "Materials/MaterialInterface.h"
 #include "MainSaveGame.generated.h"
 
 /**
@@ -36,9 +35,9 @@ public:
 		ETextSpeed CurrentTextSpeed;
 
 	UPROPERTY(VisibleAnywhere, Category = "settings")
-		UMaterialInterface* LyssaBodyMat;
+		int LyssaBodyMatIdx;
 	UPROPERTY(VisibleAnywhere, Category = "settings")
-		UMaterialInterface* LyssaShapeMat;
+		int LyssaShapeMatIdx;
 
 	UPROPERTY(EditAnywhere, Category = "settings")
 		bool ShowMinimap = true;

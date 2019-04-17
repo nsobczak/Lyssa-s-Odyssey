@@ -3,9 +3,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Utils/GameEnums.h"
-
 #include "Characters/Fylgja/Fylgja.h"
 #include "Characters/CharacterBase.h"
+#include "Engine/DataTable.h"
+#include "Utils/Structures/StructMaterialWithName.h"
 
 #include "Lyssa.generated.h"
 
@@ -34,11 +35,48 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Fylgja")
 		AFylgja* GetFylgja() const;
 
-	UFUNCTION(BlueprintCallable, Category = "Lyssa")
+#pragma region Colors
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LyssaColor")
+		UDataTable* ColorDataTable;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LyssaColor")
+		TArray<FStructMaterialWithName> ColorsArray;
+
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		void UpdateSKMeshBodyColor();
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		void UpdateSKMeshShapeColor();
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
 		void UpdateSKMeshColors();
 
-#pragma region Delegates
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		void InitIndexesValueFromGameMode();
 
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		int GetBodyMatIdx() const;
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		void SetBodyMatIdx(int idx);
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		int GetShapeMatIdx() const;
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		void SetShapeMatIdx(int idx);
+
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		void DecreaseBodyMatIdx();
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		void IncreaseBodyMatIdx();
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		void DecreaseShapeMatIdx();
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		void IncreaseShapeMatIdx();
+
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		FStructMaterialWithName GetBodyStructMat() const;
+	UFUNCTION(BlueprintCallable, Category = "LyssaColor")
+		FStructMaterialWithName GetShapeStructMat() const;
+#pragma endregion
+
+#pragma region Delegates
 	UPROPERTY(BlueprintAssignable, Category = "ActionEvent")
 		FActionAccept OnAcceptDelegate;
 	UPROPERTY(BlueprintAssignable, Category = "ActionEvent")
@@ -51,7 +89,6 @@ public:
 		FActionDown OnDownDelegate;
 	UPROPERTY(BlueprintAssignable, Category = "ActionEvent")
 		FActionLeft OnLeftDelegate;
-
 #pragma endregion
 
 	// === Components ===
@@ -167,6 +204,8 @@ public:
 protected:
 	float InitialPosZValue;
 
+	class AMainGameMode* CurrentMainGameMode;
+
 	float DelayBeforeNotMoving = 0.5f;
 
 	UFUNCTION(BlueprintCallable, Category = "Pickups")
@@ -185,6 +224,8 @@ private:
 		class AFylgja* Fylgja;
 
 	float Timer = 0;
+
+	int BodyMatIdx = 0, ShapeMatIdx = 0;
 
 	UPROPERTY(VisibleAnywhere, Category = "Pickups")
 		TArray<TEnumAsByte<KeyLockNature>> KeyPickups;
