@@ -10,6 +10,26 @@
 #include "Characters/CharacterWithInputs.h"
 #include "UI/ButtonBase.h"
 
+//GamePad
+#define DEF_GPKEY_MOVE_VERTICAL  EKeys::Gamepad_LeftY
+#define DEF_GPKEY_MOVE_HORIZONTAL  EKeys::Gamepad_LeftX
+#define DEF_GPKEY_FMOVE_VERTICAL  EKeys::Gamepad_RightY
+#define DEF_GPKEY_FMOVE_HORIZONTAL  EKeys::Gamepad_RightX
+
+#define DEF_GPKEY_ACROSS  EKeys::Gamepad_FaceButton_Bottom
+#define DEF_GPKEY_ATRIANGLE  EKeys::Gamepad_FaceButton_Right
+#define DEF_GPKEY_ASTART  EKeys::Gamepad_Special_Right
+
+//Keyboard
+#define DEF_KKEY_MOVE_UP  EKeys::W
+#define DEF_KKEY_MOVE_RIGHT  EKeys::D
+#define DEF_KKEY_MOVE_DOWN  EKeys::S
+#define DEF_KKEY_MOVE_LEFT  EKeys::A
+
+#define DEF_KKEY_ACROSS  EKeys::E
+#define DEF_KKEY_ATRIANGLE  EKeys::R
+#define DEF_KKEY_ASTART  EKeys::T
+
 
 #pragma region Initialization
 //==============================================================================================
@@ -238,56 +258,66 @@ void AMainGameMode::InitializeTArrayAndApplyGraphicalSettings()
 #pragma region Initialize default values
 void AMainGameMode::InitializeGeneralSettingsWithDefault()
 {
-	this->CurrentLanguage = GameConstants::DEF_GENERAL_CURRENT_LANGUAGE;
+	this->CurrentLanguage = UGameConstants::DEF_GENERAL_CURRENT_LANGUAGE;
 
-	this->CurrentTextSpeed = GameConstants::DEF_GENERAL_CURRENT_TEXT_SPEED;
+	this->CurrentTextSpeed = UGameConstants::DEF_GENERAL_CURRENT_TEXT_SPEED;
 	UpdateTextSpeedFloatValue();
+
+	UE_LOG(LogTemp, Log, TEXT("InitializeGeneralSettingsWithDefault done"));
 }
 
 void AMainGameMode::InitializeGraphicalSettingsWithDefault()
 {
-	this->ShowFPS = GameConstants::DEF_GRAPHICAL_SHOW_FPS;
-	this->IsFullScreen = GameConstants::DEF_GRAPHICAL_IS_FULL_SCREEN;
-	this->GraphicalIndex = GameConstants::DEF_GRAPHICAL_GRAPHICAL_IDX;
-	this->PPIndex = GameConstants::DEF_GRAPHICAL_PP_IDX;
-	this->AAIndex = GameConstants::DEF_GRAPHICAL_AA_IDX;
-	this->ShadowIndex = GameConstants::DEF_GRAPHICAL_SHADOW_IDX;
-	this->FPSIndex = GameConstants::DEF_GRAPHICAL_FPS_IDX;
-	this->ResIndex = GameConstants::DEF_GRAPHICAL_RES_IDX;
+	this->ShowFPS = UGameConstants::DEF_GRAPHICAL_SHOW_FPS;
+	this->IsFullScreen = UGameConstants::DEF_GRAPHICAL_IS_FULL_SCREEN;
+	this->GraphicalIndex = UGameConstants::DEF_GRAPHICAL_GRAPHICAL_IDX;
+	this->PPIndex = UGameConstants::DEF_GRAPHICAL_PP_IDX;
+	this->AAIndex = UGameConstants::DEF_GRAPHICAL_AA_IDX;
+	this->ShadowIndex = UGameConstants::DEF_GRAPHICAL_SHADOW_IDX;
+	this->FPSIndex = UGameConstants::DEF_GRAPHICAL_FPS_IDX;
+	this->ResIndex = UGameConstants::DEF_GRAPHICAL_RES_IDX;
+
+	//UpdateGraphicSettings();
+	UE_LOG(LogTemp, Log, TEXT("InitializeGraphicalSettingsWithDefault done"));
 }
 
 void AMainGameMode::InitializeAudioSettingsWithDefault()
 {
-	this->MasterVolumeSliderValue = GameConstants::DEF_AUDIO_MASTER_VOL_VAL;
-	this->MusicVolumeSliderValue = GameConstants::DEF_AUDIO_MUSIC_VOL_VAL;
-	this->EffectVolumeSliderValue = GameConstants::DEF_AUDIO_EFFECT_VOL_VAL;
+	this->MasterVolumeSliderValue = UGameConstants::DEF_AUDIO_MASTER_VOL_VAL;
+	this->MusicVolumeSliderValue = UGameConstants::DEF_AUDIO_MUSIC_VOL_VAL;
+	this->EffectVolumeSliderValue = UGameConstants::DEF_AUDIO_EFFECT_VOL_VAL;
+
+	//UpdateAudioVolumes();
+	UE_LOG(LogTemp, Log, TEXT("InitializeAudioSettingsWithDefault done"));
 }
 
 void AMainGameMode::InitializeKeySettingsWithDefault()
 {
-	this->UseGamePad = GameConstants::DEF_USE_GAMEPAD;
+	this->UseGamePad = UGameConstants::DEF_USE_GAMEPAD;
 
 	//GamePad
 	//this->TMapGamepadKeys.Reset();
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DEF_GPKEY_MOVE_VERTICAL);
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveRight, GameConstants::DEF_GPKEY_MOVE_HORIZONTAL);
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::FMoveUp, GameConstants::DEF_GPKEY_FMOVE_VERTICAL);
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::FMoveRight, GameConstants::DEF_GPKEY_FMOVE_HORIZONTAL);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveUp, DEF_GPKEY_MOVE_VERTICAL);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::MoveRight, DEF_GPKEY_MOVE_HORIZONTAL);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::FMoveUp, DEF_GPKEY_FMOVE_VERTICAL);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::FMoveRight, DEF_GPKEY_FMOVE_HORIZONTAL);
 
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::ACross, GameConstants::DEF_GPKEY_ACROSS);
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::ATriangle, GameConstants::DEF_GPKEY_ATRIANGLE);
-	this->TMapGamepadKeys.Emplace(PlayerActionLabel::AStart, GameConstants::DEF_GPKEY_ASTART);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::ACross, DEF_GPKEY_ACROSS);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::ATriangle, DEF_GPKEY_ATRIANGLE);
+	this->TMapGamepadKeys.Emplace(PlayerActionLabel::AStart, DEF_GPKEY_ASTART);
 
 	//Keyboard
 	//this->TMapKeyboardKeys.Reset();
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveUp, GameConstants::DEF_KKEY_MOVE_UP);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveDown, GameConstants::DEF_KKEY_MOVE_DOWN);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveLeft, GameConstants::DEF_KKEY_MOVE_LEFT);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveRight, GameConstants::DEF_KKEY_MOVE_RIGHT);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveUp, DEF_KKEY_MOVE_UP);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveDown, DEF_KKEY_MOVE_DOWN);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveLeft, DEF_KKEY_MOVE_LEFT);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::MoveRight, DEF_KKEY_MOVE_RIGHT);
 
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ACross, GameConstants::DEF_KKEY_ACROSS);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ATriangle, GameConstants::DEF_KKEY_ATRIANGLE);
-	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::AStart, GameConstants::DEF_KKEY_ASTART);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ACross, DEF_KKEY_ACROSS);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::ATriangle, DEF_KKEY_ATRIANGLE);
+	this->TMapKeyboardKeys.Emplace(PlayerActionLabel::AStart, DEF_KKEY_ASTART);
+
+	UE_LOG(LogTemp, Log, TEXT("InitializeKeySettingsWithDefault done"));
 }
 #pragma endregion
 
@@ -447,6 +477,16 @@ void AMainGameMode::ShowHUD()
 
 #pragma region Settings
 //==============================================================================================
+void AMainGameMode::ApplySettings()
+{
+	SaveGameSettings();
+
+	if (PlayerController)
+		PlayerController->RestartLevel();
+	else
+		UE_LOG(LogTemp, Error, TEXT("PlayerController is null"));
+}
+
 void AMainGameMode::UseDefaultSettings()
 {
 	UE_LOG(LogTemp, Log, TEXT("Use default settings"));
@@ -457,7 +497,7 @@ void AMainGameMode::UseDefaultSettings()
 	InitializeKeySettingsWithDefault();
 
 	SaveGameSettings();
-	UpdateGraphicSettings();
+	ShouldShowDeviceSelectionWidget();
 }
 
 void AMainGameMode::ChangeCurrentLanguage(bool increase)
@@ -486,13 +526,13 @@ void AMainGameMode::UpdateTextSpeedFloatValue()
 	switch (this->CurrentTextSpeed)
 	{
 	case ETextSpeed::Slow:
-		this->TextSpeedFloatValue = GameConstants::GENERAL_TEXT_SPEED_SLOW;
+		this->TextSpeedFloatValue = UGameConstants::GENERAL_TEXT_SPEED_SLOW;
 		break;
 	case ETextSpeed::Fast:
-		this->TextSpeedFloatValue = GameConstants::GENERAL_TEXT_SPEED_FAST;
+		this->TextSpeedFloatValue = UGameConstants::GENERAL_TEXT_SPEED_FAST;
 		break;
 	default:
-		this->TextSpeedFloatValue = GameConstants::GENERAL_TEXT_SPEED_NORMAL;
+		this->TextSpeedFloatValue = UGameConstants::GENERAL_TEXT_SPEED_NORMAL;
 		break;
 	}
 	//UE_LOG(LogTemp, Log, TEXT("TextSpeedFloatValue = %f"), this->TextSpeedFloatValue);

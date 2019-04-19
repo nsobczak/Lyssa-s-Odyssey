@@ -21,10 +21,10 @@ void ACustomTriggerGateWithCondition::BeginPlay()
 
 	if (IsFinalGate)
 	{
-		float percentage = DebugPickupAmount ? TotalPickupAmountPercentage : GameConstants::FINAL_GATE_SCORE_PERCENTAGE;
+		float percentage = DebugPickupAmount ? TotalPickupAmountPercentage : UGameConstants::FINAL_GATE_SCORE_PERCENTAGE;
 		ScorePickupAmountToTrigger = (int)(percentage *
-			(GameConstants::PICKUP_SCORE_MAX_CANYON + GameConstants::PICKUP_SCORE_MAX_FOREST +
-				GameConstants::PICKUP_SCORE_MAX_ICE));
+			(UGameConstants::PICKUP_SCORE_MAX_CANYON + UGameConstants::PICKUP_SCORE_MAX_FOREST +
+				UGameConstants::PICKUP_SCORE_MAX_ICE));
 	}
 }
 

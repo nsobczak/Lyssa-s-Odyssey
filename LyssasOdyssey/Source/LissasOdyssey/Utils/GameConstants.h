@@ -5,17 +5,18 @@
 #include "CoreMinimal.h"
 #include "Utils/GameEnums.h"
 #include "InputCore/Classes/InputCoreTypes.h"
-
-//#include "GameConstants.generated.h"
+#include "GameConstants.generated.h"
 
 /**
  *
  */
-class LISSASODYSSEY_API GameConstants
+UCLASS(Const)
+class LISSASODYSSEY_API UGameConstants : public UObject
 {
+	GENERATED_BODY()
+
 public:
-	GameConstants();
-	~GameConstants();
+	UGameConstants();
 
 	static const FColor COLOR_TEXT_LIGHT_GRAY;
 
@@ -49,25 +50,25 @@ public:
 #pragma region Defaults keybind settings
 	static const bool DEF_USE_GAMEPAD;
 
-	//GamePad
-	static const FKey DEF_GPKEY_MOVE_VERTICAL;
-	static const FKey DEF_GPKEY_MOVE_HORIZONTAL;
-	static const FKey DEF_GPKEY_FMOVE_VERTICAL;
-	static const FKey DEF_GPKEY_FMOVE_HORIZONTAL;
+	////GamePad
+	//static const FKey DEF_GPKEY_MOVE_VERTICAL;
+	//static const FKey DEF_GPKEY_MOVE_HORIZONTAL;
+	//static const FKey DEF_GPKEY_FMOVE_VERTICAL;
+	//static const FKey DEF_GPKEY_FMOVE_HORIZONTAL;
 
-	static const FKey DEF_GPKEY_ACROSS;
-	static const FKey DEF_GPKEY_ATRIANGLE;
-	static const FKey DEF_GPKEY_ASTART;
+	//static const FKey DEF_GPKEY_ACROSS;
+	//static const FKey DEF_GPKEY_ATRIANGLE;
+	//static const FKey DEF_GPKEY_ASTART;
 
-	//Keyboard
-	static const FKey DEF_KKEY_MOVE_UP;
-	static const FKey DEF_KKEY_MOVE_RIGHT;
-	static const FKey DEF_KKEY_MOVE_DOWN;
-	static const FKey DEF_KKEY_MOVE_LEFT;
+	////Keyboard
+	//static const FKey DEF_KKEY_MOVE_UP;
+	//static const FKey DEF_KKEY_MOVE_RIGHT;
+	//static const FKey DEF_KKEY_MOVE_DOWN;
+	//static const FKey DEF_KKEY_MOVE_LEFT;
 
-	static const FKey DEF_KKEY_ACROSS;
-	static const FKey DEF_KKEY_ATRIANGLE;
-	static const FKey DEF_KKEY_ASTART;
+	//static const FKey DEF_KKEY_ACROSS;
+	//static const FKey DEF_KKEY_ATRIANGLE;
+	//static const FKey DEF_KKEY_ASTART;
 #pragma endregion  
 #pragma endregion
 

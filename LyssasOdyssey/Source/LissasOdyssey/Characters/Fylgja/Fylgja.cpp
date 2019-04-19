@@ -84,9 +84,9 @@ void AFylgja::UpdateFRotation()
 	//moving average
 	FStructStickInputs val = FStructStickInputs(fTopKeyValue, fRightKeyValue, fDownKeyValue, fLeftKeyValue);
 
-	if (this->FRotationValues.Num() < GameConstants::FROTATION_VALUE_COUNT)
+	if (this->FRotationValues.Num() < UGameConstants::FROTATION_VALUE_COUNT)
 	{
-		for (size_t i = 0; i < GameConstants::FROTATION_VALUE_COUNT - this->FRotationValues.Num(); ++i)
+		for (size_t i = 0; i < UGameConstants::FROTATION_VALUE_COUNT - this->FRotationValues.Num(); ++i)
 		{
 			this->FRotationValues.Insert(val, 0);
 		}
@@ -94,7 +94,7 @@ void AFylgja::UpdateFRotation()
 	else
 	{
 		this->FRotationValues.Insert(val, 0);
-		this->FRotationValues.RemoveAt(GameConstants::FROTATION_VALUE_COUNT, 1, true);
+		this->FRotationValues.RemoveAt(UGameConstants::FROTATION_VALUE_COUNT, 1, true);
 	}
 	//UE_LOG(LogTemp, Log, TEXT("this->FRotationValues.Num() = %i"), this->FRotationValues.Num());
 

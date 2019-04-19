@@ -10,7 +10,7 @@ void ALevelPortal::InitializeText(UTextRenderComponent* textToInit, bool isFront
 {
 	textToInit->HorizontalAlignment = EHorizTextAligment::EHTA_Center;
 	textToInit->VerticalAlignment = EVerticalTextAligment::EVRTA_TextCenter;
-	textToInit->TextRenderColor = GameConstants::COLOR_TEXT_LIGHT_GRAY;
+	textToInit->TextRenderColor = UGameConstants::COLOR_TEXT_LIGHT_GRAY;
 	textToInit->SetRelativeScale3D(FVector(10, 10, 10));
 	if (isFrontText)
 		textToInit->SetRelativeLocationAndRotation(FVector(300.0f, 0, 90.0f), FQuat::MakeFromEuler(FVector(0, 80.0f, 0)));
@@ -53,28 +53,28 @@ void ALevelPortal::UpdateTexts()
 			if (DEBUG)
 				UE_LOG(LogTemp, Log, TEXT("Canyon level for level portal %s"), *(this->GetName()));
 			pickupCurrentScore = CurrentLGameMode->Lyssa->GetTMapPlayerPickupAmountByLevel().FindRef(LevelToOpen);
-			pickupMaxScore = GameConstants::PICKUP_SCORE_MAX_CANYON;
+			pickupMaxScore = UGameConstants::PICKUP_SCORE_MAX_CANYON;
 			break;
 
 		case Forest:
 			if (DEBUG)
 				UE_LOG(LogTemp, Log, TEXT("Forest level for level portal %s"), *(this->GetName()));
 			pickupCurrentScore = CurrentLGameMode->Lyssa->GetTMapPlayerPickupAmountByLevel().FindRef(LevelToOpen);
-			pickupMaxScore = GameConstants::PICKUP_SCORE_MAX_FOREST;
+			pickupMaxScore = UGameConstants::PICKUP_SCORE_MAX_FOREST;
 			break;
 
 		case Ice:
 			if (DEBUG)
 				UE_LOG(LogTemp, Log, TEXT("Ice level for level portal %s"), *(this->GetName()));
 			pickupCurrentScore = CurrentLGameMode->Lyssa->GetTMapPlayerPickupAmountByLevel().FindRef(LevelToOpen);
-			pickupMaxScore = GameConstants::PICKUP_SCORE_MAX_ICE;
+			pickupMaxScore = UGameConstants::PICKUP_SCORE_MAX_ICE;
 			break;
 
 		case Volcano:
 			if (DEBUG)
 				UE_LOG(LogTemp, Log, TEXT("Volcano level for level portal %s"), *(this->GetName()));
 			pickupCurrentScore = CurrentLGameMode->Lyssa->GetTMapPlayerPickupAmountByLevel().FindRef(LevelToOpen);
-			pickupMaxScore = GameConstants::PICKUP_SCORE_MAX_VOLCANO;
+			pickupMaxScore = UGameConstants::PICKUP_SCORE_MAX_VOLCANO;
 			break;
 
 		case Playground:
@@ -114,22 +114,22 @@ void ALevelPortal::UpdateLevelToOpenName()
 	switch (LevelToOpen)
 	{
 	case Canyon:
-		LevelToOpenName = GameConstants::LVL_MAP_TITLE_CANYON;
+		LevelToOpenName = UGameConstants::LVL_MAP_TITLE_CANYON;
 		break;
 	case Forest:
-		LevelToOpenName = GameConstants::LVL_MAP_TITLE_FOREST;
+		LevelToOpenName = UGameConstants::LVL_MAP_TITLE_FOREST;
 		break;
 	case Ice:
-		LevelToOpenName = GameConstants::LVL_MAP_TITLE_ICE;
+		LevelToOpenName = UGameConstants::LVL_MAP_TITLE_ICE;
 		break;
 	case Volcano:
-		LevelToOpenName = GameConstants::LVL_MAP_TITLE_VOLCANO;
+		LevelToOpenName = UGameConstants::LVL_MAP_TITLE_VOLCANO;
 		break;
 	case Playground:
-		LevelToOpenName = GameConstants::LVL_MAP_TITLE_PLAYGROUND;
+		LevelToOpenName = UGameConstants::LVL_MAP_TITLE_PLAYGROUND;
 		break;
 	default:
-		LevelToOpenName = GameConstants::LVL_MAP_TITLE_HUB;
+		LevelToOpenName = UGameConstants::LVL_MAP_TITLE_HUB;
 		break;
 	}
 }

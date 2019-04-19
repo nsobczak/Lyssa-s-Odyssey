@@ -100,9 +100,9 @@ void ACustomTriggerDialogue::UpdateDialogueData()
 	//TODO: make following better
 	if (TargetText.Contains(FString("<0>")))
 	{
-		int scorePickupAmountToTrigger = (int)(GameConstants::FINAL_GATE_SCORE_PERCENTAGE *
-			(GameConstants::PICKUP_SCORE_MAX_CANYON + GameConstants::PICKUP_SCORE_MAX_FOREST +
-				GameConstants::PICKUP_SCORE_MAX_ICE));
+		int scorePickupAmountToTrigger = (int)(UGameConstants::FINAL_GATE_SCORE_PERCENTAGE *
+			(UGameConstants::PICKUP_SCORE_MAX_CANYON + UGameConstants::PICKUP_SCORE_MAX_FOREST +
+				UGameConstants::PICKUP_SCORE_MAX_ICE));
 		int missingScore = scorePickupAmountToTrigger - Lyssa->GetPlayerPickupTotalScore();
 		missingScore = missingScore < 0 ? 0 : missingScore;
 		TargetText = TargetText.Replace(*FString("<0>"), *FString::FromInt(missingScore));

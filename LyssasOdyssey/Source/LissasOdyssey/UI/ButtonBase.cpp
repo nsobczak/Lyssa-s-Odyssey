@@ -212,6 +212,12 @@ void UButtonBase::DeactivateAllOtherButtonsInGroup()
 	}
 }
 
+void UButtonBase::DeactivateAllButtonsInGroup()
+{
+	DeactivateAllOtherButtonsInGroup();
+	this->SetIsActive(false);
+}
+
 void UButtonBase::SetButtonLinks(FStructButtonLinks newButtonLinks)
 {
 	ButtonLinks = newButtonLinks;

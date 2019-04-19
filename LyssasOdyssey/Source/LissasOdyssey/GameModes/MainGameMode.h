@@ -37,6 +37,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Menu_Settings")
 		bool DoesSaveGameExist = false;
+	UFUNCTION(BlueprintImplementableEvent, Category = "Menu_Settings")
+		void ShouldShowDeviceSelectionWidget();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Menu_Settings")
 		FString SaveSlotName = FString(TEXT("PlayerSaveSlot"));
@@ -105,9 +107,14 @@ public:
 		bool ShowMouseCursorInLevel = true;
 #pragma endregion
 
-	/** Reset all settings to default values*/
+	/** Save current settings and restart level to apply them*/
+	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
+		void ApplySettings();
+
+	/** Reset all settings to default values and apply them*/
 	UFUNCTION(BlueprintCallable, Category = "Game_Settings")
 		void UseDefaultSettings();
+
 
 #pragma region general settings
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "General_Settings")
@@ -284,10 +291,14 @@ protected:
 	/** Called when the game starts. */
 	virtual void BeginPlay() override;
 
-	void InitializeGeneralSettingsWithDefault();
-	void InitializeGraphicalSettingsWithDefault();
-	void InitializeAudioSettingsWithDefault();
-	void InitializeKeySettingsWithDefault();
+	UFUNCTION()
+		void InitializeGeneralSettingsWithDefault();
+	UFUNCTION()
+		void InitializeGraphicalSettingsWithDefault();
+	UFUNCTION()
+		void InitializeAudioSettingsWithDefault();
+	UFUNCTION()
+		void InitializeKeySettingsWithDefault();
 
 	void InitializeTArrayAndApplyGraphicalSettings();
 

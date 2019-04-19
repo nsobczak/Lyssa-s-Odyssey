@@ -11,7 +11,7 @@ UENUM(BlueprintType)
 enum class ETextSpeed : uint8 { Slow, Normal, Fast, count };
 
 UENUM(BlueprintType)
-enum LyssaColorMatLabel { BodyColor, ShapeColor};
+enum LyssaColorMatLabel { BodyColor, ShapeColor };
 
 UENUM(BlueprintType)
 enum GraphicLabel { Graphical, PP, AA, Shadow, FPS, Res };
@@ -43,7 +43,7 @@ UENUM(BlueprintType)
 enum KeyLockNature { BLUE, RED, YELLOW, GREEN, PURPLE };
 
 UENUM(BlueprintType)
-enum DialogueCharacterName { NONE_DialogueCharacter, Lyssa, Fylgja, Ashe, Owl};
+enum DialogueCharacterName { NONE_DialogueCharacter, Lyssa, Fylgja, Ashe, Fowrer};
 #pragma endregion
 
 /**

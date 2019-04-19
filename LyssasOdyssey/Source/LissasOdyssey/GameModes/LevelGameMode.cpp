@@ -215,23 +215,23 @@ int ALevelGameMode::GetStaticTotalScoreInLevel()
 	switch (level)
 	{
 	case Canyon:
-		return GameConstants::PICKUP_SCORE_MAX_CANYON;
+		return UGameConstants::PICKUP_SCORE_MAX_CANYON;
 		break;
 
 	case Hub:
-		return GameConstants::PICKUP_SCORE_MAX_HUB;
+		return UGameConstants::PICKUP_SCORE_MAX_HUB;
 		break;
 
 	case Forest:
-		return GameConstants::PICKUP_SCORE_MAX_FOREST;
+		return UGameConstants::PICKUP_SCORE_MAX_FOREST;
 		break;
 
 	case Ice:
-		return GameConstants::PICKUP_SCORE_MAX_ICE;
+		return UGameConstants::PICKUP_SCORE_MAX_ICE;
 		break;
 
 	case Volcano:
-		return GameConstants::PICKUP_SCORE_MAX_VOLCANO;
+		return UGameConstants::PICKUP_SCORE_MAX_VOLCANO;
 		break;
 
 	default:

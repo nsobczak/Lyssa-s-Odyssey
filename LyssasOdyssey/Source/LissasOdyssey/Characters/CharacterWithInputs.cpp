@@ -97,7 +97,7 @@ void ACharacterWithInputs::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 		//check for CurrentGameMode begin completion, wait if not completed
 
 		//UE_LOG(LogTemp, Log, TEXT("before waiting for begin function completion"));
-		WaitForLoadCompletionAndAssignKeys(CurrentGameMode, PlayerInputComponent, 0.05f);
+		WaitForLoadCompletionAndAssignKeys(CurrentGameMode, PlayerInputComponent, 0.1f);
 		//UE_LOG(LogTemp, Log, TEXT("after waiting for begin function completion"));
 	}
 }
