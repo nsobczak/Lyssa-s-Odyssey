@@ -4,3 +4,6 @@
 - key language check
 
 freeze gomgom dialogue
+curseur disparait dans level
+
+performance
