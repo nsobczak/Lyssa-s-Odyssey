@@ -2,6 +2,7 @@
 
 #include "Shot.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "GameModes/LevelGameMode.h"
 #include "Characters/Lyssa/Lyssa.h"
 #include "Characters/Fylgja/Fylgja.h"
 #include "Characters/Foes/Foe.h"
@@ -18,6 +19,9 @@ AShot::AShot()
 	//create the static mesh component
 	ShotMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ShotMesh"));
 	RootComponent = (USceneComponent*)ShotMesh;
+
+	OnActorBeginOverlap.AddDynamic(this, &AShot::HandleOverlap);
+	if (DEBUG) UE_LOG(LogTemp, Log, TEXT("%s binded AddDynamic"), *(this->GetName()));
 }
 
 // Called when the game starts or when spawned
@@ -28,6 +32,12 @@ void AShot::BeginPlay()
 	LyssaActor = Cast<AActor>(UGameplayStatics::GetPlayerPawn(this, 0));
 
 	SpawningLocation = this->GetActorLocation();
+
+	CurrentLGameMode = (ALevelGameMode*)GetWorld()->GetAuthGameMode();
+	if (!CurrentLGameMode)
+	{
+		UE_LOG(LogTemp, Error, TEXT("CurrentMainGameMode is null"));
+	}
 }
 
 void AShot::InitializeShot(FVector ownerLocation, float ttl, float speed)
@@ -111,6 +121,7 @@ bool AShot::HandleOverlapWithLyssa(AActor* currentActor)
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, *TheFloatStr);
 
 		CustomDestroy();
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("%s: passed custom destroy in HandleOverlapWithLyssa"), *(this->GetName()));
 		return true;
 	}
 	else
@@ -158,6 +169,7 @@ bool AShot::HandleOverlapWithFylgja(AActor* currentActor)
 		else if (Ang < -180.0f) Ang += 360.0f;*/
 
 		CanKillFoe = true;
+		CanKillPlayer = false;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Changed target direction"));
 		//UE_LOG(LogTemp, Log, TEXT("angleToRotate = %f \n incidence angle= %f \n newAngleToRotate= %f"),
 		//	angleToRotate, incidenceAng, newAngleToRotate);
@@ -201,29 +213,54 @@ bool AShot::HandleOverlapWithHindrance(AActor* currentActor)
 	}
 }
 
-void AShot::HandleOverlap()
+void AShot::HandleOverlap(AActor* overlappedActor, AActor* otherActor)
 {
-	//get overlaping actors and store them in an array
-	TArray<AActor*> collectedActors;
-	ShotMesh->GetOverlappingActors(collectedActors);
+	////get overlaping actors and store them in an array
+	//TArray<AActor*> collectedActors;
+	//ShotMesh->GetOverlappingActors(collectedActors);
 
-	for (size_t i = 0; i < collectedActors.Num(); ++i)
+	//for (size_t i = 0; i < collectedActors.Num(); ++i)
+	//{
+	//	AActor* currentActor = collectedActors[i];
+	//	if (!HandleOverlapWithFoe(currentActor))
+	//	{
+	//		if (!HandleOverlapWithFylgja(currentActor))
+	//		{
+	//			if (!HandleOverlapWithLyssa(currentActor))
+	//			{
+	//				if (!HandleOverlapWithWall(currentActor))
+	//				{
+	//					HandleOverlapWithHindrance(currentActor);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+
+	if (DEBUG)  UE_LOG(LogTemp, Log, TEXT("%s HandleOverlap"), *(this->GetName()));
+
+	if (CurrentLGameMode && CurrentLGameMode->GetIsBeginFunctionCompleted() && overlappedActor && otherActor)
 	{
-		AActor* currentActor = collectedActors[i];
-		if (!HandleOverlapWithFoe(currentActor))
+		if (DEBUG) UE_LOG(LogTemp, Log, TEXT("%s: overlappedActor && otherActor not null"), *(this->GetName()));
+		if (!HandleOverlapWithFoe(otherActor))
 		{
-			if (!HandleOverlapWithFylgja(currentActor))
+			if (DEBUG) UE_LOG(LogTemp, Log, TEXT("%s: after HandleOverlapWithFoe"), *(this->GetName()));
+			if (!HandleOverlapWithFylgja(otherActor))
 			{
-				if (!HandleOverlapWithLyssa(currentActor))
+				if (DEBUG) UE_LOG(LogTemp, Log, TEXT("%s: after HandleOverlapWithFylgja"), *(this->GetName()));
+				if (!HandleOverlapWithLyssa(otherActor))
 				{
-					if (!HandleOverlapWithWall(currentActor))
+					if (DEBUG) UE_LOG(LogTemp, Log, TEXT("%s: after HandleOverlapWithLyssa"), *(this->GetName()));
+					if (!HandleOverlapWithWall(otherActor))
 					{
-						HandleOverlapWithHindrance(currentActor);
+						if (DEBUG) UE_LOG(LogTemp, Log, TEXT("%s: after HandleOverlapWithWall"), *(this->GetName()));
+						HandleOverlapWithHindrance(otherActor);
 					}
 				}
 			}
 		}
 	}
+
 }
 
 // Called every frame
@@ -233,7 +270,7 @@ void AShot::Tick(float DeltaTime)
 
 	Move(DeltaTime);
 
-	HandleOverlap();
+	//HandleOverlap();
 
 	ShotTimer += DeltaTime;
 	if (ShotTimer > ShotTTL)

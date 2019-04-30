@@ -69,10 +69,16 @@ public:
 		AActor* LyssaActor;
 	FVector SpawningLocation;
 
+protected:
+	class ALevelGameMode* CurrentLGameMode;
+
 private:
 	/** Static mesh to represent the Shot in the level*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Shot", meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* ShotMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Debug", meta = (AllowPrivateAccess = "true"))
+		bool DEBUG = false;
 
 	UFUNCTION()
 		void Move(float deltaTime);
@@ -88,5 +94,5 @@ private:
 	UFUNCTION()
 		bool HandleOverlapWithHindrance(AActor* currentActor);
 	UFUNCTION()
-		void HandleOverlap();
+		void HandleOverlap(AActor* overlappedActor, AActor* otherActor);
 };

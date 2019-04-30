@@ -28,7 +28,7 @@
 
 #define DEF_KKEY_ACROSS  EKeys::E
 #define DEF_KKEY_ATRIANGLE  EKeys::R
-#define DEF_KKEY_ASTART  EKeys::T
+#define DEF_KKEY_ASTART  EKeys::Escape
 
 
 #pragma region Initialization

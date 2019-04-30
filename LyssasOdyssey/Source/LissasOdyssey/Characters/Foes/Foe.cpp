@@ -91,7 +91,7 @@ void AFoe::LookAtPlayer()
 
 void AFoe::SpawnShots()
 {
-	if (BPShot == nullptr) { return; }
+	if (!BPShot) { return; }
 
 	FVector foeLocation = GetActorLocation();
 	FVector shotLocation = FVector(foeLocation.X, foeLocation.Y, ShotOffset.Z);
