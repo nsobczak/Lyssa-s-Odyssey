@@ -10,6 +10,7 @@
 - game design (gameplay creation + balance)
 - sound design: music and effects in levels and menus
 - level design
+- narrative design
 
 - licensing
 - publishing (github + itch.io)
@@ -21,4 +22,4 @@
 - rebinding key system
 - menu with gamepad compatibility
 - minimap
-- storytelling (dialogue system)
+- dialogue system
