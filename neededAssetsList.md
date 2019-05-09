@@ -57,7 +57,7 @@
 ## Assets
 
 - life
-- pickup for score (pomy/pomies)
+- pickup for score
 - power up?
 
 - level portal
