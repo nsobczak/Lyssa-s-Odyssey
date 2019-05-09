@@ -2,16 +2,12 @@
 
 ![Canyon_editor_fox](Media/Canyon_editor_fox2_1791x606.PNG)
 
-Top down view, 2D gameplay
-
 Lyssa's odyssey
 
-Still in development
-Only gameplay at the moment (no art/sound/story/menus)
-
 Find your way to the exit. Defend yourself by reflecting foe's projectiles. Projectiles are reused.
+Move character with wasd keys or left joystick. Move spirit with mouse or right joystick.
 
-Move character with arrows or wasd keys. Move spirit with mouse.
+Top down view, 2D gameplay but 3D assets.
 
 
 ## 1.Gameplay
@@ -22,7 +18,6 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 - go to the end of the level
 - cam follow main character
 - 2 controls: 1 for movement + 1 for shield
-
 - extra life when level complete?
 - fylgja's size decreases when half/quarter of life left?
 - rpg element to improve stat or unlock skills?
@@ -58,17 +53,16 @@ Move character with arrows or wasd keys. Move spirit with mouse.
 For each level:
 - killer animal (some of them move following a pattern)
 - final boss = stronger/bigger animal
-
 - spawn foes in spawning boxes (create nest for some foes)?
 
 
 ## 4.Levels
+
 - different levels/themes (canyon tuto, countryside, jungle, snow/ice, volcano)
 - flat levels
 - mimimap
 - tuto for start, then choice between level, must complete them all to unlock last level
 - each level has a venue specific difficulty
-
 - a skill for each venue?
 
 Levels can be strange if they come from Lyssa's mind.
@@ -86,7 +80,7 @@ Fylgja speaks to Lyssa to explain all that (= Lyssa speaks to herself)
 
 ### 4.2. Hub
 
-Level
+Access each level from here.
 
 ![Hub_editor_topView](Media/Hub.png)
 
